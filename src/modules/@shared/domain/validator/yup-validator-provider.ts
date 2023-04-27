@@ -5,7 +5,7 @@ import { YupErrorAdapter } from './yup-error-adapter';
 export abstract class YupValidatorProvider {
     abstract schema: yup.Schema<any>
 
-    validateSchema(props: any): Either<Error[], null>{
+    protected validateSchema(props: any): Either<Error[], null>{
         try{
             this.schema.validateSync( props, { abortEarly: false })
             return  right(null)

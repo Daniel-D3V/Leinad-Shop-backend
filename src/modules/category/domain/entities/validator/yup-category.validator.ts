@@ -6,14 +6,11 @@ import { InvalidTitleTypeError } from "../errors";
 export class YupCategoryValidator extends YupValidatorProvider implements DomainValidator<YupCategoryValidator.ValidateFields>{
 
     schema = yup.object({
-        // username: yup.string()
-        // .typeError(YupErrorAdapter.toYupFormat(new InvalidUsernameFormatError()))
-        // .required(YupErrorAdapter.toYupFormat(new UsernameNotProvidedError()))
-        // .min(5, YupErrorAdapter.toYupFormat(new InvalidUsernameLengthError(5,50)))
-        // .max(50, YupErrorAdapter.toYupFormat(new InvalidUsernameLengthError(5,50)))
 
         title: yup.string()
+        .strict(true)
         .typeError(YupErrorAdapter.toYupFormat(new InvalidTitleTypeError()))
+        
     });
 
     validate(props: YupCategoryValidator.ValidateFields): Either<Error[], null> {
