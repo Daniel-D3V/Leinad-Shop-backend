@@ -1,16 +1,25 @@
 import { DomainValidator, YupErrorAdapter, YupValidatorProvider } from "@/modules/@shared/domain/validator";
 import { Either, left, right } from "@/modules/@shared/logic";
 import * as yup from 'yup';
-import { InvalidTitleTypeError } from "../errors";
+import { DescriptionNotProvidedError, InvalidDescriptionLengthError, InvalidDescriptionTypeError, InvalidTitleLengthError, InvalidTitleTypeError, TitleNotProvidedError } from "../errors";
 
 export class YupCategoryValidator extends YupValidatorProvider implements DomainValidator<YupCategoryValidator.ValidateFields>{
 
     schema = yup.object({
 
         title: yup.string()
-        .strict(true)
-        .typeError(YupErrorAdapter.toYupFormat(new InvalidTitleTypeError()))
+            .strict(true)
+            .typeError(YupErrorAdapter.toYupFormat(new InvalidTitleTypeError()))
+            .required(YupErrorAdapter.toYupFormat(new TitleNotProvidedError()))
+            .min(5, YupErrorAdapter.toYupFormat(new InvalidTitleLengthError()))
+            .max(255, YupErrorAdapter.toYupFormat(new InvalidTitleLengthError())),
         
+        description: yup.string()
+            .strict(true)
+            .typeError(YupErrorAdapter.toYupFormat(new InvalidDescriptionTypeError()))
+            .required(YupErrorAdapter.toYupFormat(new DescriptionNotProvidedError()))
+            .min(5, YupErrorAdapter.toYupFormat(new InvalidDescriptionLengthError()))
+            .max(255, YupErrorAdapter.toYupFormat(new InvalidDescriptionLengthError()))
     });
 
     validate(props: YupCategoryValidator.ValidateFields): Either<Error[], null> {
