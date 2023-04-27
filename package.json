@@ -6,7 +6,7 @@
   "scripts": {
     "build": "npx tsc && npx tsc-alias",
     "dev": "ts-node-dev -r tsconfig-paths/register --respawn --poll --inspect --exit-child src/main",
-    "test": "npx tsc --noEmit && jest --watch --passWithNoTests --no-cache --runInBand"
+    "test": "npx tsc --noEmit && jest --passWithNoTests --watch  --no-cache --runInBand"
   },
   "author": "",
   "license": "ISC",
