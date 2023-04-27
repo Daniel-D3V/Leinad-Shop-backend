@@ -1,6 +1,8 @@
-import { DomainValidatorStub } from "@/modules/@shared/tests"
+import { mockDomainValidator } from "@/modules/@shared/tests"
 import { CategoryEntity } from "./category.entity"
 import { CategoryValidatorFactory } from "./validator"
+import { DomainValidator } from "@/modules/@shared/domain/validator"
+import { left } from "@/modules/@shared/logic"
 
 jest.mock("./validator")
 
@@ -9,6 +11,7 @@ describe("test CategoryEntity", () => {
     let sut: CategoryEntity
     let props: CategoryEntity.Input
     let categoryValidatorFactory: jest.Mocked<typeof CategoryValidatorFactory>
+    let domainValidatorStub: jest.Mocked<DomainValidator<any>>
 
     const makeSut = (props: CategoryEntity.Input) => {
         
@@ -19,9 +22,10 @@ describe("test CategoryEntity", () => {
     }
     
     beforeEach(() => {
+        domainValidatorStub = mockDomainValidator()
         categoryValidatorFactory = CategoryValidatorFactory as jest.Mocked<typeof CategoryValidatorFactory>
-        categoryValidatorFactory.create.mockReturnValue(new DomainValidatorStub())
-        
+        categoryValidatorFactory.create.mockReturnValue(domainValidatorStub)
+
         props = {
             title: "any_title",
             description: "any_description",
@@ -79,7 +83,17 @@ describe("test CategoryEntity", () => {
         expect(sut.isActivate()).toBe(true)
     })
 
+    it("Should call DomainValidator once when a sut is being created", () => {
+        expect(domainValidatorStub.validate).toHaveBeenCalledTimes(1)
+    })
 
+    it("Should return left if the domain validator returns an error ", () => {
+        domainValidatorStub.validate
+        .mockReturnValueOnce(left([new Error()]))
+        
+        const sut = CategoryEntity.create(props)
+        expect(sut.isLeft()).toBe(true)
+    })
 
 
 })

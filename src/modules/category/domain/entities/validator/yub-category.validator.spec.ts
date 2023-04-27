@@ -1,6 +1,0 @@
-
-
-describe("test YubCategoryValidator", () => {
-
-    it("", () => {})
-})
