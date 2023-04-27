@@ -1,5 +1,6 @@
 import { BaseEntity } from "@/modules/@shared/domain"
-import { Either, right } from "@/modules/@shared/logic"
+import { Either, left, right } from "@/modules/@shared/logic"
+import { CategoryValidatorFactory } from "./validator"
 
 export class CategoryEntity extends BaseEntity<CategoryEntity.Props> {
     
@@ -8,6 +9,11 @@ export class CategoryEntity extends BaseEntity<CategoryEntity.Props> {
     }
 
     static create(input: CategoryEntity.Input, id?: string): Either<Error[], CategoryEntity>{
+
+        const categoryValidator = CategoryValidatorFactory.create()
+        const isInputValid = categoryValidator.validate(input)
+        if(isInputValid.isLeft()) return left(isInputValid.value)
+
 
         const categoryEntity = new CategoryEntity({
             ...input,

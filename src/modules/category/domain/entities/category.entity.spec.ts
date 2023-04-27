@@ -1,19 +1,27 @@
+import { DomainValidatorStub } from "@/modules/@shared/tests"
 import { CategoryEntity } from "./category.entity"
+import { CategoryValidatorFactory } from "./validator"
 
+jest.mock("./validator")
 
 describe("test CategoryEntity", () => {
 
     let sut: CategoryEntity
     let props: CategoryEntity.Input
+    let categoryValidatorFactory: jest.Mocked<typeof CategoryValidatorFactory>
 
     const makeSut = (props: CategoryEntity.Input) => {
+        
         const categoryEntityOrError = CategoryEntity.create(props)
         if(categoryEntityOrError.isLeft()) throw categoryEntityOrError.value[0]
         sut = categoryEntityOrError.value
         return sut
     }
-
+    
     beforeEach(() => {
+        categoryValidatorFactory = CategoryValidatorFactory as jest.Mocked<typeof CategoryValidatorFactory>
+        categoryValidatorFactory.create.mockReturnValue(new DomainValidatorStub())
+        
         props = {
             title: "any_title",
             description: "any_description",
