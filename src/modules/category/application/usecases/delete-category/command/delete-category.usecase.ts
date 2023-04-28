@@ -9,14 +9,10 @@ import { DeleteCategoryCommand } from "./delete-category.command";
 export class DeleteCategoryUsecase implements UsecaseInterface {
 
     constructor(
-        private readonly categoryRepository: CategoryRepositoryInterface,
         private readonly commandEmitter: CommandEmitterInterface
     ){}
 
     async execute({ categoryId }: DeleteCategoryInputDto): Promise<Either<Error[], DeleteCategoryOutputDto>> {
-
-        const categoryEntity = await this.categoryRepository.findById(categoryId)
-        if (!categoryEntity) return left([ new CategoryNotFoundError() ])
 
         const deleteCategoryCommand = new DeleteCategoryCommand({
             categoryId
