@@ -1,6 +1,6 @@
-import { eventEmitterInterface } from "@/modules/@shared/events";
+import { EventEmitterInterface } from "@/modules/@shared/events";
 
-export const mockEventEmiter = (): eventEmitterInterface => {
+export const mockEventEmiter = (): EventEmitterInterface => {
     return {
         emit: jest.fn(),
     }

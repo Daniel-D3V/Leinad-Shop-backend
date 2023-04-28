@@ -1,5 +1,5 @@
 import { BaseEvent } from "./base-event";
 
-export interface eventEmitterInterface {
+export interface EventEmitterInterface {
     emit(event: BaseEvent): Promise<void>;
 }

@@ -2,7 +2,7 @@ import { mock } from 'jest-mock-extended';
 import { PersistCategoryInputDto } from './persist-category.dto';
 import { CategoryEntity } from '@/modules/category/domain/entities';
 import { CategoryRepositoryInterface } from '@/modules/category/domain/repositories';
-import { eventEmitterInterface } from '@/modules/@shared/events';
+import { EventEmitterInterface } from '@/modules/@shared/events';
 import { PersistCategoryUsecase } from './persist-category.usecase';
 import { CategoryCreatedEvent } from './category-created.event';
 
@@ -14,7 +14,7 @@ describe("Test CreateCategoryUsecase", () => {
     let props: PersistCategoryInputDto
     let categoryEntity: jest.Mocked<typeof CategoryEntity>
     let categoryRepository: CategoryRepositoryInterface
-    let eventEmitter: eventEmitterInterface
+    let eventEmitter: EventEmitterInterface
     let sut: PersistCategoryUsecase
 
     beforeEach(() => {
@@ -31,7 +31,7 @@ describe("Test CreateCategoryUsecase", () => {
             title: "any_title"
         }
         categoryRepository = mock<CategoryRepositoryInterface>()
-        eventEmitter = mock<eventEmitterInterface>()
+        eventEmitter = mock<EventEmitterInterface>()
         sut = new PersistCategoryUsecase(categoryRepository, eventEmitter)
     })
 
