@@ -10,6 +10,7 @@ export default {
   coverageProvider: "v8",
   testMatch: [
     "**/*.spec.ts",
+    "**/*.test.ts",
   ],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
