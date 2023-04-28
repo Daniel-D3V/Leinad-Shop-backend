@@ -9,13 +9,13 @@ export default {
   collectCoverage: false,
   coverageProvider: "v8",
   testMatch: [
-    "**/src/*.spec.ts",
-    "**/src/*.test.ts",
+    '<rootDir>/src/**/*.test.js',
+    '<rootDir>/src/**/*.spec.js',
   ],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
   transform: {
     "^.+\.(t|j)sx?$": ["@swc/jest"]
-  },
+  }
 };
