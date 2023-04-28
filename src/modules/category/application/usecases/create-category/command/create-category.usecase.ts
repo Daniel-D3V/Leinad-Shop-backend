@@ -5,7 +5,7 @@ import { CommandEmitterInterface } from "@/modules/@shared/events";
 import { CreateCategoryCommand } from "./create-category.command";
 import { CategoryEntity } from "@/modules/category/domain/entities";
 import { CategoryRepositoryInterface } from "@/modules/category/domain/repositories";
-import { CategoryTitleInUseError } from "./errors";
+import { CategoryTitleInUseError } from "../../_errors/category-title-in-use.error";
 
 export class CreateCategoryUsecase implements UsecaseInterface {
 
