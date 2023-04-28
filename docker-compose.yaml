@@ -15,4 +15,13 @@ services:
     volumes:
       - ./.test-mysql-data:/var/lib/mysql
 
+  # app:
+  #     build: .
+  #     ports:
+  #       - "3000:3000"
+  #     volumes:
+  #       - .:/app
+  #       - /app/node_modules
+  #     stdin_open: true
+  #     tty: true
 

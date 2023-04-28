@@ -4,15 +4,14 @@ import { CategoryRepositoryInterface } from "@/modules/category/domain/repositor
 
 export class PrismaCategoryRepository implements CategoryRepositoryInterface {
     async findByTitle(name: string): Promise<CategoryEntity | null> {
-        const output = await prismaClient.category.findFirst({ where: { id: "fs" } })
-        console.log(output)
         return null
     }
     findById(id: string): Promise<CategoryEntity | null> {
         throw new Error("Method not implemented.");
     }
-    create(category: CategoryEntity): Promise<void> {
-        throw new Error("Method not implemented.");
+    async create(category: CategoryEntity): Promise<void> {
+        const output = await prismaClient.category.findFirst({ where: { id: "fs" } })
+        console.log(output)
     }
     delete(id: string): Promise<void> {
         throw new Error("Method not implemented.");

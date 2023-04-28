@@ -10,7 +10,7 @@ describe("Test prismaCategoryRepository integration with mysql", () => {
     beforeAll(() => {
         sut = new PrismaCategoryRepository()
     })
-
+    
     it("Should ", async () => {
        await sut.create(categoryEntity)
     })
