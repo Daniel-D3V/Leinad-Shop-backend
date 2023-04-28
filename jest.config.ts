@@ -9,8 +9,8 @@ export default {
   collectCoverage: false,
   coverageProvider: "v8",
   testMatch: [
-    "**/*.spec.ts",
-    "**/*.test.ts",
+    "**/src/*.spec.ts",
+    "**/src/*.test.ts",
   ],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
