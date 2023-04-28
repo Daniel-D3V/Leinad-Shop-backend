@@ -7,7 +7,7 @@ import { CategoryEntity } from "@/modules/category/domain/entities";
 import { CategoryRepositoryInterface } from "@/modules/category/domain/repositories";
 import { CategoryTitleInUseError } from "./errors";
 
-export class CreateCategoryUsecae implements UsecaseInterface {
+export class CreateCategoryUsecase implements UsecaseInterface {
 
     constructor(
         private readonly categoryRepository: CategoryRepositoryInterface,
