@@ -5,4 +5,5 @@ export interface CategoryRepositoryInterface {
     findById(id: string): Promise<CategoryEntity | null>
     create(category: CategoryEntity): Promise<void>
     delete(id: string): Promise<void>
+    update(categoryEntity: CategoryEntity): Promise<void>
 }
