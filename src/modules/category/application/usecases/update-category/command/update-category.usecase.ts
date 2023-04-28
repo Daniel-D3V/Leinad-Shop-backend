@@ -24,7 +24,7 @@ export class UpdateCategoryUsecase implements UsecaseInterface {
             if(titleChanged.isLeft()) return left(titleChanged.value)
 
             const categoryFoundByTitle = await this.categoryRepository.findByTitle(data.title)
-            if(!categoryFoundByTitle) return left([ new CategoryTitleInUseError() ])
+            if(categoryFoundByTitle) return left([ new CategoryTitleInUseError() ])
         }
         if(data.description){
             const descriptionChanged = categoryEntity.changeDescription(data.description)
