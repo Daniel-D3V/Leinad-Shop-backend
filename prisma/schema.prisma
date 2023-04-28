@@ -16,6 +16,7 @@ model Category {
   id String @id
   title String 
   description String @db.Text
+  status String 
   parentId    String?
   parent      Category? @relation("CategoryToParent", fields: [parentId], references: [id])
   children    Category[] @relation("CategoryToParent")
