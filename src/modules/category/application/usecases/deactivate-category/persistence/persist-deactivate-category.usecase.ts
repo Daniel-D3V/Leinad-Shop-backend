@@ -18,7 +18,7 @@ export class PersistDeactivateCategoryUsecase implements UsecaseInterface {
         const categoryEntity = await this.categoryRepository.findById(categoryId)
         if(!categoryEntity) return left([ new CategoryNotFoundError() ])
 
-        categoryEntity.activate()
+        categoryEntity.deactivate()
         await this.categoryRepository.update(categoryEntity)
 
         const categoryDeactivatedEvent = new CategoryDeactivatedEvent({
