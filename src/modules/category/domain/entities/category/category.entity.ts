@@ -22,6 +22,28 @@ export class CategoryEntity extends BaseEntity<CategoryEntity.Props> {
         return right(categoryEntity) 
     }
 
+    changeTitle(newTitle: string): Either<Error[] ,string> {
+        const categoryValidator = CategoryValidatorFactory.create()
+        const isInputValid = categoryValidator.validate({
+            ...this.props
+        })
+        if(isInputValid.isLeft()) return left(isInputValid.value)
+
+        this.props.title = newTitle
+        return right(this.title)
+    }
+
+    changeDescription(newDescription: string): Either<Error[] ,string> {
+        const categoryValidator = CategoryValidatorFactory.create()
+        const isInputValid = categoryValidator.validate({
+            ...this.props
+        })
+        if(isInputValid.isLeft()) return left(isInputValid.value)
+
+        this.props.description = newDescription
+        return right(this.description)
+    }
+
     activate(): void{
         this.props.status = "ACTIVE"
     }

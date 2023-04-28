@@ -95,5 +95,41 @@ describe("test CategoryEntity", () => {
         expect(sut.isLeft()).toBe(true)
     })
 
+    it("Should change the title ", () => {
+        expect(sut.title).toBe("any_title")
+        sut.changeTitle("new_title")
+        expect(sut.title).toBe("new_title")
+    })
+
+    it("Should not update title if an invalid title is provided ", () => {
+        expect(sut.title).toBe("any_title")
+
+        domainValidatorStub.validate
+        .mockReturnValueOnce(left([new Error()]))
+
+        const output = sut.changeTitle("invalid_title")
+
+        expect(output.isLeft()).toBe(true)
+        expect(sut.title).toBe("any_title")
+    })
+
+    it("Should change the description ", () => {
+        expect(sut.description).toBe("any_description")
+        sut.changeDescription("new_description")
+        expect(sut.description).toBe("new_description")
+    })
+
+    it("Should not update description if an invalid description is provided ", () => {
+        expect(sut.description).toBe("any_description")
+
+        domainValidatorStub.validate
+        .mockReturnValueOnce(left([new Error()]))
+
+        const output = sut.changeTitle("invalid_description")
+
+        expect(output.isLeft()).toBe(true)
+        expect(sut.description).toBe("any_description")
+    })
+
 
 })
