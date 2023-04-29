@@ -63,7 +63,7 @@ describe("Test prismaCategoryRepository integration with mysql", () => {
         expect(categoryEntityFound).toBeInstanceOf(CategoryEntity)
     })
 
-    it("Should update", async () => {
+    it("Should update the categoryEntity", async () => {
         await sut.create(categoryEntity)
         const updateProps = {
             id,
@@ -78,7 +78,6 @@ describe("Test prismaCategoryRepository integration with mysql", () => {
         await sut.update(categoryEntity)
 
         const categoryEntityFound = await sut.findById(id)
-
         expect(categoryEntityFound?.toJSON()).toMatchObject(updateProps)
     })
 })
