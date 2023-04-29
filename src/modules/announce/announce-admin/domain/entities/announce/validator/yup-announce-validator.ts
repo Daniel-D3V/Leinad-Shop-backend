@@ -12,7 +12,7 @@ export class YupAnnounceValidator extends YupValidatorProvider implements Domain
             .typeError(YupErrorAdapter.toYupFormat(new InvalidTitleTypeError()))
             .required(YupErrorAdapter.toYupFormat(new TitleNotProvidedError()))
             .min(5, YupErrorAdapter.toYupFormat(new InvalidTitleLengthError()))
-            .max(255, YupErrorAdapter.toYupFormat(new InvalidTitleLengthError())),
+            .max(80, YupErrorAdapter.toYupFormat(new InvalidTitleLengthError())),
 
         description: yup.string()
             .strict(true)

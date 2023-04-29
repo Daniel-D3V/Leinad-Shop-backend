@@ -34,7 +34,7 @@ describe("Test yupAnnounceValidator", () => {
             const outputMinLength = sut.validate(props)
             expect(outputMinLength.value![0].name).toBe("InvalidTitleLengthError")
 
-            props.title = "A".repeat(256)
+            props.title = "A".repeat(81)
             const outputMaxLength = sut.validate(props)
             expect(outputMaxLength.value![0].name).toBe("InvalidTitleLengthError")
         })
