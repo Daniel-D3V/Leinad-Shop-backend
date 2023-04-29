@@ -1,7 +1,7 @@
 import { prismaClient } from "@/modules/@shared/infra/repository/prisma/client";
 import { CategoryEntity } from "@/modules/category/domain/entities";
 import { CategoryRepositoryInterface } from "@/modules/category/domain/repositories";
-import { Category } from "@prisma/client";
+import { Category, PrismaClient } from "@prisma/client";
 
 const setStatus = (categoryEntity: CategoryEntity, status: string) => {
     if(status === "ACTIVE") categoryEntity.activate()
@@ -22,33 +22,40 @@ class PrismaCategoryEntityMapper {
 } 
 
 export class PrismaCategoryRepository implements CategoryRepositoryInterface {
+
+    prismaClient: PrismaClient
+
+    constructor(provideprismaClient?: PrismaClient){
+        this.prismaClient = provideprismaClient ?? prismaClient
+    }
+
     async findByTitle(title: string): Promise<CategoryEntity | null> {
-        const prismaCategory = await prismaClient.category.findFirst({
+        const prismaCategory = await this.prismaClient.category.findFirst({
             where: { title }
         })
         return PrismaCategoryEntityMapper.toDomain(prismaCategory)
     }
     async findById(id: string): Promise<CategoryEntity | null> {
-        const prismaCategory = await prismaClient.category.findFirst({
+        const prismaCategory = await this.prismaClient.category.findFirst({
             where: { id }
         })
         return PrismaCategoryEntityMapper.toDomain(prismaCategory)
     }
     async create(category: CategoryEntity): Promise<void> {
-        await prismaClient.category.create({ 
+        await this.prismaClient.category.create({ 
             data: {
                 ...category.toJSON(),
             }
         })
     }
     async delete(id: string): Promise<void> {
-        await prismaClient.category.deleteMany({
+        await this.prismaClient.category.deleteMany({
             where: { id }
         })
     }
     async update(categoryEntity: CategoryEntity): Promise<void> {
         const { id, ...propsToUpdate } = categoryEntity.toJSON()
-        await prismaClient.category.update({
+        await this.prismaClient.category.update({
             where: { id },
             data: {
               ...propsToUpdate,

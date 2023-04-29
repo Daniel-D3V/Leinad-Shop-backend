@@ -23,3 +23,16 @@ model Category {
 
   @@map("categories")
 }
+
+model Outbox {
+
+  id String @id @default(uuid())
+  payload String @db.Text
+  eventName String 
+  timestamp DateTime
+  status    String @default("PENDING")
+  error_message    String @default("PENDING")
+  retry_count Int @default(0)
+
+  @@map("outbox")
+}
