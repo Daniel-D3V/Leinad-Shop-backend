@@ -14,7 +14,7 @@ datasource db {
 model Category {
 
   id String @id
-  title String 
+  title String @unique
   description String @db.Text
   status String 
   parentId    String?
