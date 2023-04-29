@@ -1,6 +1,6 @@
 export class InvalidDescriptionTypeError extends Error {
     constructor(){
-        super("Description type provided is invalid. Description must be a string")
+        super("An invalid description type was provided. description type should be a string")
         this.name = this.constructor.name
     }
 }

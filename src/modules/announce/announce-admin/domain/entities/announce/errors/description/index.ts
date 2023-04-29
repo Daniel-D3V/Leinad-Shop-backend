@@ -1,1 +1,3 @@
-export * from "./Invalid-description-type.error"
+export * from "./description-not-provided.error"
+export * from "./invalid-description-length.error"
+export * from "./invalid-description-type.error"
