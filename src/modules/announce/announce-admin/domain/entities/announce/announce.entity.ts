@@ -16,10 +16,27 @@ export class AnnounceEntity extends BaseEntity<AnnounceEntity.Props> {
 
         
         const announceEntity = new AnnounceEntity({
-            ...input
+            ...input,
+            status: "DEACTIVATED"
         }, id)
 
         return right(announceEntity)
+    }
+
+    activate(): void {
+        this.props.status = "ACTIVE"
+    }
+
+    deactivate(): void {
+        this.props.status = "DEACTIVATED"
+    }
+
+    ban(): void {
+        this.props.status = "BANNED"
+    }
+
+    isActive(): boolean {
+        return this.props.status === "ACTIVE"
     }
 
     toJSON(): AnnounceEntity.PropsJSON {
@@ -27,7 +44,10 @@ export class AnnounceEntity extends BaseEntity<AnnounceEntity.Props> {
             id: this.id,
             title: this.title,
             description: this.description,
-            price: this.price
+            price: this.price,
+            userId: this.userId,
+            categoryId: this.categoryId,
+            status: this.status
         }
     }
 
@@ -40,19 +60,38 @@ export class AnnounceEntity extends BaseEntity<AnnounceEntity.Props> {
     get price(): number {
         return this.props.price;
     }
+    get status(): AnnounceEntity.Status {
+        return this.props.status
+    }
+    get categoryId(): string {
+        return this.props.categoryId;
+    }
+    get userId(): string {
+        return this.props.userId;
+    }
 }
 
 
 export namespace AnnounceEntity {
+
+    export type Status = "ACTIVE" | "DEACTIVATED" | "BANNED"
+
     export type Input = {
         title: string
         description: string
         price: number
+        categoryId: string
+        userId: string
+
     }
     export type Props = {
         title: string
         description: string
         price: number
+        status: Status
+
+        categoryId: string
+        userId: string
     }
     export type PropsJSON = Props & { id: string }
 } 

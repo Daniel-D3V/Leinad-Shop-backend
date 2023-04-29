@@ -13,7 +13,7 @@ describe("Test announce entity", () => {
     let sut: AnnounceEntity
     let domainValidatorStub: jest.Mocked<DomainValidator<any>>
 
-    const makeSut = (props: AnnounceEntity.Props, id?: string): AnnounceEntity => {
+    const makeSut = (props: AnnounceEntity.Input, id?: string): AnnounceEntity => {
         const sut = AnnounceEntity.create(props, id)
         if(sut.isLeft()) throw sut.value[0]
         return sut.value
@@ -27,7 +27,9 @@ describe("Test announce entity", () => {
         props = {
             title: "any_title",
             description: "any_description",
-            price: 10
+            price: 10,
+            categoryId: "any_category_id",
+            userId: "any_user_id",
         }
         sut = makeSut(props)
     })
@@ -38,7 +40,10 @@ describe("Test announce entity", () => {
             id: "any_id",
             title: "any_title",
             description: "any_description",
-            price: 10
+            price: 10,
+            categoryId: "any_category_id",
+            userId: "any_user_id",
+            status: "DEACTIVATED"
         })
     })
 
@@ -51,5 +56,28 @@ describe("Test announce entity", () => {
 
         const sut = AnnounceEntity.create(props)
         expect(sut.value).toEqual([ new Error("validatorError") ])
+    })
+
+    it("Should activate the announce", () => {
+        sut.activate()
+        expect(sut.status).toBe("ACTIVE")
+    })
+
+    it("Should check if the announce is active", () => {
+        expect(sut.isActive()).toBe(false)
+        sut.activate()
+        expect(sut.isActive()).toBe(true)
+    })
+
+    it("Should deactivate the announce", () => {
+        sut.activate()
+        expect(sut.isActive()).toBe(true)
+        sut.deactivate()
+        expect(sut.status).toBe("DEACTIVATED")
+    })
+
+    it("Should ban the announce", () => {
+        sut.ban()
+        expect(sut.status).toBe("BANNED")
     })
 })
