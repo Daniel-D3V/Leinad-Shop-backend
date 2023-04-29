@@ -14,7 +14,6 @@ export class AnnounceEntity extends BaseEntity<AnnounceEntity.Props> {
         const isInputValid = announceValidator.validate(input)
         if (isInputValid.isLeft()) return left(isInputValid.value)
 
-        
         const announceEntity = new AnnounceEntity({
             ...input,
             status: "DEACTIVATED"
