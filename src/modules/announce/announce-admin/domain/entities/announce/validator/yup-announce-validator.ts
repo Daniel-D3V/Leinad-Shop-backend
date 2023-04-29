@@ -22,12 +22,12 @@ export class YupAnnounceValidator extends YupValidatorProvider implements Domain
             .max(500, YupErrorAdapter.toYupFormat(new InvalidDescriptionLengthError())),
 
         price: yup.number()
-        .strict(true)
-        .typeError(YupErrorAdapter.toYupFormat(new InvalidPriceTypeError()))
-        .required(YupErrorAdapter.toYupFormat(new PriceNotProvidedError()))
-        .min(0.10, YupErrorAdapter.toYupFormat(new InvalidPriceLengthError()))
-        .max(100000000, YupErrorAdapter.toYupFormat(new InvalidPriceLengthError())),
-        
+            .strict(true)
+            .typeError(YupErrorAdapter.toYupFormat(new InvalidPriceTypeError()))
+            .required(YupErrorAdapter.toYupFormat(new PriceNotProvidedError()))
+            .min(0.50, YupErrorAdapter.toYupFormat(new InvalidPriceLengthError()))
+            .max(100000000, YupErrorAdapter.toYupFormat(new InvalidPriceLengthError())),
+            
     });
 
     validate(props: YupAnnounceValidator.ValidateFields): Either<Error[], null> {
