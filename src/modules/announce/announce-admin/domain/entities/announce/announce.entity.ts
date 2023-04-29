@@ -1,5 +1,6 @@
 import { BaseEntity } from "@/modules/@shared/domain";
 import { Either, left, right } from "@/modules/@shared/logic";
+import { AnnounceValidatorFactory } from "./validator";
 
 export class AnnounceEntity extends BaseEntity<AnnounceEntity.Props> {
 
@@ -9,6 +10,11 @@ export class AnnounceEntity extends BaseEntity<AnnounceEntity.Props> {
 
     static create(input: AnnounceEntity.Input, id?: string): Either<Error[], AnnounceEntity>{
 
+        const announceValidator = AnnounceValidatorFactory.create()
+        const isInputValid = announceValidator.validate(input)
+        if (isInputValid.isLeft()) return left(isInputValid.value)
+
+        
         const announceEntity = new AnnounceEntity({
             ...input
         }, id)

@@ -17,6 +17,7 @@ describe("test CategoryEntity", () => {
         
         const categoryEntityOrError = CategoryEntity.create(props)
         if(categoryEntityOrError.isLeft()) throw categoryEntityOrError.value[0]
+        
         sut = categoryEntityOrError.value
         return sut
     }
