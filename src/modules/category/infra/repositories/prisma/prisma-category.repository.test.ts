@@ -1,7 +1,6 @@
 import { CategoryEntity } from "@/modules/category/domain/entities"
 import { PrismaCategoryRepository } from "./prisma-category.repository"
 import { mock } from "jest-mock-extended"
-import { randomUUID } from "crypto"
 import { prismaClient } from "@/modules/@shared/infra/repository/prisma/client"
 
 describe("Test prismaCategoryRepository integration with mysql", () => {
@@ -9,10 +8,12 @@ describe("Test prismaCategoryRepository integration with mysql", () => {
     let sut: PrismaCategoryRepository
     let categoryEntity: CategoryEntity
     let props: CategoryEntity.PropsJSON
+    let id: string
 
     beforeEach(async () => {
+        id = "any_id"
         props = {
-            id: "any_id",
+            id,
             description: "any description",
             status: "ACTIVE",
             title: "any_title",
@@ -28,7 +29,7 @@ describe("Test prismaCategoryRepository integration with mysql", () => {
         await sut.create(categoryEntity)
         const category = await prismaClient.category.findUnique({
             where: {
-                id: "any_id"
+                id
             }
         })
         expect({
@@ -39,7 +40,7 @@ describe("Test prismaCategoryRepository integration with mysql", () => {
 
     it("Should find by categoryId", async () => {
         await sut.create(categoryEntity)
-        const categoryEntityFound = await sut.findById("any_id")
+        const categoryEntityFound = await sut.findById(id)
         expect(categoryEntityFound).toBeInstanceOf(CategoryEntity)
     })
 
@@ -51,8 +52,8 @@ describe("Test prismaCategoryRepository integration with mysql", () => {
 
     it("Should delete a category", async () => {
         await sut.create(categoryEntity)
-        await sut.delete("any_id")
-        const categoryEntityFound2 = await sut.findById("any_id")
+        await sut.delete(id)
+        const categoryEntityFound2 = await sut.findById(id)
         expect(categoryEntityFound2).toBe(null)
     })
 
@@ -65,18 +66,18 @@ describe("Test prismaCategoryRepository integration with mysql", () => {
     it("Should update", async () => {
         await sut.create(categoryEntity)
         const updateProps = {
-            id: "any_id",
+            id,
             description: "new_description",
             status: "DEACTIVE" as CategoryEntity.status,
             title: "new_title",
         }
         categoryEntity = mock<CategoryEntity>({
-            id: "any_id",
+            id,
             toJSON: () => updateProps
         })
         await sut.update(categoryEntity)
 
-        const categoryEntityFound = await sut.findById("any_id")
+        const categoryEntityFound = await sut.findById(id)
 
         expect(categoryEntityFound?.toJSON()).toMatchObject(updateProps)
     })
