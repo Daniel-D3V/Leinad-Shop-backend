@@ -37,7 +37,11 @@ export class UpdateAnnounceUsecase implements UsecaseInterface{
 
         const apdateAnnounceCommand = new UpdateAnnounceCommand({
             announceId,
-            data
+            data: {
+                title: data.title,
+                description: data.description,
+                price: data.price
+            }
         })
         await this.commandEmitter.emit(apdateAnnounceCommand)
 
