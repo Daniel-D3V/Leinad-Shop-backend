@@ -8,7 +8,7 @@ import { AnnounceDeactivatedEvent } from "./announce-deactivated.event"
 
 jest.mock("./announce-deactivated.event")
 
-describe("Test PersistActivateAnnounce", () => {
+describe("Test PersistDeactivateAnnounce", () => {
 
     let sut: PersistDeactivateAnnounceUsecase
     let props: PersistDeactivateAnnounceInputDto

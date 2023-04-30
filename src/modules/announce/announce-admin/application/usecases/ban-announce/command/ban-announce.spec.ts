@@ -1,15 +1,15 @@
 import { CommandEmitterInterface } from "@/modules/@shared/events"
 import { mock } from "jest-mock-extended"
-import { DeactivateAnnounceUsecase } from "./deactivate-announce.usecase"
-import { DeactivateAnnounceInputDto } from "./deactivate-announce.dto"
-import { DeactivateAnnounceCommand } from "./deactivate-announce.command"
+import { BanAnnounceUsecase } from "./ban-announce.usecase"
+import { BanAnnounceInputDto } from "./ban-announce.dto"
+import { BanAnnounceCommand } from "./ban-announce.command"
 
-jest.mock("./deactivate-announce.command")
+jest.mock("./ban-announce.command")
 
-describe("Test DeactivateAnnounceUsecase", () => {
+describe("Test BanAnnounceUsecase", () => {
 
-    let sut: DeactivateAnnounceUsecase
-    let props: DeactivateAnnounceInputDto
+    let sut: BanAnnounceUsecase
+    let props: BanAnnounceInputDto
     let commandEmitter: CommandEmitterInterface
 
     beforeEach(() => {
@@ -17,7 +17,7 @@ describe("Test DeactivateAnnounceUsecase", () => {
             announceId: "any_announce_id",
         }
         commandEmitter = mock<CommandEmitterInterface>()
-        sut = new DeactivateAnnounceUsecase(commandEmitter)
+        sut = new BanAnnounceUsecase(commandEmitter)
     })
 
     it("Should execute the usecase properly", async () => {
@@ -25,9 +25,9 @@ describe("Test DeactivateAnnounceUsecase", () => {
         expect(output.isRight()).toBe(true)
     })
 
-    it("Should create DeactivateAnnounceCommand with correct values", async () => {
+    it("Should create ActivateAnnounceCommand with correct values", async () => {
         await sut.execute(props)
-        expect(DeactivateAnnounceCommand).toHaveBeenCalledWith({ ...props })
+        expect(BanAnnounceCommand).toHaveBeenCalledWith({ ...props })
     })
 
     it("Should call commandEmitter once", async () => {
