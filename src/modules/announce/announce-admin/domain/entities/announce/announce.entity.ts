@@ -30,6 +30,23 @@ export class AnnounceEntity extends BaseEntity<AnnounceEntity.Props> {
         return right(this.title)
     }
 
+    changeDescription(newDescription: string): Either<Error[] ,string>{
+        const announceValidator = AnnounceValidatorFactory.create()
+        const isInputValid = announceValidator.validate({ ...this.props, description: newDescription})
+        if(isInputValid.isLeft()) return left(isInputValid.value)
+        this.props.description = newDescription
+        return right(this.description)
+    }
+
+    changePrice(newPrice: number): Either<Error[] ,number>{
+        const announceValidator = AnnounceValidatorFactory.create()
+        const isInputValid = announceValidator.validate({ ...this.props, price: newPrice})
+        if(isInputValid.isLeft()) return left(isInputValid.value)
+        this.props.price = newPrice
+        return right(this.price)
+    }
+
+
     activate(): void {
         this.props.status = "ACTIVE"
     }

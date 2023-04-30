@@ -18,7 +18,22 @@ export class UpdateAnnounceUsecase implements UsecaseInterface{
         const announceEntity = await this.announceRepository.findById(announceId)
         if(!announceEntity) return left([ new AnnounceNotFoundError() ])
 
-        
+        const errors: Error[] = [] 
+
+        if(data.title){
+            const isTitleValid = announceEntity.changeTitle(data.title)
+            if(isTitleValid.isLeft()) errors.push(...isTitleValid.value)
+        }
+        if(data.description){
+            const isDescriptionValid = announceEntity.changeDescription(data.description)
+            if(isDescriptionValid.isLeft()) errors.push(...isDescriptionValid.value)
+        }
+        if(data.price){
+            const isPriceValid = announceEntity.changePrice(data.price)
+            if(isPriceValid.isLeft()) errors.push(...isPriceValid.value)
+        }
+
+        if(errors.length > 0) return left(errors)
 
         const apdateAnnounceCommand = new UpdateAnnounceCommand({
             announceId,

@@ -80,4 +80,85 @@ describe("Test announce entity", () => {
         sut.ban()
         expect(sut.status).toBe("BANNED")
     })
+
+    describe("change Title", () => {
+        it("Should change the title ", () => {
+            expect(sut.title).toBe("any_title")
+            sut.changeTitle("new_title")
+            expect(sut.title).toBe("new_title")
+        })
+    
+        it("Should not update title if an invalid title is provided ", () => {
+            expect(sut.title).toBe("any_title")
+    
+            domainValidatorStub.validate
+            .mockReturnValueOnce(left([new Error()]))
+    
+            const output = sut.changeTitle("invalid_title")
+    
+            expect(output.isLeft()).toBe(true)
+            expect(sut.title).toBe("any_title")
+        })
+    
+        it("Should call domainValidatorStub with correct values when updating the title ", () => {
+            const newTitle = "new_title"
+            sut.changeTitle(newTitle)
+            expect(domainValidatorStub.validate).toHaveBeenLastCalledWith({ ...sut.entityProps, title: newTitle })
+        })
+    })
+
+    describe("change description", () => {
+        it("Should change the description ", () => {
+            expect(sut.description).toBe("any_description")
+            sut.changeDescription("new_description")
+            expect(sut.description).toBe("new_description")
+        })
+    
+        it("Should not update description if an invalid description is provided ", () => {
+            expect(sut.description).toBe("any_description")
+    
+            domainValidatorStub.validate
+            .mockReturnValueOnce(left([new Error()]))
+    
+            const output = sut.changeDescription("invalid_description")
+    
+            expect(output.isLeft()).toBe(true)
+            expect(sut.description).toBe("any_description")
+        })
+    
+        it("Should call domainValidatorStub with correct values when updating the description ", () => {
+            const newDescription = "new_description"
+            sut.changeDescription(newDescription)
+            expect(domainValidatorStub.validate).toHaveBeenLastCalledWith({ ...sut.entityProps, description: newDescription })
+        })
+    })
+
+    describe("change price", () => {
+        it("Should change the price ", () => {
+            const newPrice = 20
+            expect(sut.price).toBe(10)
+            sut.changePrice(newPrice)
+            expect(sut.price).toBe(newPrice)
+        })
+    
+        it("Should not update price if an invalid price is provided ", () => {
+            expect(sut.price).toBe(10)
+    
+            domainValidatorStub.validate
+            .mockReturnValueOnce(left([new Error()]))
+            
+            const invalidPrice = 0.01
+            const output = sut.changePrice(invalidPrice)
+    
+            expect(output.isLeft()).toBe(true)
+            expect(sut.price).toBe(10)
+        })
+    
+        it("Should call domainValidatorStub with correct values when updating the price ", () => {
+            const newPrice = 20
+            sut.changePrice(newPrice)
+            expect(domainValidatorStub.validate).toHaveBeenLastCalledWith({ ...sut.entityProps, price: newPrice })
+        })
+    })
+
 })
