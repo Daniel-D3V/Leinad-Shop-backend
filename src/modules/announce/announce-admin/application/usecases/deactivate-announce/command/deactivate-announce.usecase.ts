@@ -13,10 +13,10 @@ export class DeactivateAnnounceUsecase implements UsecaseInterface{
 
     async execute(input: DeactivateAnnounceInputDto): Promise<Either<Error[], ActivateAnnounceOutputDto>> {
 
-        const createAnnounceCommand = new DeactivateAnnounceCommand({
+        const deactivateAnnounceCommand = new DeactivateAnnounceCommand({
             announceId: input.announceId
         })
-        await this.commandEmitter.emit(createAnnounceCommand)
+        await this.commandEmitter.emit(deactivateAnnounceCommand)
 
         return right(null)
     }
