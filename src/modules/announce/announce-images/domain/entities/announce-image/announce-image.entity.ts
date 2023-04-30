@@ -4,11 +4,11 @@ import { AnnounceImageValidatorFactory } from "./validator"
 
 export class AnnounceImageEntity extends BaseEntity<AnnounceImageEntity.Props> {
 
-    private constructor(props: AnnounceImageEntity.Props, id?: string){
+    private constructor(props: AnnounceImageEntity.Props, id: string){
         super(props, id)
     }
 
-    static create(input: AnnounceImageEntity.Input): Either<Error[], AnnounceImageEntity>{
+    static create(input: AnnounceImageEntity.Input, id: string): Either<Error[], AnnounceImageEntity>{
 
         const announceImageValidator = AnnounceImageValidatorFactory.create()
         const isPropsValid = announceImageValidator.validate({
@@ -18,7 +18,7 @@ export class AnnounceImageEntity extends BaseEntity<AnnounceImageEntity.Props> {
 
         const announceImageEntity = new AnnounceImageEntity({
             ...input
-        })
+        }, id)
         return right(announceImageEntity)
     }
 
