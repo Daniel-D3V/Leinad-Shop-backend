@@ -1,9 +1,8 @@
 import { UsecaseInterface } from "@/modules/@shared/domain";
-import { Either, left, right } from "@/modules/@shared/logic";
+import { Either, right } from "@/modules/@shared/logic";
 import { CommandEmitterInterface } from "@/modules/@shared/events";
 import { AnnounceRepositoryInterface } from "@/modules/announce/announce-admin/domain/repositories";
 import { DeleteAnnounceInputDto, DeleteAnnounceOutputDto } from "./delete-announce.dto";
-import { AnnounceNotFoundError } from "../../_errors";
 import { DeleteAnnounceCommand } from "./delete-announce.command";
 
 export class DeleteAnnounceUsecase implements UsecaseInterface{
