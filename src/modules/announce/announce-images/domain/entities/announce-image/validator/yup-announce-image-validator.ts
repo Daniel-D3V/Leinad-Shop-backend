@@ -1,18 +1,11 @@
 import { DomainValidator, YupErrorAdapter, YupValidatorProvider } from "@/modules/@shared/domain/validator";
 import { Either, left, right } from "@/modules/@shared/logic";
 import * as yup from 'yup';
-import { ImagesNotProvidedError, InvalidWeightTypeError, InvalidImagesLengthError, WeightNotProvidedError, InvalidWeightSizeError } from "../errors";
+import { ImagesNotProvidedError, InvalidWeightTypeError, InvalidImagesLengthError, WeightNotProvidedError, InvalidWeightSizeError, InvalidUrlTypeError, UrlNotProvidedError, InvalidUrlLengthError } from "../errors";
 
 export class YupAnnounceImageValidator extends YupValidatorProvider implements DomainValidator<YupAnnounceImageValidator.ValidateFields>{
 
     schema = yup.object({
-
-        // title: yup.string()
-        //     .strict(true)
-        //     .typeError(YupErrorAdapter.toYupFormat(new InvalidTitleTypeError()))
-        //     .required(YupErrorAdapter.toYupFormat(new TitleNotProvidedError()))
-        //     .min(5, YupErrorAdapter.toYupFormat(new InvalidTitleLengthError()))
-        //     .max(80, YupErrorAdapter.toYupFormat(new InvalidTitleLengthError())),
         
         images: yup.array().of(
             yup.object().shape({
@@ -24,7 +17,9 @@ export class YupAnnounceImageValidator extends YupValidatorProvider implements D
                 .max(1000000, YupErrorAdapter.toYupFormat(new InvalidWeightSizeError())),
               url: yup.string()
                 .strict(true)
-                .required()
+                .typeError(YupErrorAdapter.toYupFormat(new InvalidUrlTypeError()))
+                .required(YupErrorAdapter.toYupFormat(new UrlNotProvidedError()))
+                .max(255, YupErrorAdapter.toYupFormat(new InvalidUrlLengthError(255))),
             })
         )
         .required(YupErrorAdapter.toYupFormat(new ImagesNotProvidedError()))

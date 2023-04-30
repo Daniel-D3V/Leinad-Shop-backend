@@ -61,4 +61,28 @@ describe("Test YupAnnounceImageValidator", () => {
             expect(outputMax.value![0].name).toBe("InvalidWeightSizeError")
         })
     })
+
+    describe("Test imageUrl", () => {
+
+        it("Should return InvalidUrlTypeError if type of url provided is invalid", () => {
+            props.images[2].url = {} as any
+            const output = sut.validate(props)
+            expect(output.value![0].name).toBe("InvalidUrlTypeError")
+        })
+
+        it("Should return UrlNotProvidedError if weight is not provided", () => {
+            props.images[2].url = undefined as any
+            const output = sut.validate(props)
+            expect(output.value![0].name).toBe("UrlNotProvidedError")
+        })
+        
+
+        it("Should return InvalidUrlLengthError if weight size is invalid", () => {
+
+            const invalidUrl = "A".repeat(256)
+            props.images[2].url = invalidUrl
+            const outputMax = sut.validate(props)
+            expect(outputMax.value![0].name).toBe("InvalidUrlLengthError")
+        })
+    })
 })
