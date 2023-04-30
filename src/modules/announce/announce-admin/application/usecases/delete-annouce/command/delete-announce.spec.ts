@@ -32,11 +32,11 @@ describe("Test deleteAnnounceUsecase", () => {
         expect(output.isRight()).toBe(true)
     })
 
-    it("Should return AnnounceNotFoundError the announceEntity is not found by the repository", async () => {
-        jest.spyOn(announceRepository, "findById").mockResolvedValueOnce(null)
-        const output = await sut.execute(props)
-        expect(output.value![0].name).toBe("AnnounceNotFoundError")
-    })
+    // it("Should return AnnounceNotFoundError the announceEntity is not found by the repository", async () => {
+    //     jest.spyOn(announceRepository, "findById").mockResolvedValueOnce(null)
+    //     const output = await sut.execute(props)
+    //     expect(output.value![0].name).toBe("AnnounceNotFoundError")
+    // })
 
     it("Should call commandEmitter once", async () => {
         await sut.execute(props)

@@ -15,11 +15,9 @@ export class DeleteAnnounceUsecase implements UsecaseInterface{
 
     async execute(input: DeleteAnnounceInputDto): Promise<Either<Error[], DeleteAnnounceOutputDto>> {
 
-        const announceEntityFound = await this.announceRepository.findById(input.announceId)
-        if(!announceEntityFound) return left([ new AnnounceNotFoundError() ])
 
         const deleteAnnounceCommand = new DeleteAnnounceCommand({
-            announceId: announceEntityFound.id
+            announceId: input.announceId
         })
         await this.commandEmitter.emit(deleteAnnounceCommand)
 
