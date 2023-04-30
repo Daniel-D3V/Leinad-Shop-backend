@@ -22,6 +22,14 @@ export class AnnounceEntity extends BaseEntity<AnnounceEntity.Props> {
         return right(announceEntity)
     }
 
+    changeTitle(newTitle: string): Either<Error[] ,string>{
+        const announceValidator = AnnounceValidatorFactory.create()
+        const isInputValid = announceValidator.validate({ ...this.props, title: newTitle})
+        if(isInputValid.isLeft()) return left(isInputValid.value)
+        this.props.title = newTitle
+        return right(this.title)
+    }
+
     activate(): void {
         this.props.status = "ACTIVE"
     }
@@ -67,6 +75,9 @@ export class AnnounceEntity extends BaseEntity<AnnounceEntity.Props> {
     }
     get userId(): string {
         return this.props.userId;
+    }
+    get entityProps(): AnnounceEntity.Props {
+        return this.props;
     }
 }
 

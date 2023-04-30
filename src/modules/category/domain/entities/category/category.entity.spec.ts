@@ -102,6 +102,13 @@ describe("test CategoryEntity", () => {
         expect(sut.title).toBe("new_title")
     })
 
+    it("Should call domainValidatorStub with correct values when updating the title ", () => {
+        const newTitle = "new_title"
+        sut.changeTitle(newTitle)
+        expect(domainValidatorStub.validate).toHaveBeenLastCalledWith({ ...sut.EntityProps, title: newTitle })
+    })
+
+
     it("Should not update title if an invalid title is provided ", () => {
         expect(sut.title).toBe("any_title")
 
@@ -120,16 +127,24 @@ describe("test CategoryEntity", () => {
         expect(sut.description).toBe("new_description")
     })
 
+    it("Should call domainValidatorStub with correct values when updating the description ", () => {
+        const newDescription = "new_description"
+        sut.changeDescription(newDescription)
+        expect(domainValidatorStub.validate).toHaveBeenLastCalledWith({ ...sut.EntityProps, description: newDescription })
+    })
+
+
     it("Should not update description if an invalid description is provided ", () => {
         expect(sut.description).toBe("any_description")
 
         domainValidatorStub.validate
         .mockReturnValueOnce(left([new Error()]))
 
-        const output = sut.changeTitle("invalid_description")
+        const output = sut.changeDescription("invalid_description")
 
         expect(output.isLeft()).toBe(true)
         expect(sut.description).toBe("any_description")
+
     })
 
 
