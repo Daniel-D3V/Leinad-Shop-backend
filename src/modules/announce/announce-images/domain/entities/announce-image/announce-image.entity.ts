@@ -1,9 +1,43 @@
 import { BaseEntity } from "@/modules/@shared/domain"
+import { Either, left, right } from "@/modules/@shared/logic"
+import { AnnounceImageValidatorFactory } from "./validator"
 
 export class AnnounceImageEntity extends BaseEntity<AnnounceImageEntity.Props> {
 
     private constructor(props: AnnounceImageEntity.Props, id?: string){
         super(props, id)
+    }
+
+    static create(input: AnnounceImageEntity.Input): Either<Error[], AnnounceImageEntity>{
+
+        const announceImageValidator = AnnounceImageValidatorFactory.create()
+        const isPropsValid = announceImageValidator.validate({
+            images: input.images
+        })
+        if(isPropsValid.isLeft()) return left(isPropsValid.value)
+
+        const announceImageEntity = new AnnounceImageEntity({
+            ...input
+        })
+        return right(announceImageEntity)
+    }
+
+    changeImages(newImages: AnnounceImageEntity.Image[]): Either<Error[], AnnounceImageEntity.Image[]>{
+        const announceImageValidator = AnnounceImageValidatorFactory.create()
+        const isImagesValid = announceImageValidator.validate({
+            images: newImages
+        })
+        if(isImagesValid.isLeft()) return left(isImagesValid.value)
+        this.props.images = newImages
+        return right(this.images)
+    }
+
+    getFirstImage(): AnnounceImageEntity.Image | null {
+        return this.images[0] ?? null
+    }
+
+    getImagesLength(): number {
+        return this.images.length
     }
 
     toJSON(): AnnounceImageEntity.PropsJSON {
@@ -20,7 +54,7 @@ export class AnnounceImageEntity extends BaseEntity<AnnounceImageEntity.Props> {
 
 export namespace AnnounceImageEntity {
     export type Image = {
-        weight: string
+        weight: number
         url: string
     }
     export type Input = {
