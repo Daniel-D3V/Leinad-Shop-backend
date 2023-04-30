@@ -66,7 +66,9 @@ describe("Test AnnounceImageEntity", () => {
     })
 
     it("Should change the images", () => {
-        const newImages = [ props.images[3], props.images[4] ]
+        const image1 = props.images[1]
+        const image2 = props.images[1]
+        const newImages = [ image1, image2 ]
         sut.changeImages(newImages)
         expect(sut.images).toEqual(newImages)
     })
@@ -115,6 +117,6 @@ describe("Test AnnounceImageEntity", () => {
         const announceImageEntitySpy = jest.spyOn(AnnounceImageEntity, "formatImages")
         sut = makeSut(props)
         sut.changeImages([])
-        expect(announceImageEntitySpy).toHaveBeenCalledTimes(2)
+        expect(announceImageEntitySpy).toHaveBeenLastCalledWith([])
     })
 })

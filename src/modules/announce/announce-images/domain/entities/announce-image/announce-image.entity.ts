@@ -37,6 +37,7 @@ export class AnnounceImageEntity extends BaseEntity<AnnounceImageEntity.Props> {
             images: newImages
         })
         if(isImagesValid.isLeft()) return left(isImagesValid.value)
+        AnnounceImageEntity.formatImages(newImages)
         this.props.images = newImages
         return right(this.images)
     }
