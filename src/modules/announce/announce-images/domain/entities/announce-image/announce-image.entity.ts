@@ -8,6 +8,13 @@ export class AnnounceImageEntity extends BaseEntity<AnnounceImageEntity.Props> {
         super(props, id)
     }
 
+    static formatImages(images: AnnounceImageEntity.Image[]){
+        images.sort((a, b) => a.weight - b.weight);
+        images.forEach((value, index) => {
+            value.weight = index + 1
+        })
+    } 
+
     static create(input: AnnounceImageEntity.Input, id: string): Either<Error[], AnnounceImageEntity>{
 
         const announceImageValidator = AnnounceImageValidatorFactory.create()
@@ -15,6 +22,8 @@ export class AnnounceImageEntity extends BaseEntity<AnnounceImageEntity.Props> {
             images: input.images
         })
         if(isPropsValid.isLeft()) return left(isPropsValid.value)
+
+        this.formatImages(input.images)
 
         const announceImageEntity = new AnnounceImageEntity({
             ...input
