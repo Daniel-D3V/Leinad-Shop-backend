@@ -17,7 +17,8 @@ export class PrismaAnnounceImagesRepository implements AnnounceImagesRepositoryI
         if(!prismaAnnounce) return null;
 
         const prismaAnnounceImages = await prismaClient.announceImages.findMany({
-            where: { announceId: id }
+            where: { announceId: id },
+            orderBy: { weight: "asc" }
         })
         const announceImageEntity = AnnounceImageEntity.create({
             images: prismaAnnounceImages.map(img => ({ url: img.url, weight: img.weight  }))
@@ -37,7 +38,7 @@ export class PrismaAnnounceImagesRepository implements AnnounceImagesRepositoryI
                     url: images.url, 
                     announceId: announceImageEntity.id
                 }))
-            ]
+            ],
         })
     }
 

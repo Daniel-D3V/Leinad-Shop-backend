@@ -12,7 +12,8 @@ class PrismaCategoryEntityMapper {
     static toDomain(prismaCategory: Category | null): CategoryEntity | null {
         if(!prismaCategory) return null;
         const categoryEntity = CategoryEntity.create({
-            ...prismaCategory
+            ...prismaCategory,
+            description: prismaCategory.description!
         }, prismaCategory.id)
         if(categoryEntity.isLeft()) throw categoryEntity.value[0]
 

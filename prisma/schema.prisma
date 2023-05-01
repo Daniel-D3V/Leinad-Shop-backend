@@ -14,11 +14,11 @@ datasource db {
 model Category {
 
   id String @id
-  title String? @unique
+  title String @unique @default("")
   description String? @db.Text
   status String @default("DEACTIVATED")
   parentId    String?
-  parent      Category? @relation("CategoryToParent", fields: [parentId], references: [id])
+  parent      Category? @relation("CategoryToParent", fields: [parentId], references: [id], onDelete: Cascade)
   children    Category[] @relation("CategoryToParent")
 
   announce Announce[]
@@ -34,10 +34,10 @@ model Announce {
   status String @default("DEACTIVATED")
   price Float @default(0.50)
 
-  userId String
+  userId String?
   categoryId String?  
 
-  Category    Category?    @relation(fields: [categoryId], references: [id])
+  Category    Category?    @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
   announceImages AnnounceImages[]
 
@@ -52,7 +52,7 @@ model AnnounceImages {
 
   announceId String
 
-  Announce    Announce    @relation(fields: [announceId], references: [id])
+  Announce    Announce    @relation(fields: [announceId], references: [id], onDelete: Cascade)
   @@map("announce_images")
 }
 

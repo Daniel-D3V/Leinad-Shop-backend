@@ -25,6 +25,8 @@ describe("Test PrismaAnnounceRepository", () => {
         })
         sut = new PrismaAnnounceRepository()
         await prismaClient.announce.deleteMany()
+        await prismaClient.category.deleteMany()
+        await prismaClient.category.create({ data: {id: "any_category_id"}})
     })
 
     it("Should persist the entity on the database", async () => {

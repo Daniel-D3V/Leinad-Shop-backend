@@ -12,13 +12,16 @@ const setStatus = (announceEntity: AnnounceEntity, status: string) => {
 class PrismaAnnounceEntityMapper {
     static toDomain(prismaAnnounce: Announce | null): AnnounceEntity | null {
         if(!prismaAnnounce) return null;
-        const categoryEntity = AnnounceEntity.create({
-            ...prismaAnnounce
+        const announceEntity = AnnounceEntity.create({
+            ...prismaAnnounce,
+            categoryId: prismaAnnounce.categoryId!,
+            userId: prismaAnnounce.userId!,
+            description: prismaAnnounce.description!,
         }, prismaAnnounce.id)
-        if(categoryEntity.isLeft()) throw categoryEntity.value[0]
+        if(announceEntity.isLeft()) throw announceEntity.value[0]
 
-        setStatus(categoryEntity.value, prismaAnnounce.status)
-        return categoryEntity.value
+        setStatus(announceEntity.value, prismaAnnounce.status)
+        return announceEntity.value
     }
 } 
 export class PrismaAnnounceRepository implements AnnounceRepositoryInterface {
