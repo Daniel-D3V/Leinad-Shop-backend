@@ -24,7 +24,7 @@ export class ChangeAnnouceImagesUsecase implements UsecaseInterface {
 
         const changeAnnounceImagesCommand = new ChangeAnnounceImagesCommand({
             announceId,
-            images: announceImageEntity.images
+            images: images
         })
 
         await this.commandEmitter.emit(changeAnnounceImagesCommand)
