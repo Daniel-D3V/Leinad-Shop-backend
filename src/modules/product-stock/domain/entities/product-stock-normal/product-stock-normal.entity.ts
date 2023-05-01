@@ -33,6 +33,11 @@ export class ProductStockNormalEntity extends BaseEntity<ProductStockNormalEntit
         return right(newStock)
     }
 
+    decreaseOne(): Either<Error[], number>{
+        const decreasedStock = this.getCurrentStock() - 1
+        return this.updateStock(decreasedStock)
+    }
+    
     getCurrentStock(): number {
         return this.props.stock
     }
