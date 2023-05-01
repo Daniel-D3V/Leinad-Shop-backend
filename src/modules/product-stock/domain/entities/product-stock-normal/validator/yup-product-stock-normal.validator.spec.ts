@@ -19,6 +19,12 @@ describe("Test YupProductStockNormalValidator", () => {
             expect(output.value![0].name).toBe("InvalidStockTypeError")
         })
 
+        it("Should return InvalidStockTypeError if stock type is a fload", () => {
+            props.stock = 1.2
+            const output = sut.validate(props)
+            expect(output.value![0].name).toBe("InvalidStockTypeError")
+        })
+
         it("Should return StockNotProvidedError if stock is provided", () => {
             props.stock = undefined as any
             const output = sut.validate(props)

@@ -10,8 +10,9 @@ export class YupProductStockNormalValidator extends YupValidatorProvider impleme
         stock: yup.number()
             .strict(true)
             .typeError(YupErrorAdapter.toYupFormat(new InvalidStockTypeError()))
+            .integer(YupErrorAdapter.toYupFormat(new InvalidStockTypeError()))
             .required(YupErrorAdapter.toYupFormat(new StockNotProvidedError()))
-            .min(0, YupErrorAdapter.toYupFormat(new NegativeStockValueError()))
+            .positive(YupErrorAdapter.toYupFormat(new NegativeStockValueError()))
             .max(100000000, YupErrorAdapter.toYupFormat(new InvalidStockSizeError(100000000))),
         
     });
