@@ -8,10 +8,16 @@ export class ProductStockNormalEntity extends BaseEntity<ProductStockNormalEntit
         super(props, id)
     }
 
+    static validateProps(props: ProductStockNormalEntity.Input): Either<Error[], null>{
+        const validator = ProductStockNormalValidatorFactory.create()
+        const validationResult = validator.validate({ ...props })
+        if(validationResult.isLeft()) return left(validationResult.value)
+        return right(null)
+    }
+
     static create(input: ProductStockNormalEntity.Input, id: string): Either<Error[], ProductStockNormalEntity>{
 
-        const validator = ProductStockNormalValidatorFactory.create()
-        const validationResult = validator.validate({ ...input })
+        const validationResult = this.validateProps({ ...input })
         if(validationResult.isLeft()) return left(validationResult.value)
 
         const productStockNormalEntity = new ProductStockNormalEntity({
@@ -20,16 +26,24 @@ export class ProductStockNormalEntity extends BaseEntity<ProductStockNormalEntit
         return right(productStockNormalEntity)
     }
 
+    updateStock(newStock: number): Either<Error[], number>{
+        const validationResult = ProductStockNormalEntity.validateProps({ stock: newStock })
+        if(validationResult.isLeft()) return left(validationResult.value)
+        this.props.stock = newStock
+        return right(newStock)
+    }
+
+    getCurrentStock(): number {
+        return this.props.stock
+    }
+
     toJSON(): ProductStockNormalEntity.PropsJSON {
         return {
             id: this.id,
-            stock: this.stock
+            stock: this.getCurrentStock()
         }
     }
 
-    get stock(): number{
-        return this.props.stock
-    }
 }
 
 

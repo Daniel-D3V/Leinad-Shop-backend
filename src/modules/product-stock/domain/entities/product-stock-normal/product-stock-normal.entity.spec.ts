@@ -30,4 +30,13 @@ describe("Test ProductStockNormalEntity", () => {
             stock: 10
         })
     })
+
+    it("Should get the current stock", () => {
+        expect(sut.getCurrentStock()).toBe(10)
+    })
+
+    it("Should update the stock", () => {
+        sut.updateStock(20)
+        expect(sut.getCurrentStock()).toBe(20)
+    })
 })
