@@ -1,5 +1,6 @@
 import { BaseEntity } from "@/modules/@shared/domain"
-import { Either, right } from "@/modules/@shared/logic"
+import { Either, left, right } from "@/modules/@shared/logic"
+import { ProductStockNormalValidatorFactory } from "./validator"
 
 export class ProductStockNormalEntity extends BaseEntity<ProductStockNormalEntity.Props> {
 
@@ -9,6 +10,10 @@ export class ProductStockNormalEntity extends BaseEntity<ProductStockNormalEntit
 
     static create(input: ProductStockNormalEntity.Input, id: string): Either<Error[], ProductStockNormalEntity>{
 
+        const validator = ProductStockNormalValidatorFactory.create()
+        const validationResult = validator.validate({ ...input })
+        if(validationResult.isLeft()) return left(validationResult.value)
+
         const productStockNormalEntity = new ProductStockNormalEntity({
             ...input
         }, id)
@@ -17,14 +22,23 @@ export class ProductStockNormalEntity extends BaseEntity<ProductStockNormalEntit
 
     toJSON(): ProductStockNormalEntity.PropsJSON {
         return {
-            id: this.id
+            id: this.id,
+            stock: this.stock
         }
+    }
+
+    get stock(): number{
+        return this.props.stock
     }
 }
 
 
 export namespace ProductStockNormalEntity {
-    export type Input = {}
-    export type Props = {}
+    export type Input = {
+        stock: number
+    }
+    export type Props = {
+        stock: number
+    }
     export type PropsJSON = Props & { id: string }
 }
