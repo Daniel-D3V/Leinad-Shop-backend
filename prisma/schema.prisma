@@ -14,12 +14,14 @@ datasource db {
 model Category {
 
   id String @id
-  title String @unique
-  description String @db.Text
-  status String 
+  title String? @unique
+  description String? @db.Text
+  status String @default("DEACTIVATED")
   parentId    String?
   parent      Category? @relation("CategoryToParent", fields: [parentId], references: [id])
   children    Category[] @relation("CategoryToParent")
+
+  announce Announce[]
 
   @@map("categories")
 }
@@ -27,13 +29,15 @@ model Category {
 model Announce {
 
   id String @id
-  title String
-  description String @db.Text
-  status String 
-  price Int
+  title String @default("")
+  description String? @db.Text 
+  status String @default("DEACTIVATED")
+  price Float @default(0.50)
 
-  categoryId String
   userId String
+  categoryId String?  
+
+  Category    Category?    @relation(fields: [categoryId], references: [id])
 
   announceImages AnnounceImages[]
 

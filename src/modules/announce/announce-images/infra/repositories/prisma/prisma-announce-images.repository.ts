@@ -1,8 +1,16 @@
 import { prismaClient } from "@/modules/@shared/infra/repository/prisma/client";
 import { AnnounceImageEntity } from "../../../domain/entities";
 import { AnnounceImagesRepositoryInterface } from "../../../domain/repositories";
+import { PrismaClient } from "@prisma/client";
 
 export class PrismaAnnounceImagesRepository implements AnnounceImagesRepositoryInterface {
+
+    prismaClient: PrismaClient
+
+    constructor(provideprismaClient?: PrismaClient){
+        this.prismaClient = provideprismaClient ?? prismaClient
+    }
+
     async findById(id: string): Promise<AnnounceImageEntity | null> {
         
         const prismaAnnounce = await prismaClient.announce.findFirst({ where: { id } })
