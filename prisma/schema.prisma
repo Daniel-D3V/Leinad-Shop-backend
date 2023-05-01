@@ -24,6 +24,21 @@ model Category {
   @@map("categories")
 }
 
+model Announce {
+
+  id String @id
+  title String
+  description String @db.Text
+  status String 
+  price Int
+
+  categoryId String
+  userId String
+
+  @@map("announces")
+}
+
+
 model Outbox {
 
   id String @id @default(uuid())
