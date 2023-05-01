@@ -33,6 +33,7 @@ model Announce {
   description String? @db.Text 
   status String @default("DEACTIVATED")
   price Float @default(0.50)
+  stockType String @default("NORMAL")
 
   userId String?
   categoryId String?  
