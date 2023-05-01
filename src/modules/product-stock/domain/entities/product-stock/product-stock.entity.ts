@@ -6,19 +6,26 @@ export class ProductStockEntity extends BaseEntity<ProductStockEntity.Props> {
         super(props, id)    
     }
 
-    static create(input: ProductStockEntity.Input, id: string): ProductStockEntity {
+    static create( id: string): ProductStockEntity {
         const productStockEntity = new ProductStockEntity({
-            stockType: "AUTO"
+            stockType: "NORMAL"
         }, id) 
         return productStockEntity
     }
 
-    toNormal(){
+    
+    toStockNormal(){
         this.props.stockType = "NORMAL"
     }
-
-    toAuto(){
+    toStockAuto(){
         this.props.stockType = "AUTO"
+    }
+
+    isStockNormal(): boolean {
+        return this.props.stockType === "NORMAL"
+    }
+    isStockAuto(): boolean {
+        return this.props.stockType === "AUTO"
     }
 
     toJSON(): ProductStockEntity.PropsJSON {
@@ -36,8 +43,6 @@ export class ProductStockEntity extends BaseEntity<ProductStockEntity.Props> {
 export namespace ProductStockEntity {
 
     export type StockType = "NORMAL" | "AUTO"
-
-    export type Input = {} 
 
     export type Props = {
         stockType: StockType
