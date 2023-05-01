@@ -35,9 +35,22 @@ model Announce {
   categoryId String
   userId String
 
+  announceImages AnnounceImages[]
+
   @@map("announces")
 }
 
+model AnnounceImages {
+
+  id String @id @default(uuid())
+  weight Int
+  url String
+
+  announceId String
+
+  Announce    Announce    @relation(fields: [announceId], references: [id])
+  @@map("announce_images")
+}
 
 model Outbox {
 
