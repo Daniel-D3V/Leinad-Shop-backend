@@ -11,7 +11,6 @@ describe("Test ProductStockEntity", () => {
         sut = ProductStockEntity.create(id)
     })
 
-
     it("Should create a new ProductStockEntity", () => {
         sut = ProductStockEntity.create(id)
         expect(sut.toJSON()).toMatchObject({
@@ -31,13 +30,13 @@ describe("Test ProductStockEntity", () => {
         expect(sut.stockType).toBe("AUTO")
         sut.toStockNormal()
         expect(sut.stockType).toBe("NORMAL")
-    })
+    })  
 
     it("Should check if stock is NORMAL", () => {
         expect(sut.stockType).toBe("NORMAL")
         expect(sut.isStockNormal()).toBe(true)
-    })
-
+    })  
+        
     it("Should check if stock is AUTO", () => {
         sut.toStockAuto()
         expect(sut.stockType).toBe("AUTO")

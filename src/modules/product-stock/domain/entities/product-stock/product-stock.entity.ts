@@ -13,7 +13,6 @@ export class ProductStockEntity extends BaseEntity<ProductStockEntity.Props> {
         return productStockEntity
     }
 
-    
     toStockNormal(){
         this.props.stockType = "NORMAL"
     }
@@ -49,3 +48,4 @@ export namespace ProductStockEntity {
     }
     export type PropsJSON = Props & { id: string }
 }
+
