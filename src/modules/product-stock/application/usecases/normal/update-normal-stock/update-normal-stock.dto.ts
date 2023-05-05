@@ -1,5 +1,5 @@
 export type UpdateNormalStockInputDto = {
-    productId: string
+    productStockId: string
     newStock: number
 }
 
