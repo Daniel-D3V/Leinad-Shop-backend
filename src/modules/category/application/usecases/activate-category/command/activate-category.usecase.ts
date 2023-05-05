@@ -21,3 +21,4 @@ export class ActivateCategoryUsecase implements UsecaseInterface {
         return right(null)
     }
 }
+

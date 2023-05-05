@@ -29,3 +29,4 @@ export class PersistActivateCategoryUsecase implements UsecaseInterface {
         return right(null)   
     }
 }
+

@@ -1,1 +1,1 @@
-export * from "./update-normal-stock"
+export * from "./update-normal-stock/update-normal-stock.usecase"
