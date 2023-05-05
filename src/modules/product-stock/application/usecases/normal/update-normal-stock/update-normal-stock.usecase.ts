@@ -6,7 +6,7 @@ import { ProductStockNotFoundError } from "../../_errors";
 import { EventEmitterInterface } from "@/modules/@shared/events";
 import { ProductStockNormalUpdatedEvent } from "./product-stock-normal-updated.event";
 
-export class updateNormalStockUsecase implements UsecaseInterface{
+export class UpdateNormalStockUsecase implements UsecaseInterface{
 
     constructor(
         private readonly productStockNormalRepository: ProductStockNormalRepositoryInterface,
