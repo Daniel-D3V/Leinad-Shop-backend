@@ -2,16 +2,16 @@ import { AnnounceRepositoryInterface } from "@/modules/announce/announce-admin/d
 import { EventEmitterInterface } from "@/modules/@shared/events"
 import { mock } from "jest-mock-extended"
 import { AnnounceEntity } from "@/modules/announce/announce-admin/domain/entities"
-import { PersistBanAnnounceInputDto } from "./persist-ban-annouce.dto"
-import { PersistBanAnnounceUsecase } from "./persist-ban-announce.usecase"
 import { AnnounceBannedEvent } from "./announce-banned.event"
+import { BanAnnounceUsecase } from "./ban-announce.usecase"
+import { BanAnnounceInputDto } from "./ban-announce.dto"
 
 jest.mock("./announce-banned.event")
 
-describe("Test PersistBanAnnounceUsecase", () => {
+describe("Test BanAnnounceUsecase", () => {
 
-    let sut: PersistBanAnnounceUsecase
-    let props: PersistBanAnnounceInputDto
+    let sut: BanAnnounceUsecase
+    let props: BanAnnounceInputDto
     let announceRepository: AnnounceRepositoryInterface
     let eventEmitter: EventEmitterInterface
     let announceEntity: AnnounceEntity
@@ -25,7 +25,7 @@ describe("Test PersistBanAnnounceUsecase", () => {
         jest.spyOn(announceRepository, "findById").mockResolvedValue(announceEntity)
         eventEmitter = mock<EventEmitterInterface>()
 
-        sut = new PersistBanAnnounceUsecase(announceRepository, eventEmitter)
+        sut = new BanAnnounceUsecase(announceRepository, eventEmitter)
     })
 
     it("Should execute the usecase properly", async () => {
