@@ -1,19 +1,21 @@
-import { UpdateCategoryUsecase } from "./update-category.usecase"
-import { UpdateCategoryInputDto } from "./update-category.dto";
+
 import { CategoryRepositoryInterface } from "@/modules/category/domain/repositories";
-import { CommandEmitterInterface } from "@/modules/@shared/events";
+import { CommandEmitterInterface, EventEmitterInterface } from "@/modules/@shared/events";
 import { mock } from "jest-mock-extended";
 import { CategoryEntity } from "@/modules/category/domain/entities";
-import { UpdateCategoryCommand } from "./update-category.command";
+import { UpdateCategoryInfoUsecase } from "./update-category-info.usecase";
+import { UpdateCategoryInfoInputDto } from "./update-category-info.dto";
+import { CategoryInfoUpdatedEvent } from "./category-info-updated.event";
 
-jest.mock("./update-category.command")
 
-describe("Test UpdateCategoryUsecase", () => {
+jest.mock("./category-info-updated.event")
 
-    let sut: UpdateCategoryUsecase
-    let props: UpdateCategoryInputDto
+describe("Test UpdateCategoryInfoUsecase", () => {
+
+    let sut: UpdateCategoryInfoUsecase
+    let props: UpdateCategoryInfoInputDto
     let categoryRepository: CategoryRepositoryInterface
-    let commandEmitter: CommandEmitterInterface
+    let eventEmitter: EventEmitterInterface
     let categoryEntity: CategoryEntity
 
     beforeEach(() => {
@@ -27,23 +29,28 @@ describe("Test UpdateCategoryUsecase", () => {
         categoryRepository = mock<CategoryRepositoryInterface>()
         jest.spyOn(categoryRepository, "findById")
         .mockResolvedValue(categoryEntity)
-        commandEmitter = mock<CommandEmitterInterface>()
-        sut = new UpdateCategoryUsecase(categoryRepository, commandEmitter)
+        eventEmitter = mock<EventEmitterInterface>()
+        sut = new UpdateCategoryInfoUsecase(categoryRepository, eventEmitter)
     })
 
-    it("Should execute the update properly", async () => {
+    it("Should execute the usecase properly", async () => {
         const output = await sut.execute(props)
         expect(output.isRight()).toBe(true)
     })
 
-    it("Should create UpdateCategoryCommand with correct values ", async () => {
+    it("Should call categoryRepository.update once", async () => {
         await sut.execute(props)
-        expect(UpdateCategoryCommand).toHaveBeenCalledTimes(1)
+        expect(categoryRepository.update).toHaveBeenCalledTimes(1)
     })
 
-    it("Should call commandEmitter once ", async () => {
+    it("Should call eventEmitter once", async () => {
         await sut.execute(props)
-        expect(commandEmitter.emit).toHaveBeenCalledTimes(1)
+        expect(eventEmitter.emit).toHaveBeenCalledTimes(1)
+    })
+
+    it("Should create CategoryUpdatedEvent with correct values", async () => {
+        await sut.execute(props)
+        expect(CategoryInfoUpdatedEvent).toHaveBeenCalledWith(props)
     })
 
 

@@ -1,4 +1,4 @@
-export type UpdateCategoryInputDto = {
+export type UpdateCategoryInfoInputDto = {
     categoryId: string
     data: {
         title?: string
@@ -6,4 +6,4 @@ export type UpdateCategoryInputDto = {
     }
 }
 
-export type UpdateCategoryOutputDto = null
+export type UpdateCategoryInfoOutputDto = null

@@ -1,20 +1,20 @@
 import { UsecaseInterface } from "@/modules/@shared/domain";
 import { Either, left, right } from "@/modules/@shared/logic";
-import { UpdateCategoryInputDto, UpdateCategoryOutputDto } from "./update-category.dto";
+import { UpdateCategoryInfoInputDto, UpdateCategoryInfoOutputDto } from "./update-category-info.dto";
 import { CategoryRepositoryInterface } from "@/modules/category/domain/repositories";
-import { CommandEmitterInterface } from "@/modules/@shared/events";
-import { CategoryNotFoundError } from "../../_errors";
-import { CategoryTitleInUseError } from "../../_errors/category-title-in-use.error";
-import { UpdateCategoryCommand } from "./update-category.command";
+import { CommandEmitterInterface, EventEmitterInterface } from "@/modules/@shared/events";
+import { CategoryNotFoundError } from "../_errors";
+import { CategoryTitleInUseError } from "../_errors/category-title-in-use.error";
+import { CategoryInfoUpdatedEvent } from "./category-info-updated.event";
 
-export class UpdateCategoryUsecase implements UsecaseInterface {
+export class UpdateCategoryInfoUsecase implements UsecaseInterface {
 
     constructor(
         private readonly categoryRepository: CategoryRepositoryInterface,
-        private readonly commandEmitter: CommandEmitterInterface
+        private readonly eventEmitter: EventEmitterInterface
     ){}
 
-    async execute({ categoryId, data }: UpdateCategoryInputDto): Promise<Either<Error[], UpdateCategoryOutputDto>> {
+    async execute({ categoryId, data }: UpdateCategoryInfoInputDto): Promise<Either<Error[], UpdateCategoryInfoOutputDto>> {
 
         const categoryEntity = await this.categoryRepository.findById(categoryId)
         if(!categoryEntity) return left([ new CategoryNotFoundError() ])
@@ -31,12 +31,14 @@ export class UpdateCategoryUsecase implements UsecaseInterface {
             if(descriptionChanged.isLeft()) return left(descriptionChanged.value)
         }
 
-        const updateCategoryCommand = new UpdateCategoryCommand({
+        await this.categoryRepository.update(categoryEntity)
+
+        const categoryUpdatedEvent = new CategoryInfoUpdatedEvent({
             categoryId,
             data
         })
-        await this.commandEmitter.emit(updateCategoryCommand)
-
+        await this.eventEmitter.emit(categoryUpdatedEvent)
+        
         return right(null)
     }
 }

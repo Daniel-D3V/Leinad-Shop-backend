@@ -1,15 +1,15 @@
 import { BaseEvent } from "@/modules/@shared/events";
 
-export class CategoryUpdatedEvent extends BaseEvent {
+export class CategoryInfoUpdatedEvent extends BaseEvent {
 
     constructor(
-        readonly payload: CategoryUpdatedEvent.Payload
+        readonly payload: CategoryInfoUpdatedEvent.Payload
     ){
         super();
     }
 }
 
-export namespace CategoryUpdatedEvent {
+export namespace CategoryInfoUpdatedEvent {
     export type Payload = {
         categoryId: string
         data: {
