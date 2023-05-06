@@ -1,34 +1,36 @@
-import { PersistActivateCategoryUsecase } from "./persist-activate-category.usecase"
-import { PersistActivateCategoryInputDto } from "./persist-activate-category.dto"
-import { CategoryRepositoryInterface } from "@/modules/category/domain/repositories"
-import { EventEmitterInterface } from "@/modules/@shared/events"
+
+
 import { mock } from "jest-mock-extended"
+import { EventEmitterInterface } from "@/modules/@shared/events"
+import { ActivateCategoryInputDto } from "./activate-category.dto"
+import { ActivateCategoryUsecase } from "./activate-category.usecase"
+import { CategoryRepositoryInterface } from "@/modules/category/domain/repositories"
 import { CategoryEntity } from "@/modules/category/domain/entities"
 import { CategoryActivatedEvent } from "./category-activated.event"
 
-jest.mock("@/modules/category/domain/entities")
 jest.mock("./category-activated.event")
 
-describe("Test PersistActivateCategory", () => {
+describe("Test ActivateCategoryUsecase", () => {
 
-    let sut: PersistActivateCategoryUsecase
-    let props: PersistActivateCategoryInputDto
+    let props: ActivateCategoryInputDto
+    let sut: ActivateCategoryUsecase
     let categoryRepository: CategoryRepositoryInterface
     let eventEmitter: EventEmitterInterface
     let categoryEntity: CategoryEntity
 
-    beforeEach(() => {
-        categoryEntity = mock<CategoryEntity>()
 
+    beforeEach(() => {
+        
         props = {
             categoryId: "any_category_id"
         }
+        categoryEntity = mock<CategoryEntity>()
         categoryRepository = mock<CategoryRepositoryInterface>()
-        jest.spyOn(categoryRepository, "findById")
-        .mockResolvedValue(categoryEntity)
+        jest.spyOn(categoryRepository, "findById").mockResolvedValue(categoryEntity)
 
         eventEmitter = mock<EventEmitterInterface>()
-        sut = new PersistActivateCategoryUsecase(categoryRepository, eventEmitter)
+
+        sut = new ActivateCategoryUsecase(categoryRepository, eventEmitter)
     })
 
     it("Should execute the usecase properly", async () => {
@@ -46,7 +48,7 @@ describe("Test PersistActivateCategory", () => {
         expect(output.value[0].name).toBe("CategoryNotFoundError")
     })
 
-    it("Should call activate on the categoryEntity once", async () => {
+    it("Should call activate from categoryEntity once", async () => {
         const categoryEntitySpy = jest.spyOn(categoryEntity, "activate")
         await sut.execute(props)
         expect(categoryEntitySpy).toHaveBeenCalledTimes(1)
@@ -58,16 +60,15 @@ describe("Test PersistActivateCategory", () => {
         expect(categoryRepositorySpy).toHaveBeenCalledTimes(1)
     })
 
-    it("Should create CategoryActivatedEvent with correct values", async () => {
+    it("Should call eventEmitter once", async () => {
+        const commandEmitterSpy = jest.spyOn(eventEmitter, "emit")
         await sut.execute(props)
-        expect(CategoryActivatedEvent).toHaveBeenCalledWith({
-            categoryId: props.categoryId
-        })
+        expect(eventEmitter.emit).toHaveBeenCalledTimes(1)
     })
 
-    it("Should call eventEmitteronce", async () => {
-        const eventEmitterSpy = jest.spyOn(eventEmitter, "emit")
+    it("Should create CategoryActivatedEvent with correct values", async () => {
         await sut.execute(props)
-        expect(eventEmitterSpy).toHaveBeenCalledTimes(1)
+        expect(CategoryActivatedEvent).toHaveBeenCalledWith({ categoryId: props.categoryId })
     })
+
 })

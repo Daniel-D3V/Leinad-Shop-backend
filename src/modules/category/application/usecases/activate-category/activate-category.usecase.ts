@@ -1,19 +1,20 @@
 import { UsecaseInterface } from "@/modules/@shared/domain";
-import { EventEmitterInterface } from "@/modules/@shared/events";
 import { Either, left, right } from "@/modules/@shared/logic";
+import { ActivateCategoryInputDto, ActivateCategoryOutputDto } from "./activate-category.dto";
+import { EventEmitterInterface } from "@/modules/@shared/events";
 import { CategoryRepositoryInterface } from "@/modules/category/domain/repositories";
-import { PersistActivateCategoryInputDto, PersistActivateCategoryOutputDto } from "./persist-activate-category.dto";
-import { CategoryNotFoundError } from "../../_errors";
+import { CategoryNotFoundError } from "../_errors";
 import { CategoryActivatedEvent } from "./category-activated.event";
 
-export class PersistActivateCategoryUsecase implements UsecaseInterface {
+
+export class ActivateCategoryUsecase implements UsecaseInterface {
     
     constructor(
         private readonly categoryRepository: CategoryRepositoryInterface,
         private readonly eventEmitter: EventEmitterInterface
     ){}
 
-    async execute({ categoryId }: PersistActivateCategoryInputDto): Promise<Either<Error[], PersistActivateCategoryOutputDto>> {
+    async execute({ categoryId }: ActivateCategoryInputDto): Promise<Either<Error[], ActivateCategoryOutputDto>> {
 
         const categoryEntity = await this.categoryRepository.findById(categoryId)
         if(!categoryEntity) return left([ new CategoryNotFoundError() ])
@@ -26,7 +27,8 @@ export class PersistActivateCategoryUsecase implements UsecaseInterface {
         })
         await this.eventEmitter.emit(categoryActivatedEvent)
 
-        return right(null)   
+
+        return right(null)
     }
 }
 

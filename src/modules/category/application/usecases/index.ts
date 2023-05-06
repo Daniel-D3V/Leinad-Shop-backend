@@ -1,5 +1,5 @@
 export * from "./create-category"
 export * from "./delete-category"
-export * from "./activate-category"
+export * from "./activate-category/activate-category.usecase"
 export * from "./deactivate-category"
 export * from "./update-category"
