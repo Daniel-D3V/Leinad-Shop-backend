@@ -29,4 +29,40 @@ describe("Test GetStockAvailabilityUsecase", () => {
         const output = await sut.execute(props)
         expect(output.isRight()).toBe(true)
     })
+
+    it("Should return ProductStockNotFoundError if the repository does not find a productStockEntity", async () => {
+        jest.spyOn(productStockRepository, "findById").mockResolvedValue(null)
+        const output = await sut.execute(props)
+        if(output.isRight()) throw new Error("Should not be right")
+        expect(output.value[0].name).toBe("ProductStockNotFoundError")
+    })
+
+    it("Should call productStockGateway.getProductStockNormalCount if the stockType is normal", async () => {
+        jest.spyOn(productStockEntity, "isStockNormal").mockReturnValue(true)
+        await sut.execute(props)
+        expect(productStockGateway.getProductStockNormalCount).toHaveBeenCalledTimes(1)
+    })
+
+    it("Should return the right values is stockType is normal", async () => {
+        jest.spyOn(productStockEntity, "isStockNormal").mockReturnValue(true)
+        jest.spyOn(productStockGateway, "getProductStockNormalCount").mockResolvedValue(10)
+        const output = await sut.execute(props)
+        if(output.isLeft()) throw output.value[0]
+        expect(output.value.stockCount).toBe(10)
+    })
+
+    it("Should return the right values is stockType is normal", async () => {
+        jest.spyOn(productStockEntity, "isStockAuto").mockReturnValue(true)
+        jest.spyOn(productStockGateway, "getProductStockAutoCount").mockResolvedValue(10)
+        const output = await sut.execute(props)
+        if(output.isLeft()) throw output.value[0]
+        expect(output.value.stockCount).toBe(10)
+    })
+
+
+    it("Should call productStockGateway.getProductStockAutoCount if the stockType is auto", async () => {
+        jest.spyOn(productStockEntity, "isStockAuto").mockReturnValue(true)
+        await sut.execute(props)
+        expect(productStockGateway.getProductStockAutoCount).toHaveBeenCalledTimes(1)
+    })
 })
