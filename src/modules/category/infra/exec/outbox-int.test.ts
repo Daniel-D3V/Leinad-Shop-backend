@@ -1,5 +1,4 @@
 import { EventEmitterInterface } from "@/modules/@shared/events"
-import {  PersistCategoryUsecase } from "../../application/usecases"
 import { CategoryRepositoryInterface } from "../../domain/repositories"
 import {  PrismaCategoryRepository } from "../repositories"
 import { prismaClient } from "@/modules/@shared/infra/repository/prisma/client"
