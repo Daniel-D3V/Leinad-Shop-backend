@@ -49,19 +49,16 @@ describe("Test ActivateCategoryUsecase", () => {
     })
 
     it("Should call activate from categoryEntity once", async () => {
-        const categoryEntitySpy = jest.spyOn(categoryEntity, "activate")
         await sut.execute(props)
-        expect(categoryEntitySpy).toHaveBeenCalledTimes(1)
+        expect(categoryEntity.activate).toHaveBeenCalledTimes(1)
     })
 
     it("Should call categoryRepository.update once", async () => {
-        const categoryRepositorySpy = jest.spyOn(categoryRepository, "update")
         await sut.execute(props)
-        expect(categoryRepositorySpy).toHaveBeenCalledTimes(1)
+        expect(categoryRepository.update).toHaveBeenCalledTimes(1)
     })
 
     it("Should call eventEmitter once", async () => {
-        const commandEmitterSpy = jest.spyOn(eventEmitter, "emit")
         await sut.execute(props)
         expect(eventEmitter.emit).toHaveBeenCalledTimes(1)
     })
