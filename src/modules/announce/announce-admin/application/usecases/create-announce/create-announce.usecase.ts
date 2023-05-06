@@ -3,14 +3,18 @@ import { UsecaseInterface } from "@/modules/@shared/domain";
 import { Either, left, right } from "@/modules/@shared/logic";
 import { CreateAnnounceInputDto, CreateAnnounceOutputDto } from "./create-announce.dto";
 import { AnnounceEntity } from "@/modules/announce/announce-admin/domain/entities";
-import { CommandEmitterInterface } from "@/modules/@shared/events";
-import { CreateAnnounceCommand } from "./create-announce.command";
-import { CategoryNotActiveError } from "../../_errors";
+import { EventEmitterInterface } from "@/modules/@shared/events";
+import { AnnounceRepositoryInterface } from "../../../domain/repositories";
+import { CategoryNotActiveError } from "../_errors";
+import { AnnounceCreatedEvent } from "./announce-created.event";
+
+
 
 export class CreateAnnounceUsecase implements UsecaseInterface{
 
     constructor(
-        private readonly commandEmitter: CommandEmitterInterface
+        private readonly announceRepository: AnnounceRepositoryInterface,
+        private readonly eventEmitter: EventEmitterInterface
     ){}
 
     async execute(input: CreateAnnounceInputDto): Promise<Either<Error[], CreateAnnounceOutputDto>> {
@@ -24,11 +28,12 @@ export class CreateAnnounceUsecase implements UsecaseInterface{
         const isCategoryActive = await checkCategoryActiveFacade.checkByCategoryId(input.categoryId)
         if(!isCategoryActive) return left([new CategoryNotActiveError()])
 
-        const createAnnounceCommand = new CreateAnnounceCommand({
+        await this.announceRepository.create(announceEntity.value)
+
+        const announceCreatedEvent = new AnnounceCreatedEvent({
             ...announceEntity.value.toJSON()
         })
-        await this.commandEmitter.emit(createAnnounceCommand)
-
+        await this.eventEmitter.emit(announceCreatedEvent)
         return right(null)
     }
 }
