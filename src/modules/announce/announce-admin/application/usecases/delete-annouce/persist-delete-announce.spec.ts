@@ -1,14 +1,14 @@
 import { AnnounceRepositoryInterface } from "@/modules/announce/announce-admin/domain/repositories"
-import { PersistDeleteAnnounceInputDto } from "./persist-delete-announce.dto"
-import { PersistDeleteAnnounceUsecase } from "./persist-delete-announce.usecase"
 import { EventEmitterInterface } from "@/modules/@shared/events"
 import { mock } from "jest-mock-extended"
+import { DeleteAnnounceUsecase } from "./delete-announce.usecase"
+import { DeleteAnnounceInputDto } from "./delete-announce.dto"
 
 
 describe("test PersistDeleteAnnounce", () => {
 
-    let sut: PersistDeleteAnnounceUsecase
-    let props: PersistDeleteAnnounceInputDto
+    let sut: DeleteAnnounceUsecase
+    let props: DeleteAnnounceInputDto
     let announceRepository: AnnounceRepositoryInterface
     let eventEmitter: EventEmitterInterface
 
@@ -18,7 +18,7 @@ describe("test PersistDeleteAnnounce", () => {
         }
         announceRepository = mock<AnnounceRepositoryInterface>()
         eventEmitter = mock<EventEmitterInterface>()
-        sut = new PersistDeleteAnnounceUsecase(announceRepository, eventEmitter)
+        sut = new DeleteAnnounceUsecase(announceRepository, eventEmitter)
     })
 
     it("Should execute the usecase properly", async () => {
