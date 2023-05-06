@@ -3,13 +3,13 @@ import { BaseEvent } from "@/modules/@shared/events";
 export class ProductStockAutoAddedEvent extends BaseEvent {
 
     constructor(
-        readonly payload: CategoryActivatedEvent.Payload
+        readonly payload: ProductStockAutoAddedEvent.Payload
     ){
         super();
     }
 }
 
-export namespace CategoryActivatedEvent {
+export namespace ProductStockAutoAddedEvent {
     export type Payload = {
         productStockId: string
         value: string
