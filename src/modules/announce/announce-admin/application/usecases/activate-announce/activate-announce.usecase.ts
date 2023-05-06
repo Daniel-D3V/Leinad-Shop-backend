@@ -1,19 +1,19 @@
 import { UsecaseInterface } from "@/modules/@shared/domain"
-import { EventEmitterInterface } from "@/modules/@shared/events"
+import {  EventEmitterInterface } from "@/modules/@shared/events"
+import { ActivateAnnounceInputDto, ActivateAnnounceOutputDto } from "./activate-announce.dto"
 import { Either, left, right } from "@/modules/@shared/logic"
-import { AnnounceRepositoryInterface } from "@/modules/announce/announce-admin/domain/repositories"
-import { PersistActivateAnnounceInputDto, PersistActivateAnnounceOutputDto } from "./persist-activate-announce.dto"
-import { AnnounceNotFoundError } from "../../_errors"
+import { AnnounceRepositoryInterface } from "../../../domain/repositories"
+import { AnnounceNotFoundError } from "../_errors"
 import { AnnounceActivatedEvent } from "./announce-activated.event"
 
-export class PersistActivateAnnounceUsecase implements UsecaseInterface{
+export class ActivateAnnounceUsecase implements UsecaseInterface{
 
     constructor(
         private readonly announceRepository: AnnounceRepositoryInterface,
         private readonly eventEmitter: EventEmitterInterface
     ){}
 
-    async execute({ announceId }: PersistActivateAnnounceInputDto): Promise<Either<Error[], PersistActivateAnnounceOutputDto>> {
+    async execute({ announceId }: ActivateAnnounceInputDto): Promise<Either<Error[], ActivateAnnounceOutputDto>> {
 
         const announceEntity = await this.announceRepository.findById(announceId)
         if(!announceEntity) return left([ new AnnounceNotFoundError() ])
