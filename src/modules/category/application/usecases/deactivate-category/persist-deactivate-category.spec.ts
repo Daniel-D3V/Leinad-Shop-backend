@@ -3,17 +3,17 @@ import { CategoryRepositoryInterface } from "@/modules/category/domain/repositor
 import { EventEmitterInterface } from "@/modules/@shared/events"
 import { mock } from "jest-mock-extended"
 import { CategoryEntity } from "@/modules/category/domain/entities"
-import { PersistDeactivateCategoryInputDto } from "./persist-deactivate-category.dto"
-import { PersistDeactivateCategoryUsecase } from "./persist-deactivate-category.usecase"
 import { CategoryDeactivatedEvent } from "./category-deactivated.event"
+import { DeactivateCategoryInputDto } from "./deactivate-category.dto"
+import { DeactivateCategoryUsecase } from "./deactivate-category.usecase"
 
 jest.mock("@/modules/category/domain/entities")
 jest.mock("./category-deactivated.event")
 
-describe("Test PersistActivateCategory", () => {
+describe("Test DeactivateCategoryUsecase", () => {
 
-    let sut: PersistDeactivateCategoryUsecase
-    let props: PersistDeactivateCategoryInputDto
+    let sut: DeactivateCategoryUsecase
+    let props: DeactivateCategoryInputDto
     let categoryRepository: CategoryRepositoryInterface
     let eventEmitter: EventEmitterInterface
     let categoryEntity: CategoryEntity
@@ -29,7 +29,7 @@ describe("Test PersistActivateCategory", () => {
         .mockResolvedValue(categoryEntity)
 
         eventEmitter = mock<EventEmitterInterface>()
-        sut = new PersistDeactivateCategoryUsecase(categoryRepository, eventEmitter)
+        sut = new DeactivateCategoryUsecase(categoryRepository, eventEmitter)
     })
 
     it("Should execute the usecase properly", async () => {
@@ -47,7 +47,7 @@ describe("Test PersistActivateCategory", () => {
         expect(output.value[0].name).toBe("CategoryNotFoundError")
     })
 
-    it("Should call deactivate on the categoryEntity once", async () => {
+    it("Should call deactivate from categoryEntity once", async () => {
         const categoryEntitySpy = jest.spyOn(categoryEntity, "deactivate")
         await sut.execute(props)
         expect(categoryEntitySpy).toHaveBeenCalledTimes(1)
@@ -66,7 +66,7 @@ describe("Test PersistActivateCategory", () => {
         })
     })
 
-    it("Should call eventEmitteronce", async () => {
+    it("Should call eventEmitter once", async () => {
         const eventEmitterSpy = jest.spyOn(eventEmitter, "emit")
         await sut.execute(props)
         expect(eventEmitterSpy).toHaveBeenCalledTimes(1)
