@@ -2,16 +2,16 @@ import { AnnounceRepositoryInterface } from "@/modules/announce/announce-admin/d
 import { EventEmitterInterface } from "@/modules/@shared/events"
 import { mock } from "jest-mock-extended"
 import { AnnounceEntity } from "@/modules/announce/announce-admin/domain/entities"
-import { PersistDeactivateAnnounceUsecase } from "./persist-deactivate-announce.usecase"
-import { PersistDeactivateAnnounceInputDto } from "./persist-deactivate-announce.dto"
 import { AnnounceDeactivatedEvent } from "./announce-deactivated.event"
+import { DeactivateAnnounceUsecase } from "./deactivate-announce.usecase"
+import { DeactivateAnnounceInputDto } from "./deactivate-announce.dto"
 
 jest.mock("./announce-deactivated.event")
 
-describe("Test PersistDeactivateAnnounce", () => {
+describe("Test DeactivateAnnounceUsecase", () => {
 
-    let sut: PersistDeactivateAnnounceUsecase
-    let props: PersistDeactivateAnnounceInputDto
+    let sut: DeactivateAnnounceUsecase
+    let props: DeactivateAnnounceInputDto
     let announceRepository: AnnounceRepositoryInterface
     let eventEmitter: EventEmitterInterface
     let announceEntity: AnnounceEntity
@@ -25,7 +25,7 @@ describe("Test PersistDeactivateAnnounce", () => {
         jest.spyOn(announceRepository, "findById").mockResolvedValue(announceEntity)
         eventEmitter = mock<EventEmitterInterface>()
 
-        sut = new PersistDeactivateAnnounceUsecase(announceRepository, eventEmitter)
+        sut = new DeactivateAnnounceUsecase(announceRepository, eventEmitter)
     })
 
     it("Should execute the usecase properly", async () => {
