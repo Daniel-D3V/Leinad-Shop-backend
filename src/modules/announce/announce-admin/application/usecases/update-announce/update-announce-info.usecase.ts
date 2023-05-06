@@ -1,16 +1,16 @@
 import { UsecaseInterface } from "@/modules/@shared/domain"
-import { CommandEmitterInterface } from "@/modules/@shared/events"
+import { CommandEmitterInterface, EventEmitterInterface } from "@/modules/@shared/events"
 import { Either, left, right } from "@/modules/@shared/logic"
 import { AnnounceRepositoryInterface } from "@/modules/announce/announce-admin/domain/repositories"
-import { UpdateAnnounceInputDto, UpdateAnnounceOutputDto } from "./update-announce.dto"
-import { UpdateAnnounceCommand } from "./update-announce.command"
-import { AnnounceNotFoundError } from "../../_errors"
+import { UpdateAnnounceInputDto, UpdateAnnounceOutputDto } from "./update-announce-info.dto"
+import { AnnounceNotFoundError } from "../_errors"
+import { AnnounceInfoUpdatedEvent } from "./announce-info-updated.event"
 
 export class UpdateAnnounceUsecase implements UsecaseInterface{
 
     constructor(
         private readonly announceRepository: AnnounceRepositoryInterface,
-        private readonly commandEmitter: CommandEmitterInterface
+        private readonly eventEmitter: EventEmitterInterface
     ){}
 
     async execute({ announceId, data }: UpdateAnnounceInputDto): Promise<Either<Error[], UpdateAnnounceOutputDto>> {
@@ -28,22 +28,16 @@ export class UpdateAnnounceUsecase implements UsecaseInterface{
             const isDescriptionValid = announceEntity.changeDescription(data.description)
             if(isDescriptionValid.isLeft()) errors.push(...isDescriptionValid.value)
         }
-        if(data.price){
-            const isPriceValid = announceEntity.changePrice(data.price)
-            if(isPriceValid.isLeft()) errors.push(...isPriceValid.value)
-        }
 
         if(errors.length > 0) return left(errors)
 
-        const apdateAnnounceCommand = new UpdateAnnounceCommand({
+        await this.announceRepository.update(announceEntity)
+
+        const announceInfoUpdatedEvent = new AnnounceInfoUpdatedEvent({
             announceId,
-            data: {
-                title: data.title,
-                description: data.description,
-                price: data.price
-            }
+            data
         })
-        await this.commandEmitter.emit(apdateAnnounceCommand)
+        await this.eventEmitter.emit(announceInfoUpdatedEvent)
 
         return right(null)
     }

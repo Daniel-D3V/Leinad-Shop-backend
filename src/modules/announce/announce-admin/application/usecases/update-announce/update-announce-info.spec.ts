@@ -1,18 +1,19 @@
 import { AnnounceRepositoryInterface } from "@/modules/announce/announce-admin/domain/repositories"
-import { UpdateAnnounceInputDto } from "./update-announce.dto"
-import { UpdateAnnounceUsecase } from "./update-announce.usecase"
-import { CommandEmitterInterface } from "@/modules/@shared/events"
+import { UpdateAnnounceInputDto } from "./update-announce-info.dto"
+import { UpdateAnnounceUsecase } from "./update-announce-info.usecase"
+import { CommandEmitterInterface, EventEmitterInterface } from "@/modules/@shared/events"
 import { mock } from "jest-mock-extended"
 import { AnnounceEntity } from "@/modules/announce/announce-admin/domain/entities"
-import { UpdateAnnounceCommand } from "./update-announce.command"
+import { AnnounceInfoUpdatedEvent } from "./announce-info-updated.event"
 
-jest.mock("./update-announce.command")
+jest.mock("./announce-info-updated.event")
 
 describe("Test UpdateAnnounceUsecase", () => {
     let sut: UpdateAnnounceUsecase
     let props: UpdateAnnounceInputDto
     let announceRepository: AnnounceRepositoryInterface
     let commandEmitter: CommandEmitterInterface
+    let eventEmitter: EventEmitterInterface
     let announceEntity: AnnounceEntity
 
     beforeEach(() => {
@@ -23,8 +24,8 @@ describe("Test UpdateAnnounceUsecase", () => {
         announceEntity = mock<AnnounceEntity>()
         announceRepository = mock<AnnounceRepositoryInterface>()
         jest.spyOn(announceRepository, "findById").mockResolvedValue(announceEntity)
-        commandEmitter = mock<CommandEmitterInterface>()
-        sut = new UpdateAnnounceUsecase(announceRepository, commandEmitter)
+        eventEmitter = mock<EventEmitterInterface>()
+        sut = new UpdateAnnounceUsecase(announceRepository, eventEmitter)
     })
 
     it("Should execute the usecase properly", async () => {
@@ -38,14 +39,14 @@ describe("Test UpdateAnnounceUsecase", () => {
         expect(output.value![0].name).toBe("AnnounceNotFoundError")
     })
 
-    it("Should call commandEmitter once", async () => {
+    it("Should call eventEmitter once", async () => {
         await sut.execute(props)
-        expect(commandEmitter.emit).toHaveBeenCalledTimes(1)
+        expect(eventEmitter.emit).toHaveBeenCalledTimes(1)
     })
 
-    it("Should create UpdateAnnounceCommand with correct values", async () => {
+    it("Should create AnnounceInfoUpdatedEvent with correct values", async () => {
         await sut.execute(props)
-        expect(UpdateAnnounceCommand).toHaveBeenCalledWith(props)
+        expect(AnnounceInfoUpdatedEvent).toHaveBeenCalledWith(props)
     })
 
     describe("change title", () => {
@@ -91,24 +92,4 @@ describe("Test UpdateAnnounceUsecase", () => {
         })
     })
 
-    describe("change price", () => {
-
-        it("Should call changePrice if price is provided ", async () => {
-            jest.spyOn(announceEntity, "changePrice").mockReturnValueOnce({ isLeft: () => false } as any)
-            props.data.price = 20
-            await sut.execute(props)
-            expect(announceEntity.changePrice).toHaveBeenCalledTimes(1)
-        })
-
-        it("Should return a error if the price to change is invalid ", async () => {
-            const priceValidationError = new Error("priceValidationError")
-            jest.spyOn(announceEntity, "changePrice").mockReturnValueOnce({
-                isLeft: () =>true,
-                value: [ priceValidationError ]
-            } as any)
-            props.data.price = 20
-            const output = await sut.execute(props)
-            expect(output.value![0]).toEqual(priceValidationError)
-        })
-    })
 })

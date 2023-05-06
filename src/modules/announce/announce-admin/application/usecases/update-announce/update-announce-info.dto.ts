@@ -3,7 +3,6 @@ export type UpdateAnnounceInputDto = {
     data: {
         title?: string
         description?: string
-        price?: number
     }
 }
 
