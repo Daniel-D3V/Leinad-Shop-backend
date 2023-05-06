@@ -1,20 +1,20 @@
 import { UsecaseInterface } from "@/modules/@shared/domain";
+import { CommandEmitterInterface, EventEmitterInterface } from "@/modules/@shared/events";
 import { Either, left, right } from "@/modules/@shared/logic";
-import { PersistChangeAnnounceImagesInputDto, PersistChangeAnnounceImagesOutputDto } from "./persist-change-announce-images.dto";
+import { ChangeAnnounceImagesInputDto, ChangeAnnounceImagesOutputDto } from "./change-announce-images.dto";
 import { AnnounceImagesRepositoryInterface } from "@/modules/announce/announce-images/domain/repositories";
-import { EventEmitterInterface } from "@/modules/@shared/events";
+import { AnnounceNotFoundError } from "../_errors";
 import { AnnounceImagesChangedEvent } from "./announce-images-changed.event";
-import { AnnounceNotFoundError } from "../../_errors";
 
-export class PersistChangeAnnounceImagesUsecase implements UsecaseInterface{
-
+export class ChangeAnnouceImagesUsecase implements UsecaseInterface {
+    
     constructor(
         private readonly announceImagesRepository: AnnounceImagesRepositoryInterface,
         private readonly eventEmitter: EventEmitterInterface
     ){}
 
-    async execute({ announceId, images }: PersistChangeAnnounceImagesInputDto): Promise<Either<Error[], PersistChangeAnnounceImagesOutputDto>> {
-
+    async execute({ announceId, images }: ChangeAnnounceImagesInputDto): Promise<Either<Error[], ChangeAnnounceImagesOutputDto>> {
+        
         const announceImageEntity = await this.announceImagesRepository.findById(announceId)
         if(!announceImageEntity) return left([ new AnnounceNotFoundError() ])
 

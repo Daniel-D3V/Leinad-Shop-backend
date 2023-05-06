@@ -1,19 +1,19 @@
 import { AnnounceImagesRepositoryInterface } from "@/modules/announce/announce-images/domain/repositories"
 import { ChangeAnnounceImagesInputDto } from "./change-announce-images.dto"
 import { ChangeAnnouceImagesUsecase } from "./change-announce-images.usecase"
-import { CommandEmitterInterface } from "@/modules/@shared/events"
+import {  EventEmitterInterface } from "@/modules/@shared/events"
 import { mock } from "jest-mock-extended"
 import { AnnounceImageEntity } from "@/modules/announce/announce-images/domain/entities"
-import { ChangeAnnounceImagesCommand } from "./change-announce-images.command"
+import { AnnounceImagesChangedEvent } from "./announce-images-changed.event"
 
-jest.mock("./change-announce-images.command")
+jest.mock("./announce-images-changed.event")
 
 describe("Test ChangeAnnouceImagesUsecase", () => {
 
     let sut: ChangeAnnouceImagesUsecase
     let props: ChangeAnnounceImagesInputDto
     let announceImagesRepository: AnnounceImagesRepositoryInterface
-    let commandEmitter: CommandEmitterInterface
+    let eventEmitter: EventEmitterInterface
     let announceImageEntity: AnnounceImageEntity
 
     beforeEach(() => {
@@ -27,8 +27,8 @@ describe("Test ChangeAnnouceImagesUsecase", () => {
         })
         announceImagesRepository = mock<AnnounceImagesRepositoryInterface>()
         jest.spyOn(announceImagesRepository, "findById").mockResolvedValue(announceImageEntity)
-        commandEmitter = mock<CommandEmitterInterface>()
-        sut = new ChangeAnnouceImagesUsecase(announceImagesRepository, commandEmitter)
+        eventEmitter = mock<EventEmitterInterface>()
+        sut = new ChangeAnnouceImagesUsecase(announceImagesRepository, eventEmitter)
     })
 
     it("Should execute the usecase properly",  async () => {
@@ -59,13 +59,19 @@ describe("Test ChangeAnnouceImagesUsecase", () => {
         expect(output.value![0]).toEqual(changeImageError)
     })
     
-    it("Should call commandEmitter once",  async () => {
+    it("Should call announceImagesRepository.update once",  async () => {
         await sut.execute(props)
-        expect(commandEmitter.emit).toHaveBeenCalledTimes(1)
+        expect(announceImagesRepository.update).toHaveBeenCalledTimes(1)
     })
 
-    it("Should create ChangeAnnounceImagesCommand with correct values",  async () => {
+
+    it("Should call eventEmitter once",  async () => {
         await sut.execute(props)
-        expect(ChangeAnnounceImagesCommand).toHaveBeenCalledWith(props)
+        expect(eventEmitter.emit).toHaveBeenCalledTimes(1)
+    })
+
+    it("Should create AnnounceImagesChangedEvent with correct values",  async () => {
+        await sut.execute(props)
+        expect(AnnounceImagesChangedEvent).toHaveBeenCalledWith(props)
     })
 })

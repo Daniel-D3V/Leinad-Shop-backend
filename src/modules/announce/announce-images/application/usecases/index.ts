@@ -1,1 +1,1 @@
-export * from "./change-announce-images"
+export * from "./change-announce-images/change-announce-images.usecase"
