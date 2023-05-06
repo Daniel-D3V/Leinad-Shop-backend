@@ -1,19 +1,19 @@
 import { UsecaseInterface } from "@/modules/@shared/domain";
 import { Either, right } from "@/modules/@shared/logic";
-import { PersistDeleteCategoryInputDto, PersistDeleteCategoryOutputDto } from "./persist-delete-category.dto";
-import { CategoryRepositoryInterface } from "@/modules/category/domain/repositories";
-import { EventEmitterInterface } from "@/modules/@shared/events";
+import { DeleteCategoryInputDto, DeleteCategoryOutputDto } from "./delete-category.dto";
+import {  EventEmitterInterface } from "@/modules/@shared/events";
 import { CategoryDeletedEvent } from "./category-deleted.event";
+import { CategoryRepositoryInterface } from "@/modules/category/domain/repositories";
 
-export class PersistDeleteCategoryUsecase implements UsecaseInterface {
+export class DeleteCategoryUsecase implements UsecaseInterface {
 
     constructor(
         private readonly categoryRepository: CategoryRepositoryInterface,
         private readonly eventEmitter: EventEmitterInterface
     ){}
 
-    async execute({ categoryId }: PersistDeleteCategoryInputDto): Promise<Either<Error[], PersistDeleteCategoryOutputDto>> {
-        
+    async execute({ categoryId }: DeleteCategoryInputDto): Promise<Either<Error[], DeleteCategoryOutputDto>> {
+
         await this.categoryRepository.delete(categoryId)
 
         const categoryDeletedEvent = new CategoryDeletedEvent({
@@ -23,4 +23,4 @@ export class PersistDeleteCategoryUsecase implements UsecaseInterface {
 
         return right(null)
     }
-}
+} 

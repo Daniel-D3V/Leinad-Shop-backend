@@ -1,18 +1,18 @@
 import { CategoryRepositoryInterface } from "@/modules/category/domain/repositories"
-import { PersistDeleteCategoryUsecase } from "./persist-delete-category.usecase"
 import { EventEmitterInterface } from "@/modules/@shared/events"
-import { PersistDeleteCategoryInputDto } from "./persist-delete-category.dto"
 import { mock } from "jest-mock-extended"
 import { CategoryDeletedEvent } from "./category-deleted.event";
+import { DeleteCategoryUsecase } from "./delete-category.usecase";
+import { DeleteCategoryInputDto } from "./delete-category.dto";
 
 jest.mock("./category-deleted.event")
 
 describe("Test PersistDeleteCategoryUsecase", () => {
 
-    let sut: PersistDeleteCategoryUsecase
+    let sut: DeleteCategoryUsecase
     let categoryRepository: CategoryRepositoryInterface
     let eventEmitter: EventEmitterInterface
-    let props: PersistDeleteCategoryInputDto
+    let props: DeleteCategoryInputDto
 
     beforeEach(() => {
         props = {
@@ -20,7 +20,7 @@ describe("Test PersistDeleteCategoryUsecase", () => {
         }
         categoryRepository = mock<CategoryRepositoryInterface>()
         eventEmitter = mock<EventEmitterInterface>()
-        sut = new PersistDeleteCategoryUsecase(categoryRepository, eventEmitter)
+        sut = new DeleteCategoryUsecase(categoryRepository, eventEmitter)
     })
 
     it("Should execute the usecase properly", async () => {
