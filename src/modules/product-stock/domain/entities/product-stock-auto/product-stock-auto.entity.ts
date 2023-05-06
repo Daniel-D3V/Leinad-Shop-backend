@@ -15,7 +15,7 @@ export class ProductStockAutoEntity extends BaseEntity<ProductStockAutoEntity.Pr
         return right(null)
     }
 
-    static create(input: ProductStockAutoEntity.Input, id: string): Either<Error[], ProductStockAutoEntity>{
+    static create(input: ProductStockAutoEntity.Input, id?: string): Either<Error[], ProductStockAutoEntity>{
         
         const validationResult = this.validateProps({ ...input })
         if(validationResult.isLeft()) return left(validationResult.value)
