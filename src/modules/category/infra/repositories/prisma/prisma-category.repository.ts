@@ -1,13 +1,13 @@
 import { prismaClient } from "@/modules/@shared/infra/repository/prisma/client";
 import { CategoryEntity } from "@/modules/category/domain/entities";
 import { CategoryRepositoryInterface } from "@/modules/category/domain/repositories";
-import { Category, PrismaClient } from "@prisma/client";
+import { Category, PrismaClient, Prisma } from "@prisma/client";
 
 const setStatus = (categoryEntity: CategoryEntity, status: string) => {
     if(status === "ACTIVE") categoryEntity.activate()
     else categoryEntity.deactivate()
 }
-
+Prisma.Prisma__CategoryClient
 class PrismaCategoryEntityMapper {
     static toDomain(prismaCategory: Category | null): CategoryEntity | null {
         if(!prismaCategory) return null;
