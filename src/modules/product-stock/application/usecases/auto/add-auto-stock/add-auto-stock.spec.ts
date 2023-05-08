@@ -19,7 +19,8 @@ describe("test AddAutoStockUsecase", () => {
 
     beforeEach(() => {
         props = { 
-            value: "any_value"
+            value: "any_value",
+            productStockId: "any_product_stock_Id"
         }
         productStockAutoEntity = mock<ProductStockAutoEntity>({
             id: "any_id",

@@ -13,10 +13,11 @@ export class AddAutoStockUsecase implements UsecaseInterface {
         private readonly eventEmitter: EventEmitterInterface
     ){}
 
-    async execute({ value }: AddAutoStockInputDto): Promise<Either<Error[], AddAutoStockOutputDto>> {
+    async execute({ value, productStockId }: AddAutoStockInputDto): Promise<Either<Error[], AddAutoStockOutputDto>> {
 
         const productStockAutoEntity = ProductStockAutoEntity.create({
-            value
+            value,
+            productStockId
         })
         if(productStockAutoEntity.isLeft()) return left(productStockAutoEntity.value)
 

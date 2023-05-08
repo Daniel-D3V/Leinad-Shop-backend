@@ -21,7 +21,8 @@ describe("Test ProductStockAutoEntity", () => {
     beforeEach(() => {
         id = "any_id"
         props = {
-            value: "any_value"
+            value: "any_value",
+            productStockId: "any_product_id",
         }
         sut = makeSut(props)
     })
@@ -31,6 +32,7 @@ describe("Test ProductStockAutoEntity", () => {
         expect({...sut.toJSON()}).toMatchObject({
             id,
             value: props.value,
+            productStockId: "any_product_id",
         })
     })
 

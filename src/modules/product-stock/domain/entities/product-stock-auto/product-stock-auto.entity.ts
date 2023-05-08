@@ -8,7 +8,7 @@ export class ProductStockAutoEntity extends BaseEntity<ProductStockAutoEntity.Pr
         super(props, id);
     }
 
-    static validateProps(props: ProductStockAutoEntity.Input): Either<Error[], null>{
+    static validateProps(props: Omit<ProductStockAutoEntity.Input, "productStockId">): Either<Error[], null>{
         const validator = ProductStockAutoValidatorFactory.create()
         const validationResult = validator.validate({ ...props })
         if(validationResult.isLeft()) return left(validationResult.value)
@@ -40,17 +40,23 @@ export class ProductStockAutoEntity extends BaseEntity<ProductStockAutoEntity.Pr
     toJSON(): ProductStockAutoEntity.PropsJSON {
         return {
             id: this.id,
+            productStockId: this.productStockId,
             value: this.getValue()
         }
     }
 
+    get productStockId(): string {
+        return this.props.productStockId
+    }
 }
 
 export namespace ProductStockAutoEntity {
     export type Input = {
+        productStockId: string
         value: string
     }
     export type Props = {
+        productStockId: string
         value: string
     }
     export type PropsJSON = Props & { id: string }

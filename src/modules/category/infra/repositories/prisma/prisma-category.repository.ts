@@ -7,7 +7,7 @@ const setStatus = (categoryEntity: CategoryEntity, status: string) => {
     if(status === "ACTIVE") categoryEntity.activate()
     else categoryEntity.deactivate()
 }
-Prisma.Prisma__CategoryClient
+
 class PrismaCategoryEntityMapper {
     static toDomain(prismaCategory: Category | null): CategoryEntity | null {
         if(!prismaCategory) return null;
