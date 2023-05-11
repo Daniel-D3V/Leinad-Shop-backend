@@ -68,4 +68,5 @@ describe("Test ActivateCategoryUsecase", () => {
         expect(CategoryActivatedEvent).toHaveBeenCalledWith({ categoryId: props.categoryId })
     })
 
+
 })

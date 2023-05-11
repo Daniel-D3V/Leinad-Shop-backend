@@ -52,7 +52,7 @@ export class PrismaCategoryRepository implements CategoryRepositoryInterface {
     async delete(id: string): Promise<void> {
         await this.prismaClient.category.deleteMany({
             where: { id }
-        })
+        })//
     }
     async update(categoryEntity: CategoryEntity): Promise<void> {
         const { id, ...propsToUpdate } = categoryEntity.toJSON()

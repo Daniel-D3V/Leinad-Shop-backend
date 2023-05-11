@@ -27,7 +27,6 @@ export class ActivateCategoryUsecase implements UsecaseInterface {
         })
         await this.eventEmitter.emit(categoryActivatedEvent)
 
-
         return right(null)
     }
 }
