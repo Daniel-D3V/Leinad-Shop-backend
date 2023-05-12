@@ -1,4 +1,4 @@
 
 export interface GetProductStockFacadeInterface {
-    execute(productId: string): Promise<number>
+    execute(productId: string): Promise<number | undefined>
 } 
