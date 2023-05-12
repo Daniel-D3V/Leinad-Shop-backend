@@ -38,6 +38,4 @@ export class PlaceOrderUsecase implements UsecaseInterface {
 
         return right(null)
     }
-
- 
 }
