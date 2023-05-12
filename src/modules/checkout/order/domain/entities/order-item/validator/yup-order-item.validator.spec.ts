@@ -35,10 +35,10 @@ describe("test YupOrderItemValidator", () => {
             expect(result.value![0].name).toBe("QuantityNotProvidedError")
         })
 
-        it("Should return NegativeQuantityValueError if a negative quantity value is provided", () => {
-            props.quantity = -1
+        it("Should return NotPositiveQuantityValueError if a not positive quantity value is provided", () => {
+            props.quantity = 0
             const result = yupCategoryValidator.validate(props)
-            expect(result.value![0].name).toBe("NegativeQuantityValueError")
+            expect(result.value![0].name).toBe("NotPositiveQuantityValueError")
         })
 
         it("Should return InvalidQuantitySizeError if an invalid quantity size is provided", () => {
@@ -53,6 +53,12 @@ describe("test YupOrderItemValidator", () => {
             props.unitPrice = {} as any
             const result = yupCategoryValidator.validate(props)
             expect(result.value![0].name).toBe("InvalidUnitPriceTypeError")
+        })
+
+        it("Should return UnitPriceNotPositiveError if unitPrice is invalid", () => {
+            props.unitPrice = 0
+            const result = yupCategoryValidator.validate(props)
+            expect(result.value![0].name).toBe("UnitPriceNotPositiveError")
         })
     })
 
