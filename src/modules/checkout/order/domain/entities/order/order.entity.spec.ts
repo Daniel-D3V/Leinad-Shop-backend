@@ -72,4 +72,29 @@ describe('Test OrderEntity', () => {
 
         expect(sut.getTotal()).toBe(3.6)
     })
+
+    it("Should get total order quantity", () => {
+        const orderItemEntity1 = makeOrderItemEntity(orderItemEntityProps)
+        const orderItemEntity2 = makeOrderItemEntity(orderItemEntityProps)
+        const orderItemEntity3 = makeOrderItemEntity({...orderItemEntityProps, quantity: 3})
+        sut = OrderEntity.create({
+            ...props,
+            orderItems: [orderItemEntity1, orderItemEntity2, orderItemEntity3]
+        }, id).value as OrderEntity
+
+        expect(sut.getTotalQuantity()).toBe(5)
+    })
+
+    it("Should find orderItem by productId", () => {
+        const orderItemEntity1 = makeOrderItemEntity(orderItemEntityProps)
+        const orderItemEntity2 = makeOrderItemEntity({...orderItemEntityProps, productId: "any_other_product_id_1"})
+        const orderItemEntity3 = makeOrderItemEntity({...orderItemEntityProps, productId: "any_other_product_id_2"})
+        sut = OrderEntity.create({
+            ...props,
+            orderItems: [orderItemEntity1, orderItemEntity2, orderItemEntity3]
+        }, id).value as OrderEntity
+
+        expect(sut.findOrderItem("any_other_product_id_1")).toBe(orderItemEntity2)
+        expect(sut.findOrderItem("any_other_product_id_2")).toBe(orderItemEntity3)
+    })
 })
