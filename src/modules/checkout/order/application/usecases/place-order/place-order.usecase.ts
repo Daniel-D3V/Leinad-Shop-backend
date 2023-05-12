@@ -1,8 +1,11 @@
 import { UsecaseInterface } from "@/modules/@shared/domain";
-import { Either, right } from "@/modules/@shared/logic";
+import { Either, left, right } from "@/modules/@shared/logic";
 import { PlaceOrderInputDto, PlaceOrderOutputDto } from "./place-order.dto";
 import { GetProductStockFacadeFactory } from "@/modules/product-stock/factories";
 import { CheckAnnounceExistsFacadeFactory, GetAnnouncePriceFacadeFactory } from "@/modules/announce/announce-admin/factories";
+import { OrderItemEntity } from "../../../domain/entities";
+import { InsufficientProductStockError, ProductNotFoundError, ProductOutOfStockError } from "./errors";
+import { CreateOrderItemsFromDtoUsecase } from "./helpers";
 
 export class PlaceOrderUsecase implements UsecaseInterface {
 
@@ -10,12 +13,14 @@ export class PlaceOrderUsecase implements UsecaseInterface {
      
     ){}
 
-    async execute(input: PlaceOrderInputDto): Promise<Either<Error[], PlaceOrderOutputDto>> {
+    async execute({ customerId, products }: PlaceOrderInputDto): Promise<Either<Error[], PlaceOrderOutputDto>> {
 
-        const checkAnnounceExistsFacade = CheckAnnounceExistsFacadeFactory.create()
-        const getProductStockFacade = GetProductStockFacadeFactory.create()
-        const getAnnouncePriceFacade = GetAnnouncePriceFacadeFactory.create()
+        const createOrderItemsFromDtoUsecase = new CreateOrderItemsFromDtoUsecase()
+        const createOrderItemsResult = await createOrderItemsFromDtoUsecase.execute(products)
+        if(createOrderItemsResult.isLeft()) return left(createOrderItemsResult.value)
 
         return right(null)
     }
+
+ 
 }

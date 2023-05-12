@@ -1,3 +1,3 @@
 export interface CheckAnnounceExistsFacadeInterface {
-    execute(announceId: string): Promise<boolean | undefined>
+    execute(announceId: string): Promise<boolean>
 }
