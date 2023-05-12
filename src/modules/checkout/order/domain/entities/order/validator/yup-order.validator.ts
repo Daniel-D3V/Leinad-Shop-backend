@@ -1,6 +1,8 @@
 import { DomainValidator, YupErrorAdapter, YupValidatorProvider } from "@/modules/@shared/domain/validator";
 import { Either, left, right } from "@/modules/@shared/logic";
 import * as yup from 'yup';
+import { OrderItemEntity } from "../../order-item/order-item.entity";
+import { InvalidOrderItemsSizeError, InvalidOrderItemsTypeError } from "../errors";
 
 export class YupOrderValidator extends YupValidatorProvider implements DomainValidator<YupOrderValidator.ValidateFields>{
 
@@ -8,15 +10,8 @@ export class YupOrderValidator extends YupValidatorProvider implements DomainVal
 
         orderItems: yup.array()
             .strict(true)
-        //     .typeError(YupErrorAdapter.toYupFormat(new InvalidQuantityTypeError()))
-        //     .integer(YupErrorAdapter.toYupFormat(new InvalidQuantityTypeError()))
-        //     .positive(YupErrorAdapter.toYupFormat(new NegativeQuantityValueError()))
-        //     .required(YupErrorAdapter.toYupFormat(new QuantityNotProvidedError()))
-        //     .max(5, YupErrorAdapter.toYupFormat(new InvalidQuantitySizeError(5))),
-        
-        // unitPrice: yup.string()
-        //     .strict(true)
-        //     .typeError(YupErrorAdapter.toYupFormat(new InvalidUnitPriceTypeError()))
+            .typeError(YupErrorAdapter.toYupFormat(new InvalidOrderItemsTypeError()))
+            .max(10, YupErrorAdapter.toYupFormat(new InvalidOrderItemsSizeError(10))),
     });
 
     validate(props: YupOrderValidator.ValidateFields): Either<Error[], null> {
@@ -28,8 +23,7 @@ export class YupOrderValidator extends YupValidatorProvider implements DomainVal
 
 export namespace YupOrderValidator {
     export type ValidateFields = {
-        quantity: number
-        unitPrice: number
+        orderItems: OrderItemEntity[]
     }
     
 }

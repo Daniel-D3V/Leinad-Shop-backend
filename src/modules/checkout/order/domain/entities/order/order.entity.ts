@@ -1,6 +1,7 @@
 import { AggregateRoot, BaseEntity } from "@/modules/@shared/domain";
-import { Either, right } from "@/modules/@shared/logic";
+import { Either, left, right } from "@/modules/@shared/logic";
 import { OrderItemEntity } from "../order-item/order-item.entity";
+import { OrderValidatorFactory } from "./validator";
 
 export class OrderEntity extends BaseEntity<OrderEntity.Props> implements AggregateRoot{
 
@@ -10,6 +11,12 @@ export class OrderEntity extends BaseEntity<OrderEntity.Props> implements Aggreg
 
     static create(input: OrderEntity.Input, id?: string):Either<Error[], OrderEntity> {
         
+        const orderValidator = OrderValidatorFactory.create()
+        const validationResult = orderValidator.validate({
+            orderItems: input.orderItems ?? []
+        })
+        if(validationResult.isLeft()) return left(validationResult.value)
+
         const orderEntity = new OrderEntity({
             ...input,
             status: "PENDINGPAYMENT",
