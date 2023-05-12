@@ -10,7 +10,6 @@ export class OrderEntity extends BaseEntity<OrderEntity.Props> implements Aggreg
     }
 
     static create(input: OrderEntity.Input, id?: string):Either<Error[], OrderEntity> {
-        
         const orderValidator = OrderValidatorFactory.create()
         const validationResult = orderValidator.validate({
             orderItems: input.orderItems ?? []

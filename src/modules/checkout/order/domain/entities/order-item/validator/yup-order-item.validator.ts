@@ -15,7 +15,7 @@ export class YupOrderItemValidator extends YupValidatorProvider implements Domai
             .required(YupErrorAdapter.toYupFormat(new QuantityNotProvidedError()))
             .max(5, YupErrorAdapter.toYupFormat(new InvalidQuantitySizeError(5))),
         
-        unitPrice: yup.string()
+        unitPrice: yup.number()
             .strict(true)
             .typeError(YupErrorAdapter.toYupFormat(new InvalidUnitPriceTypeError()))
     });
