@@ -2,7 +2,7 @@ import { DomainValidator, YupErrorAdapter, YupValidatorProvider } from "@/module
 import { Either, left, right } from "@/modules/@shared/logic";
 import * as yup from 'yup';
 import { OrderItemEntity } from "../../order-item/order-item.entity";
-import { InvalidOrderItemsSizeError, InvalidOrderItemsTypeError } from "../errors";
+import { InvalidOrderItemsSizeError, InvalidOrderItemsTypeError, UniqueProductIdConstraintError } from "../errors";
 
 export class YupOrderValidator extends YupValidatorProvider implements DomainValidator<YupOrderValidator.ValidateFields>{
 
@@ -11,7 +11,16 @@ export class YupOrderValidator extends YupValidatorProvider implements DomainVal
         orderItems: yup.array()
             .strict(true)
             .typeError(YupErrorAdapter.toYupFormat(new InvalidOrderItemsTypeError()))
-            .max(10, YupErrorAdapter.toYupFormat(new InvalidOrderItemsSizeError(10))),
+            .max(10, YupErrorAdapter.toYupFormat(new InvalidOrderItemsSizeError(10)))
+            .test("unique-productId", YupErrorAdapter.toYupFormat(new UniqueProductIdConstraintError()), 
+            (products) => {
+                if (!products) {
+                    return true; 
+                }
+                const productIds = products.map((product: OrderItemEntity) => product.productId)
+                const uniqueProductIds = new Set(productIds)
+                return productIds.length === uniqueProductIds.size
+            }),
     });
 
     validate(props: YupOrderValidator.ValidateFields): Either<Error[], null> {
