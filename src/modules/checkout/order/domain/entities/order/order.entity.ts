@@ -25,6 +25,18 @@ export class OrderEntity extends BaseEntity<OrderEntity.Props> implements Aggreg
         this.props.status = "PROCESSED"
     }
 
+    getTotal(): number {
+        return this.orderItems.reduce((total, orderItem) => total + orderItem.getTotal(), 0)
+    }
+
+    getTotalQuantity(): number {
+        return this.orderItems.reduce((total, orderItem) => total + orderItem.quantity, 0)
+    }
+
+    findOrderItem(productId: string): OrderItemEntity | undefined {
+        return this.orderItems.find(orderItem => orderItem.productId === productId)
+    }
+
     toJSON(): OrderEntity.PropsJSON {
         return {
             id: this.id,
@@ -40,7 +52,6 @@ export class OrderEntity extends BaseEntity<OrderEntity.Props> implements Aggreg
     get status(): OrderEntity.Status {
         return this.props.status
     }
-
     get orderItems(): OrderItemEntity[] {
         return this.props.orderItems
     }
