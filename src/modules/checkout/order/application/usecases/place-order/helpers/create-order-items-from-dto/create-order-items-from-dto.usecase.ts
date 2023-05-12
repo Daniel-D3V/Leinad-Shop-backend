@@ -11,10 +11,13 @@ export class CreateOrderItemsFromDtoUsecase implements UsecaseInterface {
         
         const orderItems: OrderItemEntity[] = []
         for(const product of products) {
-
+            // check if product exists
             const productExistsResult = await this.checkAnnounceExists(product.id)
             if(!productExistsResult) return left([ new ProductNotFoundError() ])
-
+            // check if product has enough stock
+            const stockValidationResult = await this.validateStock(product.quantity, product.id)
+            if(stockValidationResult.isLeft()) return left(stockValidationResult.value)
+            // get product price
             const announcePrice = await this.getAnnouncePrice(product.id)
             
             const orderItemEntity = OrderItemEntity.create({
@@ -24,20 +27,17 @@ export class CreateOrderItemsFromDtoUsecase implements UsecaseInterface {
             })
             if(orderItemEntity.isLeft()) return left(orderItemEntity.value)
             
-            const stockValidationResult = await this.validateStock(orderItemEntity.value)
-            if(stockValidationResult.isLeft()) return left(stockValidationResult.value)
-
             orderItems.push(orderItemEntity.value)
         }
         return right(orderItems)
 
     }
 
-    private async validateStock(orderItem: OrderItemEntity):  Promise<Either<Error[], null>>{
-        const productStockQuantity = await this.getProductStockQuantity(orderItem.id) 
-        if(productStockQuantity <= 0) return left([ new ProductOutOfStockError(orderItem.id) ])
-        if(productStockQuantity < orderItem.quantity) return left([ 
-            new InsufficientProductStockError(orderItem.id, orderItem.quantity, productStockQuantity) 
+    private async validateStock(requiredQuantity: number, productId: string):  Promise<Either<Error[], null>>{
+        const productStockQuantity = await this.getProductStockQuantity(productId) ?? 0
+        if(productStockQuantity <= 0) return left([ new ProductOutOfStockError(productId) ])
+        if(productStockQuantity < requiredQuantity) return left([ 
+            new InsufficientProductStockError(productId, requiredQuantity, productStockQuantity) 
         ])
         return right(null)
     }

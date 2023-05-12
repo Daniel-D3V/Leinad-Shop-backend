@@ -2,11 +2,7 @@
 import { PlaceOrderInputDto } from "./place-order.dto"
 import { PlaceOrderUsecase } from "./place-order.usecase"
 import { mock } from "jest-mock-extended"
-import { CheckAnnounceExistsFacadeFactory, GetAnnouncePriceFacadeFactory } from "@/modules/announce/announce-admin/factories";
-import { GetProductStockFacadeFactory } from "@/modules/product-stock/factories";
 
-jest.mock("@/modules/announce/announce-admin/factories")
-jest.mock("@/modules/product-stock/factories")
 
 describe("Test PlaceOrder", () => {
 
