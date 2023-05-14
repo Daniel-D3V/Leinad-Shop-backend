@@ -2,7 +2,7 @@ import { UsecaseInterface } from "@/modules/@shared/domain";
 import { Either, left, right } from "@/modules/@shared/logic";
 import { allocateStockForOrderInputDto } from "./allocate-stock-for-order.dto";
 import { EventEmitterInterface } from "@/modules/@shared/events";
-import { GetProductStockTypeFacadeInterface, ReduceStockFacadeInterface } from "@/modules/product-stock/facades";
+import { GetProductStockAutoValueFacadeInterface, GetProductStockTypeFacadeInterface, ReduceStockFacadeInterface } from "@/modules/product-stock/facades";
 import { StockAllocationForOrderFailedEvent } from "./events";
 import { ProductNotFoundError } from "./errors";
 
@@ -10,6 +10,7 @@ export class AllocateStockForOrderUsecase implements UsecaseInterface {
 
     constructor(
         private readonly getProductStockTypeFacade: GetProductStockTypeFacadeInterface,
+        private readonly getProductStockAutoValueFacade: GetProductStockAutoValueFacadeInterface,
         private readonly reduceStockFacade: ReduceStockFacadeInterface,
         private readonly eventEmitter: EventEmitterInterface
     ){}
@@ -19,10 +20,17 @@ export class AllocateStockForOrderUsecase implements UsecaseInterface {
         for(const product of products){
 
             const stockType = await this.getProductStockTypeFacade.execute(product.id)
-            if(!stockType) left([ new ProductNotFoundError() ])
+            if(!stockType) {
+                await this.eventEmitter.emit(this.createFailStockAllocationEvent(new ProductNotFoundError(), orderId))
+                return left([ new ProductNotFoundError() ])
+            }
 
             if(stockType === "AUTO"){
-                
+                const productStockAutoValue = await this.getProductStockAutoValueFacade.execute(product.id)
+                if(!productStockAutoValue) {
+                    await this.eventEmitter.emit(this.createFailStockAllocationEvent(new ProductNotFoundError(), orderId))
+                    return left([ new ProductNotFoundError() ])
+                } 
             }else {
 
             }
