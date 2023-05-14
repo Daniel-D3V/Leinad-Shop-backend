@@ -9,14 +9,25 @@ export class PaymentEntity extends BaseEntity<PaymentEntity.Props> {
         super(props, id)
     }
         
-    static create(props: PaymentEntity.Props, id?: string): Either<Error[], PaymentEntity> {
+    static create(props: PaymentEntity.Input, id?: string): Either<Error[], PaymentEntity> {
         
         const paymentValidator = PaymentValidatorFactory.create()
         const validationResult = paymentValidator.validate(props)
         if(validationResult.isLeft()) return left(validationResult.value)
         
-        const paymentEntity = new PaymentEntity(props, id)
+        const paymentEntity = new PaymentEntity({
+            ...props,
+            status: "PENDING"
+        }, id)
         return right(paymentEntity)
+    }
+
+    cancel(): void {
+        this.props.status = "CANCELLED"
+    }
+
+    pay(): void {
+        this.props.status = "PAID"
     }
 
     toJSON(): PaymentEntity.PropsJSON {
@@ -41,7 +52,6 @@ export namespace PaymentEntity {
     export type PaymentMethod = "MERCADOPAGO" | "STRIPE"
 
     export type Input = {
-        status: Status
         paymentMethod: PaymentMethod
     }
     export type Props = {
