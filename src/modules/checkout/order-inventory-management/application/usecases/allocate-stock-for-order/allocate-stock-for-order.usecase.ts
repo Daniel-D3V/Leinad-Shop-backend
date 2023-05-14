@@ -5,10 +5,13 @@ import { EventEmitterInterface } from "@/modules/@shared/events";
 import { GetProductStockAutoValueFacadeInterface, GetProductStockTypeFacadeInterface, ReduceStockFacadeInterface } from "@/modules/product-stock/facades";
 import { StockAllocationForOrderFailedEvent } from "./events";
 import { ProductNotFoundError } from "./errors";
+import { OrderInventoryManagementEntity } from "../../../domain/entities";
+import { OrderInventoryManagementRepositoryInterface } from "../../../domain/repositories";
 
 export class AllocateStockForOrderUsecase implements UsecaseInterface {
 
     constructor(
+        private readonly orderInventoryManagementRepository: OrderInventoryManagementRepositoryInterface,
         private readonly getProductStockTypeFacade: GetProductStockTypeFacadeInterface,
         private readonly getProductStockAutoValueFacade: GetProductStockAutoValueFacadeInterface,
         private readonly reduceStockFacade: ReduceStockFacadeInterface,
@@ -16,6 +19,11 @@ export class AllocateStockForOrderUsecase implements UsecaseInterface {
     ){}
 
     async execute({ orderId, products }: allocateStockForOrderInputDto): Promise<Either<Error[], null>> {
+
+        const orderInventoryManagementEntity = OrderInventoryManagementEntity.create(
+            { products },
+             orderId
+        )
 
         for(const product of products){
 
@@ -31,16 +39,17 @@ export class AllocateStockForOrderUsecase implements UsecaseInterface {
                     await this.eventEmitter.emit(this.createFailStockAllocationEvent(new ProductNotFoundError(), orderId))
                     return left([ new ProductNotFoundError() ])
                 } 
+                orderInventoryManagementEntity.addProduct({ ...product, value: productStockAutoValue })
             }else {
-
+                orderInventoryManagementEntity.addProduct(product)
             }
 
             const reduceStockResult = await this.reduceStock(product, orderId)
             if(reduceStockResult.isLeft()) left(reduceStockResult.value)
-
-
         }
 
+        await this.orderInventoryManagementRepository.create(orderInventoryManagementEntity)
+        
         return right(null)
     }
 
