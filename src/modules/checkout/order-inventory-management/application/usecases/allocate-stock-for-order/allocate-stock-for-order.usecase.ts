@@ -20,9 +20,8 @@ export class AllocateStockForOrderUsecase implements UsecaseInterface {
 
     async execute({ orderId, products }: allocateStockForOrderInputDto): Promise<Either<Error[], null>> {
 
-        const orderInventoryManagementEntity = OrderInventoryManagementEntity.create(
-            { products },
-             orderId
+        const orderInventoryManagementEntity = OrderInventoryManagementEntity.create({},
+            orderId
         )
 
         for(const product of products){
