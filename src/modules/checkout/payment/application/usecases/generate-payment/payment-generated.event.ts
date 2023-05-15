@@ -16,9 +16,11 @@ export namespace PaymentGeneratedEvent {
         paymentMethod: string
         dateTimeCreated: Date
         status: string
+        amount: number
         customer: {
             name: string
             email: string
         }
+        paymentGeneratedInfo: any
     }
 }

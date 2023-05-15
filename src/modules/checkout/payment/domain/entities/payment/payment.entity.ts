@@ -39,7 +39,8 @@ export class PaymentEntity extends BaseEntity<PaymentEntity.Props> {
             paymentMethod: this.paymentMethod,
             orderId: this.orderId,
             customer: this.customer.toJSON(),
-            dateTimeCreated: this.dateTimeCreated
+            dateTimeCreated: this.dateTimeCreated,
+            amount: this.amount
         }
     }
 
@@ -58,6 +59,9 @@ export class PaymentEntity extends BaseEntity<PaymentEntity.Props> {
     get dateTimeCreated(): Date {
         return this.props.dateTimeCreated
     }
+    get amount(): number {
+        return this.props.amount
+    }
 }
 
 export namespace PaymentEntity {
@@ -66,12 +70,14 @@ export namespace PaymentEntity {
     export type PaymentMethod = "MERCADOPAGO" | "STRIPE"
 
     export type Input = {
+        amount: number
         customer: CustomerEntity
         orderId: string
         paymentMethod: PaymentMethod
         dateTimeCreated?: Date
     }
     export type Props = {
+        amount: number
         customer: CustomerEntity
         orderId: string
         status: Status

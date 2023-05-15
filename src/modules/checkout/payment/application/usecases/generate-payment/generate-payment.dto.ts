@@ -4,4 +4,5 @@ export type GeneratePaymentInputDto = {
     orderId: string
     paymentMethod: PaymentEntity.PaymentMethod
     customerId: string 
+    amount: number
 }
