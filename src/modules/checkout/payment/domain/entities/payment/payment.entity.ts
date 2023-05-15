@@ -1,6 +1,7 @@
 import { BaseEntity } from "@/modules/@shared/domain"
 import { Either, left, right } from "@/modules/@shared/logic"
 import { PaymentValidatorFactory } from "./validator"
+import { CustomerEntity } from "../customer/customer.entity"
 
 
 export class PaymentEntity extends BaseEntity<PaymentEntity.Props> {
@@ -34,7 +35,9 @@ export class PaymentEntity extends BaseEntity<PaymentEntity.Props> {
         return {
             id: this.id,
             status: this.status,
-            paymentMethod: this.paymentMethod
+            paymentMethod: this.paymentMethod,
+            orderId: this.orderId,
+            customer: this.customer.toJSON()
         }
     }
 
@@ -44,6 +47,12 @@ export class PaymentEntity extends BaseEntity<PaymentEntity.Props> {
     get paymentMethod(): PaymentEntity.PaymentMethod {
         return this.props.paymentMethod
     }
+    get orderId(): string {
+        return this.props.orderId
+    }
+    get customer(): CustomerEntity {
+        return this.props.customer
+    }
 }
 
 export namespace PaymentEntity {
@@ -52,11 +61,15 @@ export namespace PaymentEntity {
     export type PaymentMethod = "MERCADOPAGO" | "STRIPE"
 
     export type Input = {
+        customer: CustomerEntity
+        orderId: string
         paymentMethod: PaymentMethod
     }
     export type Props = {
+        customer: CustomerEntity
+        orderId: string
         status: Status
         paymentMethod: PaymentMethod
     }
-    export type PropsJSON = Props & { id: string }
+    export type PropsJSON = Omit<Props, "customer"> & { id: string, customer: CustomerEntity.PropsJSON }
 }

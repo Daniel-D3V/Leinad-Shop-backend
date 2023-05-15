@@ -6,7 +6,6 @@ import { CategoryRepositoryInterface } from "@/modules/category/domain/repositor
 import { CategoryNotFoundError } from "../_errors";
 import { CategoryActivatedEvent } from "./category-activated.event";
 
-
 export class ActivateCategoryUsecase implements UsecaseInterface {
     
     constructor(
