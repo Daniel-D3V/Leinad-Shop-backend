@@ -1,7 +1,7 @@
 import { DomainValidator, YupErrorAdapter, YupValidatorProvider } from "@/modules/@shared/domain/validator";
 import { Either, left, right } from "@/modules/@shared/logic";
 import * as yup from 'yup';
-import { EmailNotProvidedError, InvalidEmailFormatError, InvalidEmailLengthError, InvalidEmailTypeError, InvalidUsernameLengthError, InvalidUsernameTypeError, UsernameNotProvidedError } from "../errors";
+import { EmailNotProvidedError, InvalidEmailFormatError, InvalidEmailLengthError, InvalidEmailTypeError, InvalidPasswordFormatError, InvalidPasswordLengthError, InvalidPasswordTypeError, InvalidUsernameLengthError, InvalidUsernameTypeError, PasswordNotProvidedError, UsernameNotProvidedError } from "../errors";
 export class YupUserValidator extends YupValidatorProvider implements DomainValidator<YupUserValidator.ValidateFields>{
 
     schema = yup.object({
@@ -19,6 +19,16 @@ export class YupUserValidator extends YupValidatorProvider implements DomainVali
             .required(YupErrorAdapter.toYupFormat(new EmailNotProvidedError()))
             .email(YupErrorAdapter.toYupFormat(new InvalidEmailFormatError()))
             .max(255, YupErrorAdapter.toYupFormat(new InvalidEmailLengthError())),
+
+        password: yup.string()
+            .strict(true)
+            .typeError(YupErrorAdapter.toYupFormat(new InvalidPasswordTypeError()))
+            .required(YupErrorAdapter.toYupFormat(new PasswordNotProvidedError()))
+            .min(8, YupErrorAdapter.toYupFormat(new InvalidPasswordLengthError()))
+            .max(100, YupErrorAdapter.toYupFormat(new InvalidPasswordLengthError()))
+            .matches(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
+                YupErrorAdapter.toYupFormat(new InvalidPasswordFormatError())
+            )
     });
 
     validate(props: YupUserValidator.ValidateFields): Either<Error[], null> {
