@@ -16,7 +16,7 @@ describe("Test PaymentEntity", () => {
             name: "any_name"
         })
         props = {
-            dateCreated: new Date(),
+            dateTimeCreated: new Date(),
             orderId: "any_order_id",
             paymentMethod: "MERCADOPAGO",
             customer: customerEntity

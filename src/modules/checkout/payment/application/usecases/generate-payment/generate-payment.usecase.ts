@@ -2,18 +2,22 @@ import { UsecaseInterface } from "@/modules/@shared/domain";
 import { Either, left, right } from "@/modules/@shared/logic";
 import { GeneratePaymentInputDto } from "./generate-payment.dto";
 import { CustomerEntity, PaymentEntity } from "../../../domain/entities";
-import { CustomerRepositoryInterface } from "../../../domain/repositories";
+import { CustomerRepositoryInterface, PaymentRepositoryInterface } from "../../../domain/repositories";
 import { CustomerNotFoundError } from "./errors";
+import { EventEmitterInterface } from "@/modules/@shared/events";
+import { PaymentGeneratedEvent } from "./payment-generated.event";
 
 export interface PaymentMethodGateway {
-    generatePayment(): Promise<any>
+    generatePayment(): Promise<Either<Error[], any>>
 }
 
 export class GeneratePaymentUsecase implements UsecaseInterface {
 
     constructor(
+        private readonly paymentRepository: PaymentRepositoryInterface,
         private readonly customerRepository: CustomerRepositoryInterface,
-        private readonly paymentMethodGateway: PaymentMethodGateway
+        private readonly paymentMethodGateway: PaymentMethodGateway,
+        private readonly eventEmitter: EventEmitterInterface
     ){}
 
     async execute({ customerId, orderId, paymentMethod }: GeneratePaymentInputDto): Promise<Either<Error[], any>> {
@@ -28,8 +32,16 @@ export class GeneratePaymentUsecase implements UsecaseInterface {
         })
         if(paymentEntity.isLeft()) return left(paymentEntity.value)
 
+        const paymentMethodGatewayResponse = await this.paymentMethodGateway.generatePayment()
+        if(paymentMethodGatewayResponse.isLeft()) return left(paymentMethodGatewayResponse.value)
 
+        await this.paymentRepository.create(paymentEntity.value)
 
-        return right(null)
+        const paymentGeneratedEvent = new PaymentGeneratedEvent({
+            ...paymentEntity.value.toJSON()
+        })
+        await this.eventEmitter.emit(paymentGeneratedEvent)
+
+        return right(paymentMethodGatewayResponse.value)
     }
 }
