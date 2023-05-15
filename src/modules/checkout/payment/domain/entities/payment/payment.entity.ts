@@ -18,7 +18,8 @@ export class PaymentEntity extends BaseEntity<PaymentEntity.Props> {
         
         const paymentEntity = new PaymentEntity({
             ...props,
-            status: "PENDING"
+            status: "PENDING",
+            dateCreated: props.dateCreated ?? new Date()
         }, id)
         return right(paymentEntity)
     }
@@ -37,7 +38,8 @@ export class PaymentEntity extends BaseEntity<PaymentEntity.Props> {
             status: this.status,
             paymentMethod: this.paymentMethod,
             orderId: this.orderId,
-            customer: this.customer.toJSON()
+            customer: this.customer.toJSON(),
+            dateCreated: this.dateCreated
         }
     }
 
@@ -53,6 +55,9 @@ export class PaymentEntity extends BaseEntity<PaymentEntity.Props> {
     get customer(): CustomerEntity {
         return this.props.customer
     }
+    get dateCreated(): Date {
+        return this.props.dateCreated
+    }
 }
 
 export namespace PaymentEntity {
@@ -64,12 +69,14 @@ export namespace PaymentEntity {
         customer: CustomerEntity
         orderId: string
         paymentMethod: PaymentMethod
+        dateCreated?: Date
     }
     export type Props = {
         customer: CustomerEntity
         orderId: string
         status: Status
         paymentMethod: PaymentMethod
+        dateCreated: Date
     }
     export type PropsJSON = Omit<Props, "customer"> & { id: string, customer: CustomerEntity.PropsJSON }
 }

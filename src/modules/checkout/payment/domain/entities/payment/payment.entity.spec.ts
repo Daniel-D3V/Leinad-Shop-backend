@@ -16,6 +16,7 @@ describe("Test PaymentEntity", () => {
             name: "any_name"
         })
         props = {
+            dateCreated: new Date(),
             orderId: "any_order_id",
             paymentMethod: "MERCADOPAGO",
             customer: customerEntity
@@ -30,9 +31,20 @@ describe("Test PaymentEntity", () => {
         expect(sut.toJSON()).toEqual({
             id,
             status: "PENDING",
-            paymentMethod: "MERCADOPAGO",
-            orderId: "any_order_id",
+            ...props,
             customer: customerEntity.toJSON()
         })
+    })
+
+    it("Should cancel a PaymentEntity", () => {
+        expect(sut.status).toBe("PENDING")
+        sut.cancel()
+        expect(sut.status).toBe("CANCELLED")
+    })
+
+    it("Should pay a PaymentEntity", () => {
+        expect(sut.status).toBe("PENDING")
+        sut.pay()
+        expect(sut.status).toBe("PAID")
     })
 })
