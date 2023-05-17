@@ -20,7 +20,7 @@ export class PasswordValueObject extends ValueObject<PasswordValueObject.Props> 
         })
         if(validationResult.isLeft()) return left(validationResult.value)
 
-        const hashedPassword = password
+        const hashedPassword = password + new Date().toISOString()
         const passwordValueObject = new PasswordValueObject({
             password: hashedPassword
         })

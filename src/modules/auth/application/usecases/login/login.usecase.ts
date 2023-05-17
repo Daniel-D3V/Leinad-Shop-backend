@@ -19,6 +19,7 @@ export class LoginUsecase implements UsecaseInterface {
         const passwordMatch = userEntity.comparePassword(password)
         if(!passwordMatch) return left([ new InvalidCredentialsError() ])
 
+
         
 
         return right({ 
