@@ -20,15 +20,15 @@ export class YupUserValidator extends YupValidatorProvider implements DomainVali
             .email(YupErrorAdapter.toYupFormat(new InvalidEmailFormatError()))
             .max(255, YupErrorAdapter.toYupFormat(new InvalidEmailLengthError())),
 
-        password: yup.string()
-            .strict(true)
-            .typeError(YupErrorAdapter.toYupFormat(new InvalidPasswordTypeError()))
-            .required(YupErrorAdapter.toYupFormat(new PasswordNotProvidedError()))
-            .min(8, YupErrorAdapter.toYupFormat(new InvalidPasswordLengthError()))
-            .max(100, YupErrorAdapter.toYupFormat(new InvalidPasswordLengthError()))
-            .matches(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
-                YupErrorAdapter.toYupFormat(new InvalidPasswordFormatError())
-            )
+        // password: yup.string()
+        //     .optional()
+        //     .strict(true)
+        //     .typeError(YupErrorAdapter.toYupFormat(new InvalidPasswordTypeError()))
+        //     .min(8, YupErrorAdapter.toYupFormat(new InvalidPasswordLengthError()))
+        //     .max(100, YupErrorAdapter.toYupFormat(new InvalidPasswordLengthError()))
+        //     .matches(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
+        //         YupErrorAdapter.toYupFormat(new InvalidPasswordFormatError())
+        //     )
     });
 
     validate(props: YupUserValidator.ValidateFields): Either<Error[], null> {
@@ -42,7 +42,7 @@ export namespace YupUserValidator {
     export type ValidateFields = {
         username: string
         email: string
-        password: string
+        // password: string
     }
     
 }

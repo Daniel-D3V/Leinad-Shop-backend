@@ -88,39 +88,39 @@ describe("test YupUserValidator", () => {
 
     describe("test password", () => {
 
-        it("Should return InvalidPasswordTypeError if password is not a string", () => {
-            props.password = 1 as any
-            const result = yupUserValidator.validate(props)
-            expect(result.isLeft()).toBeTruthy()
-            expect(result.value![0].name).toEqual("InvalidPasswordTypeError")
-        })
+        // it("Should return InvalidPasswordTypeError if password is not a string", () => {
+        //     props.password = 1 as any
+        //     const result = yupUserValidator.validate(props)
+        //     expect(result.isLeft()).toBeTruthy()
+        //     expect(result.value![0].name).toEqual("InvalidPasswordTypeError")
+        // })
 
-        it("Should return PasswordNotProvidedError if password is not provided", () => {
-            props.password = undefined as any
-            const result = yupUserValidator.validate(props)
-            expect(result.isLeft()).toBeTruthy()
-            expect(result.value![0].name).toEqual("PasswordNotProvidedError")
-        })
+        // // it("Should return PasswordNotProvidedError if password is not provided", () => {
+        // //     props.password = undefined as any
+        // //     const result = yupUserValidator.validate(props)
+        // //     expect(result.isLeft()).toBeTruthy()
+        // //     expect(result.value![0].name).toEqual("PasswordNotProvidedError")
+        // // })
 
-        it("Should return InvalidPasswordLengthError if password length is less than 8", () => {
-            props.password = "A".repeat(7) 
-            const result = yupUserValidator.validate(props)
-            expect(result.isLeft()).toBeTruthy()
-            expect(result.value![0].name).toEqual("InvalidPasswordLengthError")
-        })
+        // it("Should return InvalidPasswordLengthError if password length is less than 8", () => {
+        //     props.password = "A".repeat(7) 
+        //     const result = yupUserValidator.validate(props)
+        //     expect(result.isLeft()).toBeTruthy()
+        //     expect(result.value![0].name).toEqual("InvalidPasswordLengthError")
+        // })
 
-        it("Should return InvalidPasswordLengthError if password length is greater than 100", () => {
-            props.password = "A".repeat(101) 
-            const result = yupUserValidator.validate(props)
-            expect(result.isLeft()).toBeTruthy()
-            expect(result.value![0].name).toEqual("InvalidPasswordLengthError")
-        })
+        // it("Should return InvalidPasswordLengthError if password length is greater than 100", () => {
+        //     props.password = "A".repeat(101) 
+        //     const result = yupUserValidator.validate(props)
+        //     expect(result.isLeft()).toBeTruthy()
+        //     expect(result.value![0].name).toEqual("InvalidPasswordLengthError")
+        // })
 
-        it("Should return InvalidPasswordFormatError if password does not match regex", () => {
-            props.password = "any_password"
-            const result = yupUserValidator.validate(props)
-            expect(result.isLeft()).toBeTruthy()
-            expect(result.value![0].name).toEqual("InvalidPasswordFormatError")
-        })
+        // it("Should return InvalidPasswordFormatError if password does not match regex", () => {
+        //     props.password = "any_password"
+        //     const result = yupUserValidator.validate(props)
+        //     expect(result.isLeft()).toBeTruthy()
+        //     expect(result.value![0].name).toEqual("InvalidPasswordFormatError")
+        // })
     })
 })

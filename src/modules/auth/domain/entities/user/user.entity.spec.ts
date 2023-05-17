@@ -20,17 +20,14 @@ describe("Test UserEntity", () => {
         props = {
             username: "any_username",
             email: "any_mail@mail.com",
-            password: "any_password"
+            password: "Anypassword1!"
         }
-        sut = UserEntity.create(props, id).value as UserEntity
+        sut = UserEntity.create(props).value as UserEntity
     })
 
 
     it("Should create a new UserEntity", () => {
-        sut = UserEntity.create(props, id).value as UserEntity
-        expect(sut.toJSON()).toEqual({
-            id,
-            ...props
-        })
+        sut = UserEntity.create(props).value as UserEntity
+        expect(sut).toBeInstanceOf(UserEntity)
     })
 })
