@@ -4,11 +4,14 @@ import { SignupInputDto } from "./signup.dto";
 import { UserRepositoryInterface } from "@/modules/auth/domain/repositories";
 import { EmailInUseError } from "./errors";
 import { UserEntity } from "@/modules/auth/domain/entities";
+import { EventEmitterInterface } from "@/modules/@shared/events";
+import { UserSignupEvent } from "./user-signup.event";
 
 export class SignupUsecase implements UsecaseInterface {
 
     constructor(
-        private readonly userRepository: UserRepositoryInterface
+        private readonly userRepository: UserRepositoryInterface,
+        private readonly eventEmitter: EventEmitterInterface
     ){}
 
     async execute({ email, password, username }: SignupInputDto): Promise<Either<Error[], any>> {
@@ -20,6 +23,11 @@ export class SignupUsecase implements UsecaseInterface {
         if(userFoundByEmail) return left([ new EmailInUseError() ])
 
         await this.userRepository.create(userEntity.value)
+
+        const userSignupEvent = new UserSignupEvent({
+            ...userEntity.value.toJSON()
+        })
+        await this.eventEmitter.emit(userSignupEvent)
 
         return right(null)
     }
