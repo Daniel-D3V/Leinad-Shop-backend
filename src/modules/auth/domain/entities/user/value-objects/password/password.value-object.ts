@@ -1,7 +1,7 @@
 import { ValueObject } from "@/modules/@shared/domain";
 import { Either, left, right } from "@/modules/@shared/logic";
 import { PasswordValidatorFactory } from "./validator";
-
+import { hashSync, compareSync } from "bcrypt"
 
 export class PasswordValueObject extends ValueObject<PasswordValueObject.Props> {
 
@@ -20,7 +20,7 @@ export class PasswordValueObject extends ValueObject<PasswordValueObject.Props> 
         })
         if(validationResult.isLeft()) return left(validationResult.value)
 
-        const hashedPassword = password + new Date().toISOString()
+        const hashedPassword = hashSync(password, 10)
         const passwordValueObject = new PasswordValueObject({
             password: hashedPassword
         })
@@ -28,7 +28,7 @@ export class PasswordValueObject extends ValueObject<PasswordValueObject.Props> 
     }
 
     comparePassword(plainPassword: string): boolean{
-        return true
+        return compareSync(plainPassword, this.value)
     }
 }
 

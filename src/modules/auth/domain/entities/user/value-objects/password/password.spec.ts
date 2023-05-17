@@ -37,4 +37,24 @@ describe("Test passwordValueObject", () => {
         const sut = PasswordValueObject.create(props)
         expect(sut.value).toEqual([ validatorError ])
     })
+
+    it("Should return right if domain validator returns no error", () => {
+        const sut = PasswordValueObject.create(props)
+        expect(sut.isRight()).toBeTruthy()
+    })
+
+    it("Should return the hashed password", () => {
+        expect(sut.value).not.toBe(props.password)
+    })
+
+    it("Should compare the password", () => {
+        expect(sut.comparePassword(props.password)).toBeTruthy()
+    })
+
+    it("Should not compare the password", () => {
+        expect(sut.comparePassword("AnyPassword2!")).toBeFalsy()
+    })
+
+    
+
 })

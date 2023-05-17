@@ -13,7 +13,6 @@ describe("test YupUserValidator", () => {
         props = {
             username: "any_username",
             email: "any_email@gmail.com",
-            password: "AnyPassword1!"
         }
     })
 
