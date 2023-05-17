@@ -26,6 +26,14 @@ describe("Test UserEntity", () => {
         sut = UserEntity.create(props).value as UserEntity
     })
     
+    it("Should call compare password from password value object", () => {
+        const passwordSpy = jest.spyOn(PasswordValueObject.prototype, "comparePassword") 
+        const plainTextPassword = "any_password"
+        sut.comparePassword(plainTextPassword)
+        expect(passwordSpy).toHaveBeenCalledTimes(1)
+        expect(passwordSpy).toHaveBeenCalledWith(plainTextPassword)
+    })
+
     describe("Test UserEntity Create", () => {
     
         it("Should create a new UserEntity", () => {
@@ -78,4 +86,32 @@ describe("Test UserEntity", () => {
             expect(passwordSpy).toHaveBeenCalledTimes(1)
         })
     })
+
+    describe("Test UserEntity creatingExistingUser", () => {
+    
+        it("Should create a new UserEntity", () => {
+            sut = UserEntity.createExistingUser(props, id).value as UserEntity
+            expect(sut).toBeInstanceOf(UserEntity)
+            expect(sut.id).toBe(id)
+        })
+        
+        it("Should return left if domain validator returns an error", () => {
+            const validatorError = new Error("ValidatorError")
+            jest.spyOn(domainValidator, "validate").mockReturnValue({
+                isLeft: () => true,
+                value: [ validatorError ]
+            } as any)
+
+            const sut = UserEntity.createExistingUser(props, id)
+            expect(sut.value).toEqual([ validatorError ])
+        })
+
+        it("Should create PasswordValueObject with correct value ", () => {
+            const passwordSpy = jest.spyOn(PasswordValueObject, "create")
+            expect(passwordSpy).toHaveBeenCalledWith({
+                password: props.password
+            })
+        })
+    })
+
 })
