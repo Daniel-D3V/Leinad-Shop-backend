@@ -1,7 +1,9 @@
 import { DomainValidator, YupErrorAdapter, YupValidatorProvider } from "@/modules/@shared/domain/validator";
 import { Either, left, right } from "@/modules/@shared/logic";
 import * as yup from 'yup';
-import { DescriptionNotProvidedError, InvalidDescriptionLengthError, InvalidDescriptionTypeError, InvalidPriceLengthError, InvalidPriceTypeError, InvalidTitleLengthError, InvalidTitleTypeError, PriceNotProvidedError, TitleNotProvidedError } from "../errors";
+import { DescriptionNotProvidedError, InvalidDescriptionLengthError, InvalidPriceLengthError, InvalidPriceTypeError, InvalidTitleLengthError, PriceNotProvidedError, TitleNotProvidedError } from "../errors";
+import { InvalidTitleTypeError } from "../errors/title/Invalid-title-type.error";
+import { InvalidDescriptionTypeError } from "../errors/description/Invalid-description-type.error";
 
 export class YupAnnounceValidator extends YupValidatorProvider implements DomainValidator<YupAnnounceValidator.ValidateFields>{
 
