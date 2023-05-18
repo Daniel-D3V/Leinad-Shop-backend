@@ -58,6 +58,15 @@ model AnnounceImages {
   @@map("announce_images")
 }
 
+model User {
+  id String @id @default(uuid())
+  username String @unique
+  email String @unique
+  password String 
+
+  @@map("users") 
+}
+
 model Outbox {
 
   id String @id @default(uuid())
