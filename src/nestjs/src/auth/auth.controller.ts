@@ -9,7 +9,7 @@ export class AuthController {
   create(@Body() createAuthDto: any) {
     return this.authService.create(createAuthDto);
   }
-//
+
   @Get()
   findAll() {
     return this.authService.findAll();
