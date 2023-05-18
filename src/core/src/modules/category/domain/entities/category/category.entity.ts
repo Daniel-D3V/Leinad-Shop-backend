@@ -3,7 +3,7 @@ import { Either, left, right } from "@/modules/@shared/logic"
 import { CategoryValidatorFactory } from "./validator"
 
 export class CategoryEntity extends BaseEntity<CategoryEntity.Props> {
-    
+
     private constructor(props: CategoryEntity.Props, id?: string) {
         super(props, id)
     }
