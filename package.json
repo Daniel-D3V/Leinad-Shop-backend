@@ -8,7 +8,8 @@
   ],
   "scripts": {
     "predev": "npm run build -w @core/domain",
-    "dev": "concurrently \"npm run build:w -w @core/domain\" \"npm run start:dev -w nestjs\""
+    "dev": "concurrently \"npm run build:w -w @core/domain\" \"npm run start:dev -w nestjs\"",
+    "test": "npm run test -w @core/domain"
   },
   "author": "",
   "license": "ISC",
