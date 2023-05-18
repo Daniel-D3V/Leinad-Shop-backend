@@ -43,6 +43,8 @@ describe('Test signupUsecase', () => {
         expect(output.isRight()).toBe(true)
     })
 
+
+
     it("Should return an error if userEntity returns an error on the creation", async () => {
         const entityError = new Error("EntityError")
         jest.spyOn(UserEntity, "create").mockReturnValueOnce({
@@ -51,6 +53,12 @@ describe('Test signupUsecase', () => {
         } as any)
         const output = await sut.execute(props)
         expect(output.value).toEqual([ entityError ])
+    })
+
+    it("Should return UsernameInUseError if userRepository finds a user with the same username", async () => {
+        jest.spyOn(userRepository, "findByUsername").mockResolvedValueOnce(true as any)
+        const output = await sut.execute(props)
+        expect(output.value![0].name).toBe("UsernameInUseError")
     })
 
     it("Should return EmailInUseError if userRepository finds a user with the same email", async () => {
