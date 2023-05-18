@@ -1,9 +1,11 @@
 import { Injectable } from '@nestjs/common';
+import { CategoryEntity } from "../../../core/src/modules/category/domain/entities";
 
 @Injectable()
 export class AuthService {
   create(createAuthDto: any) {
     
+    CategoryEntity
     console.log(createAuthDto)
     return 'This action adds a new auth';
   }
