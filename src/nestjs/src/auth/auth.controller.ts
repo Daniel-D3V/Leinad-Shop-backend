@@ -1,14 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Res } from '@nestjs/common';
 import { Response } from "express";
 import { AuthService } from './auth.service';
-
-
-const formatError = (errors: Error[]) => ({
-  errors: errors.map(error => ({ 
-    name: error.name,
-    message: error.message
-  }))
-})
+import { formatError } from "@core/domain/dist/src/modules/@shared/utils"
 
 @Controller('auth')
 export class AuthController {
