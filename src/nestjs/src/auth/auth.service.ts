@@ -5,10 +5,8 @@ import { SignupUsecaseFactory } from "@core/domain/dist/src/modules/auth/factori
 export class AuthService {
 
   async create(signupDto: any) {
-    
     const signupUsecase = SignupUsecaseFactory.create()
     return await signupUsecase.execute(signupDto)
-
   }
 
   findAll() {
