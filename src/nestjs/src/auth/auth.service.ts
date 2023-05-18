@@ -1,12 +1,14 @@
 import { Injectable } from '@nestjs/common';
+import { SignupUsecaseFactory } from "@core/domain/dist/src/modules/auth/factories"
 
 @Injectable()
 export class AuthService {
 
-  create(createAuthDto: any) {
+  async create(signupDto: any) {
     
+    const signupUsecase = SignupUsecaseFactory.create()
+    return await signupUsecase.execute(signupDto)
 
-    return 'This action adds a new auth';
   }
 
   findAll() {

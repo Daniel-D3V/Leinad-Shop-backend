@@ -1,13 +1,27 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res } from '@nestjs/common';
+import { Response } from "express";
 import { AuthService } from './auth.service';
+
+
+const formatError = (errors: Error[]) => ({
+  errors: errors.map(error => ({ 
+    name: error.name,
+    message: error.message
+  }))
+})
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post("/signup")
-  create(@Body() createAuthDto: any) {
-    return this.authService.create(createAuthDto);
+  async create(@Body() createAuthDto: any, @Res() res: Response) {
+    const serviceResult = await this.authService.create(createAuthDto);
+    if(serviceResult.isLeft()) {
+      return res.status(400).json(formatError(serviceResult.value))
+    }
+
+    return res.json(serviceResult.value)
   }
 
   @Get()

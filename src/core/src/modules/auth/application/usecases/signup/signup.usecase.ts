@@ -1,20 +1,19 @@
-import { UsecaseInterface } from "@/modules/@shared/domain";
 import { Either, left, right } from "@/modules/@shared/logic";
-import { SignupInputDto } from "./signup.dto";
 import { UserRepositoryInterface } from "@/modules/auth/domain/repositories";
 import { EmailInUseError, UsernameInUseError } from "./errors";
 import { UserEntity } from "@/modules/auth/domain/entities";
 import { EventEmitterInterface } from "@/modules/@shared/events";
 import { UserSignupEvent } from "./user-signup.event";
+import { SignupUsecaseInterface } from "@/modules/auth/domain/usecases";
 
-export class SignupUsecase implements UsecaseInterface {
+export class SignupUsecase implements SignupUsecaseInterface {
 
     constructor(
         private readonly userRepository: UserRepositoryInterface,
         private readonly eventEmitter: EventEmitterInterface
     ){}
 
-    async execute({ email, password, username }: SignupInputDto): Promise<Either<Error[], any>> {
+    async execute({ email, password, username }: SignupUsecaseInterface.InputDto): Promise<Either<Error[], SignupUsecaseInterface.OutputDto>> {
         
         const userEntity = UserEntity.create({ email, password, username })
         if(userEntity.isLeft()) return left(userEntity.value)
@@ -32,6 +31,8 @@ export class SignupUsecase implements UsecaseInterface {
         })
         await this.eventEmitter.emit(userSignupEvent)
 
-        return right(null)
+        return right({
+            userId: userEntity.value.id
+        })
     }
 }

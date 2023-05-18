@@ -1,10 +1,10 @@
 import { UserRepositoryInterface } from "@/modules/auth/domain/repositories"
-import { SignupInputDto } from "./signup.dto"
 import { SignupUsecase } from "./signup.usecase"
 import { EventEmitterInterface } from "@/modules/@shared/events"
 import { mock } from "jest-mock-extended"
 import { UserEntity } from "@/modules/auth/domain/entities";
 import { UserSignupEvent } from "./user-signup.event"
+import { SignupUsecaseInterface } from "@/modules/auth/domain/usecases";
 
 jest.mock("@/modules/auth/domain/entities")
 jest.mock("./user-signup.event")
@@ -12,7 +12,7 @@ jest.mock("./user-signup.event")
 describe('Test signupUsecase', () => { 
 
     let sut: SignupUsecase
-    let props: SignupInputDto
+    let props: SignupUsecaseInterface.InputDto
     let userRepository: UserRepositoryInterface
     let eventEmitter: EventEmitterInterface
     let userEntity: UserEntity

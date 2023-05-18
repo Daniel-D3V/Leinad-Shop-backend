@@ -10,11 +10,13 @@ export class OutboxEmitter implements EventEmitterInterface {
     async emit(event: BaseEvent): Promise<void> {
         
         const formatedEvent = event.format()
+        const {  dateTimeOccurred, schemaVersion, ...props } = formatedEvent
+
         await this.prismaClient.outbox.create({
             data: {
-                ...formatedEvent,
+                ...props,
                 payload: JSON.stringify(formatedEvent),
-                timestamp: formatedEvent.dateTimeOccurred,
+                timestamp: dateTimeOccurred,
             }
         })
     }
