@@ -1,6 +1,7 @@
 import { mock } from "jest-mock-extended"
-import { EventRepositoryInterface } from "../../domain/repositories"
 import { PersistEventUsecase } from "./persist-event.usecase"
+import { EventRepositoryInterface } from "@/modules/event-sourcing-management/domain/repositories"
+import { PersistEventUsecaseInterface } from "@/modules/event-sourcing-management/domain/usecases"
 
 describe("Test PersistEvent", () => {
 

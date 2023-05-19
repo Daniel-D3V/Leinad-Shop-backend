@@ -1,7 +1,7 @@
-import { EventModel } from "@/modules/event-sourcing-management/application/domain/models";
-import { EventRepositoryInterface } from "@/modules/event-sourcing-management/application/domain/repositories";
+
+import { EventRepositoryInterface } from "@/modules/event-sourcing-management/domain/repositories";
 import { MongoEventModel } from "./models";
-import { Types } from "mongoose"
+import { EventModel } from "@/modules/event-sourcing-management/domain/models";
 
 export class MongooseEventRepository implements EventRepositoryInterface {
 

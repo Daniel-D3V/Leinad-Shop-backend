@@ -1,14 +1,15 @@
-import { UsecaseInterface } from "@/modules/@shared/domain";
 import { Either, right } from "@/modules/@shared/logic";
-import { EventRepositoryInterface } from "../../domain/repositories";
-import { EventModel } from "../../domain/models";
+import { EventModel } from "@/modules/event-sourcing-management/domain/models";
+import { EventRepositoryInterface } from "@/modules/event-sourcing-management/domain/repositories";
+import { PersistEventUsecaseInterface } from "@/modules/event-sourcing-management/domain/usecases";
 
-export class PersistEventUsecase implements UsecaseInterface{
+
+export class PersistEventUsecase implements PersistEventUsecaseInterface{
     constructor(
         private readonly eventRepository: EventRepositoryInterface
     ) {}
 
-    async execute(input: EventModel): Promise<Either<Error[], any>> {
+    async execute(input: PersistEventUsecaseInterface.InputDto): Promise<PersistEventUsecaseInterface.OutputDto> {
         
         await this.eventRepository.persitEvent(input)
 
