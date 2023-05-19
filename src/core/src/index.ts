@@ -1,10 +1,13 @@
-import { createConnection } from "mysql"
 const MySQLEvents = require('@rodrigogs/mysql-events');
 
 const program = async () => {
-    const connection = createConnection("mysql://root:password@localhost:33010/test-integration-db?schema=public");
-
-  const instance = new MySQLEvents(connection, {
+  const instance = new MySQLEvents({
+    host: 'localhost',
+    port: 33010,
+    user: 'root',
+    password: 'password',
+  }, {
+    
     startAtEnd: true,
     excludedSchemas: {
       mysql: true,
@@ -15,10 +18,11 @@ const program = async () => {
 
   instance.addTrigger({
     name: 'TEST',
-    expression: '*',
-    statement: MySQLEvents.STATEMENTS.ALL,
+    expression: 'test-integration-db.outbox',
+    statement: MySQLEvents.STATEMENTS.INSERT,
     onEvent: (event: any) => { // You will receive the events here
       console.log(event);
+      console.log(event.affectedRows)
     },
   });
   
