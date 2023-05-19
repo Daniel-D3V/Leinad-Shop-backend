@@ -37,7 +37,7 @@ export class MysqlEventConsumerService implements OnModuleInit {
         onEvent: (event: any) => { 
           event.affectedRows.map(async (event: any) => {
             const { eventName, payload } = event.after
-            await this.eventEmitter.publishToExchange("amq.fanout",eventName, payload)
+            await this.eventEmitter.publishToExchange("amq.fanout", eventName, payload)
           })
         },
       });
