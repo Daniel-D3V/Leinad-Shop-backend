@@ -17,6 +17,4 @@ export class AuthController {
     }
     return res.json(serviceResult.value)
   }
-
-
 }
