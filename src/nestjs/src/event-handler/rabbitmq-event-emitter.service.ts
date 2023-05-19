@@ -10,7 +10,7 @@ export class RabbitMQEventEmitterService {
   }
 
   async publishToExchange(exchange: string, routingKey: string, data: any): Promise<void> {
-    const rabbitmqServerProvider = new RabbitmqServerProvider('amqp://admin:admin@localhost:5672')
+    const rabbitmqServerProvider = new RabbitmqServerProvider(process.env.RABBITMQ_LOGIN_CREDENTIALS)
     await rabbitmqServerProvider.start()
 
     await rabbitmqServerProvider.assertExchange(exchange, 'fanout', { durable: true });

@@ -7,7 +7,7 @@ export class EventSourcingController  implements OnModuleInit{
 
 
   async onModuleInit() {
-    const rabbitmqServerProvider = new RabbitmqServerProvider('amqp://admin:admin@localhost:5672')
+    const rabbitmqServerProvider = new RabbitmqServerProvider(process.env.RABBITMQ_LOGIN_CREDENTIALS)
     await rabbitmqServerProvider.start()
     rabbitmqServerProvider.consume('event-sourcing-consumer', this.persistMessageEventSourcing)
   }
