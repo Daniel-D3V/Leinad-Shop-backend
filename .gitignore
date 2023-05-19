@@ -2,3 +2,4 @@ node_modules
 dist
 .test-mysql-data
 prisma/migrations
+.rabbitmq_data
