@@ -1,5 +1,4 @@
-import { Either, right } from "@/modules/@shared/logic";
-import { EventModel } from "@/modules/event-sourcing-management/domain/models";
+import {  right } from "@/modules/@shared/logic";
 import { EventRepositoryInterface } from "@/modules/event-sourcing-management/domain/repositories";
 import { PersistEventUsecaseInterface } from "@/modules/event-sourcing-management/domain/usecases";
 
