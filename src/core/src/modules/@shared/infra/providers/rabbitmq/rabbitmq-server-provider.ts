@@ -1,4 +1,4 @@
-import { Connection, Channel, connect, Message } from "amqplib";
+import { Connection, Channel, connect, Message, Options } from "amqplib";
 
 export class RabbitmqServerProvider {
     private conn?: Connection;
@@ -13,6 +13,10 @@ export class RabbitmqServerProvider {
 
     async publishInQueue(queue: string, message: string) {
         return this.channel!.sendToQueue(queue, Buffer.from(message));
+    }
+
+    async assertExchange(exchange: string, type: string, options?: Options.AssertExchange) {
+        return this.channel!.assertExchange(exchange, type, options);
     }
 
     async publishInExchange(

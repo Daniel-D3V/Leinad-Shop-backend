@@ -1,9 +1,8 @@
+import { RabbitmqServerProvider } from '@core/domain/dist/src/modules/@shared/infra/providers';
 import { Injectable } from '@nestjs/common';
-import { Channel, connect } from 'amqplib';
 
 @Injectable()
 export class RabbitMQEventEmitterService {
-  private channel: Channel;
 
   constructor() {
  
@@ -11,12 +10,10 @@ export class RabbitMQEventEmitterService {
   }
 
   async publishToExchange(exchange: string, routingKey: string, data: any): Promise<void> {
-    if (!this?.channel) {
-      const connection = await connect('amqp://admin:admin@localhost:5672');
-      this.channel = await connection.createChannel();
-    }
+    const rabbitmqServerProvider = new RabbitmqServerProvider('amqp://admin:admin@localhost:5672')
+    await rabbitmqServerProvider.start()
 
-    // this.channel.assertExchange(exchange, 'fanout', { durable: true });
-    this.channel.publish(exchange, routingKey, Buffer.from(JSON.stringify(data)));
+    await rabbitmqServerProvider.assertExchange(exchange, 'fanout', { durable: true });
+    await rabbitmqServerProvider.publishInExchange(exchange, routingKey, JSON.stringify(data));
   }
 }
