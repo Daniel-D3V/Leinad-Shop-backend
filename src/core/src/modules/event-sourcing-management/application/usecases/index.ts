@@ -1,0 +1,1 @@
+export * from "./persist-event/persist-event.usecase"
