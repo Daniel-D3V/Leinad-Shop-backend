@@ -3,15 +3,15 @@ version: '3.8'
 services:
 
   mongodb:
-    image: mongo
+    image: mongo:4.2
     ports:
       - "27017:27017"
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=user
-      - MONGO_INITDB_ROOT_PASSWORD=pass
-      - MONGO_INITDB_DATABASE=event-sourcing
+      MONGO_INITDB_ROOT_USERNAME: user
+      MONGO_INITDB_ROOT_PASSWORD: pass
+      MONGO_INITDB_DATABASE: event-sourcing
     volumes:
-      - ./.mongo-data/db:/data/db
+      - ./.mongo-data:/data/db
 
   integration-test-mysql:
     image: mysql:8.0

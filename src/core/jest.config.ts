@@ -2,6 +2,8 @@
  * For a detailed explanation regarding each configuration property and type check, visit:
  * https://jestjs.io/docs/configuration
  */
+import { config } from "dotenv"
+config()
 
 export default {
 
