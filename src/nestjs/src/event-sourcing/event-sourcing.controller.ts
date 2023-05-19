@@ -1,15 +1,16 @@
 import { Controller, Inject, OnModuleInit } from '@nestjs/common';
-import { RabbitmqServerProvider } from "@core/domain/dist/src/modules/@shared/infra/providers"
 import { Message } from "amqplib";
+import { RabbitMQService } from 'src/event-handler/rabbitmq.service';
 
 @Controller()
 export class EventSourcingController  implements OnModuleInit{
 
+  constructor(
+    private readonly rabbitmqService: RabbitMQService
+  ) {}
 
   async onModuleInit() {
-    const rabbitmqServerProvider = new RabbitmqServerProvider(process.env.RABBITMQ_LOGIN_CREDENTIALS)
-    await rabbitmqServerProvider.start()
-    rabbitmqServerProvider.consume('event-sourcing-consumer', this.persistMessageEventSourcing)
+    this.rabbitmqService.consume('event-sourcing-consumer', this.persistMessageEventSourcing)
   }
 
   persistMessageEventSourcing(message: Message) {

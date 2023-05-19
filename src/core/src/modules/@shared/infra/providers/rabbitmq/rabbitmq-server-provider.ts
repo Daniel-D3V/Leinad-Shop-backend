@@ -7,8 +7,15 @@ export class RabbitmqServerProvider {
     constructor(private uri: string) {}
 
     async start(): Promise<void> {
-        this.conn = await connect(this.uri);
-        this.channel = await this.conn.createChannel();
+        if(!this.conn || !this.channel) {
+            this.conn = await connect(this.uri);
+            this.channel = await this.conn.createChannel();
+        }
+    }
+
+    async close(): Promise<void> {
+        await this.channel?.close();
+        await this.conn?.close();
     }
 
     async publishInQueue(queue: string, message: string) {
