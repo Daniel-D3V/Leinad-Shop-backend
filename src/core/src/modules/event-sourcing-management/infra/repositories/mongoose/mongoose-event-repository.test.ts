@@ -3,12 +3,12 @@ import { MongooseEventRepository } from "./mongoose-event.repository"
 
 import { randomUUID } from "crypto"
 import { MongoEventModel } from "./models"
-import { MongoMemoryServer } from 'mongodb-memory-server';
+import {  MongoMemoryReplSet } from 'mongodb-memory-server';
 import { EventModel } from "@/modules/event-sourcing-management/domain/models";
 
 describe("Test MongooseEventRepository", () => {
 
-    let mongoServer: MongoMemoryServer
+    let mongoServer: MongoMemoryReplSet
     let sut: MongooseEventRepository
     let event: EventModel
     let id: string
@@ -30,7 +30,7 @@ describe("Test MongooseEventRepository", () => {
     })
 
     beforeAll(async () => {
-        mongoServer = await MongoMemoryServer.create();
+        mongoServer = await MongoMemoryReplSet.create();
         const mongoUri =  mongoServer.getUri();
         await mongoose.connect(mongoUri);
     })
@@ -42,25 +42,16 @@ describe("Test MongooseEventRepository", () => {
 
 
 
-    // it("Should save the event", async () => {
-    //     await sut.persitEvent(event)
-    //     const mongoEvent = await MongoEventModel.findOne({ id })
-    //     if(!mongoEvent ) throw new Error("Event not found")
-        
-    //     expect(mongoEvent.id).toBe(event.id)
-    //     expect(mongoEvent.eventName).toBe(event.eventName)
-    //     expect(mongoEvent.schemaVersion).toBe(event.schemaVersion)
-    //     expect(mongoEvent.dateTimeOccurred).toEqual(event.dateTimeOccurred)
-    //     expect(mongoEvent.payload).toEqual(event.payload)
-    // })
-
-    it("Should not persist", async () => {
-        try{
-            const promise = await sut.persitEvent(event)
-        }catch(err){
-        }
+    it("Should save the event", async () => {
+        await sut.persitEvent(event)
         const mongoEvent = await MongoEventModel.findOne({ id })
-        expect(mongoEvent).toBeNull()
+        if(!mongoEvent ) throw new Error("Event not found")
         
+        expect(mongoEvent.id).toBe(event.id)
+        expect(mongoEvent.eventName).toBe(event.eventName)
+        expect(mongoEvent.schemaVersion).toBe(event.schemaVersion)
+        expect(mongoEvent.dateTimeOccurred).toEqual(event.dateTimeOccurred)
+        expect(mongoEvent.payload).toEqual(event.payload)
     })
+
 })

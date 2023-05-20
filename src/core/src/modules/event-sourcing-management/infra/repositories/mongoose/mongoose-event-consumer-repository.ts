@@ -12,7 +12,7 @@ export class MongooseEventConsumerRepository implements EventConsumerRepoitoryIn
     }
 
     async registerConsumption(consumerName: string, eventId: string): Promise<void> {
-        await MongoEventConsumerModel.create({ consumerName, eventId })
+        await MongoEventConsumerModel.create([{ consumerName, eventId }], { session: this.session })
     }
 
     async findConsumption(consumerName: string, eventId: string): Promise<EventConsumerModel | null> {

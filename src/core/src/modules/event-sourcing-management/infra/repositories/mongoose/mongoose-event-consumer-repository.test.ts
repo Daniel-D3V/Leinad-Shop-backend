@@ -1,4 +1,4 @@
-import { MongoMemoryServer } from "mongodb-memory-server"
+import {  MongoMemoryReplSet } from 'mongodb-memory-server';
 import { MongooseEventConsumerRepository } from "./mongoose-event-consumer-repository"
 import { EventConsumerModel } from "@/modules/event-sourcing-management/domain/models"
 import mongoose from "mongoose"
@@ -8,7 +8,7 @@ import { MongoEventConsumerModel } from "./models"
 
 describe("Test MongooseEventConsumerRepository", () => {
 
-    let mongoServer: MongoMemoryServer
+    let mongoServer: MongoMemoryReplSet
     let sut: MongooseEventConsumerRepository
     let eventConsumer: EventConsumerModel
 
@@ -23,7 +23,7 @@ describe("Test MongooseEventConsumerRepository", () => {
     })
 
     beforeAll(async () => {
-        mongoServer = await MongoMemoryServer.create();
+        mongoServer = await MongoMemoryReplSet.create();
         const mongoUri =  mongoServer.getUri();
         await mongoose.connect(mongoUri);
     })

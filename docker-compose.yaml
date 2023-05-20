@@ -1,9 +1,12 @@
-version: '3.8'
+
+
+
+version: '3.9'
 
 services:
 
   mongodb:
-    image: mongo:4.2
+    image: mongo:5.0
     ports:
       - "27017:27017"
     environment:
@@ -12,6 +15,8 @@ services:
       MONGO_INITDB_DATABASE: event-sourcing
     volumes:
       - ./.mongo-data:/data/db
+
+
 
   integration-test-mysql:
     image: mysql:8.0
@@ -49,4 +54,5 @@ services:
   #       - /app/node_modules
   #     stdin_open: true
   #     tty: true
+
 
