@@ -34,10 +34,10 @@ export class RabbitmqServerProvider {
         return this.channel!.publish(exchange, routingKey, Buffer.from(message));
     }
 
-    async consume(queue: string, callback: (message: Message) => void) {
-        return this.channel!.consume(queue, (message) => {
-        callback(message!);
-        this.channel!.ack(message!);
-    });
-  }
+    async consume(queue: string, callback:  (message: Message) => Promise<void>) {
+        return await this.channel!.consume(queue, async (message) => {
+            await callback(message!);
+            this.channel!.ack(message!);
+        });
+    }
 }

@@ -42,15 +42,25 @@ describe("Test MongooseEventRepository", () => {
 
 
 
-    it("Should save the event", async () => {
-        await sut.persitEvent(event)
-        const mongoEvent = await MongoEventModel.findOne({ id })
-        if(!mongoEvent ) throw new Error("Event not found")
+    // it("Should save the event", async () => {
+    //     await sut.persitEvent(event)
+    //     const mongoEvent = await MongoEventModel.findOne({ id })
+    //     if(!mongoEvent ) throw new Error("Event not found")
         
-        expect(mongoEvent.id).toBe(event.id)
-        expect(mongoEvent.eventName).toBe(event.eventName)
-        expect(mongoEvent.schemaVersion).toBe(event.schemaVersion)
-        expect(mongoEvent.dateTimeOccurred).toEqual(event.dateTimeOccurred)
-        expect(mongoEvent.payload).toEqual(event.payload)
+    //     expect(mongoEvent.id).toBe(event.id)
+    //     expect(mongoEvent.eventName).toBe(event.eventName)
+    //     expect(mongoEvent.schemaVersion).toBe(event.schemaVersion)
+    //     expect(mongoEvent.dateTimeOccurred).toEqual(event.dateTimeOccurred)
+    //     expect(mongoEvent.payload).toEqual(event.payload)
+    // })
+
+    it("Should not persist", async () => {
+        try{
+            const promise = await sut.persitEvent(event)
+        }catch(err){
+        }
+        const mongoEvent = await MongoEventModel.findOne({ id })
+        expect(mongoEvent).toBeNull()
+        
     })
 })

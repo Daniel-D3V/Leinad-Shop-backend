@@ -1,9 +1,16 @@
 import { EventConsumerModel } from "@/modules/event-sourcing-management/domain/models";
 import { EventConsumerRepoitoryInterface } from "@/modules/event-sourcing-management/domain/repositories";
 import { MongoEventConsumerModel } from "./models";
+import mongoose from "mongoose";
 
 
 export class MongooseEventConsumerRepository implements EventConsumerRepoitoryInterface {
+
+    session?: mongoose.mongo.ClientSession
+    constructor(session?: mongoose.mongo.ClientSession){
+        this.session = session
+    }
+
     async registerConsumption(consumerName: string, eventId: string): Promise<void> {
         await MongoEventConsumerModel.create({ consumerName, eventId })
     }
