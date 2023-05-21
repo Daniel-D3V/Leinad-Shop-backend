@@ -13,9 +13,10 @@ export class JwtTokenManagement implements TokenManagementInterface {
     ){}
 
     async generateToken(payload: TokenPayloadModel): Promise<string> {
-        const token = sign(payload, this.config.tokenSecret, {
-            expiresIn: "1h"
-        })
+        const token = sign({
+            ...payload,
+            exp: 1 * 60 * 60 // 1 hour
+        }, this.config.tokenSecret)
         return token
     }
     async verifyToken(token: string): Promise<Either<Error[], TokenPayloadModel>> {
@@ -27,18 +28,19 @@ export class JwtTokenManagement implements TokenManagementInterface {
         }
     }
     async generateRefreshToken(payload: TokenPayloadModel): Promise<string> {
-        const refreshToken = sign(payload, this.config.refreshTokenSecret, {
-            expiresIn: "14d"
-        })
+        const refreshToken = sign({
+            ...payload,
+            exp: 60 * 60 * 24 * 14 // 14 days
+        }, this.config.refreshTokenSecret )
         const expirationDate = new Date()
         expirationDate.setDate(expirationDate.getDate() + 14);
         await this.refreshTokenRepository.storeRefreshToken(refreshToken,payload.userId, expirationDate)
         return refreshToken
     }
+
     async verifyRefreshToken(token: string): Promise<Either<Error[], TokenPayloadModel>> {
         try {
             const payload = verify(token, this.config.refreshTokenSecret) as TokenPayloadModel
-
             const refreshToken = await this.refreshTokenRepository.findRefreshToken(token)
             if(!refreshToken) throw new InvalidRefreshTokenErrorError()
 
@@ -48,15 +50,14 @@ export class JwtTokenManagement implements TokenManagementInterface {
         }
     }
     async generateAccessTokenFromRefreshToken(refreshToken: string): Promise<Either<Error[], TokenManagementInterface.AccessAndRefreshToken>> {
-        
         const verifyTokenResult = await this.verifyRefreshToken(refreshToken)
         if(verifyTokenResult.isLeft()) return left(verifyTokenResult.value)
-
         const payload: TokenPayloadModel = verifyTokenResult.value
         await this.refreshTokenRepository.deleteRefreshToken(refreshToken)
         
         const accessToken = await this.generateToken(payload)
         const newRefreshToken = await this.generateRefreshToken(payload)
+
         return right({
             accessToken,
             refreshToken: newRefreshToken

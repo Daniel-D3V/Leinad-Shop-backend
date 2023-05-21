@@ -27,8 +27,10 @@
     "@nestjs/microservices": "^9.4.1",
     "@nestjs/platform-express": "^9.0.0",
     "@rodrigogs/mysql-events": "^0.6.0",
+    "@types/cookie-parser": "^1.4.3",
     "amqp-connection-manager": "^4.1.13",
     "amqplib": "^0.10.3",
+    "cookie-parser": "^1.4.6",
     "dotenv": "^16.0.3",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0"

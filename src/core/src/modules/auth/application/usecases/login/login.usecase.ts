@@ -25,12 +25,12 @@ export class LoginUsecase implements LoginUsecaseInterface {
             email: userEntity.email,
             userId: userEntity.id
         }
-        const token = await this.tokenManagement.generateToken(tokenPayload)
+        const accessToken = await this.tokenManagement.generateToken(tokenPayload)
         const refreshToken = await this.tokenManagement.generateRefreshToken(tokenPayload)
         
         return right({ 
             refreshToken,
-            token
+            accessToken
         })
     }
 }

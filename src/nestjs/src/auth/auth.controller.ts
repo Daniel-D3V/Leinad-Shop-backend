@@ -1,7 +1,7 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Res } from '@nestjs/common';
-import { Response } from "express";
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res, Req } from '@nestjs/common';
+import { Response, Request } from "express";
 import { formatError } from "@core/domain/dist/src/modules/@shared/utils"
-import { SignupUsecaseFactory, LoginUsecaseFactory } from "@core/domain/dist/src/modules/auth/factories"
+import { SignupUsecaseFactory, LoginUsecaseFactory, RefreshTokenUsecaseFactory } from "@core/domain/dist/src/modules/auth/factories"
 
 
 @Controller('auth')
@@ -24,8 +24,24 @@ export class AuthController {
     const usecaseResult = await loginUsecase.execute(loginDto)
     if(usecaseResult.isLeft()) {
       return res.status(400).json(formatError(usecaseResult.value))
-    }//////
-    res.cookie("token", usecaseResult.value.token, { httpOnly: true })
+    }//////sdfsdfsddfsdsfscvdsfsddfsdfsdsdfsddsffdsfdssdfdsfsdsdf
+    res.cookie("accessToken", usecaseResult.value.accessToken, { httpOnly: true })
+    res.cookie("refreshToken", usecaseResult.value.refreshToken, { httpOnly: true })
+
+    return res.status(200).json()
+  }
+
+  @Post("/refresh-token")
+  async refreshToken(@Req() req: Request, @Res() res: Response) {
+    const { refreshToken } = req.cookies
+    const refreshTokenUsecase = RefreshTokenUsecaseFactory.create()
+    const usecaseResult = await refreshTokenUsecase.execute({
+      refreshToken
+    })
+    if(usecaseResult.isLeft()) {
+      return res.status(400).json(formatError(usecaseResult.value))
+    }////////ddsfsddfsdfdfsddsfsdfdfsdfdsfsdfsdf
+    res.cookie("accessToken", usecaseResult.value.accessToken, { httpOnly: true })
     res.cookie("refreshToken", usecaseResult.value.refreshToken, { httpOnly: true })
 
     return res.status(200).json()

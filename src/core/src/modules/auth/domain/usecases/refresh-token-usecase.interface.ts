@@ -1,14 +1,13 @@
 import { UsecaseInterface } from "@/modules/@shared/domain";
 import { Either } from "@/modules/@shared/logic";
 
-export interface LoginUsecaseInterface extends UsecaseInterface {
-    execute(input: LoginUsecaseInterface.InputDto): Promise<LoginUsecaseInterface.OutputDto>
+export interface RefreshTokenUsecaseInterface extends UsecaseInterface {
+    execute(input: RefreshTokenUsecaseInterface.InputDto): Promise<RefreshTokenUsecaseInterface.OutputDto>
 }
 
-export namespace LoginUsecaseInterface {
+export namespace RefreshTokenUsecaseInterface {
     export type InputDto = {
-        email: string
-        password: string
+        refreshToken: string
     }
 
     export type OutputDto = Either<Error[], {
