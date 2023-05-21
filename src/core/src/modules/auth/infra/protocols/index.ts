@@ -1,1 +1,1 @@
-export * from "./jwt-token-management"
+export * from "./jwt/jwt-token-management"
