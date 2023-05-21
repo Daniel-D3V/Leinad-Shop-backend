@@ -17,7 +17,7 @@ export class PrismaUserRepository implements UserRepositoryInterface {
     }
     async findByEmail(email: string): Promise<UserEntity | null> {
         const prismaUser = await this.prismaClient.user.findFirst({
-            where: { email }
+            where: { email: email ?? "" }
         })
         if(!prismaUser) return null
         const userEntity = UserEntity.createExistingUser({
@@ -29,7 +29,7 @@ export class PrismaUserRepository implements UserRepositoryInterface {
 
     async findByUsername(username: string): Promise<UserEntity | null> {
         const prismaUser = await this.prismaClient.user.findFirst({
-            where: { username }
+            where: { username: username ?? "" }
         })
         if(!prismaUser) return null
         const userEntity = UserEntity.createExistingUser({

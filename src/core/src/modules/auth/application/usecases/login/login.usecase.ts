@@ -1,11 +1,11 @@
-import { UsecaseInterface } from "@/modules/@shared/domain";
 import { Either, left, right } from "@/modules/@shared/logic";
-import { LoginInputDto, LoginOutputDto } from "./login.dto";
 import { UserRepositoryInterface } from "@/modules/auth/domain/repositories";
 import { InvalidCredentialsError } from "./errors";
 import { TokenManagementInterface } from "../../protocols";
+import { LoginUsecaseInterface } from "@/modules/auth/domain/usecases";
+import { TokenPayloadModel } from "../../models";
 
-export class LoginUsecase implements UsecaseInterface {
+export class LoginUsecase implements LoginUsecaseInterface {
 
     constructor(
         private readonly userRepository: UserRepositoryInterface,
@@ -13,7 +13,7 @@ export class LoginUsecase implements UsecaseInterface {
     ){}
 
 
-    async execute({ email, password }: LoginInputDto): Promise<Either<Error[], LoginOutputDto>> {
+    async execute({ email, password }: LoginUsecaseInterface.InputDto): Promise<LoginUsecaseInterface.OutputDto> {
 
         const userEntity = await this.userRepository.findByEmail(email)
         if(!userEntity) return left([ new InvalidCredentialsError() ])
@@ -21,11 +21,16 @@ export class LoginUsecase implements UsecaseInterface {
         const passwordMatch = userEntity.comparePassword(password)
         if(!passwordMatch) return left([ new InvalidCredentialsError() ])
 
-
+        const tokenPayload: TokenPayloadModel = {
+            email: userEntity.email,
+            userId: userEntity.id
+        }
+        const token = await this.tokenManagement.generateToken(tokenPayload)
+        const refreshToken = await this.tokenManagement.generateRefreshToken(tokenPayload)
         
-
         return right({ 
-
+            refreshToken,
+            token
         })
     }
 }
