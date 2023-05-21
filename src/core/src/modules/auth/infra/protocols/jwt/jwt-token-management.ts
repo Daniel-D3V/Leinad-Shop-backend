@@ -32,7 +32,7 @@ export class JwtTokenManagement implements TokenManagementInterface {
         })
         const expirationDate = new Date()
         expirationDate.setDate(expirationDate.getDate() + 14);
-        await this.refreshTokenRepository.storeRefreshToken(refreshToken, expirationDate)
+        await this.refreshTokenRepository.storeRefreshToken(refreshToken,payload.userId, expirationDate)
         return refreshToken
     }
     async verifyRefreshToken(token: string): Promise<Either<Error[], TokenPayloadModel>> {

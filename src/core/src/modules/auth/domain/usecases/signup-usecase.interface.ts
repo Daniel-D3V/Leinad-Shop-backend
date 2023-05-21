@@ -14,5 +14,6 @@ export namespace SignupUsecaseInterface {
 
     export type OutputDto = {
         userId: string
+        email: string
     }
 }

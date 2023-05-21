@@ -8,9 +8,11 @@ describe("Test MongoRefreshTokenRepository", () => {
     let mongoServer: MongoMemoryReplSet
     let sut: MongoRefreshTokenRepository
     let token: string
+    let userId: string
 
     beforeEach(async () => {
         token = "any_token"
+        userId = "any_user_id"
         sut = new MongoRefreshTokenRepository()
         await MongoRefreshTokenModel.deleteMany({})
     })
@@ -27,7 +29,7 @@ describe("Test MongoRefreshTokenRepository", () => {
     })
 
     it("Should store a refresh token", async () => {
-        await sut.storeRefreshToken(token, new Date())
+        await sut.storeRefreshToken(token, userId, new Date())
         const refreshToken = await sut.findRefreshToken(token)
         expect(refreshToken).toBe(token)
     })
@@ -38,7 +40,7 @@ describe("Test MongoRefreshTokenRepository", () => {
     })
 
     it("Should delete a refresh token", async () => {
-        await sut.storeRefreshToken(token, new Date())
+        await sut.storeRefreshToken(token, userId, new Date())
         await sut.deleteRefreshToken(token)
         const refreshToken = await sut.findRefreshToken(token)
         expect(refreshToken).toBeNull()

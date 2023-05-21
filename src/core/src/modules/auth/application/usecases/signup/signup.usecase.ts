@@ -32,7 +32,8 @@ export class SignupUsecase implements SignupUsecaseInterface {
         await this.eventEmitter.emit(userSignupEvent)
 
         return right({
-            userId: userEntity.value.id
+            userId: userEntity.value.id,
+            email: userEntity.value.email,
         })
     }
 }

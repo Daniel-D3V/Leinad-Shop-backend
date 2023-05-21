@@ -69,7 +69,7 @@ describe("Test JwtTokenManagement", () => {
         const refreshToken = await sut.generateRefreshToken(payload)
         expect(refreshToken).toBe("any_token")
         expect(mockSign).toHaveBeenCalledWith(payload, refreshTokenSecret, expect.any(Object))
-        expect(refreshTokenRepository.storeRefreshToken).toHaveBeenCalledWith(refreshToken, expect.any(Date))
+        expect(refreshTokenRepository.storeRefreshToken).toHaveBeenCalledWith(refreshToken, payload.userId, expect.any(Date))
     })
 
     it("Should call refreshTokenRepository.storeRefreshToken once if a refresh token is generated", async () => {
