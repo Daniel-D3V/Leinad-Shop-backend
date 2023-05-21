@@ -4,8 +4,8 @@ import { EventEmitterInterface } from "@/modules/@shared/events"
 import { mock } from "jest-mock-extended"
 import { CategoryEntity } from "@/modules/category/domain/entities"
 import { CategoryDeactivatedEvent } from "./category-deactivated.event"
-import { DeactivateCategoryInputDto } from "./deactivate-category.dto"
 import { DeactivateCategoryUsecase } from "./deactivate-category.usecase"
+import { DeactivateCategoryUsecaseInterface } from "@/modules/category/domain/usecases"
 
 jest.mock("@/modules/category/domain/entities")
 jest.mock("./category-deactivated.event")
@@ -13,7 +13,7 @@ jest.mock("./category-deactivated.event")
 describe("Test DeactivateCategoryUsecase", () => {
 
     let sut: DeactivateCategoryUsecase
-    let props: DeactivateCategoryInputDto
+    let props: DeactivateCategoryUsecaseInterface.InputDto
     let categoryRepository: CategoryRepositoryInterface
     let eventEmitter: EventEmitterInterface
     let categoryEntity: CategoryEntity

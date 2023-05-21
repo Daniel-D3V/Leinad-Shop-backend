@@ -1,13 +1,12 @@
-import { UsecaseInterface } from "@/modules/@shared/domain";
 import { Either, left, right } from "@/modules/@shared/logic";
 import { EventEmitterInterface } from "@/modules/@shared/events";
-import { DeactivateCategoryInputDto, DeactivateCategoryOutputDto } from "./deactivate-category.dto";
 import { CategoryRepositoryInterface } from "@/modules/category/domain/repositories";
 import { CategoryNotFoundError } from "../_errors";
 import { CategoryDeactivatedEvent } from "./category-deactivated.event";
+import { DeactivateCategoryUsecaseInterface } from "@/modules/category/domain/usecases";
 
 
-export class DeactivateCategoryUsecase implements UsecaseInterface {
+export class DeactivateCategoryUsecase implements DeactivateCategoryUsecaseInterface {
     
     constructor(
         private readonly categoryRepository: CategoryRepositoryInterface,
@@ -15,7 +14,7 @@ export class DeactivateCategoryUsecase implements UsecaseInterface {
     ){}
 
 
-    async execute({ categoryId }: DeactivateCategoryInputDto): Promise<Either<Error[], DeactivateCategoryOutputDto>> {
+    async execute({ categoryId }: DeactivateCategoryUsecaseInterface.InputDto): Promise<DeactivateCategoryUsecaseInterface.OutputDto> {
 
         const categoryEntity = await this.categoryRepository.findById(categoryId)
         if(!categoryEntity) return left([ new CategoryNotFoundError() ])
