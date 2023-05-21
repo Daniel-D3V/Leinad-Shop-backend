@@ -3,7 +3,7 @@ import { EventEmitterInterface } from "@/modules/@shared/events"
 import { mock } from "jest-mock-extended"
 import { CategoryDeletedEvent } from "./category-deleted.event";
 import { DeleteCategoryUsecase } from "./delete-category.usecase";
-import { DeleteCategoryInputDto } from "./delete-category.dto";
+import { DeleteCategoryUsecaseInterface } from "@/modules/category/domain/usecases";
 
 jest.mock("./category-deleted.event")
 
@@ -12,7 +12,7 @@ describe("Test PersistDeleteCategoryUsecase", () => {
     let sut: DeleteCategoryUsecase
     let categoryRepository: CategoryRepositoryInterface
     let eventEmitter: EventEmitterInterface
-    let props: DeleteCategoryInputDto
+    let props: DeleteCategoryUsecaseInterface.InputDto
 
     beforeEach(() => {
         props = {
