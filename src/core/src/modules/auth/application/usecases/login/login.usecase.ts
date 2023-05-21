@@ -3,11 +3,13 @@ import { Either, left, right } from "@/modules/@shared/logic";
 import { LoginInputDto, LoginOutputDto } from "./login.dto";
 import { UserRepositoryInterface } from "@/modules/auth/domain/repositories";
 import { InvalidCredentialsError } from "./errors";
+import { TokenManagementInterface } from "../../protocols";
 
 export class LoginUsecase implements UsecaseInterface {
 
     constructor(
-        private readonly userRepository: UserRepositoryInterface
+        private readonly userRepository: UserRepositoryInterface,
+        private readonly tokenManagement: TokenManagementInterface
     ){}
 
 

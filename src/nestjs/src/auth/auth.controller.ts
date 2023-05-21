@@ -17,4 +17,9 @@ export class AuthController {
     }
     return res.json(usecaseResult.value)
   }
+
+  @Post("/login")
+  async login(@Body() loginDto: any, @Res() res: Response) {
+    
+  }
 }
