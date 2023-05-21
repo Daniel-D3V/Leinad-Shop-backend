@@ -13,7 +13,8 @@ class PrismaCategoryEntityMapper {
         if(!prismaCategory) return null;
         const categoryEntity = CategoryEntity.create({
             ...prismaCategory,
-            description: prismaCategory.description!
+            description: prismaCategory.description!,
+            parentId: prismaCategory.parentId ?? undefined
         }, prismaCategory.id)
         if(categoryEntity.isLeft()) throw categoryEntity.value[0]
 
@@ -46,8 +47,9 @@ export class PrismaCategoryRepository implements CategoryRepositoryInterface {
         await this.prismaClient.category.create({ 
             data: {
                 ...category.toJSON(),
+
             }
-        })
+        })//
     }
     async delete(id: string): Promise<void> {
         await this.prismaClient.category.deleteMany({

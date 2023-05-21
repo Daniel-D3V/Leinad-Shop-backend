@@ -11,10 +11,10 @@ export class AuthController {
   @Post("/signup")
   async create(@Body() signupDto: any, @Res() res: Response) {
     const signupUsecase = SignupUsecaseFactory.create()
-    const serviceResult = await signupUsecase.execute(signupDto)
-    if(serviceResult.isLeft()) {
-      return res.status(400).json(formatError(serviceResult.value))
+    const usecaseResult = await signupUsecase.execute(signupDto)
+    if(usecaseResult.isLeft()) {
+      return res.status(400).json(formatError(usecaseResult.value))
     }
-    return res.json(serviceResult.value)
+    return res.json(usecaseResult.value)
   }
 }

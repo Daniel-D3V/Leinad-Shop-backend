@@ -14,7 +14,6 @@ export class CategoryEntity extends BaseEntity<CategoryEntity.Props> {
         const isInputValid = categoryValidator.validate(input)
         if(isInputValid.isLeft()) return left(isInputValid.value)
 
-
         const categoryEntity = new CategoryEntity({
             ...input,
             status: "DEACTIVE"
@@ -57,7 +56,7 @@ export class CategoryEntity extends BaseEntity<CategoryEntity.Props> {
         return this.props.status === "ACTIVE"
     }
     isSubCategory(): boolean {
-        return !!this.parrentId
+        return !!this.parentId
     }
     
     toJSON(): CategoryEntity.PropsJSON {
@@ -65,7 +64,7 @@ export class CategoryEntity extends BaseEntity<CategoryEntity.Props> {
             id: this.id,
             title: this.title,
             description: this.description,
-            parrentId: this.parrentId,
+            parentId: this.parentId,
             status: this.status
         }
     }
@@ -76,8 +75,8 @@ export class CategoryEntity extends BaseEntity<CategoryEntity.Props> {
     get description(): string {
         return this.props.description
     }
-    get parrentId(): string | undefined {
-        return this.props.parrentId
+    get parentId(): string | undefined {
+        return this.props.parentId
     }
     get status(): CategoryEntity.status {
         return this.props.status
@@ -94,13 +93,13 @@ export namespace CategoryEntity {
     export type Input = {
         title: string
         description: string
-        parrentId?: string
+        parentId?: string
     }
 
     export type Props = {
         title: string
         description: string
-        parrentId?: string
+        parentId?: string
         status: status
     }
 

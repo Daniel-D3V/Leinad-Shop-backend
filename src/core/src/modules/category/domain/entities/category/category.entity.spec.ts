@@ -42,15 +42,15 @@ describe("test CategoryEntity", () => {
             id: "any_id",
             title: props.title,
             description: props.description,
-            parrentId: props.parrentId,
+            parentId: props.parentId,
             status: "DEACTIVE"
         })
     })
 
-    it("Should be a subCategory if parrentId is provided", () => {
+    it("Should be a subCategory if parentId is provided", () => {
         const sut  = makeSut({
             ...props,
-            parrentId: "any_parrent_id",
+            parentId: "any_parent_id",
         })
         expect(sut.isSubCategory()).toBe(true)
     })

@@ -15,7 +15,7 @@ export class CreateCategoryUsecase implements UsecaseInterface {
     ){}
 
     async execute(input: CreateCategoryUsecaseInterface.InputDto): Promise<CreateCategoryUsecaseInterface.OutputDto> {
-        
+
         const categoryEntityOrError = CategoryEntity.create({
             ...input,
         })
