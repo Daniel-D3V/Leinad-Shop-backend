@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Res } from '@nestjs/common';
-import { CreateCategoryFactory, ActivateCategoryFactory, DeactivateCategoryFactory, DeleteCategoryFactory, RemoveCategoryParentFactory, SetCategoryParentFactory } from "@core/domain/dist/src/modules/category/factories"
+import { CreateCategoryFactory, ActivateCategoryFactory, DeactivateCategoryFactory, DeleteCategoryFactory, RemoveCategoryParentFactory, SetCategoryParentFactory, UpdateCategoryInfoFactory } from "@core/domain/dist/src/modules/category/factories"
 import { Response } from "express";
 import { formatError } from '@core/domain/dist/src/modules/@shared/utils';
 
@@ -58,7 +58,16 @@ export class CategoriesController {
     return res.status(200).json()
   }
 
+  @Post("/update-category-info/:categoryId")
+  async UpdateCategoryInfo(@Param('categoryId') categoryId: string, @Body() UpdateDto: any, @Res() res: Response) {
+    const updateCategoryInfoUsecase = UpdateCategoryInfoFactory.create()
 
+    const usecaseResult = await updateCategoryInfoUsecase.execute({ data:{ ...UpdateDto } ,categoryId })
+    if(usecaseResult.isLeft()) {
+      return res.status(400).json(formatError(usecaseResult.value))
+    }
+    return res.status(200).json()
+  }
 
   @Delete(':categoryId')
   async deleteCategory(@Param('categoryId') categoryId: string, @Res() res: Response) {

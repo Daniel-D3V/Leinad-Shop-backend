@@ -10,7 +10,7 @@ export class UpdateCategoryInfoFactory {
     static create(): UpdateCategoryInfoUsecaseInterface {
         
         const execute = async (input: UpdateCategoryInfoUsecaseInterface.InputDto): Promise<UpdateCategoryInfoUsecaseInterface.OutputDto> => {
-            
+
             return await prismaClient.$transaction(async (prisma) => {
                 const prismaCategoryRepository = new PrismaCategoryRepository(prisma as PrismaClient)
                 const outboxEmitter = new OutboxEmitter(prisma as PrismaClient)
