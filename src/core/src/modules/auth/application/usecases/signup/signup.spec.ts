@@ -59,7 +59,7 @@ describe('Test signupUsecase', () => {
         jest.spyOn(userRepository, "findByUsername").mockResolvedValueOnce(true as any)
         const output = await sut.execute(props)
         if(output.isRight()) throw new Error("Should not be right")
-        expect(output.value[0]).toBe("UsernameInUseError")
+        expect(output.value[0].name).toBe("UsernameInUseError")
     })
 
     it("Should return EmailInUseError if userRepository finds a user with the same email", async () => {

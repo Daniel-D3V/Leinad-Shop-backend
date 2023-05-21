@@ -9,7 +9,6 @@ export namespace CreateCategoryUsecaseInterface {
     export type InputDto = {
         title: string
         description: string
-        parrentId?: string
     }
 
     export type OutputDto = Either<Error[], { id: string }> 

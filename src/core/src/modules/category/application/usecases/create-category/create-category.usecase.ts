@@ -14,12 +14,14 @@ export class CreateCategoryUsecase implements UsecaseInterface {
         private readonly eventEmitter: EventEmitterInterface
     ){}
 
-    async execute(input: CreateCategoryUsecaseInterface.InputDto): Promise<CreateCategoryUsecaseInterface.OutputDto> {
-
+    async execute(inputProvided: CreateCategoryUsecaseInterface.InputDto): Promise<CreateCategoryUsecaseInterface.OutputDto> {
+        const { parrentId, ...input } = inputProvided as any
         const categoryEntityOrError = CategoryEntity.create({
             ...input,
         })
         if(categoryEntityOrError.isLeft()) return left(categoryEntityOrError.value)
+
+
 
         const categoryFoundByTitle = await this.categoryRepository.findByTitle(input.title)
         if(categoryFoundByTitle) return left([new CategoryTitleInUseError()])
