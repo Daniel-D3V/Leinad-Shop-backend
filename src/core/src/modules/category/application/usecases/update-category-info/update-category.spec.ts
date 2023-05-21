@@ -1,11 +1,11 @@
 
 import { CategoryRepositoryInterface } from "@/modules/category/domain/repositories";
-import { CommandEmitterInterface, EventEmitterInterface } from "@/modules/@shared/events";
+import {  EventEmitterInterface } from "@/modules/@shared/events";
 import { mock } from "jest-mock-extended";
 import { CategoryEntity } from "@/modules/category/domain/entities";
 import { UpdateCategoryInfoUsecase } from "./update-category-info.usecase";
-import { UpdateCategoryInfoInputDto } from "./update-category-info.dto";
 import { CategoryInfoUpdatedEvent } from "./category-info-updated.event";
+import { UpdateCategoryInfoUsecaseInterface } from "@/modules/category/domain/usecases";
 
 
 jest.mock("./category-info-updated.event")
@@ -13,7 +13,7 @@ jest.mock("./category-info-updated.event")
 describe("Test UpdateCategoryInfoUsecase", () => {
 
     let sut: UpdateCategoryInfoUsecase
-    let props: UpdateCategoryInfoInputDto
+    let props: UpdateCategoryInfoUsecaseInterface.InputDto
     let categoryRepository: CategoryRepositoryInterface
     let eventEmitter: EventEmitterInterface
     let categoryEntity: CategoryEntity

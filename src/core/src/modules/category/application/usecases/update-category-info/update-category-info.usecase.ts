@@ -1,11 +1,11 @@
 import { UsecaseInterface } from "@/modules/@shared/domain";
 import { Either, left, right } from "@/modules/@shared/logic";
-import { UpdateCategoryInfoInputDto, UpdateCategoryInfoOutputDto } from "./update-category-info.dto";
 import { CategoryRepositoryInterface } from "@/modules/category/domain/repositories";
 import { CommandEmitterInterface, EventEmitterInterface } from "@/modules/@shared/events";
 import { CategoryNotFoundError } from "../_errors";
 import { CategoryTitleInUseError } from "../_errors/category-title-in-use.error";
 import { CategoryInfoUpdatedEvent } from "./category-info-updated.event";
+import { UpdateCategoryInfoUsecaseInterface } from "@/modules/category/domain/usecases";
 
 export class UpdateCategoryInfoUsecase implements UsecaseInterface {
 
@@ -14,7 +14,7 @@ export class UpdateCategoryInfoUsecase implements UsecaseInterface {
         private readonly eventEmitter: EventEmitterInterface
     ){}
 
-    async execute({ categoryId, data }: UpdateCategoryInfoInputDto): Promise<Either<Error[], UpdateCategoryInfoOutputDto>> {
+    async execute({ categoryId, data }: UpdateCategoryInfoUsecaseInterface.InputDto): Promise<UpdateCategoryInfoUsecaseInterface.OutputDto> {
 
         const categoryEntity = await this.categoryRepository.findById(categoryId)
         if(!categoryEntity) return left([ new CategoryNotFoundError() ])

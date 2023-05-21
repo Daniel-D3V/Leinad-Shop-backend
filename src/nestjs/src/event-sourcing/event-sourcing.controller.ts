@@ -14,7 +14,7 @@ export class EventSourcingController  implements OnModuleInit{
   async onModuleInit() {
     await this.rabbitmqService.consume('event-sourcing-consumer', this.persistMessageEventSourcing)
   }
-//////////////////////////
+  
   async persistMessageEventSourcing(message: Message) {
 
     const data = JSON.parse(message.content.toString())
