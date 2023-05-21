@@ -16,7 +16,7 @@ export class SignupUsecaseFactory {
                 const signupUsecase = new SignupUsecase(prismaUserRepository, outboxEmitter)
                 return await signupUsecase.execute(input)
             })
-        }                             
+        }
         return {
             execute
         }

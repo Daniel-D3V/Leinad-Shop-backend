@@ -1,11 +1,11 @@
 import { UsecaseInterface } from "@/modules/@shared/domain";
 import { Either, left, right } from "@/modules/@shared/logic";
-import { CreateCategoryDtoInput, CreateCategoryDtoOutput } from "./create-category.dto";
 import {  EventEmitterInterface } from "@/modules/@shared/events";
 import { CategoryEntity } from "@/modules/category/domain/entities";
 import { CategoryRepositoryInterface } from "@/modules/category/domain/repositories";
 import { CategoryTitleInUseError } from "../_errors/category-title-in-use.error";
 import { CategoryCreatedEvent } from "./category-created.event";
+import { CreateCategoryUsecaseInterface } from "@/modules/category/domain/usecases";
 
 export class CreateCategoryUsecase implements UsecaseInterface {
 
@@ -14,7 +14,7 @@ export class CreateCategoryUsecase implements UsecaseInterface {
         private readonly eventEmitter: EventEmitterInterface
     ){}
 
-    async execute(input: CreateCategoryDtoInput): Promise<Either<Error[], CreateCategoryDtoOutput>> {
+    async execute(input: CreateCategoryUsecaseInterface.InputDto): Promise<CreateCategoryUsecaseInterface.OutputDto> {
         
         const categoryEntityOrError = CategoryEntity.create({
             ...input,
@@ -31,8 +31,9 @@ export class CreateCategoryUsecase implements UsecaseInterface {
         })
         await this.eventEmitter.emit(categoryCreatedEvent)
 
-    
-        return right(null)
+        return right({
+            id: categoryEntityOrError.value.id
+        })
     }
     
 }

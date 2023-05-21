@@ -1,17 +1,17 @@
 import { CategoryEntity } from "@/modules/category/domain/entities";
-import { CreateCategoryDtoInput } from "./create-category.dto"
 import { CreateCategoryUsecase } from "./create-category.usecase";
 import { mock } from 'jest-mock-extended';
 import { CategoryRepositoryInterface } from "@/modules/category/domain/repositories";
 import {  EventEmitterInterface } from "@/modules/@shared/events";
 import { CategoryCreatedEvent } from "./category-created.event";
+import { CreateCategoryUsecaseInterface } from "@/modules/category/domain/usecases";
 
 jest.mock("@/modules/category/domain/entities")
 jest.mock("./category-created.event")
 
 describe("Test CreateCategoryUsecase", () => {
 
-    let props: CreateCategoryDtoInput
+    let props: CreateCategoryUsecaseInterface.InputDto
     let categoryEntity: jest.Mocked<typeof CategoryEntity>
     let categoryRepository: CategoryRepositoryInterface
     let eventEmitter: EventEmitterInterface
