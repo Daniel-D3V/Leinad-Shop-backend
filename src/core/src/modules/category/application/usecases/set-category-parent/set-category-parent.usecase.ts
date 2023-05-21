@@ -12,21 +12,21 @@ export class SetCategoryParentUsecase implements SetCategoryParentUsecaseInterfa
         private readonly eventEmitter: EventEmitterInterface
     ){}
 
-    async execute({ categoryId, parrentId }: SetCategoryParentUsecaseInterface.InputDto): Promise<SetCategoryParentUsecaseInterface.OutputDto> {
+    async execute({ categoryId, parentId }: SetCategoryParentUsecaseInterface.InputDto): Promise<SetCategoryParentUsecaseInterface.OutputDto> {
         
         const category = await this.categoryRepository.findById(categoryId)
         if(!category) return left([ new CategoryNotFoundError() ])
 
-        const parrentCategory = await this.categoryRepository.findById(parrentId)
-        if(!parrentCategory) return left([ new ParentCategoryNotFoundError() ])
+        const parentCategory = await this.categoryRepository.findById(parentId)
+        if(!parentCategory) return left([ new ParentCategoryNotFoundError() ])
 
-        if(parrentCategory.isSubCategory()) return left([ new SubCategoryProvidedError() ])
+        if(parentCategory.isSubCategory()) return left([ new SubCategoryProvidedError() ])
 
         await this.categoryRepository.update(category)
 
         const categoryParentSetEvent = new CategoryParentSetEvent({
             categoryId: category.id,
-            parrentId: parrentCategory.id
+            parentId: parentCategory.id
         })
         await this.eventEmitter.emit(categoryParentSetEvent)
 

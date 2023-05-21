@@ -12,6 +12,6 @@ export class CategoryParentSetEvent extends BaseEvent {
 export namespace CategoryParentSetEvent {
     export type Payload = {
         categoryId: string
-        parrentId: string
+        parentId: string
     }
 }

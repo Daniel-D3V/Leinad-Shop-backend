@@ -8,7 +8,7 @@ export interface SetCategoryParentUsecaseInterface extends UsecaseInterface {
 export namespace SetCategoryParentUsecaseInterface {
     export type InputDto = {
         categoryId: string;
-        parrentId: string
+        parentId: string
     }
 
     export type OutputDto = Either<Error[], null> 
