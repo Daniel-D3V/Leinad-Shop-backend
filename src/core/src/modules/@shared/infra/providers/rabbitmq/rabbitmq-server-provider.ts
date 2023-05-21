@@ -22,8 +22,16 @@ export class RabbitmqServerProvider {
         return this.channel!.sendToQueue(queue, Buffer.from(message));
     }
 
+    async bindQueue(queue: string, exchange: string, routingKey: string) {
+        return this.channel!.bindQueue(queue, exchange, routingKey);
+    }
+
     async assertExchange(exchange: string, type: string, options?: Options.AssertExchange) {
         return this.channel!.assertExchange(exchange, type, options);
+    }
+
+    async assertQueue(queue: string, options?: Options.AssertQueue) {
+        return this.channel!.assertQueue(queue, options);
     }
 
     async publishInExchange(

@@ -33,13 +33,13 @@ export class PrismaCategoryRepository implements CategoryRepositoryInterface {
 
     async findByTitle(title: string): Promise<CategoryEntity | null> {
         const prismaCategory = await this.prismaClient.category.findFirst({
-            where: { title }
+            where: { title: title ?? "" }
         })
         return PrismaCategoryEntityMapper.toDomain(prismaCategory)
     }
     async findById(id: string): Promise<CategoryEntity | null> {
         const prismaCategory = await this.prismaClient.category.findFirst({
-            where: { id }
+            where: { id: id ?? "" }
         })
         return PrismaCategoryEntityMapper.toDomain(prismaCategory)
     }
@@ -53,13 +53,13 @@ export class PrismaCategoryRepository implements CategoryRepositoryInterface {
     }
     async delete(id: string): Promise<void> {
         await this.prismaClient.category.deleteMany({
-            where: { id }
+            where: { id: id ?? "" }
         })//
     }
     async update(categoryEntity: CategoryEntity): Promise<void> {
         const { id, ...propsToUpdate } = categoryEntity.toJSON()
         await this.prismaClient.category.update({
-            where: { id },
+            where: { id: id ?? "" },
             data: {
               ...propsToUpdate,
             }

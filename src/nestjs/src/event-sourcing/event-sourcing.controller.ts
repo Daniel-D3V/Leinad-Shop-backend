@@ -12,7 +12,10 @@ export class EventSourcingController  implements OnModuleInit{
     ) {}
     
   async onModuleInit() {
-    await this.rabbitmqService.consume('event-sourcing-consumer', this.persistMessageEventSourcing)
+    const queue = 'event-sourcing-queue';
+    await this.rabbitmqService.assertQueue(queue, { durable: true });
+    await this.rabbitmqService.bindQueue(queue, 'amq.fanout', '');
+    await this.rabbitmqService.consume(queue, this.persistMessageEventSourcing)
   }
   
   async persistMessageEventSourcing(message: Message) {

@@ -21,6 +21,16 @@ export class RabbitMQService implements  OnApplicationShutdown  {
     await this.rabbitmqServerProvider.publishInExchange(exchange, routingKey, data);
   }
 
+  async bindQueue(queue: string, exchange: string, routingKey: string): Promise<void> {
+    await this.rabbitmqServerProvider.start()
+    await this.rabbitmqServerProvider.bindQueue(queue, exchange, routingKey)
+  }
+
+  async assertQueue(queue: string, options?: any): Promise<void> {
+    await this.rabbitmqServerProvider.start()
+    await this.rabbitmqServerProvider.assertQueue(queue, options)
+  }
+
   async consume(queue: string, callback: (message: Message) => Promise<void>): Promise<void> {
     await this.rabbitmqServerProvider.start()
     await this.rabbitmqServerProvider.consume(queue, callback)

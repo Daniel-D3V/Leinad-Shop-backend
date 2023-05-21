@@ -4,6 +4,7 @@ import { CategoryRepositoryInterface } from "@/modules/category/domain/repositor
 import { CategoryNotFoundError } from "../_errors";
 import { CategoryActivatedEvent } from "./category-activated.event";
 import { ActivateCategoryUsecaseInterface } from "@/modules/category/domain/usecases";
+import { CategoryAlreadyActivatedError } from "./errors";
 
 export class ActivateCategoryUsecase implements ActivateCategoryUsecaseInterface {
     
@@ -16,6 +17,8 @@ export class ActivateCategoryUsecase implements ActivateCategoryUsecaseInterface
 
         const categoryEntity = await this.categoryRepository.findById(categoryId)
         if(!categoryEntity) return left([ new CategoryNotFoundError() ])
+
+        if(categoryEntity.isActivate()) return left([ new CategoryAlreadyActivatedError() ])
 
         categoryEntity.activate()
         await this.categoryRepository.update(categoryEntity)

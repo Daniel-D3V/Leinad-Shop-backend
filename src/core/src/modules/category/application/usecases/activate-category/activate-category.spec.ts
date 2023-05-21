@@ -48,6 +48,17 @@ describe("Test ActivateCategoryUsecase", () => {
         expect(output.value[0].name).toBe("CategoryNotFoundError")
     })
 
+
+    it("Should return CategoryAlreadyActivatedError if categoryEntity is already activated", async () => {
+        jest.spyOn(categoryEntity, "isActivate")
+        .mockReturnValueOnce(true)
+
+        const output = await sut.execute(props)
+        if(output.isRight()) throw new Error("Should not return right")
+
+        expect(output.value[0].name).toBe("CategoryAlreadyActivatedError")
+    })
+
     it("Should call activate from categoryEntity once", async () => {
         await sut.execute(props)
         expect(categoryEntity.activate).toHaveBeenCalledTimes(1)

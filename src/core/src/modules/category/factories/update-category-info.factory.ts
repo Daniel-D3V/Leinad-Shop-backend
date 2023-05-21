@@ -18,7 +18,7 @@ export class UpdateCategoryInfoFactory {
                 return await updateCategoryInfoUsecase.execute(input)
             })
         }
-
+        
         return {
             execute
         }

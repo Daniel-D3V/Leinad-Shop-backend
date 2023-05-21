@@ -19,8 +19,19 @@ describe("Test PersistDeleteCategoryUsecase", () => {
             categoryId: "any_category_id"
         }
         categoryRepository = mock<CategoryRepositoryInterface>()
+        jest.spyOn(categoryRepository, "findById").mockResolvedValue(true as any)
         eventEmitter = mock<EventEmitterInterface>()
         sut = new DeleteCategoryUsecase(categoryRepository, eventEmitter)
+    })
+
+    it("Should return CategoryNotFoundError if categoryEntity is not found by the repository", async () => {
+        jest.spyOn(categoryRepository, "findById")
+        .mockResolvedValueOnce(null)
+
+        const output = await sut.execute(props)
+        if(output.isRight()) throw new Error("Should not return right")
+
+        expect(output.value[0].name).toBe("CategoryNotFoundError")
     })
 
     it("Should execute the usecase properly", async () => {

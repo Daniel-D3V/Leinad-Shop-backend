@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Res } from '@nestjs/common';
-import { CreateCategoryFactory } from "@core/domain/dist/src/modules/category/factories"
+import { CreateCategoryFactory, ActivateCategoryFactory, DeactivateCategoryFactory, DeleteCategoryFactory } from "@core/domain/dist/src/modules/category/factories"
 import { Response } from "express";
 import { formatError } from '@core/domain/dist/src/modules/@shared/utils';
 
@@ -17,23 +17,34 @@ export class CategoriesController {
     return res.json(usecaseResult.value)
   }
 
-  @Get()
-  findAll() {
-
+  @Post("/activate/:categoryId")
+  async activateCategory(@Param('categoryId') categoryId: string, @Res() res: Response) {
+    const activateCategoryFactory = ActivateCategoryFactory.create()
+    const usecaseResult = await activateCategoryFactory.execute({ categoryId })
+    if(usecaseResult.isLeft()) {
+      return res.status(400).json(formatError(usecaseResult.value))
+    }
+    return res.status(200).json()
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-
+  @Post("/deactivate/:categoryId")
+  async deactivate(@Param('categoryId') categoryId: string, @Res() res: Response) {
+    const deactivateCategoryFactory = DeactivateCategoryFactory.create()
+    const usecaseResult = await deactivateCategoryFactory.execute({ categoryId })
+    if(usecaseResult.isLeft()) {
+      return res.status(400).json(formatError(usecaseResult.value))
+    }
+    return res.status(200).json()
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCategoryDto: any) {
 
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-
+  @Delete(':categoryId')
+  async deleteCategory(@Param('categoryId') categoryId: string, @Res() res: Response) {
+    const deleteCategoryFactory = DeleteCategoryFactory.create()
+    const usecaseResult = await deleteCategoryFactory.execute({ categoryId })
+    if(usecaseResult.isLeft()) {
+      return res.status(400).json(formatError(usecaseResult.value))
+    }
+    return res.status(200).json()
   }
 }

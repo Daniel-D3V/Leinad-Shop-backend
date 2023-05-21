@@ -4,6 +4,7 @@ import { CategoryRepositoryInterface } from "@/modules/category/domain/repositor
 import { CategoryNotFoundError } from "../_errors";
 import { CategoryDeactivatedEvent } from "./category-deactivated.event";
 import { DeactivateCategoryUsecaseInterface } from "@/modules/category/domain/usecases";
+import { CategoryAlreadyDeactivatedError } from "./errors";
 
 
 export class DeactivateCategoryUsecase implements DeactivateCategoryUsecaseInterface {
@@ -18,6 +19,8 @@ export class DeactivateCategoryUsecase implements DeactivateCategoryUsecaseInter
 
         const categoryEntity = await this.categoryRepository.findById(categoryId)
         if(!categoryEntity) return left([ new CategoryNotFoundError() ])
+
+        if(!categoryEntity.isActivate()) return left([ new CategoryAlreadyDeactivatedError() ])
 
         categoryEntity.deactivate()
         await this.categoryRepository.update(categoryEntity)
