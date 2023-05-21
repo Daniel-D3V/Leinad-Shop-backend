@@ -80,4 +80,13 @@ describe("Test CreateCategoryUsecase", () => {
         await sut.execute(props)
         expect(CategoryCreatedEvent).toHaveBeenCalledWith({ anyEntityToJSONValue: "any" })
     })
+
+    it("Should remove parentId from inputProvided", async () => {
+        const propsWithParentId = {
+            ...props,
+            parentId: "any_parent_id"
+        }
+        await sut.execute(propsWithParentId)
+        expect(categoryEntity.create).toHaveBeenCalledWith(props)
+    })
 })
