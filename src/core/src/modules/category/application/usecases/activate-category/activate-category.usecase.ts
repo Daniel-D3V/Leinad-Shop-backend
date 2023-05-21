@@ -1,19 +1,18 @@
-import { UsecaseInterface } from "@/modules/@shared/domain";
 import { Either, left, right } from "@/modules/@shared/logic";
-import { ActivateCategoryInputDto, ActivateCategoryOutputDto } from "./activate-category.dto";
 import { EventEmitterInterface } from "@/modules/@shared/events";
 import { CategoryRepositoryInterface } from "@/modules/category/domain/repositories";
 import { CategoryNotFoundError } from "../_errors";
 import { CategoryActivatedEvent } from "./category-activated.event";
+import { ActivateCategoryUsecaseInterface } from "@/modules/category/domain/usecases";
 
-export class ActivateCategoryUsecase implements UsecaseInterface {
+export class ActivateCategoryUsecase implements ActivateCategoryUsecaseInterface {
     
     constructor(
         private readonly categoryRepository: CategoryRepositoryInterface,
         private readonly eventEmitter: EventEmitterInterface
     ){}
 
-    async execute({ categoryId }: ActivateCategoryInputDto): Promise<Either<Error[], ActivateCategoryOutputDto>> {
+    async execute({ categoryId }: ActivateCategoryUsecaseInterface.InputDto): Promise<ActivateCategoryUsecaseInterface.OutputDto> {
 
         const categoryEntity = await this.categoryRepository.findById(categoryId)
         if(!categoryEntity) return left([ new CategoryNotFoundError() ])

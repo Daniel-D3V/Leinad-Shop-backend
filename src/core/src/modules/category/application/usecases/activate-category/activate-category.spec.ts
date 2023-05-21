@@ -2,17 +2,17 @@
 
 import { mock } from "jest-mock-extended"
 import { EventEmitterInterface } from "@/modules/@shared/events"
-import { ActivateCategoryInputDto } from "./activate-category.dto"
 import { ActivateCategoryUsecase } from "./activate-category.usecase"
 import { CategoryRepositoryInterface } from "@/modules/category/domain/repositories"
 import { CategoryEntity } from "@/modules/category/domain/entities"
 import { CategoryActivatedEvent } from "./category-activated.event"
+import { ActivateCategoryUsecaseInterface } from "@/modules/category/domain/usecases"
 
 jest.mock("./category-activated.event")
 
 describe("Test ActivateCategoryUsecase", () => {
 
-    let props: ActivateCategoryInputDto
+    let props: ActivateCategoryUsecaseInterface.InputDto
     let sut: ActivateCategoryUsecase
     let categoryRepository: CategoryRepositoryInterface
     let eventEmitter: EventEmitterInterface
