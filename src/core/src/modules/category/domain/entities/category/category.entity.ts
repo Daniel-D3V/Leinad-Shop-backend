@@ -16,6 +16,7 @@ export class CategoryEntity extends BaseEntity<CategoryEntity.Props> {
 
         const categoryEntity = new CategoryEntity({
             ...input,
+            parentId: undefined,
             status: "DEACTIVE"
         }, id)
         return right(categoryEntity) 
@@ -44,6 +45,11 @@ export class CategoryEntity extends BaseEntity<CategoryEntity.Props> {
         this.props.description = newDescription
         return right(this.description)
     }
+
+    setParentId(parrentId: string): void {
+        this.props.parentId = parrentId
+    }
+
 
     activate(): void{
         this.props.status = "ACTIVE"
@@ -93,7 +99,6 @@ export namespace CategoryEntity {
     export type Input = {
         title: string
         description: string
-        parentId?: string
     }
 
     export type Props = {

@@ -42,16 +42,29 @@ describe("test CategoryEntity", () => {
             id: "any_id",
             title: props.title,
             description: props.description,
-            parentId: props.parentId,
+            parentId: undefined,
             status: "DEACTIVE"
         })
     })
 
-    it("Should be a subCategory if parentId is provided", () => {
-        const sut  = makeSut({
+    it("Should not be able to create a entity with the parrent", () => {
+        const sut = CategoryEntity.create({
             ...props,
-            parentId: "any_parent_id",
-        })
+            parentId: "any_parent_id"
+        } as any, "any_id")
+        if(sut.isLeft()) throw sut.value[0]
+
+        expect(sut.value.parentId).toBe(undefined)
+    })
+
+    it("Should set a parentId", () => {
+        const parentId = "any_parent_id"
+        sut.setParentId(parentId)
+        expect(sut.parentId).toBe(parentId)
+    })
+
+    it("Should be a subCategory if parentId is provided", () => {
+        sut.setParentId("any_parent_id")  
         expect(sut.isSubCategory()).toBe(true)
     })
 

@@ -14,9 +14,9 @@ class PrismaCategoryEntityMapper {
         const categoryEntity = CategoryEntity.create({
             ...prismaCategory,
             description: prismaCategory.description!,
-            parentId: prismaCategory.parentId ?? undefined
         }, prismaCategory.id)
         if(categoryEntity.isLeft()) throw categoryEntity.value[0]
+        if(prismaCategory.parentId) categoryEntity.value.setParentId(prismaCategory.parentId)
 
         setStatus(categoryEntity.value, prismaCategory.status)
         return categoryEntity.value

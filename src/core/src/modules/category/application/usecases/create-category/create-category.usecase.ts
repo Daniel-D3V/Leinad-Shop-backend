@@ -14,8 +14,8 @@ export class CreateCategoryUsecase implements UsecaseInterface {
         private readonly eventEmitter: EventEmitterInterface
     ){}
 
-    async execute(inputProvided: CreateCategoryUsecaseInterface.InputDto): Promise<CreateCategoryUsecaseInterface.OutputDto> {
-        const { parentId, ...input } = inputProvided as any
+    async execute(input: CreateCategoryUsecaseInterface.InputDto): Promise<CreateCategoryUsecaseInterface.OutputDto> {
+
         const categoryEntityOrError = CategoryEntity.create({
             ...input,
         })
