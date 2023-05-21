@@ -24,7 +24,8 @@ describe("Test RemoveCategoryParentUseCase", () => {
         eventEmitter = mock<EventEmitterInterface>()
         categoryRepository = mock<CategoryRepositoryInterface>()
         categoryEntity = mock<CategoryEntity>({
-            id: "any_category_id"
+            id: "any_category_id",
+            isSubCategory: () => true,
         })
         jest.spyOn(categoryRepository, "findById").mockResolvedValue(categoryEntity)
         sut = new RemoveCategoryParentUsecase(categoryRepository, eventEmitter)
@@ -33,6 +34,13 @@ describe("Test RemoveCategoryParentUseCase", () => {
     it("Should execute the usecase properly", async () => {
         const output = await sut.execute(props)
         expect(output.isRight()).toBe(true)
+    })
+
+    it("Should return a ParentCategoryNotFoundError if the Parentcategory does not exists", async () => {
+        jest.spyOn(categoryEntity, "isSubCategory").mockReturnValueOnce(false)
+        const output = await sut.execute(props)
+        expect(output.isLeft()).toBe(true)
+        expect(output.value![0].name).toBe("CategoryNotSubCategoryError")
     })
 
     it("Should return a CategoryNotFoundError if the category does not exists", async () => {

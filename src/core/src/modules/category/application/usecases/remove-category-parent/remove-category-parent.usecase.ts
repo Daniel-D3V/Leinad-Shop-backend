@@ -2,7 +2,7 @@ import { EventEmitterInterface } from "@/modules/@shared/events";
 import { left, right } from "@/modules/@shared/logic";
 import { CategoryRepositoryInterface } from "@/modules/category/domain/repositories";
 import { RemoveCategoryParentUsecaseInterface } from "@/modules/category/domain/usecases";
-import { CategoryNotFoundError } from "../_errors";
+import { CategoryNotFoundError, CategoryNotSubCategoryError, ParentCategoryNotFoundError } from "../_errors";
 import { CategoryParentRemovedEvent } from "./category-parent-removed.event";
 
 export class RemoveCategoryParentUsecase implements RemoveCategoryParentUsecaseInterface {
@@ -16,6 +16,8 @@ export class RemoveCategoryParentUsecase implements RemoveCategoryParentUsecaseI
         
         const category = await this.categoryRepository.findById(data.categoryId)
         if(!category) return left([ new CategoryNotFoundError() ])
+
+        if(!category.isSubCategory()) return left([ new CategoryNotSubCategoryError() ])
 
         category.removeParentId()
         

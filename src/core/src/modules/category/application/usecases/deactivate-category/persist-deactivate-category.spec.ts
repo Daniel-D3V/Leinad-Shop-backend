@@ -25,6 +25,7 @@ describe("Test DeactivateCategoryUsecase", () => {
             categoryId: "any_category_id"
         }
         categoryRepository = mock<CategoryRepositoryInterface>()
+        jest.spyOn(categoryEntity, "isActivate").mockReturnValue(true)
         jest.spyOn(categoryRepository, "findById")
         .mockResolvedValue(categoryEntity)
 
@@ -45,6 +46,16 @@ describe("Test DeactivateCategoryUsecase", () => {
         if(output.isRight()) throw new Error("Should not return right")
 
         expect(output.value[0].name).toBe("CategoryNotFoundError")
+    })
+
+    it("Should return CategoryAlreadyDeactivatedError if categoryEntity is already deactivated", async () => {
+        jest.spyOn(categoryEntity, "isActivate")
+        .mockReturnValueOnce(false)
+
+        const output = await sut.execute(props)
+        if(output.isRight()) throw new Error("Should not return right")
+
+        expect(output.value[0].name).toBe("CategoryAlreadyDeactivatedError")
     })
 
     it("Should call deactivate from categoryEntity once", async () => {
