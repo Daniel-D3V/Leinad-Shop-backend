@@ -37,6 +37,7 @@ export class RabbitmqServerProvider {
     async consume(queue: string, callback:  (message: Message) => Promise<void>) {
         return await this.channel!.consume(queue, async (message) => {
             await callback(message!);
+            
             this.channel!.ack(message!);
         });
     }

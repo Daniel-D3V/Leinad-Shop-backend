@@ -14,13 +14,13 @@ export class EventSourcingController  implements OnModuleInit{
   async onModuleInit() {
     await this.rabbitmqService.consume('event-sourcing-consumer', this.persistMessageEventSourcing)
   }
-///////////////////
+//////////////////////////
   async persistMessageEventSourcing(message: Message) {
 
     const data = JSON.parse(message.content.toString())
-    console.log(new Date().toISOString(), data.id)
     const persistEventUsecase = PersistEventUsecaseFactory.create();
-    await persistEventUsecase.execute(data)
+    const persistOutput = await persistEventUsecase.execute(data)
+    if(persistOutput.isLeft()) return
 
     const removeOutboxUsecase = RemoveOutboxFactory.create()
     await removeOutboxUsecase.execute(data.id)
