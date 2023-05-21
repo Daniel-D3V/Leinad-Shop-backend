@@ -50,6 +50,9 @@ export class CategoryEntity extends BaseEntity<CategoryEntity.Props> {
         this.props.parentId = parrentId
     }
 
+    removeParentId(): void {
+        this.props.parentId = undefined
+    }
 
     activate(): void{
         this.props.status = "ACTIVE"

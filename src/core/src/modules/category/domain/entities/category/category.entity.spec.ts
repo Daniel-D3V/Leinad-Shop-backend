@@ -81,6 +81,8 @@ describe("test CategoryEntity", () => {
         expect(sut.isActivate()).toBe(true)
     })
 
+    
+
     it("Should deactivate a category", () => {
         sut.activate()
         expect(sut.isActivate()).toBe(true)
@@ -160,5 +162,11 @@ describe("test CategoryEntity", () => {
 
     })
 
+    it("Should remove the parrentId", () => {
+        sut.setParentId("any_parent_id")
+        expect(sut.parentId).toBe("any_parent_id")
+        sut.removeParentId()
+        expect(sut.parentId).toBe(undefined)
+    })
 
 })
