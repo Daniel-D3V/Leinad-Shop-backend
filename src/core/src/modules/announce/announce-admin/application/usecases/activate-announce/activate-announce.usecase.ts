@@ -1,7 +1,7 @@
 import {  EventEmitterInterface } from "@/modules/@shared/events"
 import { Either, left, right } from "@/modules/@shared/logic"
 import { AnnounceRepositoryInterface } from "../../../domain/repositories"
-import { AnnounceNotFoundError } from "../_errors"
+import { AnnounceAlreadyActivatedError, AnnounceNotFoundError } from "../_errors"
 import { AnnounceActivatedEvent } from "./announce-activated.event"
 import { ActivateAnnounceUsecaseInterface } from "../../../domain/usecases"
 
@@ -16,6 +16,8 @@ export class ActivateAnnounceUsecase implements ActivateAnnounceUsecaseInterface
 
         const announceEntity = await this.announceRepository.findById(announceId)
         if(!announceEntity) return left([ new AnnounceNotFoundError() ])
+
+        if(announceEntity.isActive()) return left([ new AnnounceAlreadyActivatedError() ])
 
         announceEntity.activate()
         await this.announceRepository.update(announceEntity)

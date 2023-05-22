@@ -47,6 +47,7 @@ describe("Test announce entity", () => {
         })
     })
 
+
     it("Should call domainValidatorStub once", () => {
         expect(domainValidatorStub.validate).toHaveBeenCalledTimes(1)
     })
@@ -74,6 +75,18 @@ describe("Test announce entity", () => {
         expect(sut.isActive()).toBe(true)
         sut.deactivate()
         expect(sut.status).toBe("DEACTIVATED")
+    })
+
+    it("Should check if announce is deactivated", () => {
+        expect(sut.isDeactivated()).toBe(true)
+        sut.activate()
+        expect(sut.isDeactivated()).toBe(false)
+    })
+
+    it("Should check if announce is banned", () => {
+        expect(sut.isBanned()).toBe(false)
+        sut.ban()
+        expect(sut.isBanned()).toBe(true)
     })
 
     it("Should ban the announce", () => {

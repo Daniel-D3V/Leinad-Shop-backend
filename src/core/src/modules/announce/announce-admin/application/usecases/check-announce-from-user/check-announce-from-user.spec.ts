@@ -40,14 +40,12 @@ describe('Test CheckAnnounceFromUser', () => {
         expect(output.value[0].name).toBe("AnnounceNotFoundError")
     })
 
-    it("Should return true if userId is the same as announce.userId", async () => {
+    it("Should return AnnounceNotFromUserError if announce is not from user", async () => {
+        props.userId = "another_user_id"
         const output = await sut.execute(props)
-        expect(output.value).toBe(true)
+        if(output.isRight()) throw new Error("Should not be right")
+        expect(output.isLeft()).toBeTruthy()
+        expect(output.value[0].name).toBe("AnnounceNotFromUserError")
     })
-
-    it("Should return false if userId is not the same as announce.userId", async () => {
-        props.userId = "not_same_user_id"
-        const output = await sut.execute(props)
-        expect(output.value).toBe(false)
-    })
+    
 })

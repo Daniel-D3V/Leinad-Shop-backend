@@ -58,4 +58,12 @@ describe("Test DeactivateAnnounceUsecase", () => {
         await sut.execute(props)
         expect(AnnounceDeactivatedEvent).toHaveBeenCalledWith({ ...props })
     })
+
+    it("Should return AnnounceAlreadyDeactivatedError if announceEntity is already deactivated", async () => {
+        jest.spyOn(announceEntity, "isDeactivated").mockReturnValueOnce(true)
+        const output = await sut.execute(props)
+        expect(announceEntity.isDeactivated).toHaveBeenCalledTimes(1)
+        expect(output.value![0].name).toBe("AnnounceAlreadyDeactivatedError")
+    })
+
 })

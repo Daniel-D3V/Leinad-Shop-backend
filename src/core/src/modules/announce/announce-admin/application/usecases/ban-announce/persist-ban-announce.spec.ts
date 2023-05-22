@@ -58,4 +58,10 @@ describe("Test BanAnnounceUsecase", () => {
         await sut.execute(props)
         expect(AnnounceBannedEvent).toHaveBeenCalledWith({ ...props })
     })
+
+    it("Should return AnnounceAlreadyBannedError if announceEntity is already banned", async () => {
+        jest.spyOn(announceEntity, "isBanned").mockReturnValueOnce(true)
+        const output = await sut.execute(props)
+        expect(output.value![0].name).toBe("AnnounceAlreadyBannedError")
+    })
 })

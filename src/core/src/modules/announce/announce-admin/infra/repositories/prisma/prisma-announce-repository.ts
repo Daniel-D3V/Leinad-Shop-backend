@@ -41,19 +41,19 @@ export class PrismaAnnounceRepository implements AnnounceRepositoryInterface {
     }
     async findById(id: string): Promise<AnnounceEntity | null> {
         const prismaAnnounce = await this.prismaClient.announce.findFirst({
-            where: { id }
+            where: { id: id ?? "" }
         })
         return PrismaAnnounceEntityMapper.toDomain(prismaAnnounce)
     }
     async delete(id: string): Promise<void> {
         await this.prismaClient.announce.deleteMany({
-            where: { id }
+            where: { id: id ?? "" }
         })
     }
     async update(announceEntity: AnnounceEntity): Promise<void> {
         const { id, ...propsToUpdate } = announceEntity.toJSON()
         await this.prismaClient.announce.update({
-            where: { id },
+            where: { id: id ?? "" },
             data: {
               ...propsToUpdate,
             }

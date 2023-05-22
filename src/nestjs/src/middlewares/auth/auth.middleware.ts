@@ -20,7 +20,6 @@ declare global {
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
   async use(req: Request, res: Response, next: () => void) {
-
     const { accessToken } = req.cookies
     const getUserByAccessTokenUsecase = GetUserByAccessTokenUsecaseFactory.create()
     const usecaseResult = await getUserByAccessTokenUsecase.execute({

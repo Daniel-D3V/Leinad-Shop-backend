@@ -22,8 +22,6 @@ model Category {
   parent      Category? @relation("CategoryToParent", fields: [parentId], references: [id], onDelete: Cascade)
   children    Category[] @relation("CategoryToParent")
 
-  announce Announce[]
-
   @@map("categories")
 }
 
@@ -39,9 +37,6 @@ model Announce {
   userId String?
   categoryId String?  
 
-  Category    Category?    @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-
-  announceImages AnnounceImages[]
 
   @@map("announces")
 }
@@ -54,7 +49,6 @@ model AnnounceImages {
 
   announceId String
 
-  Announce    Announce    @relation(fields: [announceId], references: [id], onDelete: Cascade)
   @@map("announce_images")
 }
 

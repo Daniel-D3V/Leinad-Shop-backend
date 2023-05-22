@@ -11,5 +11,5 @@ export namespace CheckAnnounceFromUserUsecaseInterface {
         userId: string
     }
 
-    export type OutputDto = Either<Error[], boolean>
+    export type OutputDto = Either<Error[], null>
 }

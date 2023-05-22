@@ -58,4 +58,10 @@ describe("Test ActivateAnnounceUsecase", () => {
         await sut.execute(props)
         expect(AnnounceActivatedEvent).toHaveBeenCalledWith({ ...props })
     })
+
+    it("Should return AnnounceAlreadyActivatedError if announceEntity is already active", async () => {
+        jest.spyOn(announceEntity, "isActive").mockReturnValue(true)
+        const output = await sut.execute(props)
+        expect(output.value![0].name).toBe("AnnounceAlreadyActivatedError")
+    })
 })

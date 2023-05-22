@@ -63,6 +63,14 @@ export class AnnounceEntity extends BaseEntity<AnnounceEntity.Props> {
         return this.props.status === "ACTIVE"
     }
 
+    isDeactivated(): boolean {
+        return this.props.status === "DEACTIVATED"
+    }
+
+    isBanned(): boolean {
+        return this.props.status === "BANNED"
+    }
+
     toJSON(): AnnounceEntity.PropsJSON {
         return {
             id: this.id,
