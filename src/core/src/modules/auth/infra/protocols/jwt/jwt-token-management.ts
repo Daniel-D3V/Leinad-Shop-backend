@@ -12,11 +12,11 @@ export class JwtTokenManagement implements TokenManagementInterface {
         private readonly config: JwtTokenManagement.Config
     ){}
 
-    async generateToken(payload: TokenPayloadModel): Promise<string> {
+    async generateToken({ email, userId }: TokenPayloadModel): Promise<string> {
         const token = sign({
-            ...payload,
-            exp: 1 * 60 * 60 // 1 hour
-        }, this.config.tokenSecret)
+            email,
+            userId
+        }, this.config.tokenSecret, { expiresIn: "1h" })
         return token
     }
     async verifyToken(token: string): Promise<Either<Error[], TokenPayloadModel>> {
@@ -27,14 +27,14 @@ export class JwtTokenManagement implements TokenManagementInterface {
             return left([ new InvalidTokenErrorError() ])
         }
     }
-    async generateRefreshToken(payload: TokenPayloadModel): Promise<string> {
+    async generateRefreshToken({ email, userId }: TokenPayloadModel): Promise<string> {
         const refreshToken = sign({
-            ...payload,
-            exp: 60 * 60 * 24 * 14 // 14 days
-        }, this.config.refreshTokenSecret )
+            email,
+            userId
+        }, this.config.refreshTokenSecret, { expiresIn: "14d" } )
         const expirationDate = new Date()
         expirationDate.setDate(expirationDate.getDate() + 14);
-        await this.refreshTokenRepository.storeRefreshToken(refreshToken,payload.userId, expirationDate)
+        await this.refreshTokenRepository.storeRefreshToken(refreshToken,userId, expirationDate)
         return refreshToken
     }
 

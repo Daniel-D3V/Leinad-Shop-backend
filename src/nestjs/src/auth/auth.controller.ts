@@ -24,7 +24,7 @@ export class AuthController {
     const usecaseResult = await loginUsecase.execute(loginDto)
     if(usecaseResult.isLeft()) {
       return res.status(400).json(formatError(usecaseResult.value))
-    }//////sdfsdfsddfsdsfscvdsfsddfsdfsdsdfsddsffdsfdssdfdsfsdsdf
+    }/////
     res.cookie("accessToken", usecaseResult.value.accessToken, { httpOnly: true })
     res.cookie("refreshToken", usecaseResult.value.refreshToken, { httpOnly: true })
 
@@ -40,7 +40,7 @@ export class AuthController {
     })
     if(usecaseResult.isLeft()) {
       return res.status(400).json(formatError(usecaseResult.value))
-    }////////ddsfsddfsdfdfsddsfsdfdfsdfdsfsdfsdf
+    }///
     res.cookie("accessToken", usecaseResult.value.accessToken, { httpOnly: true })
     res.cookie("refreshToken", usecaseResult.value.refreshToken, { httpOnly: true })
 
