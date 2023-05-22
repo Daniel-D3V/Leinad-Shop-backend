@@ -3,17 +3,17 @@ import { EventEmitterInterface } from "@/modules/@shared/events";
 import { Either, left, right } from "@/modules/@shared/logic";
 import { ProductStockAutoEntity } from "@/modules/product-stock/domain/entities";
 import { ProductStockAutoRepositoryInterface } from "@/modules/product-stock/domain/repositories";
-import { AddAutoStockInputDto, AddAutoStockOutputDto } from "./add-auto-stock.dto";
 import { ProductStockAutoAddedEvent } from "./product-stock-auto-added.event";
+import { AddAutoStockUsecaseInterface } from "@/modules/product-stock/domain/usecases";
 
-export class AddAutoStockUsecase implements UsecaseInterface {
+export class AddAutoStockUsecase implements AddAutoStockUsecaseInterface {
 
     constructor(
         private readonly productStockAutoRepository: ProductStockAutoRepositoryInterface,
         private readonly eventEmitter: EventEmitterInterface
     ){}
 
-    async execute({ value, productStockId }: AddAutoStockInputDto): Promise<Either<Error[], AddAutoStockOutputDto>> {
+    async execute({ value, productStockId }: AddAutoStockUsecaseInterface.InputDto): Promise<AddAutoStockUsecaseInterface.OutputDto> {
 
         const productStockAutoEntity = ProductStockAutoEntity.create({
             value,

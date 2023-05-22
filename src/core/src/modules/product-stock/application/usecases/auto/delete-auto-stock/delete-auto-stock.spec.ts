@@ -1,16 +1,16 @@
 import { ProductStockAutoRepositoryInterface } from "@/modules/product-stock/domain/repositories"
-import { DeleteAutoStockInputDto } from "./delete-auto-stock.dto"
 import { DeleteAutoStockUsecase } from "./delete-auto-stock.usecase"
 import { EventEmitterInterface } from "@/modules/@shared/events"
 import { mock } from "jest-mock-extended"
 import { ProductStockAutoDeletedEvent } from "./product-stock-auto-deleted.event"
+import { DeleteAutoStockUsecaseInterface } from "@/modules/product-stock/domain/usecases"
 
 jest.mock("./product-stock-auto-deleted.event")
 
 describe("Test DeleteAutoStockUsecase", () => {
 
     let sut: DeleteAutoStockUsecase
-    let props: DeleteAutoStockInputDto
+    let props: DeleteAutoStockUsecaseInterface.InputDto
     let productStockAutoRepository: ProductStockAutoRepositoryInterface
     let eventEmitter: EventEmitterInterface
 

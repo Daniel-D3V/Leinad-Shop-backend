@@ -1,18 +1,18 @@
 import { ProductStockNormalRepositoryInterface } from "@/modules/product-stock/domain/repositories"
-import { UpdateNormalStockInputDto } from "./update-normal-stock.dto"
 import { UpdateNormalStockUsecase } from "./update-normal-stock.usecase"
 import { EventEmitterInterface } from "@/modules/@shared/events"
 import { mock } from "jest-mock-extended"
 import { ProductStockNormalEntity } from "@/modules/product-stock/domain/entities"
 import { left } from "@/modules/@shared/logic"
 import { ProductStockNormalUpdatedEvent } from "./product-stock-normal-updated.event"
+import { UpdateNormalStockUsecaseInterface } from "@/modules/product-stock/domain/usecases/normal"
 
 jest.mock("./product-stock-normal-updated.event")
 
 describe("Test updateNormalStockUsecase", () => {
 
     let sut: UpdateNormalStockUsecase
-    let props: UpdateNormalStockInputDto
+    let props: UpdateNormalStockUsecaseInterface.InputDto
     let productStockNormalRepository: ProductStockNormalRepositoryInterface
     let eventEmitter: EventEmitterInterface
     let productStockNormalEntity: ProductStockNormalEntity

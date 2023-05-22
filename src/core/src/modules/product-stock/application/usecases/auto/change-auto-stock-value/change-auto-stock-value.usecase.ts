@@ -1,19 +1,18 @@
-import { UsecaseInterface } from "@/modules/@shared/domain";
 import { Either, left, right } from "@/modules/@shared/logic";
-import { ChangeAutoStockValueInputDto, ChangeAutoStockValueOutputDto } from "./change-auto-stock-value.dto";
 import { EventEmitterInterface } from "@/modules/@shared/events";
 import { ProductStockAutoRepositoryInterface } from "@/modules/product-stock/domain/repositories";
 import { ProductStockNotFoundError } from "../../_errors";
 import { ProductStockAutoValueChangedEvent } from "./product-stock-auto-value-changed.event";
+import { ChangeAutoStockValueUsecaseInterface } from "@/modules/product-stock/domain/usecases";
 
-export class ChangeAutoStockValueUsecase implements UsecaseInterface{
+export class ChangeAutoStockValueUsecase implements ChangeAutoStockValueUsecaseInterface{
 
     constructor(
         private readonly productStockAutoRepository: ProductStockAutoRepositoryInterface,
         private readonly eventEmitter: EventEmitterInterface
     ){}
 
-    async execute({ productStockId, value }: ChangeAutoStockValueInputDto): Promise<Either<Error[], ChangeAutoStockValueOutputDto>> {
+    async execute({ productStockId, value }: ChangeAutoStockValueUsecaseInterface.InputDto): Promise<ChangeAutoStockValueUsecaseInterface.OutputDto> {
 
         const productStockAutoEntity = await this.productStockAutoRepository.findById(productStockId)
         if(!productStockAutoEntity) return left([ new ProductStockNotFoundError() ])

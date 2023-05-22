@@ -1,18 +1,18 @@
 import { UsecaseInterface } from "@/modules/@shared/domain";
 import { Either, right } from "@/modules/@shared/logic";
-import { DeleteAutoStockInputDto, DeleteAutoStockOutputDto } from "./delete-auto-stock.dto";
 import { ProductStockAutoRepositoryInterface } from "@/modules/product-stock/domain/repositories";
 import { EventEmitterInterface } from "@/modules/@shared/events";
 import { ProductStockAutoDeletedEvent } from "./product-stock-auto-deleted.event";
+import { DeleteAutoStockUsecaseInterface } from "@/modules/product-stock/domain/usecases";
 
-export class DeleteAutoStockUsecase implements UsecaseInterface {
+export class DeleteAutoStockUsecase implements DeleteAutoStockUsecaseInterface {
     
     constructor(
         private readonly productStockAutoRepository: ProductStockAutoRepositoryInterface,
         private readonly eventEmitter: EventEmitterInterface
     ){}
     
-    async execute({ productStockId }: DeleteAutoStockInputDto): Promise<Either<Error[], DeleteAutoStockOutputDto>> {
+    async execute({ productStockId }: DeleteAutoStockUsecaseInterface.InputDto): Promise<DeleteAutoStockUsecaseInterface.OutputDto> {
 
         await this.productStockAutoRepository.delete(productStockId)
 

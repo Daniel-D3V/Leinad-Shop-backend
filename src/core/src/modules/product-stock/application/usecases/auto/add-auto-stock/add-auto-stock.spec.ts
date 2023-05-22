@@ -1,10 +1,10 @@
 import { ProductStockAutoRepositoryInterface } from "@/modules/product-stock/domain/repositories"
-import { AddAutoStockInputDto } from "./add-auto-stock.dto"
 import { AddAutoStockUsecase } from "./add-auto-stock.usecase"
 import { EventEmitterInterface } from "@/modules/@shared/events"
 import { mock } from "jest-mock-extended"
 import { ProductStockAutoEntity } from "@/modules/product-stock/domain/entities"
 import { ProductStockAutoAddedEvent } from "./product-stock-auto-added.event"
+import { AddAutoStockUsecaseInterface } from "@/modules/product-stock/domain/usecases"
 
 jest.mock("./product-stock-auto-added.event")
 jest.mock("@/modules/product-stock/domain/entities")
@@ -12,7 +12,7 @@ jest.mock("@/modules/product-stock/domain/entities")
 describe("test AddAutoStockUsecase", () => {
 
     let sut: AddAutoStockUsecase
-    let props: AddAutoStockInputDto
+    let props: AddAutoStockUsecaseInterface.InputDto
     let productStockAutoRepository: ProductStockAutoRepositoryInterface
     let eventEmitter: EventEmitterInterface
     let productStockAutoEntity: ProductStockAutoEntity

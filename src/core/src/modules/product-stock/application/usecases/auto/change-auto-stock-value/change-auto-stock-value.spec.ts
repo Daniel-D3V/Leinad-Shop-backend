@@ -1,17 +1,17 @@
 import { ProductStockAutoRepositoryInterface } from "@/modules/product-stock/domain/repositories"
-import { ChangeAutoStockValueInputDto } from "./change-auto-stock-value.dto"
 import { ChangeAutoStockValueUsecase } from "./change-auto-stock-value.usecase"
 import { EventEmitterInterface } from "@/modules/@shared/events"
 import { ProductStockAutoEntity } from "@/modules/product-stock/domain/entities"
 import { mock } from "jest-mock-extended"
 import { ProductStockAutoValueChangedEvent } from "./product-stock-auto-value-changed.event"
+import { ChangeAutoStockValueUsecaseInterface } from "@/modules/product-stock/domain/usecases"
 
 jest.mock("./product-stock-auto-value-changed.event")
 
 describe("Test ChangeAutoStockValueUsecase", () => {
 
     let sut: ChangeAutoStockValueUsecase
-    let props: ChangeAutoStockValueInputDto
+    let props: ChangeAutoStockValueUsecaseInterface.InputDto
     let productStockAutoRepository: ProductStockAutoRepositoryInterface
     let eventEmitter: EventEmitterInterface
     let productStockAutoEntity: ProductStockAutoEntity
