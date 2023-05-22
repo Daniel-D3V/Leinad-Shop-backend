@@ -1,5 +1,5 @@
 import { left, right } from "@/modules/@shared/logic";
-import { ProductStockNormalRepositoryInterface } from "@/modules/product-stock/domain/repositories";
+import { ProductStockNormalRepositoryInterface, ProductStockRepositoryInterface } from "@/modules/product-stock/domain/repositories";
 import { CreateProductStockNormalUsecaseInterface } from "@/modules/product-stock/domain/usecases/normal";
 import { ProductStockNotFoundError } from "../../_errors";
 import { ProductStockNormalEntity } from "@/modules/product-stock/domain/entities";
@@ -10,7 +10,7 @@ import {  ProductStockNormalCreatedEvent } from "./product-stock-normal-created.
 export class CreateProductStockNormalUsecase implements CreateProductStockNormalUsecaseInterface {
     
     constructor(
-        private readonly productStockRepository: ProductStockNormalRepositoryInterface,
+        private readonly productStockRepository: ProductStockRepositoryInterface,
         private readonly productStockNormalRepository: ProductStockNormalRepositoryInterface,
         private readonly eventEmitter: EventEmitterInterface
     ){}
@@ -18,22 +18,22 @@ export class CreateProductStockNormalUsecase implements CreateProductStockNormal
     async execute({ productStockId }: CreateProductStockNormalUsecaseInterface.InputDto): Promise<CreateProductStockNormalUsecaseInterface.OutputDto> {
         
 
-        const productStockEntity = ProductStockNormalEntity.create({
+        const productStockNormalEntity = ProductStockNormalEntity.create({
             stock: 0
         }, productStockId)
-        if(productStockEntity.isLeft()) return left(productStockEntity.value)
+        if(productStockNormalEntity.isLeft()) return left(productStockNormalEntity.value)
 
         const productStock = await this.productStockRepository.findById(productStockId)
         if(!productStock) return left([ new ProductStockNotFoundError() ])
 
-        const productStockNormal = await this.productStockNormalRepository.findById(productStockEntity.value.id)
+        const productStockNormal = await this.productStockNormalRepository.findById(productStockNormalEntity.value.id)
         if(productStockNormal) return left([ new ProductStockNormalAlreadyCreatedError() ])
 
-        await this.productStockNormalRepository.create(productStockEntity.value)
+        await this.productStockNormalRepository.create(productStockNormalEntity.value)
 
         const productStockNormalCreatedEvent = new ProductStockNormalCreatedEvent({
-            id: productStockEntity.value.id,
-            stock: productStockEntity.value.getCurrentStock()
+            id: productStockNormalEntity.value.id,
+            stock: productStockNormalEntity.value.getCurrentStock()
         })
         await this.eventEmitter.emit(productStockNormalCreatedEvent)
 
