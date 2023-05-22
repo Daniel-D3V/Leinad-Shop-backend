@@ -1,23 +1,22 @@
 import { CheckCategoryActiveFacadeFactory } from "@/modules/category/facades";
-import { UsecaseInterface } from "@/modules/@shared/domain";
 import { Either, left, right } from "@/modules/@shared/logic";
-import { CreateAnnounceInputDto, CreateAnnounceOutputDto } from "./create-announce.dto";
 import { AnnounceEntity } from "@/modules/announce/announce-admin/domain/entities";
 import { EventEmitterInterface } from "@/modules/@shared/events";
 import { AnnounceRepositoryInterface } from "../../../domain/repositories";
 import { CategoryNotActiveError } from "../_errors";
 import { AnnounceCreatedEvent } from "./announce-created.event";
+import { CreateAnnounceUsecaseInterface } from "../../../domain/usecases";
 
 
 
-export class CreateAnnounceUsecase implements UsecaseInterface{
+export class CreateAnnounceUsecase implements CreateAnnounceUsecaseInterface {
 
     constructor(
         private readonly announceRepository: AnnounceRepositoryInterface,
         private readonly eventEmitter: EventEmitterInterface
     ){}
 
-    async execute(input: CreateAnnounceInputDto): Promise<Either<Error[], CreateAnnounceOutputDto>> {
+    async execute(input: CreateAnnounceUsecaseInterface.InputDto): Promise<CreateAnnounceUsecaseInterface.OutputDto> {
 
         const announceEntity = AnnounceEntity.create({
             ...input
@@ -34,6 +33,8 @@ export class CreateAnnounceUsecase implements UsecaseInterface{
             ...announceEntity.value.toJSON()
         })
         await this.eventEmitter.emit(announceCreatedEvent)
-        return right(null)
+        return right({
+            id: announceEntity.value.id
+        })
     }
 }

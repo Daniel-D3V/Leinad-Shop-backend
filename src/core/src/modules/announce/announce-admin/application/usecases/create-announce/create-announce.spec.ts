@@ -1,11 +1,11 @@
 import { CheckCategoryActiveFacadeFactory, CheckCategoryActiveFacadeInteface } from "@/modules/category/facades";
 import { CreateAnnounceUsecase } from "./create-announce.usecase";
-import { CreateAnnounceInputDto } from "./create-announce.dto";
 import {  EventEmitterInterface } from "@/modules/@shared/events";
 import { mock } from "jest-mock-extended";
 import { AnnounceEntity } from "@/modules/announce/announce-admin/domain/entities";
 import { AnnounceRepositoryInterface } from "../../../domain/repositories";
 import { AnnounceCreatedEvent } from "./announce-created.event";
+import { CreateAnnounceUsecaseInterface } from "../../../domain/usecases";
 
 jest.mock("@/modules/category/facades")
 jest.mock("@/modules/announce/announce-admin/domain/entities")
@@ -14,7 +14,7 @@ jest.mock("./announce-created.event")
 describe("test CreateAnnounceUsecase", () => {
 
     let sut: CreateAnnounceUsecase
-    let props: CreateAnnounceInputDto
+    let props: CreateAnnounceUsecaseInterface.InputDto
     let eventEmitter: EventEmitterInterface
     let announceEntity: AnnounceEntity
     let announceRepository: AnnounceRepositoryInterface
@@ -54,12 +54,14 @@ describe("test CreateAnnounceUsecase", () => {
             value: [ entityError ]
         } as any)
         const output = await sut.execute(props)
+        if(output.isRight()) throw new Error("Should not be right")
         expect(output.value![0]).toEqual(entityError)
     })
 
     it("Should return CategoryNotActiveError ", async () => {
         jest.spyOn(checkCategoryActiveFacade, "checkByCategoryId").mockResolvedValue(false)
         const output = await sut.execute(props)
+        if(output.isRight()) throw new Error("Should not be right")
         expect(output.value![0].name).toBe("CategoryNotActiveError")
     })
 

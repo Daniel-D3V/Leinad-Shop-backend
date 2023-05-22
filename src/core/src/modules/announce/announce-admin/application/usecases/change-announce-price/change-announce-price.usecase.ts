@@ -3,10 +3,10 @@ import { Either, left, right } from "@/modules/@shared/logic";
 import { AnnounceRepositoryInterface } from "../../../domain/repositories";
 import { EventEmitterInterface } from "@/modules/@shared/events";
 import { AnnounceNotFoundError } from "../_errors";
-import { ChangeAnnouncePriceInputDto, ChangeAnnouncePriceOutputDto } from "./change-announce-price.dto";
 import { AnnouncePriceChangedEvent } from "./announce-price-changed.event";
+import { ChangeAnnounPriceUsecaseInterface } from "../../../domain/usecases";
 
-export class ChangeAnnouncePriceUsecase implements UsecaseInterface {
+export class ChangeAnnouncePriceUsecase implements ChangeAnnounPriceUsecaseInterface {
 
     constructor(
         private readonly announceRepository: AnnounceRepositoryInterface,
@@ -14,7 +14,7 @@ export class ChangeAnnouncePriceUsecase implements UsecaseInterface {
     ){}
 
 
-    async execute({ announceId, price }: ChangeAnnouncePriceInputDto): Promise<Either<Error[], ChangeAnnouncePriceOutputDto>> {
+    async execute({ announceId, price }: ChangeAnnounPriceUsecaseInterface.InputDto): Promise<ChangeAnnounPriceUsecaseInterface.OutputDto> {
         
         const announceEntity = await this.announceRepository.findById(announceId)
         if(!announceEntity) return left([ new AnnounceNotFoundError() ])
