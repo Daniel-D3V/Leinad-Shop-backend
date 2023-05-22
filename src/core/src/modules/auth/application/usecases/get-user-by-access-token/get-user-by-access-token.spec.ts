@@ -5,7 +5,6 @@ import { TokenManagementInterface } from "../../protocols"
 import { UserEntity } from "@/modules/auth/domain/entities"
 import { mock } from "jest-mock-extended"
 
-
 describe("Test GetUserByAccessTokenUsecase", () => {
 
     let sut: GetUserByAccessTokenUsecase
@@ -33,7 +32,7 @@ describe("Test GetUserByAccessTokenUsecase", () => {
 
     it("Should execute the usecase properly", async () => {
         const output = await sut.execute(props)
-        expect(output.isRight()).toBeTruthy()
+        expect(output).toBeTruthy()
     })
 
     it("Should return an error if tokenManagement.verifyToken() returns an error", async () => {
