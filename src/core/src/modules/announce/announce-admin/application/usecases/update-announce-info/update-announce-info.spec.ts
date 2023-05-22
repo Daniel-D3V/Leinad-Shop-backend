@@ -19,9 +19,13 @@ describe("Test UpdateAnnounceUsecase", () => {
     beforeEach(() => {
         props = {
             announceId: "any_announce_id",
-            data: {}
+            data: {
+                title: "any_new_title"
+            }
         }
+        
         announceEntity = mock<AnnounceEntity>()
+        jest.spyOn(announceEntity, "changeTitle").mockReturnValue({ isLeft: () => false } as any)
         announceRepository = mock<AnnounceRepositoryInterface>()
         jest.spyOn(announceRepository, "findById").mockResolvedValue(announceEntity)
         eventEmitter = mock<EventEmitterInterface>()
@@ -47,6 +51,12 @@ describe("Test UpdateAnnounceUsecase", () => {
     it("Should create AnnounceInfoUpdatedEvent with correct values", async () => {
         await sut.execute(props)
         expect(AnnounceInfoUpdatedEvent).toHaveBeenCalledWith(props)
+    })
+
+    it("Should return NoDataToUpdateError if the data to update is empty", async () => {
+        delete props.data.title
+        const output = await sut.execute(props)
+        expect(output.value![0].name).toBe("NoDataToUpdateError")
     })
 
     describe("change title", () => {

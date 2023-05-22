@@ -4,6 +4,7 @@ import { AnnounceRepositoryInterface } from "@/modules/announce/announce-admin/d
 import { AnnounceNotFoundError } from "../_errors"
 import { AnnounceInfoUpdatedEvent } from "./announce-info-updated.event"
 import { UpdateAnnounceInfoUsecaseInterface } from "../../../domain/usecases"
+import { NoDataToUpdateError } from "./errors"
 
 export class UpdateAnnounceUsecase implements UpdateAnnounceInfoUsecaseInterface{
 
@@ -13,6 +14,8 @@ export class UpdateAnnounceUsecase implements UpdateAnnounceInfoUsecaseInterface
     ){}
 
     async execute({ announceId, data }: UpdateAnnounceInfoUsecaseInterface.InputDto): Promise<UpdateAnnounceInfoUsecaseInterface.OutputDto> {
+
+        if(Object.keys(data).length === 0) return left([ new NoDataToUpdateError()  ])
 
         const announceEntity = await this.announceRepository.findById(announceId)
         if(!announceEntity) return left([ new AnnounceNotFoundError() ])
