@@ -1,1 +1,1 @@
-export const batata= {}
+export * from "./activate-announce-usecase.interface"
