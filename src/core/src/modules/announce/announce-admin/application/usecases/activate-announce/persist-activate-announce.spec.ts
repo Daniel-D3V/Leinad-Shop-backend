@@ -3,15 +3,15 @@ import { EventEmitterInterface } from "@/modules/@shared/events"
 import { mock } from "jest-mock-extended"
 import { AnnounceEntity } from "@/modules/announce/announce-admin/domain/entities"
 import { AnnounceActivatedEvent } from "./announce-activated.event"
-import { ActivateAnnounceInputDto } from "./activate-announce.dto"
 import { ActivateAnnounceUsecase } from "./activate-announce.usecase"
+import { ActivateAnnounceUsecaseInterface } from "../../../domain/usecases"
 
 jest.mock("./announce-activated.event")
 
 describe("Test ActivateAnnounceUsecase", () => {
 
     let sut: ActivateAnnounceUsecase
-    let props: ActivateAnnounceInputDto
+    let props: ActivateAnnounceUsecaseInterface.InputDto
     let announceRepository: AnnounceRepositoryInterface
     let eventEmitter: EventEmitterInterface
     let announceEntity: AnnounceEntity
