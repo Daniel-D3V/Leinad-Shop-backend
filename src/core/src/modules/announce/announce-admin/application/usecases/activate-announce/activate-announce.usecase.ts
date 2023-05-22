@@ -1,4 +1,3 @@
-import { UsecaseInterface } from "@/modules/@shared/domain"
 import {  EventEmitterInterface } from "@/modules/@shared/events"
 import { Either, left, right } from "@/modules/@shared/logic"
 import { AnnounceRepositoryInterface } from "../../../domain/repositories"

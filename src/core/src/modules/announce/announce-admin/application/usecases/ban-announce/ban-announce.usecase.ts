@@ -1,18 +1,18 @@
 import { UsecaseInterface } from "@/modules/@shared/domain"
 import { CommandEmitterInterface, EventEmitterInterface } from "@/modules/@shared/events"
-import { BanAnnounceInputDto, BanAnnounceOutputDto } from "./ban-announce.dto"
 import { Either, left, right } from "@/modules/@shared/logic"
 import { AnnounceRepositoryInterface } from "../../../domain/repositories"
 import { AnnounceNotFoundError } from "../_errors"
 import { AnnounceBannedEvent } from "./announce-banned.event"
+import { BanAnnounceUsecaseInterface } from "../../../domain/usecases/ban-announce-usecase.interface"
 
-export class BanAnnounceUsecase implements UsecaseInterface{
+export class BanAnnounceUsecase implements BanAnnounceUsecaseInterface{
 
     constructor(
         private readonly announceRepository: AnnounceRepositoryInterface,
         private readonly eventEmitter: EventEmitterInterface
     ){}
-    async execute({ announceId }: BanAnnounceInputDto): Promise<Either<Error[], BanAnnounceOutputDto>> {
+    async execute({ announceId }: BanAnnounceUsecaseInterface.InputDto): Promise<BanAnnounceUsecaseInterface.OutputDto> {
 
         const announceEntity = await this.announceRepository.findById(announceId)
         if(!announceEntity) return left([ new AnnounceNotFoundError() ])
