@@ -1,15 +1,15 @@
 import { ProductStockRepositoryInterface } from "@/modules/product-stock/domain/repositories"
-import { GetStokAvailabilityInputDto } from "./get-stock-availability.dto"
 import { GetStockAvailabilityUsecase } from "./get-stock-availability.usecase"
 import { mock } from "jest-mock-extended"
 import { ProductStockEntity } from "@/modules/product-stock/domain/entities"
 import { ProductStockGatewayInterface } from "@/modules/product-stock/domain/gateway"
+import { GetStockAvailabilityUsecaseInterface } from "@/modules/product-stock/domain/usecases"
 
 
 describe("Test GetStockAvailabilityUsecase", () => {
 
     let sut: GetStockAvailabilityUsecase
-    let props: GetStokAvailabilityInputDto
+    let props: GetStockAvailabilityUsecaseInterface.InputDto
     let productStockRepository: ProductStockRepositoryInterface
     let productStockGateway: ProductStockGatewayInterface
     let productStockEntity: ProductStockEntity
