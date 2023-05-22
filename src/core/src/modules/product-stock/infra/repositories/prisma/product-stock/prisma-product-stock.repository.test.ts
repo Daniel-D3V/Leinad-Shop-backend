@@ -7,18 +7,28 @@ describe("Test PrismaProductStockRepository", () => {
     let sut: PrismaProductStockRepository
     let id: string
 
-    beforeEach(() => {
+    beforeEach(async () => {
         id = "any_announce_id"
         sut = new PrismaProductStockRepository(prismaClient)
+        await prismaClient.announce.deleteMany()
     })
 
-    const create = () =>{
-        prismaClient.announce.create({
+    const create = async () =>{
+        await prismaClient.announce.create({
             data: {
-                id
+                id,
+                stockType: "AUTO"
             }
         })
     }
 
-    it("Should", () => {})
+    it("Should find a product stock", async () => {
+        await create()
+        const entityFound = await sut.findById(id)
+
+        expect(entityFound?.toJSON()).toEqual({
+            id,
+            stockType: "AUTO"
+        })
+    })
 })
