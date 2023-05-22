@@ -1,1 +1,2 @@
-export * from "./activate-announce-usecase.interface"
+export * from "./activate-announce-usecase.factory"
+export * from "./ban-announce-usecase.factory"
