@@ -4,14 +4,14 @@ import { mock } from "jest-mock-extended"
 import { AnnounceEntity } from "@/modules/announce/announce-admin/domain/entities"
 import { AnnounceDeactivatedEvent } from "./announce-deactivated.event"
 import { DeactivateAnnounceUsecase } from "./deactivate-announce.usecase"
-import { DeactivateAnnounceInputDto } from "./deactivate-announce.dto"
+import { DeactivateAnnounceUsecaseInterface } from "../../../domain/usecases"
 
 jest.mock("./announce-deactivated.event")
 
 describe("Test DeactivateAnnounceUsecase", () => {
 
     let sut: DeactivateAnnounceUsecase
-    let props: DeactivateAnnounceInputDto
+    let props: DeactivateAnnounceUsecaseInterface.InputDto
     let announceRepository: AnnounceRepositoryInterface
     let eventEmitter: EventEmitterInterface
     let announceEntity: AnnounceEntity

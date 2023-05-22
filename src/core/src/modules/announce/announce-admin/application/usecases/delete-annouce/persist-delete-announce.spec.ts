@@ -2,13 +2,13 @@ import { AnnounceRepositoryInterface } from "@/modules/announce/announce-admin/d
 import { EventEmitterInterface } from "@/modules/@shared/events"
 import { mock } from "jest-mock-extended"
 import { DeleteAnnounceUsecase } from "./delete-announce.usecase"
-import { DeleteAnnounceInputDto } from "./delete-announce.dto"
+import { DeleteAnnounceUsecaseInterface } from "../../../domain/usecases"
 
 
 describe("test PersistDeleteAnnounce", () => {
 
     let sut: DeleteAnnounceUsecase
-    let props: DeleteAnnounceInputDto
+    let props: DeleteAnnounceUsecaseInterface.InputDto
     let announceRepository: AnnounceRepositoryInterface
     let eventEmitter: EventEmitterInterface
 

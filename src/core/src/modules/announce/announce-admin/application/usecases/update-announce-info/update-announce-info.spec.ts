@@ -1,16 +1,16 @@
 import { AnnounceRepositoryInterface } from "@/modules/announce/announce-admin/domain/repositories"
-import { UpdateAnnounceInputDto } from "./update-announce-info.dto"
 import { UpdateAnnounceUsecase } from "./update-announce-info.usecase"
 import { CommandEmitterInterface, EventEmitterInterface } from "@/modules/@shared/events"
 import { mock } from "jest-mock-extended"
 import { AnnounceEntity } from "@/modules/announce/announce-admin/domain/entities"
 import { AnnounceInfoUpdatedEvent } from "./announce-info-updated.event"
+import { UpdateAnnounceInfoUsecaseInterface } from "../../../domain/usecases"
 
 jest.mock("./announce-info-updated.event")
 
 describe("Test UpdateAnnounceUsecase", () => {
     let sut: UpdateAnnounceUsecase
-    let props: UpdateAnnounceInputDto
+    let props: UpdateAnnounceInfoUsecaseInterface.InputDto
     let announceRepository: AnnounceRepositoryInterface
     let commandEmitter: CommandEmitterInterface
     let eventEmitter: EventEmitterInterface

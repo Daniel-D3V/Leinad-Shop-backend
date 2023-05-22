@@ -1,19 +1,18 @@
-import { UsecaseInterface } from "@/modules/@shared/domain"
-import { CommandEmitterInterface, EventEmitterInterface } from "@/modules/@shared/events"
+import {  EventEmitterInterface } from "@/modules/@shared/events"
 import { Either, left, right } from "@/modules/@shared/logic"
 import { AnnounceRepositoryInterface } from "@/modules/announce/announce-admin/domain/repositories"
-import { UpdateAnnounceInputDto, UpdateAnnounceOutputDto } from "./update-announce-info.dto"
 import { AnnounceNotFoundError } from "../_errors"
 import { AnnounceInfoUpdatedEvent } from "./announce-info-updated.event"
+import { UpdateAnnounceInfoUsecaseInterface } from "../../../domain/usecases"
 
-export class UpdateAnnounceUsecase implements UsecaseInterface{
+export class UpdateAnnounceUsecase implements UpdateAnnounceInfoUsecaseInterface{
 
     constructor(
         private readonly announceRepository: AnnounceRepositoryInterface,
         private readonly eventEmitter: EventEmitterInterface
     ){}
 
-    async execute({ announceId, data }: UpdateAnnounceInputDto): Promise<Either<Error[], UpdateAnnounceOutputDto>> {
+    async execute({ announceId, data }: UpdateAnnounceInfoUsecaseInterface.InputDto): Promise<UpdateAnnounceInfoUsecaseInterface.OutputDto> {
 
         const announceEntity = await this.announceRepository.findById(announceId)
         if(!announceEntity) return left([ new AnnounceNotFoundError() ])
