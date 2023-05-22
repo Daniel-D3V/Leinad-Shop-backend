@@ -1,7 +1,7 @@
 import { Controller, Inject, OnModuleInit } from '@nestjs/common';
 import { Message } from "amqplib";
-import { RabbitMQService } from 'src/event-handler/rabbitmq.service';
 import { PersistEventUsecaseFactory, RemoveOutboxFactory } from "@core/domain/dist/src/modules/event-sourcing-management/factories"
+import { RabbitMQService } from 'src/services/rabbitmq/rabbitmq.service';
 
 
 @Controller()

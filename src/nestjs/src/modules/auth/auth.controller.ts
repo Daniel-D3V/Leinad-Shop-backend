@@ -24,7 +24,7 @@ export class AuthController {
     const usecaseResult = await loginUsecase.execute(loginDto)
     if(usecaseResult.isLeft()) {
       return res.status(400).json(formatError(usecaseResult.value))
-    }/////
+    }
     res.cookie("accessToken", usecaseResult.value.accessToken, { httpOnly: true })
     res.cookie("refreshToken", usecaseResult.value.refreshToken, { httpOnly: true })
 
@@ -40,7 +40,7 @@ export class AuthController {
     })
     if(usecaseResult.isLeft()) {
       return res.status(400).json(formatError(usecaseResult.value))
-    }///
+    }
     res.cookie("accessToken", usecaseResult.value.accessToken, { httpOnly: true })
     res.cookie("refreshToken", usecaseResult.value.refreshToken, { httpOnly: true })
 
@@ -49,15 +49,6 @@ export class AuthController {
 
   @Post("/current-user")
   async currentUser(@Req() req: Request, @Res() res: Response) {
-    const { accessToken } = req.cookies
-    const getUserByAccessTokenUsecase = GetUserByAccessTokenUsecaseFactory.create()
-    const usecaseResult = await getUserByAccessTokenUsecase.execute({
-        accessToken
-    })
-    if(usecaseResult.isLeft()) {
-      return res.status(400).json(formatError(usecaseResult.value))
-    }
-
-    return res.status(200).json(usecaseResult.value)
+    return res.status(200).json(req.currentUser)
   }
 }

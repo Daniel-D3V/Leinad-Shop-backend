@@ -1,5 +1,5 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
-import { RabbitMQService } from './rabbitmq.service';
+import { RabbitMQService } from 'src/services/rabbitmq/rabbitmq.service';
 const MySQLEvents = require('@rodrigogs/mysql-events');
 
 @Injectable()
