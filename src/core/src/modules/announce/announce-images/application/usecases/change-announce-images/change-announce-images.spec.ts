@@ -1,17 +1,17 @@
 import { AnnounceImagesRepositoryInterface } from "@/modules/announce/announce-images/domain/repositories"
-import { ChangeAnnounceImagesInputDto } from "./change-announce-images.dto"
 import { ChangeAnnouceImagesUsecase } from "./change-announce-images.usecase"
 import {  EventEmitterInterface } from "@/modules/@shared/events"
 import { mock } from "jest-mock-extended"
 import { AnnounceImageEntity } from "@/modules/announce/announce-images/domain/entities"
 import { AnnounceImagesChangedEvent } from "./announce-images-changed.event"
+import { ChangeAnnounceImagesUsecaseInterface } from "../../../domain/usecases"
 
 jest.mock("./announce-images-changed.event")
 
 describe("Test ChangeAnnouceImagesUsecase", () => {
 
     let sut: ChangeAnnouceImagesUsecase
-    let props: ChangeAnnounceImagesInputDto
+    let props: ChangeAnnounceImagesUsecaseInterface.InputDto
     let announceImagesRepository: AnnounceImagesRepositoryInterface
     let eventEmitter: EventEmitterInterface
     let announceImageEntity: AnnounceImageEntity

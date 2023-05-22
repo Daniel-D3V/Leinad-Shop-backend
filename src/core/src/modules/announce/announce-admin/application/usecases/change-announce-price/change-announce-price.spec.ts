@@ -4,14 +4,14 @@ import { ChangeAnnouncePriceUsecase } from "./change-announce-price.usecase"
 import { AnnounceEntity } from "../../../domain/entities"
 import { mock } from "jest-mock-extended"
 import { AnnouncePriceChangedEvent } from "./announce-price-changed.event"
-import { ChangeAnnounPriceUsecaseInterface } from "../../../domain/usecases"
+import { ChangeAnnouncePriceUsecaseInterface } from "../../../domain/usecases"
 
 jest.mock("./announce-price-changed.event")
 
 describe("Test ChangeAnnouncePriceUsecase", () => {
 
     let sut: ChangeAnnouncePriceUsecase
-    let props: ChangeAnnounPriceUsecaseInterface.InputDto
+    let props: ChangeAnnouncePriceUsecaseInterface.InputDto
     let announceRepository: AnnounceRepositoryInterface
     let eventEmitter: EventEmitterInterface
     let announceEntity: AnnounceEntity

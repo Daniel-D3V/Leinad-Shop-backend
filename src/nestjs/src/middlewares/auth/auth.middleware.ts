@@ -30,8 +30,7 @@ export class AuthMiddleware implements NestMiddleware {
       return res.status(400).json(formatError(usecaseResult.value))
     }
     req.currentUser = usecaseResult.value
-    return res.status(200).json(usecaseResult.value)
-
+    
     next();
   }
 }
