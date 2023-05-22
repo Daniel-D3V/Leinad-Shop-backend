@@ -18,8 +18,14 @@ export class PrismaProductStockRepository implements ProductStockRepositoryInter
         if(prismaProductStock.stockType === "NORMAL") productStockEntity.toStockNormal()
         return productStockEntity
     }
-    update(productStockEntity: ProductStockEntity): Promise<void> {
-        throw new Error("Method not implemented.");
+    async update(productStockEntity: ProductStockEntity): Promise<void> {
+        await this.prismaClient.announce.updateMany({
+            where: { id: productStockEntity.id ?? ""},
+            data: {
+                stockType: productStockEntity.stockType
+            }
+        })
+
     }
 
 }

@@ -31,4 +31,21 @@ describe("Test PrismaProductStockRepository", () => {
             stockType: "AUTO"
         })
     })
+
+    it("Should return null if product stock does not exists", async () => {
+        const entityFound = await sut.findById(id)
+        expect(entityFound).toBeNull()
+    })
+
+    it("Should update a product stock", async () => {
+
+        await create()
+        const entityFound = await sut.findById(id)
+        expect(entityFound?.stockType).toBe("AUTO")
+        entityFound?.toStockNormal()
+        await sut.update(entityFound!)
+        const entityUpdated = await sut.findById(id)
+        expect(entityUpdated?.stockType).toBe("NORMAL")
+
+    })
 })
