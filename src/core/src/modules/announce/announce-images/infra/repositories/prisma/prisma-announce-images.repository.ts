@@ -13,10 +13,10 @@ export class PrismaAnnounceImagesRepository implements AnnounceImagesRepositoryI
 
     async findById(id: string): Promise<AnnounceImageEntity | null> {
         
-        const prismaAnnounce = await prismaClient.announce.findFirst({ where: { id } })
+        const prismaAnnounce = await this.prismaClient.announce.findFirst({ where: { id } })
         if(!prismaAnnounce) return null;
 
-        const prismaAnnounceImages = await prismaClient.announceImages.findMany({
+        const prismaAnnounceImages = await this.prismaClient.announceImages.findMany({
             where: { announceId: id },
             orderBy: { weight: "asc" }
         })
@@ -28,10 +28,10 @@ export class PrismaAnnounceImagesRepository implements AnnounceImagesRepositoryI
     }
 
     async update(announceImageEntity: AnnounceImageEntity): Promise<void> {
-        await prismaClient.announceImages.deleteMany({
+        await this.prismaClient.announceImages.deleteMany({
             where: { announceId: announceImageEntity.id }
         })
-        await prismaClient.announceImages.createMany({
+        await this.prismaClient.announceImages.createMany({
             data: [
                 ...announceImageEntity.images.map(images => ({ 
                     weight: images.weight, 

@@ -1,0 +1,1 @@
+export * from "./change-announce-images-interface"
