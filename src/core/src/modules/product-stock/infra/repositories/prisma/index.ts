@@ -1,0 +1,1 @@
+export * from "./product-stock/prisma-product-stock.repository"
