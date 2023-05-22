@@ -2,6 +2,7 @@ import { Injectable, OnModuleInit } from '@nestjs/common';
 import { MysqlResponseInterface } from 'src/services/mysql-consumer/interfaces';
 import { MysqlConsumerService } from 'src/services/mysql-consumer/mysql-consumer.service';
 import { RabbitMQService } from 'src/services/rabbitmq/rabbitmq.service';
+import { OutboxRecordInterface } from './interfaces';
 
 @Injectable()
 export class OutboxConsumerService implements OnModuleInit {
@@ -17,19 +18,14 @@ export class OutboxConsumerService implements OnModuleInit {
       name: "OUTBOX",
       expression: 'test-integration-db.outbox',
       statement: "INSERT"
-    }, this.handleEvents)
+    }, (events) => this.handleEvents(events))
   }
 
   private async handleEvents(event: MysqlResponseInterface): Promise<void> {
-      console.log(event)
-      
-
-      // event.affectedRows.map(async (event: any) => {
-      //     const { eventName, payload } = event.after
-      //     await this.eventEmitter.publishToExchange("amq.fanout", eventName, payload)
-      // })
-
+      event.affectedRows.map(async (event) => {
+        const { eventName, payload } = event.after as OutboxRecordInterface
+        await this.eventEmitter.publishToExchange("amq.fanout", eventName, payload)
+      })
   }
 
-  // Add additional methods as needed
 }

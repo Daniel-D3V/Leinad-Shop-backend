@@ -18,14 +18,13 @@ export class MysqlConsumerService {
           mysql: true,
         },
       });
-    
       await instance.start();
     
       instance.addTrigger({
         name: config.name,
         expression: config.expression,
-        statement: MySQLEvents.STATEMENTS.INSERT,
-        onEvent: callback
+        statement: MySQLEvents.STATEMENTS[config.statement],
+        onEvent: callback,
       });
       
       instance.on(MySQLEvents.EVENTS.CONNECTION_ERROR, console.error);
