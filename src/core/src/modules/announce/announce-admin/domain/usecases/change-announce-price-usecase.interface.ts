@@ -1,11 +1,11 @@
 import { UsecaseInterface } from "@/modules/@shared/domain";
 import { Either } from "@/modules/@shared/logic";
 
-export interface ChangeAnnounPriceUsecaseInterface extends UsecaseInterface {
-    execute(input: ChangeAnnounPriceUsecaseInterface.InputDto): Promise<ChangeAnnounPriceUsecaseInterface.OutputDto>
+export interface ChangeAnnouncePriceUsecaseInterface extends UsecaseInterface {
+    execute(input: ChangeAnnouncePriceUsecaseInterface.InputDto): Promise<ChangeAnnouncePriceUsecaseInterface.OutputDto>
 }
 
-export namespace ChangeAnnounPriceUsecaseInterface {
+export namespace ChangeAnnouncePriceUsecaseInterface {
     export type InputDto = {
         announceId: string
         price: number

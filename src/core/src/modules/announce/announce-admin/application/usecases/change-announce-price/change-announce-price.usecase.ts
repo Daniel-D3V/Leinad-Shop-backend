@@ -4,9 +4,9 @@ import { AnnounceRepositoryInterface } from "../../../domain/repositories";
 import { EventEmitterInterface } from "@/modules/@shared/events";
 import { AnnounceNotFoundError } from "../_errors";
 import { AnnouncePriceChangedEvent } from "./announce-price-changed.event";
-import { ChangeAnnounPriceUsecaseInterface } from "../../../domain/usecases";
+import { ChangeAnnouncePriceUsecaseInterface } from "../../../domain/usecases";
 
-export class ChangeAnnouncePriceUsecase implements ChangeAnnounPriceUsecaseInterface {
+export class ChangeAnnouncePriceUsecase implements ChangeAnnouncePriceUsecaseInterface {
 
     constructor(
         private readonly announceRepository: AnnounceRepositoryInterface,
@@ -14,7 +14,7 @@ export class ChangeAnnouncePriceUsecase implements ChangeAnnounPriceUsecaseInter
     ){}
 
 
-    async execute({ announceId, price }: ChangeAnnounPriceUsecaseInterface.InputDto): Promise<ChangeAnnounPriceUsecaseInterface.OutputDto> {
+    async execute({ announceId, price }: ChangeAnnouncePriceUsecaseInterface.InputDto): Promise<ChangeAnnouncePriceUsecaseInterface.OutputDto> {
         
         const announceEntity = await this.announceRepository.findById(announceId)
         if(!announceEntity) return left([ new AnnounceNotFoundError() ])
