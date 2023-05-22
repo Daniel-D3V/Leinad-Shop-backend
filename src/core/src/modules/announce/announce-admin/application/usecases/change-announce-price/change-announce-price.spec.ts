@@ -23,7 +23,8 @@ describe("Test ChangeAnnouncePriceUsecase", () => {
         }
         announceEntity = mock<AnnounceEntity>({
             id: props.announceId,
-            price: props.price
+            price: props.price,
+            changePrice: () => ({ isLeft: () => false }) as any
         })
         announceRepository = mock<AnnounceRepositoryInterface>()
         jest.spyOn(announceRepository, "findById").mockResolvedValue(announceEntity)
@@ -44,8 +45,9 @@ describe("Test ChangeAnnouncePriceUsecase", () => {
     })
 
     it("Should call changePrice from AnnounceEntity", async () => {
+        const changePriceSpy = jest.spyOn(announceEntity, "changePrice")
         await sut.execute(props)
-        expect(announceEntity.changePrice).toHaveBeenCalledTimes(1)
+        expect(changePriceSpy).toHaveBeenCalledTimes(1)
         expect(announceEntity.changePrice).toHaveBeenCalledWith(props.price)
     })
 
@@ -62,6 +64,14 @@ describe("Test ChangeAnnouncePriceUsecase", () => {
     it("Should create AnnouncePriceChangedEvent with correct values", async () => {
         await sut.execute(props)
         expect(AnnouncePriceChangedEvent).toHaveBeenCalledWith({ ...props })
+    })
+
+    it("Should return an error if changePrice from AnnounceEntity returns an error", async () => {
+        const changePriceError = new Error("any_error")
+        jest.spyOn(announceEntity, "changePrice")
+        .mockReturnValueOnce({ isLeft: () => true, value: [changePriceError] } as any)
+        const output = await sut.execute(props)
+        expect(output.value).toEqual([changePriceError])
     })
 
 

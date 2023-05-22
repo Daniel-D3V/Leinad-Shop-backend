@@ -20,13 +20,19 @@ export class AnnouncesModule implements NestModule {
       },
       {
         path: "announces",
-        method: RequestMethod.POST
+        method: RequestMethod.ALL
       }
     )
     .apply(CheckAnnounceFromUserMiddleware)
-    .forRoutes({
+    .forRoutes(
+      {
       path: "announces/*/:announceId",
       method: RequestMethod.ALL
-    })
+      },
+      {
+        path: "announces/:announceId",
+        method: RequestMethod.DELETE
+      }
+    )
   }
 }

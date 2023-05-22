@@ -11,7 +11,6 @@ export class CheckAnnounceFromUserMiddleware implements NestMiddleware {
       userId: req.currentUser.id,
       announceId: req.params?.announceId
     })
-
     if(usecaseResult.isLeft()) {
       return res.status(400).json(formatError(usecaseResult.value))
     }

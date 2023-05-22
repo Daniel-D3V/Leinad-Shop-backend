@@ -13,7 +13,7 @@ export class DeleteAnnounceUsecase implements DeleteAnnounceUsecaseInterface {
     ){}
 
     async execute({ announceId }: DeleteAnnounceUsecaseInterface.InputDto): Promise<DeleteAnnounceUsecaseInterface.OutputDto> {
-
+        
 
         await this.announceRepository.delete(announceId)
 

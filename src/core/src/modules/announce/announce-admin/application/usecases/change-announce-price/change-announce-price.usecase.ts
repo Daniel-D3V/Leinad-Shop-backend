@@ -19,7 +19,8 @@ export class ChangeAnnouncePriceUsecase implements ChangeAnnouncePriceUsecaseInt
         const announceEntity = await this.announceRepository.findById(announceId)
         if(!announceEntity) return left([ new AnnounceNotFoundError() ])
 
-        announceEntity.changePrice(price)
+        const changePriceResult =announceEntity.changePrice(price)
+        if(changePriceResult.isLeft()) return left(changePriceResult.value)
         await this.announceRepository.update(announceEntity)
 
         const announcePriceChangedEvent = new AnnouncePriceChangedEvent({
