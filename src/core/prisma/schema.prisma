@@ -33,12 +33,22 @@ model Announce {
   status String @default("DEACTIVATED")
   price Float @default(0.50)
   stockType String @default("NORMAL")
+  stockMormalQuantity Int @default(0)
 
   userId String?
   categoryId String?  
 
 
   @@map("announces")
+}
+
+model ProductStockAuto {
+  
+    id String @id
+    value String
+    announceId String
+  
+    @@map("product_stock_auto")
 }
 
 model AnnounceImages {

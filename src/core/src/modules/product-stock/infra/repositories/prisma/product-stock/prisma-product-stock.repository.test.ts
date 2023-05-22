@@ -38,7 +38,6 @@ describe("Test PrismaProductStockRepository", () => {
     })
 
     it("Should update a product stock", async () => {
-
         await create()
         const entityFound = await sut.findById(id)
         expect(entityFound?.stockType).toBe("AUTO")
