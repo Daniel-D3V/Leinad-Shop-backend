@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Res, Req } from '@nestjs/common';
 import { Response, Request } from "express";
 import { formatError } from "@core/domain/dist/src/modules/@shared/utils"
-import { SignupUsecaseFactory, LoginUsecaseFactory, RefreshTokenUsecaseFactory } from "@core/domain/dist/src/modules/auth/factories"
+import { SignupUsecaseFactory, LoginUsecaseFactory, RefreshTokenUsecaseFactory, GetUserByAccessTokenUsecaseFactory } from "@core/domain/dist/src/modules/auth/factories"
 
 
 @Controller('auth')
@@ -45,5 +45,19 @@ export class AuthController {
     res.cookie("refreshToken", usecaseResult.value.refreshToken, { httpOnly: true })
 
     return res.status(200).json()
+  }
+
+  @Post("/current-user")
+  async currentUser(@Req() req: Request, @Res() res: Response) {
+    const { accessToken } = req.cookies
+    const getUserByAccessTokenUsecase = GetUserByAccessTokenUsecaseFactory.create()
+    const usecaseResult = await getUserByAccessTokenUsecase.execute({
+        accessToken
+    })
+    if(usecaseResult.isLeft()) {
+      return res.status(400).json(formatError(usecaseResult.value))
+    }
+
+    return res.status(200).json(usecaseResult.value)
   }
 }

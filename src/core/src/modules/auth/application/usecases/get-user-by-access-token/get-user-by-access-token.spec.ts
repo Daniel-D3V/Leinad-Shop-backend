@@ -52,8 +52,6 @@ describe("Test GetUserByAccessTokenUsecase", () => {
         if(output.isRight()) throw new Error("Should not return an output")
         expect(output.isLeft()).toBeTruthy()
         expect(output.value[0].name).toBe("UserNotFoundError")
-        
-
     })
 
 })
