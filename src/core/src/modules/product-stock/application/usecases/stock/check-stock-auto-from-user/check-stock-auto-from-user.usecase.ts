@@ -3,6 +3,7 @@ import { ProductStockAutoRepositoryInterface, ProductStockRepositoryInterface } 
 import { CheckStockAutoFromUserUsecaseInterface } from "@/modules/product-stock/domain/usecases";
 import { ProductStockAutoNotFoundError, } from "../../_errors";
 import { GetUserIdByAnnounceIdFacadeFactory } from "@/modules/announce/announce-admin/factories";
+import { ProductStockAutoNotFromUserError } from "./errors";
 
 export class CheckStockAutoFromUserUsecase implements CheckStockAutoFromUserUsecaseInterface {
 
@@ -17,7 +18,9 @@ export class CheckStockAutoFromUserUsecase implements CheckStockAutoFromUserUsec
 
         const getUserIdByAnnounceIdFacade = GetUserIdByAnnounceIdFacadeFactory.create()
         const announceUserId = await getUserIdByAnnounceIdFacade.execute(productStockAuto.productStockId)
+        const isUserOwnStockAuto = userId === announceUserId
+        if(!isUserOwnStockAuto) return left([ new ProductStockAutoNotFromUserError() ])
 
-        return right(userId === announceUserId)
+        return right(null)
     }
 }

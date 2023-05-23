@@ -22,7 +22,7 @@ export class ChangeAutoStockValueUsecase implements ChangeAutoStockValueUsecaseI
         await this.productStockAutoRepository.update(productStockAutoEntity)
 
         const productStockAutoValueChangedEvent = new ProductStockAutoValueChangedEvent({
-            productStockId: productStockAutoEntity.id,
+            productStockAutoId: productStockAutoEntity.id,
             value: productStockAutoEntity.getValue()
         })
 

@@ -41,25 +41,21 @@ describe('Test CheckStockAutoFromUserUsecase', () => {
         expect(output.value[0].name).toBe("ProductStockAutoNotFoundError")
     })
 
-    it('Should return true if userId is equal to announceUserId',async () => {
-        const output = await sut.execute(props)
-        expect(output.isRight()).toBe(true)
-        expect(output.value).toBe(true)
-    })
-
-    it('Should return false if userId is not equal to announceUserId',async () => {
-        props.userId = "any_user_id"
-        jest.spyOn(GetUserIdByAnnounceIdFacadeFactory, 'create').mockReturnValue({
-            execute: async () => "any_announce_user_id"
-         })
-        const output = await sut.execute(props)
-        expect(output.isRight()).toBe(true)
-        expect(output.value).toBe(false)
-    })
-
+  
     it("Should call GetUserIdByAnnounceIdFacadeFactory.create once", async () => {
         await sut.execute(props)
         expect(GetUserIdByAnnounceIdFacadeFactory.create).toBeCalledTimes(1)
+    })
+
+
+    it('Should return ProductStockAutoNotFromUserError if user is not the owner of the productStockAuto',async () => {
+        jest.spyOn(GetUserIdByAnnounceIdFacadeFactory, 'create').mockReturnValue({
+            execute: async () => "another_user_id"
+         })
+        const output = await sut.execute(props)
+        if(output.isRight()) throw new Error('This test should return an error')
+        expect(output.isLeft()).toBe(true)
+        expect(output.value[0].name).toBe("ProductStockAutoNotFromUserError")
     })
 
 })

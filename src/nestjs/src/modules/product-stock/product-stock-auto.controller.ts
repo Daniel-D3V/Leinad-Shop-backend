@@ -2,7 +2,7 @@ import { Body, Controller, Param, Post, Req, Res, UseGuards } from '@nestjs/comm
 import { AddAutoStockUsecaseFactory, ChangeAutoStockValueUsecaseFactory } from "@core/domain/dist/src/modules/product-stock/factories/"
 import { Response, Request } from 'express';
 import { formatError } from '@core/domain/dist/src/modules/@shared/utils';
-import { AuthGuard } from './guards/auth/auth.guard';
+import { CheckStockAutoFromUserGuard } from './guards';
 
 @Controller('product-stock-auto')
 export class ProductStockAutoController {
@@ -20,9 +20,10 @@ export class ProductStockAutoController {
     return res.status(200).json(usecaseResult.value);
   }
 
+  @UseGuards(new CheckStockAutoFromUserGuard())
   @Post("/change-value/:productStockAutoId")
-  @UseGuards(new AuthGuard())
   async changeAutoStockValue(@Param('productStockAutoId') productStockAutoId: string, @Body() addProductStockDto: any, @Res() res: Response) {
+
     const changeAutoStockValueUsecase = ChangeAutoStockValueUsecaseFactory.create();
     const usecaseResult = await changeAutoStockValueUsecase.execute({
       productStockAutoId,

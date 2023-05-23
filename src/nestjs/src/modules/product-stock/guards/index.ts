@@ -1,0 +1,1 @@
+export * from "./check-stock-auto-from-user/check-stock-auto-from-user.guard"
