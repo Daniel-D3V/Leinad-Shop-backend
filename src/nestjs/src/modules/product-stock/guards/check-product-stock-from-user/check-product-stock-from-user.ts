@@ -2,6 +2,7 @@ import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { ApplicationError } from 'src/utils';
 import { CheckAnnounceFromUserUsecaseFactory } from '@core/domain/dist/src/modules/announce/announce-admin/factories';
+import { CheckProductStockFromUserUsecaseFactory } from '@core/domain/dist/src/modules/product-stock/factories';
 
 @Injectable()
 export class CheckProductStockFromUserGuard implements CanActivate {
@@ -15,10 +16,10 @@ export class CheckProductStockFromUserGuard implements CanActivate {
     const userId = request.currentUser?.id
     const productStockId = request.params?.productStockId
     
-    const checkAnnounceFromUserUsecase = CheckAnnounceFromUserUsecaseFactory.create()
-    const usecaseResult = await checkAnnounceFromUserUsecase.execute({
+    const checkProductStockFromUserUsecase = CheckProductStockFromUserUsecaseFactory.create()
+    const usecaseResult = await checkProductStockFromUserUsecase.execute({
       userId: userId,
-      announceId: productStockId
+      productStockId: productStockId
     })
 
     if (usecaseResult.isLeft()) {
