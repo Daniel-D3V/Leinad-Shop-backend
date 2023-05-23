@@ -43,7 +43,7 @@ model Announce {
 
 model ProductStockNormal {
       id String @id
-      stock Int
+      stock Int @default(0)
       announceId String @unique()
     
       @@map("product_stock_normal")
@@ -52,7 +52,7 @@ model ProductStockNormal {
 model ProductStockAuto {
   
     id String @id
-    value String
+    value String @default("")
     announceId String 
   
     @@map("product_stock_auto")
