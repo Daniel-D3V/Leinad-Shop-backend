@@ -37,6 +37,13 @@ describe("Test YupProductStockNormalValidator", () => {
             expect(output.value![0].name).toBe("NegativeStockValueError")
         })
 
+        it("Should allow zero value", () => {
+            props.stock = 0
+            const output = sut.validate(props)
+            expect(output.isRight()).toBe(true)
+        })
+
+
         it("Should return InvalidStockSizeError if stock is provided with a size greater than allowed", () => {
             props.stock = 100000001
             const output = sut.validate(props)

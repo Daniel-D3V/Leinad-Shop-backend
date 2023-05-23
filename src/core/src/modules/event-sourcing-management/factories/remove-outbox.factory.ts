@@ -13,7 +13,6 @@ export class RemoveOutboxFactory {
                 }
             })
         }
-
         return {
             execute
         }
