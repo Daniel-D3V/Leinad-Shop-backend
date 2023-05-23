@@ -3,10 +3,12 @@ import { AddAutoStockUsecaseFactory, ChangeAutoStockValueUsecaseFactory, DeleteA
 import { Response, Request } from 'express';
 import { formatError } from '@core/domain/dist/src/modules/@shared/utils';
 import { CheckStockAutoFromUserGuard } from './guards';
+import { CheckAnnounceFromUserGuard } from 'src/guards/check-announce-from-user.guard';
 
 @Controller('product-stock-auto')
 export class ProductStockAutoController {
 
+  @UseGuards(new CheckAnnounceFromUserGuard())
   @Post("/add/:announceId")
   async addProductStock(@Param('announceId') announceId: string, @Body() addProductStockDto: any, @Res() res: Response) {
     const addAutoStockUsecase = AddAutoStockUsecaseFactory.create();
