@@ -1,10 +1,10 @@
-import { Controller, Param, Post, Res } from '@nestjs/common';
+import { Controller, Param, Patch, Post, Res } from '@nestjs/common';
 
 @Controller('product-stock')
 export class ProductStockController {
 
-  @Post("/:categoryId")
-  async activateCategory(@Param('categoryId') categoryId: string, @Res() res: Response) {
+  @Patch("/update-stock/:productStockId")
+  async activateCategory(@Param('productStockId') productStockId: string, @Res() res: Response) {
     
   }
 }

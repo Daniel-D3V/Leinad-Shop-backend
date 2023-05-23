@@ -1,6 +1,6 @@
 import { formatError } from "@core/domain/dist/src/modules/@shared/utils";
 
-export class ApplicatonError extends Error {
+export class ApplicationError extends Error {
 
     private status: number = 400
     private errors: Error[]

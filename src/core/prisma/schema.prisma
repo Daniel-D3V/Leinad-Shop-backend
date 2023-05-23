@@ -78,6 +78,16 @@ model User {
   @@map("users") 
 }
 
+model EventConsumer {
+  
+  id String @id @default(uuid())
+  eventId String 
+  consumerName String 
+
+  @@unique([eventId, consumerName])
+  @@map("event_consumer")
+}
+
 model Outbox {
 
   id String @id @default(uuid())

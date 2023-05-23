@@ -12,9 +12,9 @@ export class AuthModule implements NestModule {
       .apply(AuthMiddleware)
       .forRoutes(
         {
-        path: "auth/current-user",
-        method: RequestMethod.POST
-      }
+          path: "auth/current-user",
+          method: RequestMethod.POST
+        }
       );
   }
 }

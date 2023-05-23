@@ -1,11 +1,11 @@
 
 import { Catch, ExceptionFilter, ArgumentsHost } from '@nestjs/common';
-import { ApplicatonError } from 'src/utils/application-error';
+import { ApplicationError } from 'src/utils/application-error';
 
-@Catch(ApplicatonError)
+@Catch(ApplicationError)
 export class ApplicationExceptionFilter implements ExceptionFilter {
 
-    catch(exception: ApplicatonError, host: ArgumentsHost) {
+    catch(exception: ApplicationError, host: ArgumentsHost) {
         const ctx = host.switchToHttp();
         const response = ctx.getResponse();
         response
