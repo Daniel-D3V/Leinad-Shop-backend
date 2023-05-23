@@ -13,8 +13,10 @@ export class ProductStockNormalConsumerService  implements OnModuleInit{
     
   async onModuleInit() {
     const queue = 'create-normal-stock-queue';
+    const exchangeName = 'AnnounceCreatedEventExchange'
+    await this.rabbitmqService.assertExchange(exchangeName, "fanout", { durable: true, })
     await this.rabbitmqService.assertQueue(queue, { durable: true });
-    await this.rabbitmqService.bindQueue(queue, 'amq.fanout', 'ProductStockNormalCreatedEvent');
+    await this.rabbitmqService.bindQueue(queue, exchangeName, 'AnnounceCreatedEvent');
     await this.rabbitmqService.consume(queue, this.persistMessageEventSourcing)
   }
   
@@ -25,14 +27,13 @@ export class ProductStockNormalConsumerService  implements OnModuleInit{
         consumerName: 'create-normal-stock-consumer',
         eventId: data.id
     });
-    const persistOutput = await persistEventUsecase.execute(data)
-    console.log(persistOutput.value)
+    const persistOutput = await persistEventUsecase.execute({
+      productStockId: data.payload.id
+    })
     if(persistOutput.isLeft()) {
+      console.log(persistOutput.value)
       return
     }
-
-    const removeOutboxUsecase = RemoveOutboxFactory.create()
-    await removeOutboxUsecase.execute(data.id)
   }
   
 }

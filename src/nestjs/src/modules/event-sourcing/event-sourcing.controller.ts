@@ -24,9 +24,7 @@ export class EventSourcingController  implements OnModuleInit{
     const persistEventUsecase = PersistEventUsecaseFactory.create();
     const persistOutput = await persistEventUsecase.execute(data)
     if(persistOutput.isLeft()) return
-
-    const removeOutboxUsecase = RemoveOutboxFactory.create()
-    await removeOutboxUsecase.execute(data.id)
+    
   }
   
 }

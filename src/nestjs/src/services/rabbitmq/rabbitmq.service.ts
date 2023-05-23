@@ -1,6 +1,6 @@
 import { RabbitmqServerProvider } from '@core/domain/dist/src/modules/@shared/infra/providers';
 import { Injectable, OnApplicationShutdown } from '@nestjs/common';
-import { Message } from 'amqplib';
+import { Message, Options } from 'amqplib';
 
 @Injectable()
 export class RabbitMQService implements  OnApplicationShutdown  {
@@ -17,16 +17,22 @@ export class RabbitMQService implements  OnApplicationShutdown  {
 
   async publishToExchange(exchange: string, routingKey: string, data: any): Promise<void> {
     await this.rabbitmqServerProvider.start()
-    await this.rabbitmqServerProvider.assertExchange(exchange, 'fanout', { durable: true });
     await this.rabbitmqServerProvider.publishInExchange(exchange, routingKey, data);
   }
+
+  
 
   async bindQueue(queue: string, exchange: string, routingKey: string): Promise<void> {
     await this.rabbitmqServerProvider.start()
     await this.rabbitmqServerProvider.bindQueue(queue, exchange, routingKey)
   }
 
-  async assertQueue(queue: string, options?: any): Promise<void> {
+  async assertExchange(exchange: string, type: string, options?: Options.AssertExchange): Promise<void> {
+    await this.rabbitmqServerProvider.start()
+    await this.rabbitmqServerProvider.assertExchange(exchange, type, options)
+  }
+
+  async assertQueue(queue: string, options?: Options.AssertQueue): Promise<void> {
     await this.rabbitmqServerProvider.start()
     await this.rabbitmqServerProvider.assertQueue(queue, options)
   }
