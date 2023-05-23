@@ -21,7 +21,8 @@ export class ProductStockModule implements NestModule {
       .apply(AuthMiddleware)
       .forRoutes(
           {path: "product-stock-auto/*", method: RequestMethod.ALL},
-          {path: "product-stock-normal/*", method: RequestMethod.ALL}
+          {path: "product-stock-normal/*", method: RequestMethod.ALL},
+          {path: "product-stock/*", method: RequestMethod.ALL}
         )
   }
 }

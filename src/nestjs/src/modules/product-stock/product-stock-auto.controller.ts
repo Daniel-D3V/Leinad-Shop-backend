@@ -2,15 +2,15 @@ import { Body, Controller, Delete, Param, Post, Req, Res, UseGuards } from '@nes
 import { AddAutoStockUsecaseFactory, ChangeAutoStockValueUsecaseFactory, DeleteAutoStockUsecaseFactory } from "@core/domain/dist/src/modules/product-stock/factories/"
 import { Response, Request } from 'express';
 import { formatError } from '@core/domain/dist/src/modules/@shared/utils';
-import { CheckStockAutoFromUserGuard } from './guards';
-import { CheckAnnounceFromUserGuard } from 'src/guards/check-announce-from-user.guard';
+import { CheckProductStockFromUserGuard } from './guards';
+
 
 @Controller('product-stock-auto')
 export class ProductStockAutoController {
 
-  @UseGuards(new CheckAnnounceFromUserGuard())
-  @Post("/add/:announceId")
-  async addProductStock(@Param('announceId') announceId: string, @Body() addProductStockDto: any, @Res() res: Response) {
+  @UseGuards(new CheckProductStockFromUserGuard())
+  @Post("/add/:productStockId")
+  async addProductStock(@Param('productStockId') announceId: string, @Body() addProductStockDto: any, @Res() res: Response) {
     const addAutoStockUsecase = AddAutoStockUsecaseFactory.create();
     const usecaseResult = await addAutoStockUsecase.execute({
       value: addProductStockDto.value,
@@ -22,9 +22,9 @@ export class ProductStockAutoController {
     return res.status(200).json(usecaseResult.value);
   }
 
-  @UseGuards(new CheckStockAutoFromUserGuard())
-  @Post("/change-value/:productStockAutoId")
-  async changeAutoStockValue(@Param('productStockAutoId') productStockAutoId: string, @Body() addProductStockDto: any, @Res() res: Response) {
+  @UseGuards(new CheckProductStockFromUserGuard())
+  @Post("/change-value/:productStockId")
+  async changeAutoStockValue(@Param('productStockId') productStockAutoId: string, @Body() addProductStockDto: any, @Res() res: Response) {
 
     const changeAutoStockValueUsecase = ChangeAutoStockValueUsecaseFactory.create();
     const usecaseResult = await changeAutoStockValueUsecase.execute({
@@ -37,9 +37,9 @@ export class ProductStockAutoController {
     return res.status(200).json();
   }
 
-  @UseGuards(new CheckStockAutoFromUserGuard())
-  @Delete("/:productStockAutoId")
-  async deleteAutoStockValue(@Param('productStockAutoId') productStockAutoId: string, @Body() addProductStockDto: any, @Res() res: Response) {
+  @UseGuards(new CheckProductStockFromUserGuard())
+  @Delete("/:productStockId")
+  async deleteAutoStockValue(@Param('productStockId') productStockAutoId: string, @Body() addProductStockDto: any, @Res() res: Response) {
 
     const deleteAutoStockUsecase = DeleteAutoStockUsecaseFactory.create();
     const usecaseResult = await deleteAutoStockUsecase.execute({

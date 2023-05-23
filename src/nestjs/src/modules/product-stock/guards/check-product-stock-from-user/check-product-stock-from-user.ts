@@ -4,7 +4,7 @@ import { ApplicationError } from 'src/utils';
 import { CheckAnnounceFromUserUsecaseFactory } from '@core/domain/dist/src/modules/announce/announce-admin/factories';
 
 @Injectable()
-export class CheckAnnounceFromUserGuard implements CanActivate {
+export class CheckProductStockFromUserGuard implements CanActivate {
   async canActivate(
     context: ExecutionContext,
   ):  Promise<boolean>  {
