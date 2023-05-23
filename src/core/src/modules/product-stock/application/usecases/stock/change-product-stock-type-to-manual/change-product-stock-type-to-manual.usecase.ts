@@ -1,7 +1,7 @@
 import { left, right } from "@/modules/@shared/logic";
 import { ProductStockRepositoryInterface } from "@/modules/product-stock/domain/repositories";
 import { ChangeProductStockTypeToAutoUsecaseInterface, ChangeProductStockTypeToManualUsecaseInterface } from "@/modules/product-stock/domain/usecases";
-import { ProductStockAlreadyIsAutoError, ProductStockAlreadyIsManualError, ProductStockNotFoundError } from "../../_errors";
+import {  ProductStockAlreadyIsManualError, ProductStockNotFoundError } from "../../_errors";
 import { EventEmitterInterface } from "@/modules/@shared/events";
 import { ProductStockTypeChangedToManualEvent } from "./product-stock-type-changed-to-manual.event";
 

@@ -17,7 +17,10 @@ export class ProductStockModule implements NestModule{
 
   configure(consumer: MiddlewareConsumer) {
     consumer
-      .apply(AuthMiddleware, CheckAnnounceFromUserMiddleware)
-      .forRoutes("*/:*")
+      .apply(
+        AuthMiddleware, 
+        CheckAnnounceFromUserMiddleware, 
+      )
+      .forRoutes({path: "*/:*", method: RequestMethod.ALL})
   }
 }

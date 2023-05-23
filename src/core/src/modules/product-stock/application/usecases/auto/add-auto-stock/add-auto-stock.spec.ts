@@ -49,6 +49,7 @@ describe("test AddAutoStockUsecase", () => {
             value: [ entityError ]
         } as any)
         const output = await sut.execute(props)
+        if(output.isRight()) throw new Error("Should not return right")
         expect(output.value![0]).toEqual(entityError)
     })
 
