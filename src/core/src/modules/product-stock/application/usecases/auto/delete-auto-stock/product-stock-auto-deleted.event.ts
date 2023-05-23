@@ -11,6 +11,6 @@ export class ProductStockAutoDeletedEvent extends BaseEvent {
 
 export namespace ProductStockAutoDeletedEvent {
     export type Payload = {
-        productStockId: string
+        productStockAutoId: string
     }
 }

@@ -16,7 +16,7 @@ describe("Test DeleteAutoStockUsecase", () => {
 
     beforeEach(() => {
         props = {
-            productStockId: "any_id"
+            productStockAutoId: "any_id"
         }
         productStockAutoRepository = mock<ProductStockAutoRepositoryInterface>()
         eventEmitter = mock<EventEmitterInterface>()

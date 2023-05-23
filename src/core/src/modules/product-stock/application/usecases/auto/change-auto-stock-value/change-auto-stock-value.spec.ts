@@ -18,11 +18,11 @@ describe("Test ChangeAutoStockValueUsecase", () => {
 
     beforeEach(() => {
         props = {
-            productStockId: "any_id",
+            productStockAutoId: "any_id",
             value: "any_value"
         }
         productStockAutoEntity = mock<ProductStockAutoEntity>({
-            id: props.productStockId,
+            id: props.productStockAutoId,
             getValue: () => props.value
         })
         productStockAutoRepository = mock<ProductStockAutoRepositoryInterface>()

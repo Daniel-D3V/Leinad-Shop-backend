@@ -12,9 +12,9 @@ export class ChangeAutoStockValueUsecase implements ChangeAutoStockValueUsecaseI
         private readonly eventEmitter: EventEmitterInterface
     ){}
 
-    async execute({ productStockId, value }: ChangeAutoStockValueUsecaseInterface.InputDto): Promise<ChangeAutoStockValueUsecaseInterface.OutputDto> {
+    async execute({ productStockAutoId, value }: ChangeAutoStockValueUsecaseInterface.InputDto): Promise<ChangeAutoStockValueUsecaseInterface.OutputDto> {
 
-        const productStockAutoEntity = await this.productStockAutoRepository.findById(productStockId)
+        const productStockAutoEntity = await this.productStockAutoRepository.findById(productStockAutoId)
         if(!productStockAutoEntity) return left([ new ProductStockNotFoundError() ])
 
         productStockAutoEntity.changeValue(value)

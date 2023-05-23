@@ -29,6 +29,8 @@ export class AddAutoStockUsecase implements AddAutoStockUsecaseInterface {
         })
         await this.eventEmitter.emit(productStockAutoAddedEvent)
 
-        return right(null)
+        return right({
+            id: productStockAutoEntity.value.id
+        })
     }
 }

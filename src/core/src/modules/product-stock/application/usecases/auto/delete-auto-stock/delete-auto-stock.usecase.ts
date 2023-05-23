@@ -12,12 +12,12 @@ export class DeleteAutoStockUsecase implements DeleteAutoStockUsecaseInterface {
         private readonly eventEmitter: EventEmitterInterface
     ){}
     
-    async execute({ productStockId }: DeleteAutoStockUsecaseInterface.InputDto): Promise<DeleteAutoStockUsecaseInterface.OutputDto> {
+    async execute({ productStockAutoId }: DeleteAutoStockUsecaseInterface.InputDto): Promise<DeleteAutoStockUsecaseInterface.OutputDto> {
 
-        await this.productStockAutoRepository.delete(productStockId)
+        await this.productStockAutoRepository.delete(productStockAutoId)
 
         const productStockAutoDeletedEvent = new ProductStockAutoDeletedEvent({
-            productStockId: productStockId
+            productStockAutoId
         })
 
         await this.eventEmitter.emit(productStockAutoDeletedEvent)
