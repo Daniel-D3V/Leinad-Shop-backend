@@ -1,10 +1,12 @@
-import { Controller, Param, Post, Res } from '@nestjs/common';
+import { Body, Controller, Param, Post, Res } from '@nestjs/common';
+import {  } from "@core/domain/dist/src/modules/product-stock/factories/"
 
-@Controller('product-stock')
+@Controller('product-stock-auto')
 export class ProductStockAutoController {
 
-  @Post("/:categoryId")
-  async activateCategory(@Param('categoryId') categoryId: string, @Res() res: Response) {
+  @Post("/add/:productStockId")
+  async addProductStock(@Body() addProductStockDto: any, @Res() res: Response) {
     
   }
 }
+//

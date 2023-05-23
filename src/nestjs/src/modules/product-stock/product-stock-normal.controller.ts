@@ -1,6 +1,6 @@
 import { Controller, Param, Post, Res } from '@nestjs/common';
 
-@Controller('product-stock')
+@Controller('product-stock-normal')
 export class ProductStockNormalController {
 
   @Post("/:categoryId")
