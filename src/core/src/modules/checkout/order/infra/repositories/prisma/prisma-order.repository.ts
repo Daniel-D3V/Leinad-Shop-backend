@@ -21,7 +21,8 @@ export class PrismaOrderRepository implements OrderRepositoryInterface {
                 const { productId, ...orderItemsProps } = orderItem
                 return {
                     ...orderItemsProps,
-                    announceId: orderItem.productId, 
+                    announceId: orderItem.productId,
+                    orderId: orderEntity.id
                 }
             })
         })

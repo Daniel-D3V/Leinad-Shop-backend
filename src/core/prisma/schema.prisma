@@ -88,9 +88,10 @@ model Order {
 
 model OrderItems {
   id String @id @default(uuid())
-  announceId String 
   quantity Int
   unitPrice Float
+  orderId String
+  announceId String 
 
   @@map("order_items") 
 }

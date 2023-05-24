@@ -11,6 +11,7 @@ describe("Test PrismaOrderRepository", () => {
 
     beforeEach(async () => {
         orderEntity = mock<OrderEntity>({
+            id: "any_id",
             toJSON: () => ({
                 id: "any_id",
                 customerId: "any_customer_id",
@@ -36,5 +37,24 @@ describe("Test PrismaOrderRepository", () => {
         const { orderItems, ...orderEntityProps } = orderEntity.toJSON()
         expect(prismaOrder).toBeTruthy()
         expect(prismaOrder?.id).toBe(orderEntityProps.id)
+        expect(prismaOrder?.userId).toBe(orderEntityProps.customerId)
+        expect(prismaOrder?.status).toBe(orderEntityProps.status)
+        
+        const prismaOrderItems = await prismaClient.orderItems.findMany({
+            where: { orderId: orderEntityProps.id }
+        })
+
+        expect(prismaOrderItems).toBeTruthy()
+        expect(prismaOrderItems.length).toBe(2)
+        expect( {
+            ...prismaOrderItems[0],
+            productId: prismaOrderItems[0].announceId,
+        }).toMatchObject(orderItems[0])
+        expect( {
+            ...prismaOrderItems[1],
+            productId: prismaOrderItems[1].announceId,
+        }).toMatchObject(orderItems[1])
+
+
     })
 })
