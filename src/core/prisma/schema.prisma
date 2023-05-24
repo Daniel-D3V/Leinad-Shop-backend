@@ -78,6 +78,24 @@ model User {
   @@map("users") 
 }
 
+model Order {
+  id String @id @default(uuid())
+  status String 
+  userId String
+
+  @@map("orders") 
+}
+
+model OrderItems {
+  id String @id @default(uuid())
+  announceId String 
+  quantity Int
+  unitPrice Float
+
+  @@map("order_items") 
+}
+
+
 model EventConsumer {
   
   id String @id @default(uuid())

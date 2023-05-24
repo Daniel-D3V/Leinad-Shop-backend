@@ -1,11 +1,11 @@
 import { CheckAnnounceExistsFacadeInterface, GetAnnouncePriceFacadeInterface } from "@/modules/announce/announce-admin/facades";
-import { PlaceOrderInputDto } from "../../place-order.dto"
 import { CreateOrderItemsFromDtoUsecase } from "./create-order-items-from-dto.usecase"
 
 import { CheckAnnounceExistsFacadeFactory, GetAnnouncePriceFacadeFactory } from "@/modules/announce/announce-admin/factories";
 import { GetProductStockFacadeFactory } from "@/modules/product-stock/factories";
 import { GetProductStockFacadeInterface } from "@/modules/product-stock/facades";
 import { InsufficientProductStockError, ProductNotFoundError, ProductOutOfStockError } from "../../errors";
+import { PlaceOrderUsecaseInterface } from "@/modules/checkout/order/domain/usecases";
 
 jest.mock("@/modules/announce/announce-admin/factories")
 jest.mock("@/modules/product-stock/factories")
@@ -13,7 +13,7 @@ jest.mock("@/modules/product-stock/factories")
 describe("Test CreateOrderItemsFromDtoUsecase", () => {
 
     let sut: CreateOrderItemsFromDtoUsecase
-    let props: PlaceOrderInputDto["products"]
+    let props: PlaceOrderUsecaseInterface.InputDto["products"]
     let checkAnnounceExistsFacade: CheckAnnounceExistsFacadeInterface
     let getProductStockFacade: GetProductStockFacadeInterface
     let getAnnouncePriceFacade: GetAnnouncePriceFacadeInterface
