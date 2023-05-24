@@ -1,13 +1,13 @@
 import { UsecaseInterface } from "@/modules/@shared/domain";
 import { Either, left, right } from "@/modules/@shared/logic";
 import { OrderItemEntity } from "@/modules/checkout/order/domain/entities";
-import { PlaceOrderInputDto } from "../../place-order.dto";
 import { InsufficientProductStockError, ProductNotFoundError, ProductOutOfStockError } from "../../errors";
 import { CheckAnnounceExistsFacadeFactory, GetAnnouncePriceFacadeFactory } from "@/modules/announce/announce-admin/factories";
 import { GetProductStockFacadeFactory } from "@/modules/product-stock/factories";
+import { PlaceOrderUsecaseInterface } from "@/modules/checkout/order/domain/usecases";
 
 export class CreateOrderItemsFromDtoUsecase implements UsecaseInterface {
-    async execute(products: PlaceOrderInputDto["products"]): Promise<Either<Error[], OrderItemEntity[]>> {
+    async execute(products: PlaceOrderUsecaseInterface.InputDto["products"]): Promise<Either<Error[], OrderItemEntity[]>> {
         
         const orderItems: OrderItemEntity[] = []
         for(const product of products) {

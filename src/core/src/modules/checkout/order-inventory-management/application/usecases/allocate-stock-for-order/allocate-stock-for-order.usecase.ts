@@ -30,8 +30,8 @@ export class AllocateStockForOrderUsecase implements UsecaseInterface {
             if(!stockType) {
                 await this.eventEmitter.emit(this.createFailStockAllocationEvent(new ProductNotFoundError(), orderId))
                 return left([ new ProductNotFoundError() ])
-            }
-
+            }                                                                               
+                                        
             if(stockType === "AUTO"){
                 const productStockAutoValue = await this.getProductStockAutoValueFacade.execute(product.id)
                 if(!productStockAutoValue) {

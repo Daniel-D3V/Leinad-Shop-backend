@@ -1,20 +1,20 @@
-import { UsecaseInterface } from "@/modules/@shared/domain";
+
 import { Either, left, right } from "@/modules/@shared/logic";
-import { PlaceOrderInputDto, PlaceOrderOutputDto } from "./place-order.dto";
 import { CreateOrderItemsFromDtoUsecase } from "./helpers";
 import { OrderEntity } from "../../../domain/entities";
 import { OrderPlacedEvent } from "./order-placed.event";
 import { EventEmitterInterface } from "@/modules/@shared/events";
 import { OrderRepositoryInterface } from "../../../domain/repositories";
+import { PlaceOrderUsecaseInterface } from "../../../domain/usecases";
 
-export class PlaceOrderUsecase implements UsecaseInterface {
+export class PlaceOrderUsecase implements PlaceOrderUsecaseInterface {
 
     constructor(
         private readonly orderRepository: OrderRepositoryInterface,
         private readonly eventEmitter: EventEmitterInterface
     ){}
 
-    async execute({ customerId, products }: PlaceOrderInputDto): Promise<Either<Error[], PlaceOrderOutputDto>> {
+    async execute({ customerId, products }: PlaceOrderUsecaseInterface.InputDto): Promise<PlaceOrderUsecaseInterface.OutputDto> {
 
         const createOrderItemsFromDtoUsecase = new CreateOrderItemsFromDtoUsecase()
         const orderItems = await createOrderItemsFromDtoUsecase.execute(products)
@@ -36,6 +36,8 @@ export class PlaceOrderUsecase implements UsecaseInterface {
 
         await this.eventEmitter.emit(orderPlacedEvent)
 
-        return right(null)
+        return right({
+            id: orderEntity.value.id
+        })
     }
 }

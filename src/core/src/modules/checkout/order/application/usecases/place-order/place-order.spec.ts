@@ -1,5 +1,4 @@
 
-import { PlaceOrderInputDto } from "./place-order.dto"
 import { PlaceOrderUsecase } from "./place-order.usecase"
 import { mock } from "jest-mock-extended"
 import { CreateOrderItemsFromDtoUsecase } from "./helpers"
@@ -7,6 +6,7 @@ import { EventEmitterInterface } from "@/modules/@shared/events"
 import { OrderRepositoryInterface } from "../../../domain/repositories"
 import { OrderPlacedEvent } from "./order-placed.event"
 import { OrderEntity } from "../../../domain/entities"
+import { PlaceOrderUsecaseInterface } from "../../../domain/usecases"
 
 jest.mock("./helpers")
 jest.mock("./order-placed.event")
@@ -15,7 +15,7 @@ jest.mock( "../../../domain/entities")
 describe("Test PlaceOrder", () => {
 
     let sut: PlaceOrderUsecase
-    let props: PlaceOrderInputDto
+    let props: PlaceOrderUsecaseInterface.InputDto
     let eventEmitter: EventEmitterInterface
     let orderRepository: OrderRepositoryInterface
 
