@@ -6,9 +6,11 @@ import { RabbitMQService } from './services/rabbitmq/rabbitmq.service';
 import { MysqlConsumerService } from './services/mysql-consumer/mysql-consumer.service';
 import { AnnouncesModule } from './modules/announces/announces.module';
 import { ProductStockModule } from './modules/product-stock/product-stock.module';
+import { OrdersModule } from './modules/checkout/orders/orders.module';
+
 
 @Module({
-  imports: [AuthModule, EventSourcingModule, CategoriesModule, AnnouncesModule, ProductStockModule],
+  imports: [AuthModule, EventSourcingModule, CategoriesModule, AnnouncesModule, ProductStockModule, OrdersModule, ],
   controllers: [],
   providers: [RabbitMQService, MysqlConsumerService],
 })

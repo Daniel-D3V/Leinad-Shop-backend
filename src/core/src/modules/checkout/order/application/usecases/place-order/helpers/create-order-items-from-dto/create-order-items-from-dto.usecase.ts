@@ -5,10 +5,13 @@ import { InsufficientProductStockError, ProductNotFoundError, ProductOutOfStockE
 import { CheckAnnounceExistsFacadeFactory, GetAnnouncePriceFacadeFactory } from "@/modules/announce/announce-admin/factories";
 import { GetProductStockFacadeFactory } from "@/modules/product-stock/factories";
 import { PlaceOrderUsecaseInterface } from "@/modules/checkout/order/domain/usecases";
+import { NoProductsProvidedError } from "./errors";
 
 export class CreateOrderItemsFromDtoUsecase implements UsecaseInterface {
     async execute(products: PlaceOrderUsecaseInterface.InputDto["products"]): Promise<Either<Error[], OrderItemEntity[]>> {
         
+        if(products.length === 0) return left([ new NoProductsProvidedError() ])
+
         const orderItems: OrderItemEntity[] = []
         for(const product of products) {
             // check if product exists

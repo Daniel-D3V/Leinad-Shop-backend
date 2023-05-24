@@ -41,6 +41,13 @@ describe("Test CreateOrderItemsFromDtoUsecase", () => {
         expect(output.isRight()).toBe(true)
     })
 
+    it("Should return NoProductsProvidedError if no products are provided", async () => {
+        const output = await sut.execute([])
+        if(output.isRight()) throw new Error("Should not return right")
+        expect(output.isLeft()).toBe(true)
+        expect(output.value[0].name).toBe("NoProductsProvidedError")
+    }) 
+
     it("Should call checkAnnounceExistsFacade every time the loop runs", async () => {
         await sut.execute(props)
         expect(checkAnnounceExistsFacade.execute).toBeCalledTimes(props.length)
