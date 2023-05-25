@@ -1,1 +1,1 @@
-export * from "./order-inventory-management.repository"
+export * from "./prisma-order-inventory-management.repository"

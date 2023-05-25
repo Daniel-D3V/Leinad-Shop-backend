@@ -14,6 +14,7 @@ export default {
     "**/*.spec.ts",
     "**/*.test.ts",
   ],
+  "setupFiles": ["<rootDir>/src/infra/config/setup-jest.ts"],
   roots: ["<rootDir>/src"],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
