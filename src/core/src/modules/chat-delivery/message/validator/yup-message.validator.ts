@@ -25,14 +25,14 @@ export class YupMessageValidator extends YupValidatorProvider implements DomainV
     validate(props: YupMessageValidator.ValidateFields): Either<Error[], null> {
         const schemaValid = this.validateSchema(props)
         if (schemaValid.isLeft()) return left(schemaValid.value)
-        if (!props.content && !props.attachments.length) return left([new NoAttachmentOrContentProvidedError()])
+        if (!props.content && !props.attachments?.length) return left([new NoAttachmentOrContentProvidedError()])
         return right(null)
     }
 }
 
 export namespace YupMessageValidator {
     export type ValidateFields = {
-        content: string
-        attachments: string[]
+        content?: string
+        attachments?: string[]
     }
 }

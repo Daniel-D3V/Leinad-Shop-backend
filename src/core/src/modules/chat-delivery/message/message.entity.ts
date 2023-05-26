@@ -1,12 +1,22 @@
 import { BaseEntity } from "@/modules/@shared/domain";
+import { MessageValidatorFactory } from "./validator";
+import { Either, left, right } from "@/modules/@shared/logic";
 
 export class ChatDeliveryMessageEntity extends BaseEntity<ChatDeliveryMessageEntity.Props> {
     private constructor(props: ChatDeliveryMessageEntity.Props, id?: string) {
         super(props, id)
     }
 
-    static create(input: ChatDeliveryMessageEntity.Input, id?: string) {
+    static create(input: ChatDeliveryMessageEntity.Input, id?: string): Either<Error[], ChatDeliveryMessageEntity> {
+        const messageValidator = MessageValidatorFactory.create()
+        const isInputValid = messageValidator.validate(input)
+        if (isInputValid.isLeft()) return left(isInputValid.value)
+        const messageEntity = new ChatDeliveryMessageEntity({
+            ...input,
+            dateTimeSent: input.dateTimeSent ?? new Date()
+        }, id)
 
+        return right(messageEntity)
     }
 
     toJSON(): ChatDeliveryMessageEntity.PropsJSON {
@@ -32,8 +42,8 @@ export class ChatDeliveryMessageEntity extends BaseEntity<ChatDeliveryMessageEnt
         return this.props.content
     }
 
-    get attachments(): string[] {
-        return this.attachments
+    get attachments(): string[] | undefined {
+        return this.props.attachments
     }
 
     get dataTimeSent(): Date {

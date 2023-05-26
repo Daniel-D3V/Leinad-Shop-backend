@@ -1,3 +1,0 @@
-describe('Test YubMessageValidator', () => {
-    it('')
-})
