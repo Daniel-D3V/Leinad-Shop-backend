@@ -1,33 +1,34 @@
 
 import { Either, left, right } from "@/modules/@shared/logic";
-import { ProductStockNormalRepositoryInterface } from "@/modules/stock/domain/repositories";
-import { ProductStockNotFoundError } from "../../../../_base/_errors";
 import { EventEmitterInterface } from "@/modules/@shared/events";
-import { ProductStockNormalUpdatedEvent } from "./product-stock-normal-updated.event";
-import { UpdateNormalStockUsecaseInterface } from "@/modules/stock/domain/usecases/normal";
+import { StockNormalUpdatedEvent } from "./stock-normal-updated.event";
+import { StockNormalRepositoryInterface } from "../../../domain/repositories";
+import { UpdateNormalStockUsecaseInterface } from "../../../domain/usecases";
+import { StockNormalNotFoundError } from "../_errors";
 
 export class UpdateNormalStockUsecase implements UpdateNormalStockUsecaseInterface {
 
     constructor(
-        private readonly productStockNormalRepository: ProductStockNormalRepositoryInterface,
+        private readonly stockNormalRepository: StockNormalRepositoryInterface,
         private readonly eventEmitter: EventEmitterInterface
     ) { }
 
-    async execute({ newStock, productStockId }: UpdateNormalStockUsecaseInterface.InputDto): Promise<UpdateNormalStockUsecaseInterface.OutputDto> {
+    async execute({ newStock, id }: UpdateNormalStockUsecaseInterface.InputDto): Promise<UpdateNormalStockUsecaseInterface.OutputDto> {
 
-        const productStockNormalEntity = await this.productStockNormalRepository.findById(productStockId)
-        if (!productStockNormalEntity) return left([new ProductStockNotFoundError()])
 
-        const updateStockValid = productStockNormalEntity.updateStock(newStock)
+        const stockNormalEntity = await this.stockNormalRepository.findById(id)
+        if (!stockNormalEntity) return left([ new StockNormalNotFoundError() ])
+
+        const updateStockValid = stockNormalEntity.updateStock(newStock)
         if (updateStockValid.isLeft()) return left(updateStockValid.value)
 
-        await this.productStockNormalRepository.update(productStockNormalEntity)
+        await this.stockNormalRepository.update(stockNormalEntity)
 
-        const productStockNormalUpdatedEvent = new ProductStockNormalUpdatedEvent({
-            productStockId: productStockNormalEntity.id,
-            newStock: productStockNormalEntity.getCurrentStock()
+        const stockNormalUpdatedEvent = new StockNormalUpdatedEvent({
+            id: stockNormalEntity.id,
+            newStock: stockNormalEntity.getCurrentStock()
         })
-        await this.eventEmitter.emit(productStockNormalUpdatedEvent)
+        await this.eventEmitter.emit(stockNormalUpdatedEvent)
 
         return right(null)
     }
