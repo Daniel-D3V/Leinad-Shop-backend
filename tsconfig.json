@@ -1,14 +1,13 @@
 {
   "compilerOptions": {
     "composite": true,
-    "target": "es2021",                               
-    "module": "commonjs",                      
+    "target": "es2021",
+    "module": "commonjs",
     "rootDir": ".",
     "moduleResolution": "node",
-    "baseUrl": "./src",                           
-
-    "forceConsistentCasingInFileNames": true,       
-    "strict": true,                            
-    "skipLibCheck": true                              
+    "baseUrl": "./src",
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true
   }
 }
