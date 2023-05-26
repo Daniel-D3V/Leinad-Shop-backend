@@ -56,5 +56,4 @@ describe("Test CheckStockFromUserUsecase", () => {
         expect(output.value[0].name).toBe("ProductStockNotFromUserError")
     })
 
-
 })
