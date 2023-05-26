@@ -2,9 +2,9 @@ import { BaseEntity } from "@/modules/@shared/domain"
 import { Either, left, right } from "@/modules/@shared/logic"
 import { ProductStockNormalValidatorFactory } from "./validator"
 
-export abstract class BaseStockNormalEntity<T> extends BaseEntity<BaseStockNormalEntity.Props> {
+export abstract class BaseStockNormalEntity<T> extends BaseEntity<BaseStockNormalEntity.Props & T> {
 
-    constructor(props: BaseStockNormalEntity.Props, id: string){
+    constructor(props: BaseStockNormalEntity.Props & T, id?: string){
         super(props, id)
     }
 

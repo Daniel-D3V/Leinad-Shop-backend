@@ -1,0 +1,1 @@
+export * from "./base-stock-normal/base-stock-normal.entity"
