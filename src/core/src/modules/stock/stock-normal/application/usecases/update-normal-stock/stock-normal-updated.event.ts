@@ -11,7 +11,7 @@ export class StockNormalUpdatedEvent extends BaseEvent {
 
 export namespace StockNormalUpdatedEvent {
     export type Payload = {
-        id: string
+        stockNormalId: string
         newStock: number
     }
 }

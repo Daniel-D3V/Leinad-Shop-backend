@@ -22,14 +22,14 @@ describe("Test StockNormalUpdatedEvent", () => {
     beforeEach(() => {
 
         props = {
-            id: "any_id",
+            stockNormalId: "any_stock_normal_id",
             newStock: 10
         }
         stockNormalEntity = mock<StockNormalEntity>({
             updateStock: () => ({
                 isLeft: () => false
             }),
-            id: props.id,
+            id: props.stockNormalId,
             getCurrentStock: () => props.newStock
         } as any)
         stockNormalRepository = mock<StockNormalRepositoryInterface>()

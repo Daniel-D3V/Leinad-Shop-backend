@@ -13,10 +13,10 @@ export class UpdateNormalStockUsecase implements UpdateNormalStockUsecaseInterfa
         private readonly eventEmitter: EventEmitterInterface
     ) { }
 
-    async execute({ newStock, id }: UpdateNormalStockUsecaseInterface.InputDto): Promise<UpdateNormalStockUsecaseInterface.OutputDto> {
+    async execute({ newStock, stockNormalId }: UpdateNormalStockUsecaseInterface.InputDto): Promise<UpdateNormalStockUsecaseInterface.OutputDto> {
 
 
-        const stockNormalEntity = await this.stockNormalRepository.findById(id)
+        const stockNormalEntity = await this.stockNormalRepository.findById(stockNormalId)
         if (!stockNormalEntity) return left([ new StockNormalNotFoundError() ])
 
         const updateStockValid = stockNormalEntity.updateStock(newStock)
@@ -25,7 +25,7 @@ export class UpdateNormalStockUsecase implements UpdateNormalStockUsecaseInterfa
         await this.stockNormalRepository.update(stockNormalEntity)
 
         const stockNormalUpdatedEvent = new StockNormalUpdatedEvent({
-            id: stockNormalEntity.id,
+            stockNormalId: stockNormalEntity.id,
             newStock: stockNormalEntity.getCurrentStock()
         })
         await this.eventEmitter.emit(stockNormalUpdatedEvent)
