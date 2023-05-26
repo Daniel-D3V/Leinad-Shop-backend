@@ -5,14 +5,18 @@ describe("Test StockManagementEntity", () => {
 
     let sut: StockManagementEntity
     let id: string
+    let props: StockManagementEntity.Input
 
     beforeEach(() => {
         id = "any_id"
-        sut = StockManagementEntity.create(id)
+        props = {
+            announceId: "any_announce_id"
+        }
+        sut = StockManagementEntity.create(props, id)
     })
 
     it("Should create a new StockManagementEntity", () => {
-        sut = StockManagementEntity.create(id)
+        sut = StockManagementEntity.create(props, id)
         expect(sut.toJSON()).toMatchObject({
             id,
             stockType: "NORMAL"
