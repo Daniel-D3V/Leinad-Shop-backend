@@ -62,7 +62,7 @@ model StockManagement {
     id String @id
     stockType String @default("NORMAL")
 
-    announceId String 
+    announceId String @unique()
   
     @@map("stock_management")
 }

@@ -7,13 +7,27 @@ export class PrismaStockManagementRepository implements StockManagementRepositor
     constructor(
         private readonly prismaClient: PrismaClient
     ) { }
-
+    
     async create(stockEntity: StockManagementEntity): Promise<void> {
         await this.prismaClient.stockManagement.create({
             data: {
                 ...stockEntity.toJSON()
             }
         })
+    }
+
+    async findByAnnounceId(announceId: string): Promise<StockManagementEntity | null> {
+         const prismaStockManagement = await this.prismaClient.stockManagement.findFirst({
+            where: { announceId: announceId ?? "" }
+        })
+        if (!prismaStockManagement) return null
+        const stockManagementEntity = StockManagementEntity.create({
+            announceId: prismaStockManagement.announceId
+        },prismaStockManagement.id)
+
+        if (prismaStockManagement.stockType === "AUTO") stockManagementEntity.toStockAuto()
+        if (prismaStockManagement.stockType === "NORMAL") stockManagementEntity.toStockNormal()
+        return stockManagementEntity
     }
 
     async findById(id: string): Promise<StockManagementEntity | null> {

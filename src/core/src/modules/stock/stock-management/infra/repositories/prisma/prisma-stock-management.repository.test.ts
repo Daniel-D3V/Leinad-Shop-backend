@@ -45,6 +45,18 @@ describe("Test PrismaStockManagementRepository", () => {
         expect(entityFound).toBeNull()
     })
 
+    it("Should find a stockManagement by announceId", async () => {
+        await sut.create(stockManagementEntity)
+        const entityFound = await sut.findByAnnounceId(id)
+
+        expect(entityFound?.toJSON()).toEqual(stockManagementEntity?.toJSON())
+    })
+
+    it("Should return null if stockManagement does not exists found by announceId", async () => {
+        const entityFound = await sut.findByAnnounceId(id)
+        expect(entityFound).toBeNull()
+    })
+
     it("Should update a product stock", async () => {
         await sut.create(stockManagementEntity)
         const entityFound = await sut.findById(id)
@@ -55,4 +67,6 @@ describe("Test PrismaStockManagementRepository", () => {
         expect(entityUpdated?.stockType).toBe("NORMAL")
 
     })
+
+
 })

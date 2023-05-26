@@ -2,11 +2,11 @@ import { BaseEntity } from "@/modules/@shared/domain"
 
 export class StockManagementEntity extends BaseEntity<StockManagementEntity.Props> {
 
-    private constructor(props: StockManagementEntity.Props, id: string){
+    private constructor(props: StockManagementEntity.Props, id?: string){
         super(props, id)    
     }
 
-    static create(input: StockManagementEntity.Input, id: string): StockManagementEntity {
+    static create(input: StockManagementEntity.Input, id?: string): StockManagementEntity {
         const stockManagementEntity = new StockManagementEntity({
             ...input,
             stockType: "NORMAL"
