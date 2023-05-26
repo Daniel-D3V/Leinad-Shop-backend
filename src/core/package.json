@@ -8,7 +8,8 @@
     "build:w": "ttsc -w",
     "dev": "ts-node-dev -r tsconfig-paths/register --respawn --poll --inspect --exit-child src/index.ts",
     "test": "npx tsc --noEmit && npm run test:skipchecks",
-    "test:skipchecks": "jest --passWithNoTests --watch  --no-cache --runInBand"
+    "test:skipchecks": "jest --passWithNoTests --watch  --no-cache --runInBand",
+    "test:chat-delivery": "npx tsc --noemit && npx jest --watchAll --testPathPattern=src/modules/chat-delivery"
   },
   "author": "",
   "license": "ISC",

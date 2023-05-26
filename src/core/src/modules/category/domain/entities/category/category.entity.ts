@@ -8,44 +8,44 @@ export class CategoryEntity extends BaseEntity<CategoryEntity.Props> {
         super(props, id)
     }
 
-    static create(input: CategoryEntity.Input, id?: string): Either<Error[], CategoryEntity>{
+    static create(input: CategoryEntity.Input, id?: string): Either<Error[], CategoryEntity> {
 
         const categoryValidator = CategoryValidatorFactory.create()
         const isInputValid = categoryValidator.validate(input)
-        if(isInputValid.isLeft()) return left(isInputValid.value)
+        if (isInputValid.isLeft()) return left(isInputValid.value)
 
         const categoryEntity = new CategoryEntity({
             ...input,
             parentId: undefined,
             status: "DEACTIVE"
         }, id)
-        return right(categoryEntity) 
+        return right(categoryEntity)
     }
 
-    changeTitle(newTitle: string): Either<Error[] ,string> {
+    changeTitle(newTitle: string): Either<Error[], string> {
         const categoryValidator = CategoryValidatorFactory.create()
         const isInputValid = categoryValidator.validate({
             ...this.props,
             title: newTitle
         })
-        if(isInputValid.isLeft()) return left(isInputValid.value)
+        if (isInputValid.isLeft()) return left(isInputValid.value)
 
         this.props.title = newTitle
         return right(this.title)
     }
 
-    changeDescription(newDescription: string): Either<Error[] ,string> {
+    changeDescription(newDescription: string): Either<Error[], string> {
         const categoryValidator = CategoryValidatorFactory.create()
         const isInputValid = categoryValidator.validate({
             ...this.props,
             description: newDescription
         })
-        if(isInputValid.isLeft()) return left(isInputValid.value)
+        if (isInputValid.isLeft()) return left(isInputValid.value)
 
         this.props.description = newDescription
         return right(this.description)
     }
-    
+
     setParentId(parrentId: string): void {
         this.props.parentId = parrentId
     }
@@ -54,20 +54,20 @@ export class CategoryEntity extends BaseEntity<CategoryEntity.Props> {
         this.props.parentId = undefined
     }
 
-    activate(): void{
+    activate(): void {
         this.props.status = "ACTIVE"
     }
-    deactivate(): void{
+    deactivate(): void {
         this.props.status = "DEACTIVE"
     }
-    
+
     isActivate(): boolean {
         return this.props.status === "ACTIVE"
     }
     isSubCategory(): boolean {
         return !!this.parentId
     }
-    
+
     toJSON(): CategoryEntity.PropsJSON {
         return {
             id: this.id,
@@ -96,8 +96,8 @@ export class CategoryEntity extends BaseEntity<CategoryEntity.Props> {
 }
 
 export namespace CategoryEntity {
-    
-    export type status = "DEACTIVE" | "ACTIVE" 
+
+    export type status = "DEACTIVE" | "ACTIVE"
 
     export type Input = {
         title: string

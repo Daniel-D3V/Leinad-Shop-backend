@@ -1,5 +1,5 @@
 import { MongoRefreshTokenRepository } from "./mongo-refresh-token.repository"
-import {  MongoMemoryReplSet } from 'mongodb-memory-server';
+import { MongoMemoryReplSet } from 'mongodb-memory-server';
 import mongoose from "mongoose"
 import { MongoRefreshTokenModel } from "./models";
 
@@ -19,7 +19,7 @@ describe("Test MongoRefreshTokenRepository", () => {
 
     beforeAll(async () => {
         mongoServer = await MongoMemoryReplSet.create();
-        const mongoUri =  mongoServer.getUri();
+        const mongoUri = mongoServer.getUri();
         await mongoose.connect(mongoUri);
     })
 

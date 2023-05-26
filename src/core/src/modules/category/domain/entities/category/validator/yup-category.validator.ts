@@ -13,7 +13,7 @@ export class YupCategoryValidator extends YupValidatorProvider implements Domain
             .required(YupErrorAdapter.toYupFormat(new TitleNotProvidedError()))
             .min(5, YupErrorAdapter.toYupFormat(new InvalidTitleLengthError()))
             .max(255, YupErrorAdapter.toYupFormat(new InvalidTitleLengthError())),
-        
+
         description: yup.string()
             .strict(true)
             .typeError(YupErrorAdapter.toYupFormat(new InvalidDescriptionTypeError()))
@@ -24,7 +24,7 @@ export class YupCategoryValidator extends YupValidatorProvider implements Domain
 
     validate(props: YupCategoryValidator.ValidateFields): Either<Error[], null> {
         const schemaValid = this.validateSchema(props)
-        if(schemaValid.isLeft()) return left(schemaValid.value)
+        if (schemaValid.isLeft()) return left(schemaValid.value)
         return right(null)
     }
 }
@@ -34,5 +34,5 @@ export namespace YupCategoryValidator {
         title: string
         description: string
     }
-    
+
 }
