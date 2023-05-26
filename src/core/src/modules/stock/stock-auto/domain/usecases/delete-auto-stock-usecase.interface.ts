@@ -7,7 +7,7 @@ export interface DeleteStockAutoUsecaseInterface extends UsecaseInterface {
 
 export namespace DeleteStockAutoUsecaseInterface {
     export type InputDto = {
-        id: string
+        stockAutoId: string
     }
 
     export type OutputDto = Either<Error[], null>
