@@ -6,13 +6,13 @@ import { SignupUsecaseFactory, LoginUsecaseFactory, RefreshTokenUsecaseFactory, 
 
 @Controller('auth')
 export class AuthController {
-  constructor() {}
+  constructor() { }
 
   @Post("/signup")
   async create(@Body() signupDto: any, @Res() res: Response) {
     const signupUsecase = SignupUsecaseFactory.create()
     const usecaseResult = await signupUsecase.execute(signupDto)
-    if(usecaseResult.isLeft()) {
+    if (usecaseResult.isLeft()) {
       return res.status(400).json(formatError(usecaseResult.value))
     }
     return res.json(usecaseResult.value)
@@ -22,7 +22,7 @@ export class AuthController {
   async login(@Body() loginDto: any, @Res() res: Response) {
     const loginUsecase = LoginUsecaseFactory.create()
     const usecaseResult = await loginUsecase.execute(loginDto)
-    if(usecaseResult.isLeft()) {
+    if (usecaseResult.isLeft()) {
       return res.status(400).json(formatError(usecaseResult.value))
     }
     res.cookie("accessToken", usecaseResult.value.accessToken, { httpOnly: true })
@@ -38,7 +38,7 @@ export class AuthController {
     const usecaseResult = await refreshTokenUsecase.execute({
       refreshToken
     })
-    if(usecaseResult.isLeft()) {
+    if (usecaseResult.isLeft()) {
       return res.status(400).json(formatError(usecaseResult.value))
     }
     res.cookie("accessToken", usecaseResult.value.accessToken, { httpOnly: true })

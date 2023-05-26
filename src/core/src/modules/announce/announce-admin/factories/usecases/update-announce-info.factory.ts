@@ -1,5 +1,5 @@
 import { prismaClient } from "@/modules/@shared/infra/repository/prisma/client"
-import {  PrismaClient } from "@prisma/client"
+import { PrismaClient } from "@prisma/client"
 import { UpdateAnnounceInfoUsecaseInterface } from "../../domain/usecases"
 import { UpdateAnnounceUsecase } from "../../application/usecases"
 import { PrismaAnnounceRepository } from "../../infra/repositories"

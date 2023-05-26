@@ -8,9 +8,9 @@ import { ActivateCategoryUsecaseInterface } from "../domain/usecases";
 export class ActivateCategoryFactory {
 
     static create(): ActivateCategoryUsecaseInterface {
-        
+
         const execute = async (input: ActivateCategoryUsecaseInterface.InputDto): Promise<ActivateCategoryUsecaseInterface.OutputDto> => {
-            
+
             return await prismaClient.$transaction(async (prisma) => {
                 const prismaCategoryRepository = new PrismaCategoryRepository(prisma as PrismaClient)
                 const outboxEmitter = new OutboxEmitter(prisma as PrismaClient)

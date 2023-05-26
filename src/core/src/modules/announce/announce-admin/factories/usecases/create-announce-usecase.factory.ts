@@ -1,6 +1,6 @@
 import { prismaClient } from "@/modules/@shared/infra/repository/prisma/client"
-import {  PrismaClient } from "@prisma/client"
-import {   CreateAnnounceUsecaseInterface } from "../../domain/usecases"
+import { PrismaClient } from "@prisma/client"
+import { CreateAnnounceUsecaseInterface } from "../../domain/usecases"
 import { CreateAnnounceUsecase } from "../../application/usecases"
 import { PrismaAnnounceRepository } from "../../infra/repositories"
 import { OutboxEmitter } from "@/modules/@shared/infra/providers"

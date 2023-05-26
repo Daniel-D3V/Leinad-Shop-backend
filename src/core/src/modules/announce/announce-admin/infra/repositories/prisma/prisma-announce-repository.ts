@@ -4,31 +4,31 @@ import { AnnounceRepositoryInterface } from "../../../domain/repositories";
 import { prismaClient } from "@/modules/@shared/infra/repository/prisma/client";
 
 const setStatus = (announceEntity: AnnounceEntity, status: string) => {
-    if(status === "ACTIVE") announceEntity.activate()
-    else if(status === "BANNED") announceEntity.ban()
+    if (status === "ACTIVE") announceEntity.activate()
+    else if (status === "BANNED") announceEntity.ban()
     else announceEntity.deactivate()
 }
 
 class PrismaAnnounceEntityMapper {
     static toDomain(prismaAnnounce: Announce | null): AnnounceEntity | null {
-        if(!prismaAnnounce) return null;
+        if (!prismaAnnounce) return null;
         const announceEntity = AnnounceEntity.create({
             ...prismaAnnounce,
             categoryId: prismaAnnounce.categoryId!,
             userId: prismaAnnounce.userId!,
             description: prismaAnnounce.description!,
         }, prismaAnnounce.id)
-        if(announceEntity.isLeft()) throw announceEntity.value[0]
+        if (announceEntity.isLeft()) throw announceEntity.value[0]
 
         setStatus(announceEntity.value, prismaAnnounce.status)
         return announceEntity.value
     }
-} 
+}
 export class PrismaAnnounceRepository implements AnnounceRepositoryInterface {
 
     prismaClient: PrismaClient
 
-    constructor(provideprismaClient?: PrismaClient){
+    constructor(provideprismaClient?: PrismaClient) {
         this.prismaClient = provideprismaClient ?? prismaClient
     }
 
@@ -55,9 +55,9 @@ export class PrismaAnnounceRepository implements AnnounceRepositoryInterface {
         await this.prismaClient.announce.update({
             where: { id: id ?? "" },
             data: {
-              ...propsToUpdate,
+                ...propsToUpdate,
             }
         })
     }
-    
+
 }

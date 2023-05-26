@@ -25,6 +25,6 @@ export abstract class BaseEntity<EntityProps> {
         return this._updatedAt;
     }
 
-    abstract toJSON(): Record<string, unknown> 
+    abstract toJSON(): Record<string, unknown>
 
 }
