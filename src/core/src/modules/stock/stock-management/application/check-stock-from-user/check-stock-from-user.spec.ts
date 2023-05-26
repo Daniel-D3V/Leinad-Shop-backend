@@ -1,8 +1,8 @@
 import { GetUserIdByAnnounceIdFacadeFactory } from "@/modules/announce/announce-admin/factories";
 import { CheckStockFromUserUsecase } from "./check-stock-from-user.usecase";
-import { ProductStockRepositoryInterface } from "@/modules/stock/domain/repositories";
 import { CheckStockFromUserUsecaseInterface } from "@/modules/stock/stock-management/domain/usecases";
 import { mock } from "jest-mock-extended";
+import { StockManagementRepositoryInterface } from "../../domain/repositories";
 
 jest.mock("@/modules/announce/announce-admin/factories")
 
@@ -11,7 +11,7 @@ describe("Test CheckStockFromUserUsecase", () => {
 
     let sut: CheckStockFromUserUsecase
     let props: CheckStockFromUserUsecaseInterface.InputDto
-    let productStockRepository: ProductStockRepositoryInterface
+    let stockManagementRepository: StockManagementRepositoryInterface
 
     beforeEach(() => {
 
@@ -19,13 +19,13 @@ describe("Test CheckStockFromUserUsecase", () => {
             productStockId: "any_product_stock_id",
             userId: "any_user_id"
         }
-        productStockRepository = mock<ProductStockRepositoryInterface>({
+        stockManagementRepository = mock<StockManagementRepositoryInterface>({
             findById: async () => ({ id: "any_id" }) as any
         })
         jest.spyOn(GetUserIdByAnnounceIdFacadeFactory, 'create').mockReturnValue({
             execute: async () => props.userId
         })
-        sut = new CheckStockFromUserUsecase(productStockRepository)
+        sut = new CheckStockFromUserUsecase(stockManagementRepository)
     })
 
     it("Should execute the usecase properly", async () => {
@@ -34,7 +34,7 @@ describe("Test CheckStockFromUserUsecase", () => {
     })
 
     it("Should return ProductStockNotFoundError if productStock not found", async () => {
-        jest.spyOn(productStockRepository, 'findById').mockResolvedValueOnce(null)
+        jest.spyOn(stockManagementRepository, 'findById').mockResolvedValueOnce(null)
         const output = await sut.execute(props)
         if (output.isRight()) throw new Error('This test should return an error')
         expect(output.isLeft()).toBe(true)

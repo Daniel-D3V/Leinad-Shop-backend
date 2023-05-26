@@ -1,6 +1,6 @@
 import { left, right } from "@/modules/@shared/logic";
-import { ProductStockAutoRepositoryInterface } from "@/modules/stock/domain/repositories";
-import {  CheckStockAutoFromUserUsecaseInterface} from "@/modules/stock/stock-management/domain/usecases";
+import { ProductStockAutoRepositoryInterface, ProductStockRepositoryInterface } from "@/modules/stock/domain/repositories";
+import { CheckStockAutoFromUserUsecaseInterface } from "@/modules/stock/domain/usecases";
 import { ProductStockAutoNotFoundError, } from "../../../_base/_errors";
 import { GetUserIdByAnnounceIdFacadeFactory } from "@/modules/announce/announce-admin/factories";
 import { ProductStockAutoNotFromUserError } from "./errors";

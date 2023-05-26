@@ -1,30 +1,30 @@
 import { left, right } from "@/modules/@shared/logic";
-import { ProductStockRepositoryInterface } from "@/modules/stock/domain/repositories";
 import {  ChangeStockTypeToAutoUsecaseInterface} from "@/modules/stock/stock-management/domain/usecases";
 import { ProductStockAlreadyIsAutoError, ProductStockNotFoundError } from "../../../_base/_errors";
 import { EventEmitterInterface } from "@/modules/@shared/events";
 import { StockTypeChangedToAutoEvent } from "./stock-type-changed-to-auto.event";
+import { StockManagementRepositoryInterface } from "../../domain/repositories/stock-management.repository";
 
 export class ChangeStockTypeToAutoUsecase implements ChangeStockTypeToAutoUsecaseInterface {
 
     constructor(
-        private readonly productStockRepository: ProductStockRepositoryInterface,
+        private readonly stockManagementRepository: StockManagementRepositoryInterface,
         private readonly eventEmitter: EventEmitterInterface
     ) { }
 
     async execute({ productStockId }: ChangeStockTypeToAutoUsecaseInterface.InputDto): Promise<ChangeStockTypeToAutoUsecaseInterface.OutputDto> {
 
-        const productStockEntity = await this.productStockRepository.findById(productStockId)
-        if (!productStockEntity) return left([new ProductStockNotFoundError()])
+        const stockManagementEntity = await this.stockManagementRepository.findById(productStockId)
+        if (!stockManagementEntity) return left([new ProductStockNotFoundError()])
 
-        if (productStockEntity.isStockAuto()) return left([new ProductStockAlreadyIsAutoError()])
+        if (stockManagementEntity.isStockAuto()) return left([new ProductStockAlreadyIsAutoError()])
 
-        productStockEntity.toStockAuto()
+        stockManagementEntity.toStockAuto()
 
-        await this.productStockRepository.update(productStockEntity)
+        await this.stockManagementRepository.update(stockManagementEntity)
 
         const stockTypeChangedToAutoEvent = new StockTypeChangedToAutoEvent({
-            productStockId: productStockEntity.id
+            productStockId: stockManagementEntity.id
         })
         await this.eventEmitter.emit(stockTypeChangedToAutoEvent)
 

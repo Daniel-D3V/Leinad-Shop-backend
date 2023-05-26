@@ -4,20 +4,21 @@ import { CheckStockFromUserUsecaseInterface } from "@/modules/stock/stock-manage
 import { ProductStockNotFoundError } from "../../../_base/_errors";
 import { GetUserIdByAnnounceIdFacadeFactory } from "@/modules/announce/announce-admin/factories";
 import { ProductStockNotFromUserError } from "./errors";
+import { StockManagementRepositoryInterface } from "../../domain/repositories";
 
 export class CheckStockFromUserUsecase implements CheckStockFromUserUsecaseInterface {
 
     constructor(
-        private readonly productStockRepository: ProductStockRepositoryInterface
+        private readonly stockManagementRepository: StockManagementRepositoryInterface
     ) { }
 
     async execute({ productStockId, userId }: CheckStockFromUserUsecaseInterface.InputDto): Promise<CheckStockFromUserUsecaseInterface.OutputDto> {
 
-        const productStock = await this.productStockRepository.findById(productStockId)
-        if (!productStock) return left([new ProductStockNotFoundError()])
+        const stockManagementEntity = await this.stockManagementRepository.findById(productStockId)
+        if (!stockManagementEntity) return left([new ProductStockNotFoundError()])
 
         const getUserIdByAnnounceIdFacade = GetUserIdByAnnounceIdFacadeFactory.create()
-        const announceUserId = await getUserIdByAnnounceIdFacade.execute(productStock.id)
+        const announceUserId = await getUserIdByAnnounceIdFacade.execute(stockManagementEntity.id)
         const isUserOwnStockAuto = userId === announceUserId
         if (!isUserOwnStockAuto) return left([new ProductStockNotFromUserError()])
 
