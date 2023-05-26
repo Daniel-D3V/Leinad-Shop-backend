@@ -8,7 +8,7 @@ import { InsufficientProductStockError, ProductNotFoundError, ProductOutOfStockE
 import { PlaceOrderUsecaseInterface } from "@/modules/checkout/order/domain/usecases";
 
 jest.mock("@/modules/announce/announce-admin/factories")
-jest.mock("@/modules/product-stock/factories")
+jest.mock("@/modules/stock/factories")
 
 describe("Test CreateOrderItemsFromDtoUsecase", () => {
 

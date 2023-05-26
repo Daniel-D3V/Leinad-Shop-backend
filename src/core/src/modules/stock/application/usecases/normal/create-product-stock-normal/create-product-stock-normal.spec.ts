@@ -8,7 +8,7 @@ import { ProductStockNormalCreatedEvent } from "./product-stock-normal-created.e
 
 
 jest.mock("./product-stock-normal-created.event")
-jest.mock("@/modules/product-stock/domain/entities")
+jest.mock("@/modules/stock/domain/entities")
 
 describe("Test CreateProductStockNormalUsecase", () => {
 

@@ -7,7 +7,7 @@ import { ProductStockAutoAddedEvent } from "./product-stock-auto-added.event"
 import { AddAutoStockUsecaseInterface } from "@/modules/stock/domain/usecases"
 
 jest.mock("./product-stock-auto-added.event")
-jest.mock("@/modules/product-stock/domain/entities")
+jest.mock("@/modules/stock/domain/entities")
 
 describe("test AddAutoStockUsecase", () => {
 
