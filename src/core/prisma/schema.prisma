@@ -41,7 +41,7 @@ model Announce {
   @@map("announces")
 }
 
-model ProductStockNormal {
+model StockNormal {
       id String @id
       stock Int @default(0)
       announceId String @unique()
@@ -49,7 +49,7 @@ model ProductStockNormal {
       @@map("product_stock_normal")
 }
 
-model ProductStockAuto {
+model StockAuto {
   
     id String @id
     value String @default("")
