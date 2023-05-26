@@ -2,8 +2,8 @@ import { CheckAnnounceExistsFacadeInterface, GetAnnouncePriceFacadeInterface } f
 import { CreateOrderItemsFromDtoUsecase } from "./create-order-items-from-dto.usecase"
 
 import { CheckAnnounceExistsFacadeFactory, GetAnnouncePriceFacadeFactory } from "@/modules/announce/announce-admin/factories";
-import { GetProductStockFacadeFactory } from "@/modules/product-stock/factories";
-import { GetProductStockFacadeInterface } from "@/modules/product-stock/facades";
+import { GetProductStockFacadeFactory } from "@/modules/stock/factories";
+import { GetProductStockFacadeInterface } from "@/modules/stock/facades";
 import { InsufficientProductStockError, ProductNotFoundError, ProductOutOfStockError } from "../../errors";
 import { PlaceOrderUsecaseInterface } from "@/modules/checkout/order/domain/usecases";
 
@@ -27,7 +27,7 @@ describe("Test CreateOrderItemsFromDtoUsecase", () => {
 
         getAnnouncePriceFacade = { execute: jest.fn().mockResolvedValue(10) }
         GetAnnouncePriceFacadeFactory.create = jest.fn().mockReturnValue(getAnnouncePriceFacade)
-        
+
         props = [
             { id: "1", quantity: 3 },
             { id: "2", quantity: 2 },
@@ -43,10 +43,10 @@ describe("Test CreateOrderItemsFromDtoUsecase", () => {
 
     it("Should return NoProductsProvidedError if no products are provided", async () => {
         const output = await sut.execute([])
-        if(output.isRight()) throw new Error("Should not return right")
+        if (output.isRight()) throw new Error("Should not return right")
         expect(output.isLeft()).toBe(true)
         expect(output.value[0].name).toBe("NoProductsProvidedError")
-    }) 
+    })
 
     it("Should call checkAnnounceExistsFacade every time the loop runs", async () => {
         await sut.execute(props)
@@ -67,21 +67,21 @@ describe("Test CreateOrderItemsFromDtoUsecase", () => {
         checkAnnounceExistsFacade.execute = jest.fn().mockResolvedValueOnce(false)
         const output = await sut.execute(props)
         expect(output.isLeft()).toBe(true)
-        expect(output.value[0]).toEqual(new ProductNotFoundError() )
+        expect(output.value[0]).toEqual(new ProductNotFoundError())
     })
 
     it("Should return ProductOutOfStockError if one of the products does not have stock", async () => {
         getProductStockFacade.execute = jest.fn().mockResolvedValueOnce(0)
         const output = await sut.execute(props)
         expect(output.isLeft()).toBe(true)
-        expect(output.value[0]).toEqual(new ProductOutOfStockError(props[0].id) )
+        expect(output.value[0]).toEqual(new ProductOutOfStockError(props[0].id))
     })
 
     it("Should return InsufficientProductStockError if one of the products does not have enough stock to supply the required stock", async () => {
         getProductStockFacade.execute = jest.fn().mockResolvedValueOnce(2)
         const output = await sut.execute(props)
         expect(output.isLeft()).toBe(true)
-        expect(output.value[0]).toEqual(new InsufficientProductStockError(props[0].id, props[0].quantity, 2) )
+        expect(output.value[0]).toEqual(new InsufficientProductStockError(props[0].id, props[0].quantity, 2))
     })
 
     it("Should return the order items if everything is ok", async () => {
@@ -90,5 +90,5 @@ describe("Test CreateOrderItemsFromDtoUsecase", () => {
         expect(output.value.length).toBe(props.length)
     })
 
-    
+
 })

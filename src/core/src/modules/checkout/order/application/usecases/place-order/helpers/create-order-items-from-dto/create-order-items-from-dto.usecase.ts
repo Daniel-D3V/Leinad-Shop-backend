@@ -3,44 +3,44 @@ import { Either, left, right } from "@/modules/@shared/logic";
 import { OrderItemEntity } from "@/modules/checkout/order/domain/entities";
 import { InsufficientProductStockError, ProductNotFoundError, ProductOutOfStockError } from "../../errors";
 import { CheckAnnounceExistsFacadeFactory, GetAnnouncePriceFacadeFactory } from "@/modules/announce/announce-admin/factories";
-import { GetProductStockFacadeFactory } from "@/modules/product-stock/factories";
+import { GetProductStockFacadeFactory } from "@/modules/stock/factories";
 import { PlaceOrderUsecaseInterface } from "@/modules/checkout/order/domain/usecases";
 import { NoProductsProvidedError } from "./errors";
 
 export class CreateOrderItemsFromDtoUsecase implements UsecaseInterface {
     async execute(products: PlaceOrderUsecaseInterface.InputDto["products"]): Promise<Either<Error[], OrderItemEntity[]>> {
-        
-        if(products.length === 0) return left([ new NoProductsProvidedError() ])
+
+        if (products.length === 0) return left([new NoProductsProvidedError()])
 
         const orderItems: OrderItemEntity[] = []
-        for(const product of products) {
+        for (const product of products) {
             // check if product exists
             const productExistsResult = await this.checkAnnounceExists(product.id)
-            if(!productExistsResult) return left([ new ProductNotFoundError() ])
+            if (!productExistsResult) return left([new ProductNotFoundError()])
             // check if product has enough stock
             const stockValidationResult = await this.validateStock(product.quantity, product.id)
-            if(stockValidationResult.isLeft()) return left(stockValidationResult.value)
+            if (stockValidationResult.isLeft()) return left(stockValidationResult.value)
             // get product price
             const announcePrice = await this.getAnnouncePrice(product.id)
-            
+
             const orderItemEntity = OrderItemEntity.create({
                 productId: product.id,
                 quantity: product.quantity,
                 unitPrice: announcePrice
             })
-            if(orderItemEntity.isLeft()) return left(orderItemEntity.value)
-            
+            if (orderItemEntity.isLeft()) return left(orderItemEntity.value)
+
             orderItems.push(orderItemEntity.value)
         }
         return right(orderItems)
 
     }
 
-    private async validateStock(requiredQuantity: number, productId: string):  Promise<Either<Error[], null>>{
+    private async validateStock(requiredQuantity: number, productId: string): Promise<Either<Error[], null>> {
         const productStockQuantity = await this.getProductStockQuantity(productId) ?? 0
-        if(productStockQuantity <= 0) return left([ new ProductOutOfStockError(productId) ])
-        if(productStockQuantity < requiredQuantity) return left([ 
-            new InsufficientProductStockError(productId, requiredQuantity, productStockQuantity) 
+        if (productStockQuantity <= 0) return left([new ProductOutOfStockError(productId)])
+        if (productStockQuantity < requiredQuantity) return left([
+            new InsufficientProductStockError(productId, requiredQuantity, productStockQuantity)
         ])
         return right(null)
     }
@@ -56,7 +56,7 @@ export class CreateOrderItemsFromDtoUsecase implements UsecaseInterface {
         return announcePrice ?? 0
     }
 
-    private async getProductStockQuantity(id: string): Promise<number> { 
+    private async getProductStockQuantity(id: string): Promise<number> {
         const getProductStockFacade = GetProductStockFacadeFactory.create()
         const productStock = await getProductStockFacade.execute(id)
         return productStock ?? 0
