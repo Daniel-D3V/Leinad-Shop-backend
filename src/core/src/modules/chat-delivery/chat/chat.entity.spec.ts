@@ -4,7 +4,6 @@ describe("Test ChatDeliveryEntity", () => {
     let sut: ChatDeliveryEntity
     let props: ChatDeliveryEntity.Input
 
-
     const makeSut = (props: ChatDeliveryEntity.Input) => {
         const chatDeliveryEntityOrError = ChatDeliveryEntity.create(props)
         if (chatDeliveryEntityOrError.isLeft()) throw chatDeliveryEntityOrError.value[0]
