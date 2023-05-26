@@ -1,5 +1,5 @@
 export class TitleNotProvidedError extends Error {
-    constructor(){
+    constructor() {
         super("Title should be provided.")
         this.name = this.constructor.name
     }

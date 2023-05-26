@@ -3,7 +3,7 @@ import { Either, right } from "@/modules/@shared/logic";
 
 export class ChatDeliveryEntity extends BaseEntity<ChatDeliveryEntity.Props>{
 
-    constructor(props: ChatDeliveryEntity.Props, id?: string) {
+    private constructor(props: ChatDeliveryEntity.Props, id?: string) {
         super(props, id)
     }
 
