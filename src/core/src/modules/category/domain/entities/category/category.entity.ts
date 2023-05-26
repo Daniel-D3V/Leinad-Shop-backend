@@ -45,7 +45,7 @@ export class CategoryEntity extends BaseEntity<CategoryEntity.Props> {
         this.props.description = newDescription
         return right(this.description)
     }
-
+    
     setParentId(parrentId: string): void {
         this.props.parentId = parrentId
     }

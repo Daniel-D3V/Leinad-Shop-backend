@@ -22,7 +22,7 @@ export class GeneratePaymentUsecase implements UsecaseInterface {
 
         const customerEntity = await this.customerRepository.findById(customerId)
         if(!customerEntity) return left([new CustomerNotFoundError()])
-
+        
         const paymentEntity = PaymentEntity.create({
             orderId,
             paymentMethod,
