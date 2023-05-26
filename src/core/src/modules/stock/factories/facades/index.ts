@@ -1,1 +1,0 @@
-export * from "./get-product-stock-facade.factory"
