@@ -9,6 +9,7 @@ export namespace CreateStockItemUsecaseInterface {
     export type InputDto = {
         price: number
         announceId: string
+        title: string
     }
 
     export type OutputDto = Either<Error[], {

@@ -20,7 +20,8 @@ describe("Test CreateStockItemUsecase", () => {
 
         props = {
             announceId: "any_announce_id",
-            price: 10
+            price: 10,
+            title: "any_title"
         }
         stockItemEntity = mock<StockItemEntity>({
             id: "any_id",

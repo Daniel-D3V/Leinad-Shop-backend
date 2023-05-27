@@ -13,11 +13,12 @@ export class CreateStockItemUsecase implements CreateStockItemUsecaseInterface {
         private readonly eventEmitter: EventEmitterInterface
     ){}
 
-    async execute({ announceId, price }: CreateStockItemUsecaseInterface.InputDto): Promise<CreateStockItemUsecaseInterface.OutputDto> {
+    async execute({ announceId, price, title }: CreateStockItemUsecaseInterface.InputDto): Promise<CreateStockItemUsecaseInterface.OutputDto> {
         
         const stockItemEntity = StockItemEntity.create({
             announceId,
-            price
+            price,
+            title
         })
         if(stockItemEntity.isLeft()) return left(stockItemEntity.value)
 
