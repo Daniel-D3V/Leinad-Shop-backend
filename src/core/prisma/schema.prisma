@@ -118,7 +118,7 @@ model StockItem {
 model StockItemNormal {
   id String @id @default(uuid())
   stock Int
-  stockItemId String
+  stockItemId String @unique()
 
   @@map("stock_item_normal") 
 }
