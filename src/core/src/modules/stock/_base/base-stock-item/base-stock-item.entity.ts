@@ -19,6 +19,10 @@ export abstract class BaseStockItemEntity<T> extends BaseEntity<BaseStockItemEnt
         return this.props.price
     }
 
+    get title(): string {
+        return this.props.title
+    }
+
     abstract toJSON(): Record<string, unknown> 
 
 }
@@ -28,6 +32,7 @@ export namespace BaseStockItemEntity  {
 
     export type Props = {
         price: number
-    }           
+        title: string
+    }
 
 }

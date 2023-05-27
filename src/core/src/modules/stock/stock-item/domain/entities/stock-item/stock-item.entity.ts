@@ -23,8 +23,9 @@ export class StockItemEntity extends BaseStockItemEntity<StockItemEntity.Props> 
         return {
             id: this.id,
             price: this.price,
+            title: this.title,
             announceId: this.announceId,
-            stockItemType: this.stockItemType
+            stockItemType: this.stockItemType,
         }
     }
 
@@ -37,7 +38,10 @@ export class StockItemEntity extends BaseStockItemEntity<StockItemEntity.Props> 
     }
 
     changePrice(price: number): Either<Error[], number> {
-        const validationResult = StockItemEntity.validateProps({ price })
+        const validationResult = StockItemEntity.validateProps({ 
+            ...this.props, 
+            price 
+        })
         if(validationResult.isLeft()) return left(validationResult.value)
         this.props.price = price
         return right(price)
@@ -58,6 +62,7 @@ export namespace StockItemEntity {
 
     export type Input = {
         announceId: string
+        title: string
         price: number
     }
 
