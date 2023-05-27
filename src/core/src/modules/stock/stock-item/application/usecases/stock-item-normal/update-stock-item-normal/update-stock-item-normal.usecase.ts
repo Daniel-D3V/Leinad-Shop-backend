@@ -1,7 +1,7 @@
 import { left, right } from "@/modules/@shared/logic";
 import { StockItemNormalRepositoryInterface } from "@/modules/stock/stock-item/domain/repositories";
 import { UpdateStockItemNormalUsecaseInterface } from "@/modules/stock/stock-item/domain/usecases";
-import { StockItemNormalNotFoundError } from "../errors";
+import { StockItemNormalNotFoundError } from "../_errors";
 import { EventEmitterInterface } from "@/modules/@shared/events";
 import { StockItemNormalUpdatedEvent } from "./stock-item-normal-updated.event";
 
