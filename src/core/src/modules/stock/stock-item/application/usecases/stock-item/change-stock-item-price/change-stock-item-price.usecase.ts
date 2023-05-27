@@ -1,7 +1,7 @@
 import { left, right } from "@/modules/@shared/logic";
 import { StockItemRepositoryInterface } from "@/modules/stock/stock-item/domain/repositories";
 import { ChangeStockItemPriceUsecaseInterface } from "@/modules/stock/stock-item/domain/usecases";
-import { StockItemNotFoundError } from "../../_errors";
+import { StockItemNotFoundError } from "../_errors";
 import { EventEmitterInterface } from "@/modules/@shared/events";
 import { StockItemPriceChangedEvent } from "./stock-item-price-changed.event";
 
