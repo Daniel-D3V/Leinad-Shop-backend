@@ -14,7 +14,10 @@ export abstract class BaseStockItemEntity<T> extends BaseEntity<BaseStockItemEnt
         if(validationResult.isLeft()) return left(validationResult.value)
         return right(null)
     }
-
+    
+    get price(): number {
+        return this.props.price
+    }
 
     abstract toJSON(): Record<string, unknown> 
 

@@ -1,24 +1,24 @@
 import { Either, left, right } from "@/modules/@shared/logic";
 import { BaseStockAutoEntity } from "@/modules/stock/_base";
 
-export class ItemStockAutoEntity extends BaseStockAutoEntity<ItemStockAutoEntity.Props> {
+export class StockItemAutoEntity extends BaseStockAutoEntity<StockItemAutoEntity.Props> {
 
-    private constructor(props: ItemStockAutoEntity.Props, id?: string){
+    private constructor(props: StockItemAutoEntity.Props, id?: string){
         super(props, id)
     }
 
-    static create(input: ItemStockAutoEntity.Input, id?: string): Either<Error[], ItemStockAutoEntity> {
+    static create(input: StockItemAutoEntity.Input, id?: string): Either<Error[], StockItemAutoEntity> {
 
-        const validationResult = ItemStockAutoEntity.validateProps({ ...input })
+        const validationResult = StockItemAutoEntity.validateProps({ ...input })
         if(validationResult.isLeft()) return left(validationResult.value)
 
-        const itemStockAutoEntity = new ItemStockAutoEntity({
+        const stockItemAutoEntity = new StockItemAutoEntity({
             ...input
         }, id)
-        return right(itemStockAutoEntity)
+        return right(stockItemAutoEntity)
     }
 
-    toJSON(): ItemStockAutoEntity.PropsJSON {
+    toJSON(): StockItemAutoEntity.PropsJSON {
         return {
             id: this.id,
             value: this.getValue(),
@@ -32,7 +32,7 @@ export class ItemStockAutoEntity extends BaseStockAutoEntity<ItemStockAutoEntity
 
 }
 
-export namespace ItemStockAutoEntity {
+export namespace StockItemAutoEntity {
 
     export type Input = {
         value: string

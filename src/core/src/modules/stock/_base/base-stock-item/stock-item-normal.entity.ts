@@ -1,24 +1,24 @@
 import { Either, left, right } from "@/modules/@shared/logic";
 import { BaseStockNormalEntity } from "@/modules/stock/_base";
 
-export class ItemStockNormalEntity extends BaseStockNormalEntity<ItemStockNormalEntity.Props> {
+export class StockItemNormalEntity extends BaseStockNormalEntity<StockItemNormalEntity.Props> {
 
-    private constructor(props: ItemStockNormalEntity.Props, id?: string){
+    private constructor(props: StockItemNormalEntity.Props, id?: string){
         super(props, id)
     }
 
-    static create(input: ItemStockNormalEntity.Input, id?: string): Either<Error[], ItemStockNormalEntity> {
+    static create(input: StockItemNormalEntity.Input, id?: string): Either<Error[], StockItemNormalEntity> {
 
-        const validationResult = ItemStockNormalEntity.validateProps({ ...input })
+        const validationResult = StockItemNormalEntity.validateProps({ ...input })
         if(validationResult.isLeft()) return left(validationResult.value)
 
-        const itemStockNormalEntity = new ItemStockNormalEntity({
+        const stockItemNormalEntity = new StockItemNormalEntity({
             ...input
         }, id)
-        return right(itemStockNormalEntity)
+        return right(stockItemNormalEntity)
     }
 
-    toJSON(): ItemStockNormalEntity.PropsJSON {
+    toJSON(): StockItemNormalEntity.PropsJSON {
         return {
             id: this.id,
             stock: this.getCurrentStock(),
@@ -32,7 +32,7 @@ export class ItemStockNormalEntity extends BaseStockNormalEntity<ItemStockNormal
 
 }
 
-export namespace ItemStockNormalEntity {
+export namespace StockItemNormalEntity {
 
     export type Input = { 
         stock: number
