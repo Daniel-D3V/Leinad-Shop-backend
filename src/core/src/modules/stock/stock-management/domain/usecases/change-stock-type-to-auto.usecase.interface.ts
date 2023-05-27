@@ -7,7 +7,7 @@ export interface ChangeStockTypeToAutoUsecaseInterface extends UsecaseInterface 
 
 export namespace ChangeStockTypeToAutoUsecaseInterface {
     export type InputDto = {
-        productStockId: string
+        stockAutoId: string
     }
 
     export type OutputDto = Either<Error[], null>

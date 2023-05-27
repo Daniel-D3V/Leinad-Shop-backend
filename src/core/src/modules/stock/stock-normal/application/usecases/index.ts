@@ -1,2 +1,2 @@
-export * from "./update-normal-stock/update-normal-stock.usecase"
-export * from "./create-normal-stock/create-stock-normal-stock.usecase"
+export * from "./initialize-stock-normal/initialize-stock-normal-stock.usecase"
+export * from "./update-stock-normal/update-stock-normal.usecase"

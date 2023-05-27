@@ -11,6 +11,6 @@ export class StockTypeChangedToAutoEvent extends BaseEvent {
 
 export namespace StockTypeChangedToAutoEvent {
     export type Payload = {
-        productStockId: string
+        id: string
     }
 }

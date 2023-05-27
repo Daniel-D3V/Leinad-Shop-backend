@@ -12,9 +12,9 @@ export class ChangeStockTypeToAutoUsecase implements ChangeStockTypeToAutoUsecas
         private readonly eventEmitter: EventEmitterInterface
     ) { }
 
-    async execute({ productStockId }: ChangeStockTypeToAutoUsecaseInterface.InputDto): Promise<ChangeStockTypeToAutoUsecaseInterface.OutputDto> {
+    async execute({ stockAutoId }: ChangeStockTypeToAutoUsecaseInterface.InputDto): Promise<ChangeStockTypeToAutoUsecaseInterface.OutputDto> {
 
-        const stockManagementEntity = await this.stockManagementRepository.findById(productStockId)
+        const stockManagementEntity = await this.stockManagementRepository.findById(stockAutoId)
         if (!stockManagementEntity) return left([new ProductStockNotFoundError()])
 
         if (stockManagementEntity.isStockAuto()) return left([new ProductStockAlreadyIsAutoError()])
@@ -24,7 +24,7 @@ export class ChangeStockTypeToAutoUsecase implements ChangeStockTypeToAutoUsecas
         await this.stockManagementRepository.update(stockManagementEntity)
 
         const stockTypeChangedToAutoEvent = new StockTypeChangedToAutoEvent({
-            productStockId: stockManagementEntity.id
+            id: stockManagementEntity.id
         })
         await this.eventEmitter.emit(stockTypeChangedToAutoEvent)
 

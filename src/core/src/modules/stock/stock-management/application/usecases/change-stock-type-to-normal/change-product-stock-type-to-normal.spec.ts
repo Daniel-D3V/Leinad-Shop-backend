@@ -1,18 +1,19 @@
 import { EventEmitterInterface } from "@/modules/@shared/events"
+import { ChangeStockTypeToNormalUsecaseInterface } from "@/modules/stock/stock-management/domain/usecases"
 import { mock } from "jest-mock-extended"
-import { ChangeStockTypeToAutoUsecase } from "./change-stock-type-to-auto.usecase"
-import { StockTypeChangedToAutoEvent } from "./stock-type-changed-to-auto.event"
-import { StockManagementRepositoryInterface } from "../../../domain/repositories"
+import { ChangeStockTypeToNormalUsecase } from "./change-product-stock-type-to-normal.usecase"
+import { StockTypeChangedToNormalEvent } from "./stock-type-changed-to-normal.event"
 import { StockManagementEntity } from "../../../domain/entities"
-import { ChangeStockTypeToAutoUsecaseInterface } from "../../../domain/usecases"
-
-jest.mock("./stock-type-changed-to-auto.event")
-
-describe("Test ChangeProductStockTypeToAutoUsecaseInterface", () => {
+import { StockManagementRepositoryInterface } from "../../../domain/repositories"
 
 
-    let sut: ChangeStockTypeToAutoUsecaseInterface
-    let props: ChangeStockTypeToAutoUsecaseInterface.InputDto
+jest.mock("./stock-type-changed-to-normal.event")
+
+describe("Test ChangeStockTypeToNormalUsecase", () => {
+
+
+    let sut: ChangeStockTypeToNormalUsecase
+    let props: ChangeStockTypeToNormalUsecaseInterface.InputDto
     let stockManagementRepository: StockManagementRepositoryInterface
     let eventEmitter: EventEmitterInterface
     let stockManagementEntity: StockManagementEntity
@@ -20,18 +21,18 @@ describe("Test ChangeProductStockTypeToAutoUsecaseInterface", () => {
     beforeEach(() => {
 
         props = {
-            stockAutoId: "any_product_stock_id"
+            stockManagementId: "any_product_stock_id"
         }
         eventEmitter = mock<EventEmitterInterface>()
         stockManagementEntity = mock<StockManagementEntity>({
-            id: props.stockAutoId,
+            id: props.stockManagementId,
             isStockAuto: () => false,
         })
         stockManagementRepository = mock<StockManagementRepositoryInterface>({
             findById: () => stockManagementEntity
         } as any)
 
-        sut = new ChangeStockTypeToAutoUsecase(stockManagementRepository, eventEmitter)
+        sut = new ChangeStockTypeToNormalUsecase(stockManagementRepository, eventEmitter)
     })
 
     it("Should execute the usecase properly", async () => {
@@ -47,20 +48,20 @@ describe("Test ChangeProductStockTypeToAutoUsecaseInterface", () => {
         expect(output.value[0].name).toBe("ProductStockNotFoundError")
     })
 
-    it("Should return ProductStockAlreadyIsAutoError if product stock is already auto", async () => {
-        jest.spyOn(stockManagementEntity, "isStockAuto").mockReturnValueOnce(true)
+    it("Should return ProductStockAlreadyIsManualError if product stock is already auto", async () => {
+        jest.spyOn(stockManagementEntity, "isStockNormal").mockReturnValueOnce(true)
         const output = await sut.execute(props)
         if (output.isRight()) throw new Error("Should not be right")
         expect(output.isLeft()).toBeTruthy()
-        expect(output.value[0].name).toBe("ProductStockAlreadyIsAutoError")
+        expect(output.value[0].name).toBe("ProductStockAlreadyIsManualError")
     })
 
-    it("Should call toStockAuto from stockManagementEntity", async () => {
+    it("Should call toStockAuto from productStockEntity", async () => {
         await sut.execute(props)
-        expect(stockManagementEntity.toStockAuto).toBeCalledTimes(1)
+        expect(stockManagementEntity.toStockNormal).toBeCalledTimes(1)
     })
 
-    it("Should call productStockRepository.update once", async () => {
+    it("Should call stockManagementRepository.update once", async () => {
         await sut.execute(props)
         expect(stockManagementRepository.update).toBeCalledTimes(1)
     })
@@ -70,10 +71,10 @@ describe("Test ChangeProductStockTypeToAutoUsecaseInterface", () => {
         expect(eventEmitter.emit).toBeCalledTimes(1)
     })
 
-    it("Should create StockTypeChangedToAutoEvent with correct values", async () => {
+    it("Should create stockTypeChangedToNormalEvent with correct values", async () => {
         await sut.execute(props)
-        expect(StockTypeChangedToAutoEvent).toBeCalledWith({
-            id: props.stockAutoId
+        expect(StockTypeChangedToNormalEvent).toBeCalledWith({
+            id: props.stockManagementId
         })
     })
 

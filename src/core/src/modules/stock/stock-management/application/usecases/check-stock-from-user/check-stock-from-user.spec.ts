@@ -2,7 +2,7 @@ import { GetUserIdByAnnounceIdFacadeFactory } from "@/modules/announce/announce-
 import { CheckStockFromUserUsecase } from "./check-stock-from-user.usecase";
 import { CheckStockFromUserUsecaseInterface } from "@/modules/stock/stock-management/domain/usecases";
 import { mock } from "jest-mock-extended";
-import { StockManagementRepositoryInterface } from "../../domain/repositories";
+import { StockManagementRepositoryInterface } from "../../../domain/repositories";
 
 jest.mock("@/modules/announce/announce-admin/factories")
 
