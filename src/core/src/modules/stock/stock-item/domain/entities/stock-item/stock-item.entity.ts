@@ -47,6 +47,16 @@ export class StockItemEntity extends BaseStockItemEntity<StockItemEntity.Props> 
         return right(price)
     }
 
+    changeTitle(newTitle: string): Either<Error[], string> {
+        const validationResult = StockItemEntity.validateProps({ 
+            ...this.props, 
+            title: newTitle
+        })
+        if(validationResult.isLeft()) return left(validationResult.value)
+        this.props.title = newTitle
+        return right(newTitle)
+    }
+
     get announceId(): string {
         return this.props.announceId
     }

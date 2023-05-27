@@ -105,6 +105,31 @@ model OrderItems {
   @@map("order_items") 
 }
 
+model StockItem {
+  id String @id @default(uuid())
+  title String
+  price Float
+  stockItemType String
+  announceId String 
+
+  @@map("stock_items") 
+}
+
+model StockItemNormal {
+  id String @id @default(uuid())
+  stock Int
+  stockItemId String
+
+  @@map("stock_item_normal") 
+}
+
+model StockItemAuto {
+  id String @id @default(uuid())
+  value String
+  stockItemId String
+  
+  @@map("stock_item_auto") 
+}
 
 model EventConsumer {
   
