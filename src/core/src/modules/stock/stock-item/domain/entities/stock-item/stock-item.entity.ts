@@ -26,6 +26,13 @@ export class StockItemEntity extends BaseStockItemEntity<StockItemEntity.Props> 
         }
     }
 
+    changePrice(price: number): Either<Error[], number> {
+        const validationResult = StockItemEntity.validateProps({ price })
+        if(validationResult.isLeft()) return left(validationResult.value)
+        this.props.price = price
+        return right(price)
+    }
+
     get announceId(): string {
         return this.props.announceId
     }
