@@ -13,7 +13,8 @@ export class StockItemEntity extends BaseStockItemEntity<StockItemEntity.Props> 
         if(validationResult.isLeft()) return left(validationResult.value)
 
         const stockItemEntity = new StockItemEntity({
-            ...input
+            ...input,
+            stockItemType: "NORMAL"
         }, id)
         return right(stockItemEntity)
     }
@@ -22,8 +23,17 @@ export class StockItemEntity extends BaseStockItemEntity<StockItemEntity.Props> 
         return {
             id: this.id,
             price: this.price,
-            announceId: this.announceId
+            announceId: this.announceId,
+            stockItemType: this.stockItemType
         }
+    }
+
+    changeToTypeNormal(): void {
+        this.props.stockItemType = "NORMAL"
+    }
+
+    changeToTypeAuto(): void {
+        this.props.stockItemType = "AUTO"
     }
 
     changePrice(price: number): Either<Error[], number> {
@@ -36,10 +46,15 @@ export class StockItemEntity extends BaseStockItemEntity<StockItemEntity.Props> 
     get announceId(): string {
         return this.props.announceId
     }
+    get stockItemType(): StockItemEntity.StockItemType{
+        return this.props.stockItemType
+    }
 
 }
 
 export namespace StockItemEntity {
+
+    export type StockItemType = "NORMAL" | "AUTO"
 
     export type Input = {
         announceId: string
@@ -48,6 +63,7 @@ export namespace StockItemEntity {
 
     export type Props = BaseStockItemEntity.Props & {
         announceId: string
+        stockItemType: StockItemType
     }
     
     export type PropsJSON = Props & { id: string }
