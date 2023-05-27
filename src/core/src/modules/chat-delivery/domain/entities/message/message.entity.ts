@@ -1,6 +1,7 @@
 import { BaseEntity } from "@/modules/@shared/domain";
 import { MessageValidatorFactory } from "./validator";
 import { Either, left, right } from "@/modules/@shared/logic";
+import { ChatDeliveryMessageAttachmentsEntity } from "../attachments/attachments.entity";
 
 export class ChatDeliveryMessageEntity extends BaseEntity<ChatDeliveryMessageEntity.Props> {
     private constructor(props: ChatDeliveryMessageEntity.Props, id?: string) {
@@ -42,7 +43,7 @@ export class ChatDeliveryMessageEntity extends BaseEntity<ChatDeliveryMessageEnt
         return this.props.content
     }
 
-    get attachments(): string[] | undefined {
+    get attachments(): ChatDeliveryMessageAttachmentsEntity[] | undefined {
         return this.props.attachments
     }
 
@@ -56,7 +57,7 @@ export namespace ChatDeliveryMessageEntity {
         authorId: string,
         chatId: string,
         content?: string,
-        attachments?: string[],
+        attachments?: ChatDeliveryMessageAttachmentsEntity[],
         dateTimeSent?: Date
     }
 
@@ -64,7 +65,7 @@ export namespace ChatDeliveryMessageEntity {
         authorId: string,
         chatId: string,
         content?: string,
-        attachments?: string[],
+        attachments?: ChatDeliveryMessageAttachmentsEntity[],
         dateTimeSent: Date
     }
 
