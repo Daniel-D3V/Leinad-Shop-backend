@@ -1,0 +1,1 @@
+export * from "./base-stock-item-validator.factory"
