@@ -1,6 +1,6 @@
 export class InvalidAttachmentsTypeError extends Error {
     constructor() {
-        super("An invalid content type was provided. Attachments type should be a string array")
+        super("Invalid attachment type. Should be an attachment")
         this.name = this.constructor.name
     }
 }

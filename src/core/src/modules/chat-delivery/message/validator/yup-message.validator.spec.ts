@@ -1,4 +1,16 @@
+import { ChatDeliveryMessageAttachmentsEntity } from "../../attachments/attachments.entity"
 import { YupMessageValidator } from "./yup-message.validator"
+
+const createAttachments = () => {
+    const attachments = ChatDeliveryMessageAttachmentsEntity.create({
+        attachment: "any_attachment",
+        type: "FILE"
+    })
+
+    if (attachments.isLeft()) throw attachments.value[0];
+
+    return attachments.value
+}
 
 describe('Test YubMessageValidator', () => {
     let yupMessageValidator: YupMessageValidator
@@ -9,9 +21,12 @@ describe('Test YubMessageValidator', () => {
     })
 
     beforeEach(() => {
+
+        const attachments = createAttachments();
+
         props = {
             content: "any_content",
-            attachments: ["any_attachment"]
+            attachments: [attachments]
         }
     })
 
@@ -49,9 +64,15 @@ describe('Test YubMessageValidator', () => {
         })
 
         it("should return InvalidAttachmentsMaxLengthError if a invalid attachments length is provided ", () => {
+            const attachments: ChatDeliveryMessageAttachmentsEntity[] = []
+
+            for (let i = 0; i < 6; i++) {
+                attachments.push(createAttachments())
+            }
+
             const output = yupMessageValidator.validate({
                 ...props,
-                attachments: "any,".repeat(6).split(",")
+                attachments: attachments
             })
 
             if (output.isRight()) throw new Error()
