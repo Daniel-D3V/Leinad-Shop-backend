@@ -1,6 +1,6 @@
 import { Controller, Injectable, OnModuleInit } from "@nestjs/common";
 import { RabbitMQService } from "src/services/rabbitmq/rabbitmq.service";
-import { CreateProductStockNormalUsecaseFactory } from "@core/domain/dist/src/modules/product-stock/factories"
+// import { CreateProductStockNormalUsecaseFactory } from "@core/domain/dist/src/modules/product-stock/factories"
 import { Message } from "amqplib";
 import { RemoveOutboxFactory } from "@core/domain/dist/src/modules/event-sourcing-management/factories";
 
@@ -22,20 +22,20 @@ export class ProductStockNormalConsumerService  implements OnModuleInit{
   
   async CreateNormalStockPersistenceConsumer(message: Message) {
 
-    const data = JSON.parse(message.content.toString())
-    const persistEventUsecase = CreateProductStockNormalUsecaseFactory.create({
-        consumerName: 'create-normal-stock-persistence-consumer',
-        eventId: data.id
-    });
-    const persistOutput = await persistEventUsecase.execute({
-      productStockId: data.payload.id
-    })
-    if(persistOutput.isLeft()) {
-      if(persistOutput.value[0].name !== "ConsumptionAlreadyRegisteredError"){
-        throw persistOutput.value[0]
-      }
-      return
-    }
+    // const data = JSON.parse(message.content.toString())
+    // const persistEventUsecase = CreateProductStockNormalUsecaseFactory.create({
+    //     consumerName: 'create-normal-stock-persistence-consumer',
+    //     eventId: data.id
+    // });
+    // const persistOutput = await persistEventUsecase.execute({
+    //   productStockId: data.payload.id
+    // })
+    // if(persistOutput.isLeft()) {
+    //   if(persistOutput.value[0].name !== "ConsumptionAlreadyRegisteredError"){
+    //     throw persistOutput.value[0]
+    //   }
+    //   return
+    // }
   }
   
 }

@@ -1,14 +1,14 @@
 
 import { PlaceOrderUsecase } from "./place-order.usecase"
 import { mock } from "jest-mock-extended"
-import { CreateOrderItemsFromDtoUsecase } from "./helpers"
+import { CreateOrderItemsFromPropsUsecase } from "./create-order-items-from-props/create-order-items-from-props.usecase"
 import { EventEmitterInterface } from "@/modules/@shared/events"
 import { OrderRepositoryInterface } from "../../../domain/repositories"
 import { OrderPlacedEvent } from "./order-placed.event"
 import { OrderEntity } from "../../../domain/entities"
 import { PlaceOrderUsecaseInterface } from "../../../domain/usecases"
 
-jest.mock("./helpers")
+jest.mock("./create-order-items-from-props/create-order-items-from-props.usecase")
 jest.mock("./order-placed.event")
 jest.mock( "../../../domain/entities")
 
@@ -21,7 +21,7 @@ describe("Test PlaceOrder", () => {
 
     beforeEach(() => {
         
-        jest.spyOn(CreateOrderItemsFromDtoUsecase.prototype, "execute").mockResolvedValue({
+        jest.spyOn(CreateOrderItemsFromPropsUsecase.prototype, "execute").mockResolvedValue({
             isLeft: () => false,
         } as any)
 
@@ -49,9 +49,9 @@ describe("Test PlaceOrder", () => {
         expect(result.isRight()).toBeTruthy()
     })
 
-    it("Should return an error if CreateOrderItemsFromDtoUsecase returns an error ", async () => {
+    it("Should return an error if CreateOrderItemsFromPropsUsecase returns an error ", async () => {
         const usecaseError = new Error("any_error")
-        jest.spyOn(CreateOrderItemsFromDtoUsecase.prototype, "execute").mockResolvedValue({
+        jest.spyOn(CreateOrderItemsFromPropsUsecase.prototype, "execute").mockResolvedValue({
             isLeft: () => true,
             value: [ usecaseError ]
         } as any)
