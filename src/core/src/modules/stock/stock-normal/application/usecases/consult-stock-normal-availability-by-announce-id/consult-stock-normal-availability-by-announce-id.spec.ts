@@ -1,14 +1,14 @@
 import { mock } from "jest-mock-extended"
 import { StockNormalRepositoryInterface } from "../../../domain/repositories"
-import { ConsultStockAvailabilityByAnnounceIdUsecaseInterface } from "../../../domain/usecases"
-import { ConsultStockAvailabilityByAnnounceIdUsecase } from "./consult-stock-availability-by-announce-id.usecase"
+import { ConsultStockNormalAvailabilityByAnnounceIdUsecaseInterface } from "../../../domain/usecases"
+import { ConsultStockNormalAvailabilityByAnnounceIdUsecase } from "./consult-stock-normal-availability-by-announce-id.usecase"
 import { StockNormalEntity } from "../../../domain/entities"
 
 
 describe('Test ConsultStockAvailabilityByAnnounceIdUsecase', () => { 
 
-    let sut: ConsultStockAvailabilityByAnnounceIdUsecase
-    let props: ConsultStockAvailabilityByAnnounceIdUsecaseInterface.InputDto
+    let sut: ConsultStockNormalAvailabilityByAnnounceIdUsecase
+    let props: ConsultStockNormalAvailabilityByAnnounceIdUsecaseInterface.InputDto
     let stockNormalRepository: StockNormalRepositoryInterface
     let stockNormalEntity: StockNormalEntity
 
@@ -20,7 +20,7 @@ describe('Test ConsultStockAvailabilityByAnnounceIdUsecase', () => {
         stockNormalRepository = mock<StockNormalRepositoryInterface>({
             findByAnnounceId: async () => stockNormalEntity
         })
-        sut = new ConsultStockAvailabilityByAnnounceIdUsecase(stockNormalRepository)
+        sut = new ConsultStockNormalAvailabilityByAnnounceIdUsecase(stockNormalRepository)
     })
 
     it("Should execute the usecase properly",async () => {

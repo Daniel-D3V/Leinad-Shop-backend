@@ -1,14 +1,14 @@
-import { ConsultStockAvailabilityByAnnounceIdUsecaseInterface } from "../../domain/usecases";
+import { ConsultStockNormalAvailabilityByAnnounceIdUsecaseInterface } from "../../domain/usecases";
 import { StockNormalFacadeInterface } from "../../facades/stock-normal.facade.interface";
 
 export class StockNormalFacadeImp implements StockNormalFacadeInterface {
 
     constructor(
-        private readonly consultStockAvailabilityByAnnounceIdUsecase: ConsultStockAvailabilityByAnnounceIdUsecaseInterface
+        private readonly consultStockNormalAvailabilityByAnnounceIdUsecase: ConsultStockNormalAvailabilityByAnnounceIdUsecaseInterface
     ){}
 
     async consultStock(announceId: string): Promise<number> {
-        const result = await this.consultStockAvailabilityByAnnounceIdUsecase.execute({
+        const result = await this.consultStockNormalAvailabilityByAnnounceIdUsecase.execute({
             announceId
         })
         if(result.isLeft()) return 0
