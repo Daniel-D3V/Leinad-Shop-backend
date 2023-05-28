@@ -33,12 +33,12 @@ describe("Test CheckStockFromUserUsecase", () => {
         expect(output.isRight()).toBe(true)
     })
 
-    it("Should return ProductStockNotFoundError if productStock not found", async () => {
+    it("Should return StockManagementNotFoundError if Stock not found", async () => {
         jest.spyOn(stockManagementRepository, 'findById').mockResolvedValueOnce(null)
         const output = await sut.execute(props)
         if (output.isRight()) throw new Error('This test should return an error')
         expect(output.isLeft()).toBe(true)
-        expect(output.value[0].name).toBe("ProductStockNotFoundError")
+        expect(output.value[0].name).toBe("StockManagementNotFoundError")
     })
 
     it("Should call GetUserIdByAnnounceIdFacadeFactory.create once", async () => {

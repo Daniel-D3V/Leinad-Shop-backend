@@ -39,20 +39,20 @@ describe("Test ChangeProductStockTypeToAutoUsecaseInterface", () => {
         expect(output.isRight()).toBeTruthy()
     })
 
-    it("Should return ProductStockNotFoundError if product stock does not exists", async () => {
+    it("Should return StockManagementNotFoundError if product stock does not exists", async () => {
         jest.spyOn(stockManagementRepository, "findById").mockResolvedValueOnce(null)
         const output = await sut.execute(props)
         if (output.isRight()) throw new Error("Should not be right")
         expect(output.isLeft()).toBeTruthy()
-        expect(output.value[0].name).toBe("ProductStockNotFoundError")
+        expect(output.value[0].name).toBe("StockManagementNotFoundError")
     })
 
-    it("Should return ProductStockAlreadyIsAutoError if product stock is already auto", async () => {
+    it("Should return StockManagementAlreadyIsAutoError if product stock is already auto", async () => {
         jest.spyOn(stockManagementEntity, "isStockAuto").mockReturnValueOnce(true)
         const output = await sut.execute(props)
         if (output.isRight()) throw new Error("Should not be right")
         expect(output.isLeft()).toBeTruthy()
-        expect(output.value[0].name).toBe("ProductStockAlreadyIsAutoError")
+        expect(output.value[0].name).toBe("StockManagementAlreadyIsAutoError")
     })
 
     it("Should call toStockAuto from stockManagementEntity", async () => {

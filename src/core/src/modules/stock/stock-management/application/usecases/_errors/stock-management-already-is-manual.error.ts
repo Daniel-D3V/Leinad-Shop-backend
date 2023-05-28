@@ -1,6 +1,6 @@
-export class ProductStockAlreadyIsManualError extends Error {
+export class StockManagementAlreadyIsManualError extends Error {
     constructor(){
-        super(`Product stock already is auto.`)
+        super(`Stock management already is auto.`)
         this.name = this.constructor.name
     }
 }

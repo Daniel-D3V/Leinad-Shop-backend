@@ -40,20 +40,20 @@ describe("Test ChangeStockTypeToNormalUsecase", () => {
         expect(output.isRight()).toBeTruthy()
     })
 
-    it("Should return ProductStockNotFoundError if product stock does not exists", async () => {
+    it("Should return StockManagementNotFoundError if stock does not exists", async () => {
         jest.spyOn(stockManagementRepository, "findById").mockResolvedValueOnce(null)
         const output = await sut.execute(props)
         if (output.isRight()) throw new Error("Should not be right")
         expect(output.isLeft()).toBeTruthy()
-        expect(output.value[0].name).toBe("ProductStockNotFoundError")
+        expect(output.value[0].name).toBe("StockManagementNotFoundError")
     })
 
-    it("Should return ProductStockAlreadyIsManualError if product stock is already auto", async () => {
+    it("Should return StockManagementAlreadyIsManualError if product stock is already auto", async () => {
         jest.spyOn(stockManagementEntity, "isStockNormal").mockReturnValueOnce(true)
         const output = await sut.execute(props)
         if (output.isRight()) throw new Error("Should not be right")
         expect(output.isLeft()).toBeTruthy()
-        expect(output.value[0].name).toBe("ProductStockAlreadyIsManualError")
+        expect(output.value[0].name).toBe("StockManagementAlreadyIsManualError")
     })
 
     it("Should call toStockAuto from productStockEntity", async () => {

@@ -1,6 +1,6 @@
-export class ProductStockAutoNotFoundError extends Error {
+export class StockManagementAutoNotFoundError extends Error {
     constructor(){
-        super(`Product stock auto could not be found.`)
+        super(`Stock management stock auto could not be found.`)
         this.name = this.constructor.name
     }
 }

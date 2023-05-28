@@ -1,6 +1,6 @@
-export class ProductStockNotFoundError extends Error {
+export class StockManagementNotFoundError extends Error {
     constructor(){
-        super(`Product stock could not be found.`)
+        super(`Stock management could not be found.`)
         this.name = this.constructor.name
     }
 }

@@ -1,6 +1,6 @@
-export class ProductStockAlreadyIsItemError extends Error {
+export class StockManagementAlreadyIsItemError extends Error {
     constructor(){
-        super(`Product stock already is item.`)
+        super(`Stock management already is item.`)
         this.name = this.constructor.name
     }
 }

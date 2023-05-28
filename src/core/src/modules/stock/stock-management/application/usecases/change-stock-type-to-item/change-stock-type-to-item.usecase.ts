@@ -1,6 +1,6 @@
 import { left, right } from "@/modules/@shared/logic";
 import {  ChangeStockTypeToAutoUsecaseInterface} from "@/modules/stock/stock-management/domain/usecases";
-import { ProductStockAlreadyIsAutoError, ProductStockAlreadyIsItemError, ProductStockNotFoundError } from "../_errors";
+import {  StockManagementAlreadyIsItemError, StockManagementNotFoundError } from "../_errors";
 import { EventEmitterInterface } from "@/modules/@shared/events";
 import { StockTypeChangedToItemEvent } from "./stock-type-changed-to-item.event";
 import { StockManagementRepositoryInterface } from "../../../domain/repositories/stock-management.repository";
@@ -15,9 +15,9 @@ export class ChangeStockTypeToItemUsecase implements ChangeStockTypeToAutoUsecas
     async execute({ stockManagementId }: ChangeStockTypeToAutoUsecaseInterface.InputDto): Promise<ChangeStockTypeToAutoUsecaseInterface.OutputDto> {
 
         const stockManagementEntity = await this.stockManagementRepository.findById(stockManagementId)
-        if (!stockManagementEntity) return left([new ProductStockNotFoundError()])
+        if (!stockManagementEntity) return left([new StockManagementNotFoundError()])
 
-        if (stockManagementEntity.isStockItem()) return left([new ProductStockAlreadyIsItemError()])
+        if (stockManagementEntity.isStockItem()) return left([new StockManagementAlreadyIsItemError()])
 
         stockManagementEntity.toStockItem()
 
