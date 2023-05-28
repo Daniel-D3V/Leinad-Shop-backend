@@ -37,6 +37,14 @@ export class StockItemEntity extends BaseStockItemEntity<StockItemEntity.Props> 
         this.props.stockItemType = "AUTO"
     }
 
+    isStockTypeNormal(): boolean {
+        return this.props.stockItemType === "NORMAL"
+    }
+
+    isStockTypeAuto(): boolean {
+        return this.props.stockItemType === "AUTO"
+    }
+
     changePrice(price: number): Either<Error[], number> {
         const validationResult = StockItemEntity.validateProps({ 
             ...this.props, 
