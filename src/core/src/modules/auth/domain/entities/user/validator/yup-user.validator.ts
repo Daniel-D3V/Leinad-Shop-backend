@@ -2,6 +2,7 @@ import { DomainValidator, YupErrorAdapter, YupValidatorProvider } from "@/module
 import { Either, left, right } from "@/modules/@shared/logic";
 import * as yup from 'yup';
 import { EmailNotProvidedError, InvalidEmailFormatError, InvalidEmailLengthError, InvalidEmailTypeError, InvalidPasswordFormatError, InvalidPasswordLengthError, InvalidPasswordTypeError, InvalidUsernameLengthError, InvalidUsernameTypeError, PasswordNotProvidedError, UsernameNotProvidedError } from "../errors";
+
 export class YupUserValidator extends YupValidatorProvider implements DomainValidator<YupUserValidator.ValidateFields>{
 
     schema = yup.object({

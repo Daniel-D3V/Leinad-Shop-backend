@@ -8,6 +8,9 @@ import { PlaceOrderUsecaseInterface } from "@/modules/checkout/order/domain/usec
 import { NoProductsProvidedError } from "./errors";
 
 export class CreateOrderItemsFromDtoUsecase implements UsecaseInterface {
+    
+    constructor(){}
+
     async execute(products: PlaceOrderUsecaseInterface.InputDto["products"]): Promise<Either<Error[], OrderItemEntity[]>> {
 
         if (products.length === 0) return left([new NoProductsProvidedError()])

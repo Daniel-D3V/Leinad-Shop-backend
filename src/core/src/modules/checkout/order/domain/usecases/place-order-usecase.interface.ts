@@ -10,6 +10,7 @@ export namespace PlaceOrderUsecaseInterface {
         customerId: string
         products: {
             id: string
+            itemId?: string
             quantity: number
         }[]
     }
