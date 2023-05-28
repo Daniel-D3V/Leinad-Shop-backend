@@ -1,1 +1,1 @@
-export * from "./stock-normal.facade.interface.interface"
+export * from "./stock-normal.facade.interface"

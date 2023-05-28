@@ -41,11 +41,11 @@ model Announce {
 }
 
 model StockNormal {
-      id String @id
-      stock Int @default(0)
-      announceId String @unique()
-    
-      @@map("product_stock_normal")
+  id String @id
+  stock Int @default(0)
+  announceId String @unique()
+
+  @@map("product_stock_normal")
 }
 
 model StockAuto {
