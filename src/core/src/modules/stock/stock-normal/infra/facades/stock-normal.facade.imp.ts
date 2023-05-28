@@ -7,7 +7,7 @@ export class StockNormalFacadeImp implements StockNormalFacadeInterface {
         private readonly consultStockNormalAvailabilityByAnnounceIdUsecase: ConsultStockNormalAvailabilityByAnnounceIdUsecaseInterface
     ){}
 
-    async consultStock(announceId: string): Promise<number> {
+    async consultStockByAnnounceId(announceId: string): Promise<number> {
         const result = await this.consultStockNormalAvailabilityByAnnounceIdUsecase.execute({
             announceId
         })

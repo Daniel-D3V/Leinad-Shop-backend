@@ -1,3 +1,3 @@
 export interface StockNormalFacadeInterface {
-    consultStock(announceId: string): Promise<number> 
+    consultStockByAnnounceId(announceId: string): Promise<number> 
 }
