@@ -5,16 +5,16 @@ import { EventEmitterInterface } from "@/modules/@shared/events";
 import { StockTypeChangedToItemEvent } from "./stock-type-changed-to-item.event";
 import { StockManagementRepositoryInterface } from "../../../domain/repositories/stock-management.repository";
 
-export class ChangeStockTypeToAutoUsecase implements ChangeStockTypeToAutoUsecaseInterface {
+export class ChangeStockTypeToItemUsecase implements ChangeStockTypeToAutoUsecaseInterface {
 
     constructor(
         private readonly stockManagementRepository: StockManagementRepositoryInterface,
         private readonly eventEmitter: EventEmitterInterface
     ) { }
 
-    async execute({ stockAutoId }: ChangeStockTypeToAutoUsecaseInterface.InputDto): Promise<ChangeStockTypeToAutoUsecaseInterface.OutputDto> {
+    async execute({ stockManagementId }: ChangeStockTypeToAutoUsecaseInterface.InputDto): Promise<ChangeStockTypeToAutoUsecaseInterface.OutputDto> {
 
-        const stockManagementEntity = await this.stockManagementRepository.findById(stockAutoId)
+        const stockManagementEntity = await this.stockManagementRepository.findById(stockManagementId)
         if (!stockManagementEntity) return left([new ProductStockNotFoundError()])
 
         if (stockManagementEntity.isStockItem()) return left([new ProductStockAlreadyIsItemError()])

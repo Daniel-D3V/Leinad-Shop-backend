@@ -20,11 +20,11 @@ describe("Test ChangeProductStockTypeToAutoUsecaseInterface", () => {
     beforeEach(() => {
 
         props = {
-            stockAutoId: "any_product_stock_id"
+            stockManagementId: "any_stock_management_id"
         }
         eventEmitter = mock<EventEmitterInterface>()
         stockManagementEntity = mock<StockManagementEntity>({
-            id: props.stockAutoId,
+            id: props.stockManagementId,
             isStockAuto: () => false,
         })
         stockManagementRepository = mock<StockManagementRepositoryInterface>({
@@ -73,7 +73,7 @@ describe("Test ChangeProductStockTypeToAutoUsecaseInterface", () => {
     it("Should create StockTypeChangedToAutoEvent with correct values", async () => {
         await sut.execute(props)
         expect(StockTypeChangedToAutoEvent).toBeCalledWith({
-            id: props.stockAutoId
+            id: props.stockManagementId
         })
     })
 
