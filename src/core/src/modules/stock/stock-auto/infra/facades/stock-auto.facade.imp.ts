@@ -1,11 +1,18 @@
+import { ConsultStockAutoAvailabilityUsecaseInterface } from "../../domain/usecases";
 import { StockAutoFacadeInterface } from "../../facades";
 
 export class StockAutoFacadeImp implements StockAutoFacadeInterface {
     
-    async consultStockByAnnounceId(announceId: string): Promise<number> {
-        
+    constructor(
+        private readonly consultStockAutoAvailabilityUsecase: ConsultStockAutoAvailabilityUsecaseInterface
+    ){}
 
-        return 0
+    async consultStockByAnnounceId(announceId: string): Promise<number> {
+        const consultResult = await this.consultStockAutoAvailabilityUsecase.execute({
+            announceId
+        })
+        if(consultResult.isLeft()) return 0
+        return consultResult.value
     }
 
 
