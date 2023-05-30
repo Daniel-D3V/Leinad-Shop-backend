@@ -16,20 +16,20 @@ export class ChangeStockItemTitleUsecase implements ChangeStockItemTitleUsecaseI
 
     async execute({ stockItemId, title }: ChangeStockItemTitleUsecaseInterface.InputDto): Promise<ChangeStockItemTitleUsecaseInterface.OutputDto> {
         
-        const stockItemEntity = await this.stockItemRepository.findById(stockItemId)
-        if(!stockItemEntity) return left([ new StockItemNotFoundError() ])
+        // const stockItemEntity = await this.stockItemRepository.findById(stockItemId)
+        // if(!stockItemEntity) return left([ new StockItemNotFoundError() ])
 
-        const changeResult = stockItemEntity.changeTitle(title)
-        if(changeResult.isLeft()) return left(changeResult.value)
+        // const changeResult = stockItemEntity.changeTitle(title)
+        // if(changeResult.isLeft()) return left(changeResult.value)
 
-        await this.stockItemRepository.update(stockItemEntity)
+        // await this.stockItemRepository.update(stockItemEntity)
 
-        const stockItemTitleChangedEvent = new StockItemTitleChangedEvent({
-            stockItemId: stockItemEntity.id,
-            title: stockItemEntity.title
-        })
+        // const stockItemTitleChangedEvent = new StockItemTitleChangedEvent({
+        //     stockItemId: stockItemEntity.id,
+        //     title: stockItemEntity.title
+        // })
 
-        await this.eventEmitter.emit(stockItemTitleChangedEvent)
+        // await this.eventEmitter.emit(stockItemTitleChangedEvent)
 
         return right(null)
     }

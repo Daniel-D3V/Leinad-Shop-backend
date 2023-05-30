@@ -107,10 +107,8 @@ model OrderItems {
 
 model StockItem {
   id String @id @default(uuid())
-  title String
-  price Float
   stockItemType String
-  announceId String 
+  announceItemId String @unique()
 
   @@map("stock_items") 
 }

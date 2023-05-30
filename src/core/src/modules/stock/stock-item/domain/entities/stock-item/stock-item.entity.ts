@@ -9,9 +9,6 @@ export class StockItemEntity extends BaseStockItemEntity<StockItemEntity.Props> 
 
     static create(input: StockItemEntity.Input, id?: string): Either<Error[], StockItemEntity> {
 
-        const validationResult = StockItemEntity.validateProps({ ...input })
-        if(validationResult.isLeft()) return left(validationResult.value)
-
         const stockItemEntity = new StockItemEntity({
             ...input,
             stockItemType: "NORMAL"
@@ -22,9 +19,7 @@ export class StockItemEntity extends BaseStockItemEntity<StockItemEntity.Props> 
     toJSON(): StockItemEntity.PropsJSON {
         return {
             id: this.id,
-            price: this.price,
-            title: this.title,
-            announceId: this.announceId,
+            announceItemId: this.announceItemId,
             stockItemType: this.stockItemType,
         }
     }
@@ -45,28 +40,8 @@ export class StockItemEntity extends BaseStockItemEntity<StockItemEntity.Props> 
         return this.props.stockItemType === "AUTO"
     }
 
-    changePrice(price: number): Either<Error[], number> {
-        const validationResult = StockItemEntity.validateProps({ 
-            ...this.props, 
-            price 
-        })
-        if(validationResult.isLeft()) return left(validationResult.value)
-        this.props.price = price
-        return right(price)
-    }
-
-    changeTitle(newTitle: string): Either<Error[], string> {
-        const validationResult = StockItemEntity.validateProps({ 
-            ...this.props, 
-            title: newTitle
-        })
-        if(validationResult.isLeft()) return left(validationResult.value)
-        this.props.title = newTitle
-        return right(newTitle)
-    }
-
-    get announceId(): string {
-        return this.props.announceId
+    get announceItemId(): string {
+        return this.props.announceItemId
     }
     get stockItemType(): StockItemEntity.StockItemType{
         return this.props.stockItemType
@@ -79,13 +54,11 @@ export namespace StockItemEntity {
     export type StockItemType = "NORMAL" | "AUTO"
 
     export type Input = {
-        announceId: string
-        title: string
-        price: number
+        announceItemId: string
     }
 
     export type Props = BaseStockItemEntity.Props & {
-        announceId: string
+        announceItemId: string
         stockItemType: StockItemType
     }
     

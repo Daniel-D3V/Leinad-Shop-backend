@@ -12,12 +12,11 @@ describe("Test PrismaStockItemRepository", () => {
     beforeEach(async () => {    
         stockItemEntity = mock<StockItemEntity>({
             id: "any_id",
+            announceItemId: "any_announce_id",
             toJSON: () => ({
                 id: "any_id",
-                price: 10,
-                title: "any_title",
                 stockItemType: "AUTO",
-                announceId: "any_announce_id"
+                announceItemId: "any_announce_id"
             })
         })
         sut = new PrismaStockItemRepository(prismaClient)
@@ -40,13 +39,17 @@ describe("Test PrismaStockItemRepository", () => {
 
     it("Should update a stockItem in database", async () => {
         await sut.create(stockItemEntity)
-        stockItemEntity.changePrice(20)
         stockItemEntity.changeToTypeNormal()
-        stockItemEntity.changeTitle("any_title_updated")
         await sut.update(stockItemEntity)
 
         const stockItemFound = await sut.findById(stockItemEntity.id)
         expect(stockItemFound?.toJSON()).toEqual(stockItemEntity.toJSON())
+    })
+
+    it("Should findByAnnounceItemId", async () => {
+        await sut.create(stockItemEntity)
+        const stockItem = await sut.findByAnnounceItemId(stockItemEntity.announceItemId)
+        expect(stockItem?.toJSON()).toEqual(stockItemEntity.toJSON())
     })
     
 })

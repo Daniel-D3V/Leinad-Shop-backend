@@ -12,7 +12,6 @@ export class StockItemCreatedEvent extends BaseEvent {
 export namespace StockItemCreatedEvent {
     export type Payload = {
         id: string
-        announceId: string
-        price: number
+        announceItemId: string
     }
 }

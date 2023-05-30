@@ -14,20 +14,20 @@ export class ChangeStockItemPriceUsecase implements ChangeStockItemPriceUsecaseI
 
     async execute({ price, stockItemId }: ChangeStockItemPriceUsecaseInterface.InputDto): Promise<ChangeStockItemPriceUsecaseInterface.OutputDto> {
         
-        const stockItemEntity = await this.stockItemRepository.findById(stockItemId)
-        if(!stockItemEntity) return left([ new StockItemNotFoundError() ])
+        // const stockItemEntity = await this.stockItemRepository.findById(stockItemId)
+        // if(!stockItemEntity) return left([ new StockItemNotFoundError() ])
 
-        const changeResult = stockItemEntity.changePrice(price)
-        if(changeResult.isLeft()) return left(changeResult.value)
+        // const changeResult = stockItemEntity.changePrice(price)
+        // if(changeResult.isLeft()) return left(changeResult.value)
 
-        await this.stockItemRepository.update(stockItemEntity)
+        // await this.stockItemRepository.update(stockItemEntity)
 
-        const stockItemPriceChangedEvent = new StockItemPriceChangedEvent({
-            stockItemId: stockItemEntity.id,
-            price: stockItemEntity.price
-        })
+        // const stockItemPriceChangedEvent = new StockItemPriceChangedEvent({
+        //     stockItemId: stockItemEntity.id,
+        //     price: stockItemEntity.price
+        // })
 
-        await this.eventEmitter.emit(stockItemPriceChangedEvent)
+        // await this.eventEmitter.emit(stockItemPriceChangedEvent)
 
         return right(null)
     }
