@@ -40,6 +40,17 @@ model Announce {
   @@map("announces")
 }
 
+model AnnounceItem {
+
+  id String @id
+  title String
+  price Float 
+  announceId String
+
+  @@map("announce_item")
+}
+
+
 model StockNormal {
   id String @id
   stock Int @default(0)
@@ -120,6 +131,8 @@ model StockItemNormal {
 
   @@map("stock_item_normal") 
 }
+
+
 
 model StockItemAuto {
   id String @id @default(uuid())
