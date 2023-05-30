@@ -11,7 +11,7 @@ export class StockNormalConsumerService  implements OnModuleInit{
     ) {}
     
   async onModuleInit() {
-    const queue = 'create-stock-normal-queue';
+    const queue = 'initialize-stock-normal-queue';
     const exchangeName = 'AnnounceCreatedEventExchange'
     await this.rabbitmqService.assertExchange(exchangeName, "fanout", { durable: true, })
     await this.rabbitmqService.assertQueue(queue, { durable: true });
@@ -20,14 +20,15 @@ export class StockNormalConsumerService  implements OnModuleInit{
   }
   
   async initializeStockNormalPersistenceConsumer(message: Message) {
+    
+    const event = JSON.parse(message.content.toString())
 
-    const data = JSON.parse(message.content.toString())
     const initializeStockNormalUsecase = InitializeStockNormalUsecaseFactory.create({
         consumerName: 'initialize-stock-normal-persistence-consumer',
-        eventId: data.id
+        eventId: event.id
     });
     const persistOutput = await initializeStockNormalUsecase.execute({
-        announceId: data.id
+        announceId: event.payload.id
     })
     if(persistOutput.isLeft()) {
       if(persistOutput.value[0].name !== "ConsumptionAlreadyRegisteredError"){
