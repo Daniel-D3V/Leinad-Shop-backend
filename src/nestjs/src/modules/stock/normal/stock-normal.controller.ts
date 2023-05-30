@@ -5,7 +5,7 @@ import { ApplicationError } from "src/utils"
 import { CheckProductStockFromUserGuard } from '../guards';
 
 @Controller('product-stock-normal')
-export class ProductStockNormalController {
+export class StockNormalController {
 
   // @UseGuards(new CheckProductStockFromUserGuard())
   // @Patch("/update-stock/:productStockId")
