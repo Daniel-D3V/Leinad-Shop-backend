@@ -46,6 +46,7 @@ export class AnnounceEntity extends BaseEntity<AnnounceEntity.Props> {
         return right(this.price)
     }
 
+    
 
     activate(): void {
         this.props.status = "ACTIVE"
@@ -124,7 +125,6 @@ export namespace AnnounceEntity {
         description: string
         price: number
         status: Status
-
         categoryId: string
         userId: string
     }
