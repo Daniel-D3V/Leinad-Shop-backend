@@ -2,7 +2,6 @@ import { Body, Controller, Param, Patch, Post, Res, UseGuards } from '@nestjs/co
 import { UpdateStockNormalUsecaseFactory } from "@core/domain/dist/src/modules/stock/stock-normal/factories"
 import { Request, Response } from "express"
 import { ApplicationError } from "src/utils"
-import { CheckProductStockFromUserGuard } from '../guards';
 
 @Controller('stock-normal')
 export class StockNormalController {
