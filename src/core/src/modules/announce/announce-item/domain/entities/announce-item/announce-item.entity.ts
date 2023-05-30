@@ -1,6 +1,5 @@
 import { BaseEntity } from "@/modules/@shared/domain";
 import { Either, left, right } from "@/modules/@shared/logic";
-import { BaseStockItemEntity } from "@/modules/stock/_base";
 import { AnnounceItemValidatorFactory } from "./validator";
 
 export class AnnounceItemEntity extends BaseEntity<AnnounceItemEntity.Props> {
@@ -9,7 +8,7 @@ export class AnnounceItemEntity extends BaseEntity<AnnounceItemEntity.Props> {
         super(props, id)
     }
 
-    static validateProps(props: BaseStockItemEntity.Props): Either<Error[], null>{
+    static validateProps(props: AnnounceItemEntity.Input): Either<Error[], null>{
         const validator = AnnounceItemValidatorFactory.create()
         const validationResult = validator.validate({ ...props })
         if(validationResult.isLeft()) return left(validationResult.value)
