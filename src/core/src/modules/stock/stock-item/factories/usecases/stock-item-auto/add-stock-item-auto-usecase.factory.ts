@@ -1,9 +1,9 @@
 import { OutboxEmitter } from "@/modules/@shared/infra/providers";
 import { prismaClient } from "@/modules/@shared/infra/repository/prisma/client";
 import { PrismaClient } from "@prisma/client";
-import { AddStockItemAutoUsecaseInterface, ChangeStockItemTypeToAutoUsecaseInterface } from "../../../domain/usecases";
-import { PrismaStockItemAutoRepository, PrismaStockItemRepository } from "../../../infra/repositories";
-import { AddStockItemAutoUsecase, ChangeStockItemTypeToAutoUsecase} from "../../../application/usecases";
+import { AddStockItemAutoUsecaseInterface } from "../../../domain/usecases";
+import { PrismaStockItemAutoRepository } from "../../../infra/repositories";
+import { AddStockItemAutoUsecase} from "../../../application/usecases";
 
 export class AddStockItemUsecaseFactory {
 
