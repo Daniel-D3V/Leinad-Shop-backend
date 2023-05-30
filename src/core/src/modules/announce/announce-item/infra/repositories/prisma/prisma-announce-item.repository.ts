@@ -9,13 +9,29 @@ export class PrismaAnnounceItemRepository implements AnnounceItemRepositoryInter
     ){}
     
     async create(announceItem: AnnounceItemEntity): Promise<void> {
-        throw new Error("Method not implemented.");
+        await this.prismaClient.announceItem.create({
+            data: { ...announceItem.toJSON() }
+        })
     }
-    findById(id: string): Promise<AnnounceItemEntity | null> {
-        throw new Error("Method not implemented.");
+    async findById(id: string): Promise<AnnounceItemEntity | null> {
+        const prismaAnnounceItem = await this.prismaClient.announceItem.findFirst({
+            where: { id: id ?? "" }
+        }) 
+        if(!prismaAnnounceItem) return null;
+        const announceItemEntity = AnnounceItemEntity.create({  
+            ...prismaAnnounceItem,
+        }, prismaAnnounceItem.id);
+        if(announceItemEntity.isLeft()) throw announceItemEntity.value[0]
+        return announceItemEntity.value;
     }
-    update(announceItem: AnnounceItemEntity): Promise<void> {
-        throw new Error("Method not implemented.");
+    async update(announceItem: AnnounceItemEntity): Promise<void> {
+        const { announceId, id ,...props } = announceItem.toJSON()
+        await this.prismaClient.announceItem.updateMany({
+            where: { id: id ?? "" },
+            data: {
+                ...props
+            }
+        })
     }
 
 
