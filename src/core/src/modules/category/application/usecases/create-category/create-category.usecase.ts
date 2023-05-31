@@ -1,6 +1,6 @@
 import { UsecaseInterface } from "@/modules/@shared/domain";
 import { Either, left, right } from "@/modules/@shared/logic";
-import {  EventEmitterInterface } from "@/modules/@shared/events";
+import { EventEmitterInterface } from "@/modules/@shared/events";
 import { CategoryEntity } from "@/modules/category/domain/entities";
 import { CategoryRepositoryInterface } from "@/modules/category/domain/repositories";
 import { CategoryTitleInUseError } from "../_errors/category-title-in-use.error";
@@ -12,17 +12,17 @@ export class CreateCategoryUsecase implements UsecaseInterface {
     constructor(
         private readonly categoryRepository: CategoryRepositoryInterface,
         private readonly eventEmitter: EventEmitterInterface
-    ){}
+    ) { }
 
     async execute(input: CreateCategoryUsecaseInterface.InputDto): Promise<CreateCategoryUsecaseInterface.OutputDto> {
 
         const categoryEntityOrError = CategoryEntity.create({
             ...input,
         })
-        if(categoryEntityOrError.isLeft()) return left(categoryEntityOrError.value)
+        if (categoryEntityOrError.isLeft()) return left(categoryEntityOrError.value)
 
         const categoryFoundByTitle = await this.categoryRepository.findByTitle(input.title)
-        if(categoryFoundByTitle) return left([new CategoryTitleInUseError()])
+        if (categoryFoundByTitle) return left([new CategoryTitleInUseError()])
 
         await this.categoryRepository.create(categoryEntityOrError.value)
 
@@ -35,5 +35,5 @@ export class CreateCategoryUsecase implements UsecaseInterface {
             id: categoryEntityOrError.value.id
         })
     }
-    
+
 }

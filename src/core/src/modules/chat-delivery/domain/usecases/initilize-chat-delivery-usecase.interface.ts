@@ -1,14 +1,15 @@
 import { UsecaseInterface } from "@/modules/@shared/domain";
 import { Either } from "@/modules/@shared/logic";
 
-export interface ChatDeliveryUsecaseInterface extends UsecaseInterface {
-    execute(data: CreateCategoryUsecaseInterface.InputDto): Promise<CreateCategoryUsecaseInterface.OutputDto>;
+export interface InitializeChatDeliveryUsecaseInterface extends UsecaseInterface {
+    execute(data: InitializeChatDeliveryUsecaseInterface.InputDto): Promise<InitializeChatDeliveryUsecaseInterface.OutputDto>;
 }
 
-export namespace CreateCategoryUsecaseInterface {
+export namespace InitializeChatDeliveryUsecaseInterface {
     export type InputDto = {
-        title: string
-        description: string
+        salesmanId: string,
+        customerId: string,
+        orderId: string
     }
 
     export type OutputDto = Either<Error[], { id: string }>
