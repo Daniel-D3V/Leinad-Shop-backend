@@ -3,12 +3,13 @@ import { AuthMiddleware } from 'src/middlewares/auth/auth.middleware';
 import { RabbitMQService } from 'src/services/rabbitmq/rabbitmq.service';
 import { StockNormalController } from './normal/stock-normal.controller';
 import { StockNormalConsumerService } from './normal/stock-normal-consumer.service';
+import { StockManagementConsumerService } from './stock-management/stock-normal-consumer.service';
 
 @Module({
   controllers: [
       StockNormalController,
     ],
-  providers: [ StockNormalConsumerService, RabbitMQService ]
+  providers: [ StockNormalConsumerService,StockManagementConsumerService ,RabbitMQService ]
 })
 export class ProductStockModule implements NestModule {
 
