@@ -1,5 +1,5 @@
 import { left, right } from "@/modules/@shared/logic";
-import { StockManagementAlreadyIsManualError, StockManagementNotFoundError } from "../_errors";
+import { StockManagementAlreadyIsNormalError, StockManagementNotFoundError } from "../_errors";
 import { EventEmitterInterface } from "@/modules/@shared/events";
 import {  StockTypeChangedToNormalEvent } from "./stock-type-changed-to-normal.event";
 import { ChangeStockTypeToNormalUsecaseInterface } from "@/modules/stock/stock-management/domain/usecases"
@@ -17,7 +17,7 @@ export class ChangeStockTypeToNormalUsecase implements ChangeStockTypeToNormalUs
         const stockManagementEntity = await this.stockManagementRepository.findById(stockManagementId)
         if (!stockManagementEntity) return left([new StockManagementNotFoundError()])
 
-        if (stockManagementEntity.isStockNormal()) return left([new StockManagementAlreadyIsManualError()])
+        if (stockManagementEntity.isStockNormal()) return left([new StockManagementAlreadyIsNormalError()])
 
         stockManagementEntity.toStockNormal()
 
