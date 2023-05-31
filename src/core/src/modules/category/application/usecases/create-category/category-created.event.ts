@@ -4,7 +4,7 @@ export class CategoryCreatedEvent extends BaseEvent {
 
     constructor(
         readonly payload: CategoryCreatedEvent.Payload
-    ){
+    ) {
         super();
     }
 }

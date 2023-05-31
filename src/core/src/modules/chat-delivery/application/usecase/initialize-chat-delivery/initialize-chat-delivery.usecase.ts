@@ -14,7 +14,6 @@ export class InitializeChatDeliveryUsecase implements UsecaseInterface {
     ) { }
 
     async execute(input: InitializeChatDeliveryUsecaseInterface.InputDto): Promise<InitializeChatDeliveryUsecaseInterface.OutputDto> {
-
         const chatDeliveryEntityOrError = ChatDeliveryEntity.create({
             ...input,
         })

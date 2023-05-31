@@ -2,7 +2,7 @@ import { CategoryEntity } from "@/modules/category/domain/entities";
 import { CreateCategoryUsecase } from "./create-category.usecase";
 import { mock } from 'jest-mock-extended';
 import { CategoryRepositoryInterface } from "@/modules/category/domain/repositories";
-import {  EventEmitterInterface } from "@/modules/@shared/events";
+import { EventEmitterInterface } from "@/modules/@shared/events";
 import { CategoryCreatedEvent } from "./category-created.event";
 import { CreateCategoryUsecaseInterface } from "@/modules/category/domain/usecases";
 
@@ -43,10 +43,10 @@ describe("Test CreateCategoryUsecase", () => {
     it("Should return left if the categoryEntity is invalid", async () => {
         categoryEntity.create.mockReturnValueOnce({
             isLeft: () => true,
-            value: [ new Error("EntityError") ]
+            value: [new Error("EntityError")]
         } as any)
         const output = await sut.execute(props)
-        if(output.isRight()) throw new Error("usecase should not return right")
+        if (output.isRight()) throw new Error("usecase should not return right")
 
         expect(output.isLeft()).toBe(true)
         expect(output.value[0]).toEqual(new Error("EntityError"))
@@ -54,10 +54,10 @@ describe("Test CreateCategoryUsecase", () => {
 
     it("Should return CategoryTitleInUseError if categoryRepository finds a category using a title", async () => {
         const categoryRepositorySpy = jest.spyOn(categoryRepository, "findByTitle")
-        .mockReturnValueOnce(true as any)
+            .mockReturnValueOnce(true as any)
 
         const output = await sut.execute(props)
-        if(output.isRight()) throw new Error("usecase should not return right")
+        if (output.isRight()) throw new Error("usecase should not return right")
 
         expect(output.value[0].name).toBe("CategoryTitleInUseError")
         expect(categoryRepositorySpy).toHaveBeenCalledTimes(1)
@@ -76,7 +76,7 @@ describe("Test CreateCategoryUsecase", () => {
     })
 
     it("Should create CategoryCreatedEvent with correct values", async () => {
-        
+
         await sut.execute(props)
         expect(CategoryCreatedEvent).toHaveBeenCalledWith({ anyEntityToJSONValue: "any" })
     })
