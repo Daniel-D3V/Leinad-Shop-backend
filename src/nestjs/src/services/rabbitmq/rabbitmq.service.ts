@@ -47,6 +47,10 @@ export class RabbitMQService implements  OnApplicationShutdown  {
     await this.consume(queue, callback)
   }
 
+  static getContentFromMessage(message: Message): RabbitMQService.ContentType{
+    return JSON.parse(message.content.toString())
+  }
+
 }
 
 
@@ -57,4 +61,12 @@ export namespace RabbitMQService {
     } 
 
     export type ConsumerCallback = (message: Message) => Promise<void>
+
+    export type ContentType = {
+      id: string
+      eventName: string
+      schemaVersion: string
+      dateTimeOccurred: string
+      payload: any
+    }
 }

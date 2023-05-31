@@ -1,6 +1,6 @@
 import { Controller, Injectable, OnModuleInit } from "@nestjs/common";
 import { RabbitMQService } from "src/services/rabbitmq/rabbitmq.service";
-import { InitializeStockNormalUsecaseFactory } from "@core/domain/dist/src/modules/stock/stock-normal/factories"
+import { InitializeStockManagementFactory } from "@core/domain/dist/src/modules/stock/stock-management/factories"
 import { Message } from "amqplib";
 
 @Injectable()
@@ -14,14 +14,14 @@ export class StockManagementConsumerService  implements OnModuleInit{
     await this.rabbitmqService.setupConsumer({ 
         queue: 'initialize-stock-management-queue', 
         exchange: 'AnnounceCreatedEventExchange'
-    }, this.initializeStockNormalPersistenceConsumer)
+    }, this.initializeStockNormalConsumer)
   }
   
-  async initializeStockNormalPersistenceConsumer(message: Message) {
-    
-    const event = JSON.parse(message.content.toString())
-    console.log("its working", event)
-    
+  async initializeStockNormalConsumer(message: Message) {
+    const event = RabbitMQService.getContentFromMessage(message)
+    const usecase = InitializeStockManagementFactory.create()
+    const usecaseResult = await usecase.execute({ announceId: event.payload.id })
+    if(usecaseResult.isLeft()) return 
   }
-  
+
 }
