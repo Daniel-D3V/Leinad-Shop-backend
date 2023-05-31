@@ -5,7 +5,7 @@ import { AddStockItemAutoUsecaseInterface } from "../../../domain/usecases";
 import { PrismaStockItemAutoRepository } from "../../../infra/repositories";
 import { AddStockItemAutoUsecase} from "../../../application/usecases";
 
-export class AddStockItemUsecaseFactory {
+export class AddStockItemAutoUsecaseFactory {
 
     static create(): AddStockItemAutoUsecaseInterface {
         

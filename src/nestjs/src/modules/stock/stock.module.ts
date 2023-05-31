@@ -7,19 +7,26 @@ import { StockManagementConsumerService } from './stock-management/stock-managem
 import { StockManagementController } from "./stock-management/stock-management.controller"
 import { StockAutoController } from './auto/stock-auto.controller';
 import { StockItemConsumerService } from './item/stock-item-consumer.service';
+import { StockItemController } from './item/stock-item.controller';
+import { StockItemNormalConsumerService } from './item/stock-item-normal/stock-item-normal-consumer.service';
+import { StockItemNormalController } from './item/stock-item-normal/stock-item-normal.controller';
+import { StockItemAutoController } from './item/stock-item-auto/stock-item-auto.controller';
 
 @Module({
   controllers: [
       StockNormalController,
       StockAutoController,
       StockManagementController,
-      
+      StockItemController,
+      StockItemNormalController,
+      StockItemAutoController
     ],
   providers: [ 
     RabbitMQService, 
     StockNormalConsumerService, 
     StockManagementConsumerService, 
-    StockItemConsumerService
+    StockItemConsumerService,
+    StockItemNormalConsumerService
   ]
 })
 export class ProductStockModule implements NestModule {
