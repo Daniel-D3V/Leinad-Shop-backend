@@ -15,28 +15,6 @@ import { AnnounceItemController } from './announce-item/announce-item.controller
 export class AnnouncesModule implements NestModule {
 
   configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(AuthMiddleware)
-      .forRoutes(
-        {
-        path: "announces/*",
-        method: RequestMethod.ALL
-      },
-      {
-        path: "announces",
-        method: RequestMethod.ALL
-      }
-    )
-    .apply(CheckAnnounceFromUserMiddleware)
-    .forRoutes(
-      {
-      path: "announces/*/:announceId",
-      method: RequestMethod.ALL
-      },
-      {
-        path: "announces/:announceId",
-        method: RequestMethod.DELETE
-      }
-    )
+
   }
 }

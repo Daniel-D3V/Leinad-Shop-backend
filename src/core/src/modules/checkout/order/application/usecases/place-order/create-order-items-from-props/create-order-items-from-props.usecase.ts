@@ -5,6 +5,7 @@ import { InsufficientProductStockError, ProductNotFoundError, ProductOutOfStockE
 import { CheckAnnounceExistsFacadeFactory, GetAnnouncePriceFacadeFactory } from "@/modules/announce/announce-admin/factories";
 import { PlaceOrderUsecaseInterface } from "@/modules/checkout/order/domain/usecases";
 import { NoProductsProvidedError } from "./errors";
+import { StockManagementFacadeFactory } from "@/modules/stock/stock-management/factories";
 
 export class CreateOrderItemsFromPropsUsecase implements UsecaseInterface {
     
@@ -17,12 +18,19 @@ export class CreateOrderItemsFromPropsUsecase implements UsecaseInterface {
         const orderItems: OrderItemEntity[] = []
         for (const product of products) {
             // check if product exists
-            const productExistsResult = await this.checkAnnounceExists(product.id)
-            if (!productExistsResult) return left([new ProductNotFoundError()])
+            // const productExistsResult = await this.checkAnnounceExists(product.id)
+            // if (!productExistsResult) return left([new ProductNotFoundError()])
             // check if product has enough stock
             // const stockValidationResult = await this.validateStock(product.quantity, product.id)
             // if (stockValidationResult.isLeft()) return left(stockValidationResult.value)
             // get product price
+
+            const stockManagementFacade = StockManagementFacadeFactory.create()
+            const output = await stockManagementFacade.consultStock({
+                announceId: product.id,
+            })
+            console.log(output)
+
             const announcePrice = await this.getAnnouncePrice(product.id)
 
             const orderItemEntity = OrderItemEntity.create({
