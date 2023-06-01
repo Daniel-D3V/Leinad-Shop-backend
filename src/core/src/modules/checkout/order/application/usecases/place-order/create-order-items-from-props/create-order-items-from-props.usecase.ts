@@ -28,8 +28,9 @@ export class CreateOrderItemsFromPropsUsecase implements UsecaseInterface {
             const stockManagementFacade = StockManagementFacadeFactory.create()
             const output = await stockManagementFacade.consultStock({
                 announceId: product.id,
-            })
-            console.log(output)
+                itemId: product.itemId
+            })//
+            console.log(output,)
 
             const announcePrice = await this.getAnnouncePrice(product.id)
 

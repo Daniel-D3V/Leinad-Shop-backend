@@ -1,7 +1,7 @@
 import { left, right } from "@/modules/@shared/logic";
 import { StockItemRepositoryInterface } from "@/modules/stock/stock-item/domain/repositories";
 import { ChangeStockItemTypeToAutoUsecaseInterface } from "@/modules/stock/stock-item/domain/usecases";
-import { StockItemNotFoundError } from "../_errors";
+import { StockItemNotFoundError, StockItemTypeIsAlreadyAutoError } from "../_errors";
 import { EventEmitterInterface } from "@/modules/@shared/events";
 import { StockItemTypeChangedToAutoEvent } from "./stock-item-type-changed-to-auto.event";
 
@@ -16,6 +16,8 @@ export class ChangeStockItemTypeToAutoUsecase implements ChangeStockItemTypeToAu
         
         const stockItemEntity = await this.stockItemRepository.findById(stockItemId);
         if(!stockItemEntity) return left([ new StockItemNotFoundError() ])
+
+        if(stockItemEntity.isStockTypeAuto()) return left([ new StockItemTypeIsAlreadyAutoError() ])
 
         stockItemEntity.changeToTypeAuto();
 

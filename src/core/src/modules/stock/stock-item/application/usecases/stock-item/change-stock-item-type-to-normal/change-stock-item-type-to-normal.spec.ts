@@ -43,6 +43,13 @@ describe("Test ChangeStockItemTypeToAuto", () => {
         expect(output.value![0].name).toBe("StockItemNotFoundError")
     })
 
+    it("Should return StockItemTypeIsAlreadyNormalError if stock item type is already normal", async () => {
+        jest.spyOn(stockItemEntity, "isStockTypeNormal").mockReturnValueOnce(true)
+        const output = await sut.execute(props)
+        expect(output.isLeft()).toBeTruthy()
+        expect(output.value![0].name).toBe("StockItemTypeIsAlreadyNormalError")
+    })
+
     it("Should call changeToTypeNormal method from stock item entity", async () => {
         await sut.execute(props)
         expect(stockItemEntity.changeToTypeNormal).toHaveBeenCalledTimes(1)
