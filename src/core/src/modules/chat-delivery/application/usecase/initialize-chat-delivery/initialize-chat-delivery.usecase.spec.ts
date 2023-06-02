@@ -5,6 +5,8 @@ import { InitializeChatDeliveryUsecaseInterface } from "@/modules/chat-delivery/
 import { InitializeChatDeliveryUsecase } from "./initialize-chat-delivery.usecase";
 import { mock } from "jest-mock-extended";
 
+jest.mock("@/modules/chat-delivery/domain/entities")
+
 describe("Test InitializeChatDeliveryUsecase", () => {
 
     let props: InitializeChatDeliveryUsecaseInterface.InputDto;
