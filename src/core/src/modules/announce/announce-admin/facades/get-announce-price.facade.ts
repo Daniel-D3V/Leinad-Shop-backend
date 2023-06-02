@@ -1,3 +1,10 @@
 export interface GetAnnouncePriceFacadeInterface {
-    execute(announceId: string): Promise<number | undefined>
+    execute(input: GetAnnouncePriceFacadeInterface.Input): Promise<number | undefined>
+}
+
+export namespace GetAnnouncePriceFacadeInterface {
+    export type Input = {
+        announceId: string
+        announceItemId?: string
+    }
 }

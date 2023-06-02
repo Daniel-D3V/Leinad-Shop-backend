@@ -18,9 +18,6 @@ export class CreateOrderItemsFromPropsUsecase implements UsecaseInterface {
         const orderItems: OrderItemEntity[] = []
         for (const product of products) {
             // check if product exists
-            // const productExistsResult = await this.checkAnnounceExists(product.id)
-            // if (!productExistsResult) return left([new ProductNotFoundError()])
-            // check if product has enough stock
             // const stockValidationResult = await this.validateStock(product.quantity, product.id)
             // if (stockValidationResult.isLeft()) return left(stockValidationResult.value)
             // get product price
@@ -29,10 +26,11 @@ export class CreateOrderItemsFromPropsUsecase implements UsecaseInterface {
             const output = await stockManagementFacade.consultStock({
                 announceId: product.id,
                 itemId: product.itemId
-            })//
-            console.log(output,)
+            })
 
-            const announcePrice = await this.getAnnouncePrice(product.id)
+            const announcePrice = await this.getAnnouncePrice(product.id, product.itemId)
+
+            console.log(output, announcePrice)
 
             const orderItemEntity = OrderItemEntity.create({
                 productId: product.id,
@@ -56,14 +54,12 @@ export class CreateOrderItemsFromPropsUsecase implements UsecaseInterface {
     //     return right(null)
     // }
 
-    private async checkAnnounceExists(id: string): Promise<boolean> {
-        const checkAnnounceExistsFacade = CheckAnnounceExistsFacadeFactory.create()
-        return await checkAnnounceExistsFacade.execute(id)
-    }
-
-    private async getAnnouncePrice(id: string): Promise<number> {
+    private async getAnnouncePrice(announceId: string, announceItemId?: string): Promise<number> {
         const getAnnouncePriceFacade = GetAnnouncePriceFacadeFactory.create()
-        const announcePrice = await getAnnouncePriceFacade.execute(id)
+        const announcePrice = await getAnnouncePriceFacade.execute({
+            announceId,
+            announceItemId
+        })
         return announcePrice ?? 0
     }
 
