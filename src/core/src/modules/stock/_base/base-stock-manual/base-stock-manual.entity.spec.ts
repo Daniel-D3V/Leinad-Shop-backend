@@ -1,11 +1,11 @@
 import { mockDomainValidator } from "@/modules/@shared/tests"
 import { ProductStockNormalValidatorFactory } from "./validator"
 import { DomainValidator } from "@/modules/@shared/domain/validator"
-import { BaseStockNormalEntity } from "./base-stock-normal.entity"
+import { BaseStockManualEntity } from "./base-stock-manual.entity"
 
 jest.mock("./validator")
 
-class BaseStockNormalEntitySpy extends BaseStockNormalEntity<any> {
+class BaseStockNormalEntitySpy extends BaseStockManualEntity<any> {
     toJSON(): Record<string, unknown> {
         return {}
     }
@@ -13,12 +13,12 @@ class BaseStockNormalEntitySpy extends BaseStockNormalEntity<any> {
 
 describe("Test BaseStockNormalEntity", () => {
     
-    let sut: BaseStockNormalEntity<any>
-    let props: BaseStockNormalEntity.Input
+    let sut: BaseStockManualEntity<any>
+    let props: BaseStockManualEntity.Input
     let domainValidator: DomainValidator<any>
     let id: string
 
-    const makeSut = (props: BaseStockNormalEntity.Input): BaseStockNormalEntity<any> => {
+    const makeSut = (props: BaseStockManualEntity.Input): BaseStockManualEntity<any> => {
         const entity = new BaseStockNormalEntitySpy(props, id)
         return entity         
     }                                                                
@@ -35,7 +35,7 @@ describe("Test BaseStockNormalEntity", () => {
 
     it("Should create a BaseStockNormalEntity", () => {
         const sut = new BaseStockNormalEntitySpy(props, id)
-        expect(sut).toBeInstanceOf(BaseStockNormalEntity)
+        expect(sut).toBeInstanceOf(BaseStockManualEntity)
         expect(sut.id).toBe(id)
         expect(sut.getCurrentStock()).toBe(10)
     })
@@ -66,7 +66,7 @@ describe("Test BaseStockNormalEntity", () => {
     })
 
     it("Should call validateProps with correct values when updating the stock", () => {
-        const ProductStockNormalEntitySpy = jest.spyOn(BaseStockNormalEntity, "validateProps")
+        const ProductStockNormalEntitySpy = jest.spyOn(BaseStockManualEntity, "validateProps")
         sut.updateStock(20)
         expect(ProductStockNormalEntitySpy).toHaveBeenLastCalledWith({
             stock: 20
@@ -75,7 +75,7 @@ describe("Test BaseStockNormalEntity", () => {
 
     it("Should returns an error if an invalid stock is provided when updating the stock", () => {
         const validationStockError = new Error("validationStockError")
-        jest.spyOn(BaseStockNormalEntity, "validateProps")
+        jest.spyOn(BaseStockManualEntity, "validateProps")
         .mockReturnValueOnce({ isLeft: () => true, value: [ validationStockError ] } as any)
         const output = sut.updateStock(20)
         expect(output.value).toEqual([ validationStockError ])

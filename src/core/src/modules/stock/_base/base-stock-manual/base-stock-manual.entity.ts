@@ -2,13 +2,13 @@ import { BaseEntity } from "@/modules/@shared/domain"
 import { Either, left, right } from "@/modules/@shared/logic"
 import { ProductStockNormalValidatorFactory } from "./validator"
 
-export abstract class BaseStockNormalEntity<T> extends BaseEntity<BaseStockNormalEntity.Props & T> {
+export abstract class BaseStockManualEntity<T> extends BaseEntity<BaseStockManualEntity.Props & T> {
 
-    constructor(props: BaseStockNormalEntity.Props & T, id?: string){
+    constructor(props: BaseStockManualEntity.Props & T, id?: string){
         super(props, id)
     }
 
-    static validateProps(props: BaseStockNormalEntity.Input): Either<Error[], null>{
+    static validateProps(props: BaseStockManualEntity.Input): Either<Error[], null>{
         const validator = ProductStockNormalValidatorFactory.create()
         const validationResult = validator.validate({ ...props })
         if(validationResult.isLeft()) return left(validationResult.value)
@@ -27,7 +27,7 @@ export abstract class BaseStockNormalEntity<T> extends BaseEntity<BaseStockNorma
     // }
 
     updateStock(newStock: number): Either<Error[], number>{
-        const validationResult = BaseStockNormalEntity.validateProps({ stock: newStock })
+        const validationResult = BaseStockManualEntity.validateProps({ stock: newStock })
         if(validationResult.isLeft()) return left(validationResult.value)
         this.props.stock = newStock
         return right(newStock)
@@ -47,7 +47,7 @@ export abstract class BaseStockNormalEntity<T> extends BaseEntity<BaseStockNorma
 }
 
 
-export namespace BaseStockNormalEntity  {
+export namespace BaseStockManualEntity  {
     export type Input = {
         stock: number
     }
