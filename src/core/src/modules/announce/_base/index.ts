@@ -1,0 +1,1 @@
+export * from "./base-announce/base-announce.entity"
