@@ -8,7 +8,9 @@ describe("Test AnnounceManagement", () => {
     let id: string
 
     beforeEach(() => {
-        props = {}
+        props = {
+            userId: "any_user_id"
+        }
         id = "any_id"
         sut = AnnounceManagementEntity.create(props, id).value as AnnounceManagementEntity
     })

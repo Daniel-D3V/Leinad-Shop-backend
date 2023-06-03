@@ -8,11 +8,12 @@ export class AnnounceManagementEntity extends BaseEntity<AnnounceManagementEntit
         super(props, id)
     }
 
-    static create({  }: AnnounceManagementEntity.Input, id?: string): Either<Error[], AnnounceManagementEntity> {
+    static create({ userId }: AnnounceManagementEntity.Input, id?: string): Either<Error[], AnnounceManagementEntity> {
 
         const announceManagementEntity = new AnnounceManagementEntity({
             status: "DEACTIVATED",
             announceType: "NORMAL",
+            userId
         }, id)
         return right(announceManagementEntity)
     }
@@ -54,6 +55,7 @@ export class AnnounceManagementEntity extends BaseEntity<AnnounceManagementEntit
             id: this.id,
             status: this.status,
             announceType: this.announceType,
+            userId: this.userId
         }
     }
     
@@ -62,6 +64,9 @@ export class AnnounceManagementEntity extends BaseEntity<AnnounceManagementEntit
     }
     get announceType(): AnnounceManagementEntity.AnnounceType {
         return this.props.announceType
+    }
+    get userId(): string {
+        return this.props.userId
     }
     
 }
@@ -72,9 +77,12 @@ export namespace AnnounceManagementEntity {
     export type AnnounceType = "NORMAL" | "ITEM"
     
 
-    export type Input = {}
+    export type Input = {
+        userId: string
+    }
 
     export type Props = {
+        userId: string
         status: Status
         announceType: AnnounceType
     }
