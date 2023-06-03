@@ -1,0 +1,1 @@
+export * from "./announce-management/announce-management.entity"
