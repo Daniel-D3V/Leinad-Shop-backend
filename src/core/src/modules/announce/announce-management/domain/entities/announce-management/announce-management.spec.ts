@@ -21,6 +21,7 @@ describe("Test AnnounceManagement", () => {
             id,
             status: "DEACTIVATED",
             announceType: "NORMAL",
+            ...props
         })
     })
 
