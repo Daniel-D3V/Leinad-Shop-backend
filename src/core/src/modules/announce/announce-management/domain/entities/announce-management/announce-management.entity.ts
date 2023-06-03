@@ -17,6 +17,38 @@ export class AnnounceManagementEntity extends BaseEntity<AnnounceManagementEntit
         return right(announceManagementEntity)
     }
 
+    
+
+    activate(): void {
+        this.props.status = "ACTIVATED"
+    }
+
+    ban(): void {
+        this.props.status = "BANNED"
+    }
+
+    deactivate(): void {
+        this.props.status = "DEACTIVATED"
+    }
+
+    isActivated(): boolean {
+        return this.props.status === "ACTIVATED"
+    }
+    isBanned(): boolean {
+        return this.props.status === "BANNED"
+    }
+    isDeactivated(): boolean {
+        return this.props.status === "DEACTIVATED"
+    }
+
+    changeTypeToItem(): void {
+        this.props.announceType = "ITEM"
+    }
+
+    changeTypeToNormal(): void {
+        this.props.announceType = "NORMAL"
+    }
+
     toJSON(): AnnounceManagementEntity.PropsJSON {
         return {
             id: this.id,
