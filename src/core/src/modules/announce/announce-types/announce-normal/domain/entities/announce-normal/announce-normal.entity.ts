@@ -7,13 +7,14 @@ export class AnnounceNormalEntity extends BaseAnnounceEntity<AnnounceNormalEntit
         super(props, id)
     }
 
-    static create({ price }: AnnounceNormalEntity.Input, id?: string): Either<Error[], AnnounceNormalEntity> {
+    static create({ price, announceId }: AnnounceNormalEntity.Input, id?: string): Either<Error[], AnnounceNormalEntity> {
         
         const validationResult = AnnounceNormalEntity.validateProps({ price })
         if(validationResult.isLeft()) return left(validationResult.value)
         
         const announceNormalEntity = new AnnounceNormalEntity({
-            price
+            price,
+            announceId
         }, id)
         return right(announceNormalEntity)
     }
@@ -21,8 +22,13 @@ export class AnnounceNormalEntity extends BaseAnnounceEntity<AnnounceNormalEntit
     toJSON(): AnnounceNormalEntity.PropsJSON {
         return {
             id: this.id,
-            price: this.getPrice()
+            price: this.getPrice(),
+            announceId: this.announceId
         }
+    }
+
+    get announceId(): string {
+        return this.props.announceId
     }
 
 }
@@ -31,7 +37,10 @@ export namespace AnnounceNormalEntity {
 
     export type Input = { 
         price: number
+        announceId: string
     }
-    export type Props = BaseAnnounceEntity.Props 
+    export type Props = BaseAnnounceEntity.Props & {
+        announceId: string
+    }
     export type PropsJSON = Props & { id: string }
 }
