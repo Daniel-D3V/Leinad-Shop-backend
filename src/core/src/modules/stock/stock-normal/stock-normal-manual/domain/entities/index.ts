@@ -1,0 +1,1 @@
+export * from "./stock-normal-manual/stock-normal-manual.entity"

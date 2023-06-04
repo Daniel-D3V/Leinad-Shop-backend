@@ -7,9 +7,9 @@ export interface CreateStockManualUsecaseInterface extends UsecaseInterface {
 
 export namespace CreateStockManualUsecaseInterface {
     export type InputDto = {
-        stockManagementId: string
+        stockNormalManagementId: string
         stock: number
     }
 
-    export type OutputDto = Either<Error[], null>
+    export type OutputDto = Either<Error[], { id: string }>
 }
