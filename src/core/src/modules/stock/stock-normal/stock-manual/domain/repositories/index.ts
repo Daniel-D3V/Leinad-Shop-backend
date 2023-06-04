@@ -1,1 +1,1 @@
-export * from "./stock-normal.repository"
+export * from "./stock-manual.repository"

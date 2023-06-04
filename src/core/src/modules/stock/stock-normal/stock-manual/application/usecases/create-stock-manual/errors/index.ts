@@ -1,0 +1,1 @@
+export * from "./stock-manual-already-created.error"

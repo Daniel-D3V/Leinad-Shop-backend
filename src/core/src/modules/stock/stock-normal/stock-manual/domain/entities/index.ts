@@ -1,1 +1,1 @@
-export * from "./stock-manual/stock-normal.entity"
+export * from "./stock-manual/stock-manual.entity"
