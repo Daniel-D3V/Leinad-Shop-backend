@@ -27,7 +27,6 @@ export class PrismaStockManagementRepository implements StockManagementRepositor
 
         if (prismaStockManagement.stockType === "AUTO") stockManagementEntity.toStockAuto()
         if (prismaStockManagement.stockType === "NORMAL") stockManagementEntity.toStockNormal()
-        if (prismaStockManagement.stockType === "ITEM") stockManagementEntity.toStockItem()
         return stockManagementEntity
     }
 
@@ -42,7 +41,6 @@ export class PrismaStockManagementRepository implements StockManagementRepositor
 
         if (prismaStockManagement.stockType === "AUTO") stockManagementEntity.toStockAuto()
         if (prismaStockManagement.stockType === "NORMAL") stockManagementEntity.toStockNormal()
-        if (prismaStockManagement.stockType === "ITEM") stockManagementEntity.toStockItem()
         return stockManagementEntity
     }
 

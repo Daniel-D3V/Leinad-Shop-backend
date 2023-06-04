@@ -7,7 +7,7 @@ export interface AddStockAutoUsecaseInterface extends UsecaseInterface {
 
 export namespace AddStockAutoUsecaseInterface {
     export type InputDto = {
-        announceId: string
+        stockManagementId: string
         value: string
     }
 

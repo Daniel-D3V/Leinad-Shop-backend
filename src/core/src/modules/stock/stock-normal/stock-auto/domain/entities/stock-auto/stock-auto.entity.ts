@@ -22,12 +22,12 @@ export class StockAutoEntity extends BaseStockAutoEntity<StockAutoEntity.Props> 
         return {
             id: this.id,
             value: this.getValue(),
-            announceId: this.announceId
+            stockManagementId: this.stockManagementId
         }
     }
 
-    get announceId(): string {
-        return this.props.announceId
+    get stockManagementId(): string {
+        return this.props.stockManagementId
     }
 
 }
@@ -36,11 +36,11 @@ export namespace StockAutoEntity {
 
     export type Input = {
         value: string
-        announceId: string
+        stockManagementId: string
     }
 
     export type Props = BaseStockAutoEntity.Props & {
-        announceId: string
+        stockManagementId: string
     }
     
     export type PropsJSON = Props & { id: string }

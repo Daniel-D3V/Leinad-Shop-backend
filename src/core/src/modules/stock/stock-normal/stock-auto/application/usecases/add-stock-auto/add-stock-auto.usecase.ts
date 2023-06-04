@@ -12,11 +12,11 @@ export class AddStockAutoUsecase implements AddStockAutoUsecaseInterface {
         private readonly eventEmitter: EventEmitterInterface
     ) { }
 
-    async execute({ value, announceId }: AddStockAutoUsecaseInterface.InputDto): Promise<AddStockAutoUsecaseInterface.OutputDto> {
+    async execute({ value, stockManagementId }: AddStockAutoUsecaseInterface.InputDto): Promise<AddStockAutoUsecaseInterface.OutputDto> {
 
         const stockAutoEntity = StockAutoEntity.create({
             value,
-            announceId
+            stockManagementId
         })
         if (stockAutoEntity.isLeft()) return left(stockAutoEntity.value)
 

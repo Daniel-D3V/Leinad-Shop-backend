@@ -20,19 +20,13 @@ export class StockManagementEntity extends BaseEntity<StockManagementEntity.Prop
     toStockAuto(){
         this.props.stockType = "AUTO"
     }
-    toStockItem(){
-        this.props.stockType = "ITEM"
-    }
-
     isStockNormal(): boolean {
         return this.props.stockType === "NORMAL"
     }
     isStockAuto(): boolean {
         return this.props.stockType === "AUTO"
     }
-    isStockItem(): boolean {
-        return this.props.stockType === "ITEM"
-    }
+
 
 
     toJSON(): StockManagementEntity.PropsJSON {
@@ -54,7 +48,7 @@ export class StockManagementEntity extends BaseEntity<StockManagementEntity.Prop
 
 export namespace StockManagementEntity {
 
-    export type StockType = "NORMAL" | "AUTO" | "ITEM"
+    export type StockType = "NORMAL" | "AUTO" 
 
     export type Input = {
         announceId: string

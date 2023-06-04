@@ -47,10 +47,5 @@ describe("Test StockManagementEntity", () => {
         expect(sut.isStockAuto()).toBe(true)
     })
 
-    it("Should check if stock is ITEM", () => {
-        sut.toStockItem()
-        expect(sut.stockType).toBe("ITEM")
-        expect(sut.isStockItem()).toBe(true)
-    })
 
 })

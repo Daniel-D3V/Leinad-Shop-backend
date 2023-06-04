@@ -51,21 +51,21 @@ model AnnounceItem {
 }
 
 
-model StockNormal {
+model StockManual {
   id String @id
   stock Int @default(0)
-  announceId String @unique()
+  stockManagementId String @unique()
 
-  @@map("product_stock_normal")
+  @@map("stock_manual")
 }
 
 model StockAuto {
   
     id String @id
     value String @default("")
-    announceId String 
+    stockManagementId String 
   
-    @@map("product_stock_auto")
+    @@map("stock_auto")
 }
 
 model StockManagement {

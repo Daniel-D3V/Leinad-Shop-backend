@@ -11,7 +11,7 @@ describe("Test StockAutoEntity", () => {
         id = "any_id"
         props = {
             value: "any_value",
-            announceId: "any_announce_id"
+            stockManagementId: "any_stock_management_id"
         }
         sut = StockAutoEntity.create(props, id).value as StockAutoEntity
     })
