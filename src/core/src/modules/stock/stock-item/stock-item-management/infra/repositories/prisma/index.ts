@@ -1,1 +1,1 @@
-export * from "./prisma-stock-item.repository"
+export * from "./prisma-stock-item-management.repository"

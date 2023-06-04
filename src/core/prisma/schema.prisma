@@ -116,7 +116,7 @@ model OrderItems {
   @@map("order_items") 
 }
 
-model StockItem {
+model StockItemManagement {
   id String @id @default(uuid())
   stockItemType String
   announceItemId String @unique()

@@ -1,20 +1,20 @@
-import { InitializeStockItemUsecaseInterface } from "@/modules/stock/stock-item/domain/usecases"
-import { StockItemRepositoryInterface } from "@/modules/stock/stock-item/domain/repositories"
 import { EventEmitterInterface } from "@/modules/@shared/events"
 import { mock } from "jest-mock-extended"
-import { StockItemEntity } from "@/modules/stock/stock-item/domain/entities"
-import { StockItemCreatedEvent } from "./stock-item-management-created.event"
-import { InitializeStockItemUsecase } from "./initialize-stock-item-usecase"
+import {  StockItemManagementCreatedEvent } from "./stock-item-management-created.event"
+import { CreateStockItemManagementUsecase } from "./create-stock-item-management-usecase"
+import { CreateStockItemManagementUsecaseInterface } from "../../../domain/usecases"
+import { StockItemManagementRepositoryInterface } from "../../../domain/repositories"
+import { StockItemManagementEntity } from "../../../domain/entities"
 
-jest.mock("./stock-item-created.event")
+jest.mock("./stock-item-management-created.event")
 
 describe("Test CreateStockItemUsecase", () => {
 
-    let sut: InitializeStockItemUsecase
-    let props: InitializeStockItemUsecaseInterface.InputDto
-    let stockItemRepository: StockItemRepositoryInterface
+    let sut: CreateStockItemManagementUsecase
+    let props: CreateStockItemManagementUsecaseInterface.InputDto
+    let stockItemManagementRepository: StockItemManagementRepositoryInterface
     let eventEmitter: EventEmitterInterface
-    let stockItemEntity: StockItemEntity
+    let stockItemManagementEntity: StockItemManagementEntity
 
     beforeEach(() => {
 
@@ -22,16 +22,14 @@ describe("Test CreateStockItemUsecase", () => {
             announceItemId: "any_announce_item_id",
 
         }
-        stockItemEntity = mock<StockItemEntity>({
-            id: "any_id",
-        } as any)
-        jest.spyOn(StockItemEntity, "create").mockReturnValue({
+        stockItemManagementEntity = mock<StockItemManagementEntity>()
+        jest.spyOn(StockItemManagementEntity, "create").mockReturnValue({
             isLeft: () => false,
-            value: stockItemEntity
+            value: stockItemManagementEntity
         } as any)
-        stockItemRepository = mock<StockItemRepositoryInterface>()
+        stockItemManagementRepository = mock<StockItemManagementRepositoryInterface>()
         eventEmitter = mock<EventEmitterInterface>()
-        sut = new InitializeStockItemUsecase(stockItemRepository, eventEmitter)
+        sut = new CreateStockItemManagementUsecase(stockItemManagementRepository, eventEmitter)
     })
 
     it("Should execute the usecase properly", async () => {    
@@ -39,9 +37,9 @@ describe("Test CreateStockItemUsecase", () => {
         expect(output.isRight()).toBeTruthy()
     })
 
-    it("Should return a left if StockItemEntity.create() returns a left", async () => {
+    it("Should return a left if stockItemManagementEntity.create() returns a left", async () => {
         const entityCreationError = new Error("any_error")
-        jest.spyOn(StockItemEntity, "create").mockReturnValueOnce({
+        jest.spyOn(StockItemManagementEntity, "create").mockReturnValueOnce({
             isLeft: () => true,
             value: [ entityCreationError ] 
         } as any)
@@ -49,17 +47,10 @@ describe("Test CreateStockItemUsecase", () => {
         expect(output.value).toEqual([ entityCreationError ])
     })
 
-    it("Should return StockItemAlreadyCreatedError if StockItemRepository.findByAnnounceItemId() returns a value", async () => {
-        
-        jest.spyOn(stockItemRepository, "findByAnnounceItemId").mockResolvedValueOnce(stockItemEntity)
-        const output = await sut.execute(props)
-        if(output.isRight()) return fail("Should return a left")
-        expect(output.value[0].name).toBe("StockItemAlreadyCreatedError")
-    })
 
-    it("Should call StockItemRepository.create() once", async () => {
+    it("Should call stockItemManagementRepository.create() once", async () => {
         await sut.execute(props)
-        expect(stockItemRepository.create).toHaveBeenCalledTimes(1)
+        expect(stockItemManagementRepository.create).toHaveBeenCalledTimes(1)
     })
 
     it("Should call eventEmitter once",async () => {
@@ -67,8 +58,8 @@ describe("Test CreateStockItemUsecase", () => {
         expect(eventEmitter.emit).toHaveBeenCalledTimes(1)
     })
 
-    it("Should create StockItemCreatedEvent with correct values", async () => {
+    it("Should create StockItemManagementCreatedEvent with correct values", async () => {
         await sut.execute(props)
-        expect(StockItemCreatedEvent).toHaveBeenCalledWith({ ...stockItemEntity.toJSON() })
+        expect(StockItemManagementCreatedEvent).toHaveBeenCalledWith({ ...stockItemManagementEntity.toJSON() })
     })
 })

@@ -1,13 +1,13 @@
 import { UsecaseInterface } from "@/modules/@shared/domain";
 import { Either } from "@/modules/@shared/logic";
 
-export interface ChangeStockItemTypeToNormalUsecaseInterface extends UsecaseInterface {
-    execute(input: ChangeStockItemTypeToNormalUsecaseInterface.InputDto): Promise<ChangeStockItemTypeToNormalUsecaseInterface.OutputDto>
+export interface ChangeStockItemManagementTypeToNormalUsecaseInterface extends UsecaseInterface {
+    execute(input: ChangeStockItemManagementTypeToNormalUsecaseInterface.InputDto): Promise<ChangeStockItemManagementTypeToNormalUsecaseInterface.OutputDto>
 }
 
-export namespace ChangeStockItemTypeToNormalUsecaseInterface {
+export namespace ChangeStockItemManagementTypeToNormalUsecaseInterface {
     export type InputDto = {
-        stockItemId: string
+        stockItemManagementId: string
     }
 
     export type OutputDto = Either<Error[], null>

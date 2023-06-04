@@ -1,10 +1,10 @@
-import { ConsultStockItemAvailabilityUsecaseInterface } from "../../domain/usecases";
+// import { ConsultStockItemAvailabilityUsecaseInterface } from "../../domain/usecases";
 import { StockItemFacadeInterface } from "../../facades";
 
 export class StockItemFacadeImp implements StockItemFacadeInterface {
     
     constructor(
-        private readonly consultStockItemAvailability: ConsultStockItemAvailabilityUsecaseInterface
+        private readonly consultStockItemAvailability: any
     ){}
     
     async consultStock(itemId: string): Promise<number> {

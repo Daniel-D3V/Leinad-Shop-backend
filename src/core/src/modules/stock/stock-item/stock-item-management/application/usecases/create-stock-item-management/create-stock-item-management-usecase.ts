@@ -1,8 +1,7 @@
 import { EventEmitterInterface } from "@/modules/@shared/events";
 import { left, right } from "@/modules/@shared/logic";
 import { CreateStockItemManagementUsecaseInterface } from "@/modules/stock/stock-item/stock-item-management/domain/usecases";
-import { StockItemCreatedEvent } from "./stock-item-management-created.event";
-import { StockItemAlreadyCreatedError } from "./errors";
+import { StockItemManagementCreatedEvent } from "./stock-item-management-created.event";
 import { StockItemManagementRepositoryInterface } from "../../../domain/repositories";
 import { StockItemManagementEntity } from "../../../domain/entities";
 
@@ -16,20 +15,20 @@ export class CreateStockItemManagementUsecase implements CreateStockItemManageme
 
     async execute({ announceItemId }: CreateStockItemManagementUsecaseInterface.InputDto): Promise<CreateStockItemManagementUsecaseInterface.OutputDto> {
         
-        const stockItemEntity = StockItemManagementEntity.create({
+        const stockItemManagementEntity = StockItemManagementEntity.create({
             announceItemId
         })
-        if(stockItemEntity.isLeft()) return left(stockItemEntity.value)
+        if(stockItemManagementEntity.isLeft()) return left(stockItemManagementEntity.value)
 
-        await this.stockItemManagementRepository.create(stockItemEntity.value)
+        await this.stockItemManagementRepository.create(stockItemManagementEntity.value)
 
-        const stockItemCreatedEvent = new StockItemCreatedEvent({
-            ...stockItemEntity.value.toJSON()
+        const stockItemManagementCreatedEvent = new StockItemManagementCreatedEvent({
+            ...stockItemManagementEntity.value.toJSON()
         })
-        await this.eventEmitter.emit(stockItemCreatedEvent)
+        await this.eventEmitter.emit(stockItemManagementCreatedEvent)
 
         return right({
-            id: stockItemCreatedEvent.id
+            id: stockItemManagementEntity.value.id
         })
     }
 }
