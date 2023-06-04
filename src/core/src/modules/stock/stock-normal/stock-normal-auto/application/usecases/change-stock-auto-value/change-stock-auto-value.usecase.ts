@@ -2,24 +2,24 @@ import { Either, left, right } from "@/modules/@shared/logic";
 import { EventEmitterInterface } from "@/modules/@shared/events";
 import { StockAutoValueChangedEvent } from "./stock-auto-value-changed.event";
 import { ChangeStockAutoValueUsecaseInterface } from "../../../domain/usecases";
-import { StockAutoRepositoryInterface } from "../../../domain/repository";
+import { StockNormalAutoRepositoryInterface } from "../../../domain/repository";
 import { StockAutoNotFoundError } from "../_errors";
 
 export class ChangeStockAutoValueUsecase implements ChangeStockAutoValueUsecaseInterface {
 
     constructor(
-        private readonly stockAutoRepository: StockAutoRepositoryInterface,
+        private readonly StockNormalAutoRepository: StockNormalAutoRepositoryInterface,
         private readonly eventEmitter: EventEmitterInterface
     ) {}
 
     async execute({ stockAutoId, value }: ChangeStockAutoValueUsecaseInterface.InputDto): Promise<ChangeStockAutoValueUsecaseInterface.OutputDto> {
 
-        const stockAutoEntity = await this.stockAutoRepository.findById(stockAutoId)
+        const stockAutoEntity = await this.StockNormalAutoRepository.findById(stockAutoId)
         if (!stockAutoEntity) return left([new StockAutoNotFoundError()])
 
         stockAutoEntity.changeValue(value)
 
-        await this.stockAutoRepository.update(stockAutoEntity)
+        await this.StockNormalAutoRepository.update(stockAutoEntity)
 
         const stockAutoValueChangedEvent = new StockAutoValueChangedEvent({
             stockAutoId: stockAutoEntity.id,

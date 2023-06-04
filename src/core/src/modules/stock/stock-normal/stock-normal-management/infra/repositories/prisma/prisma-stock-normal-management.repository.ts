@@ -1,8 +1,8 @@
 import { PrismaClient, StockNormalManagement } from "@prisma/client";
-import { StockManagementRepositoryInterface } from "../../../domain/repositories";
+import { StockNormalManagementRepositoryInterface } from "../../../domain/repositories";
 import { StockNormalManagementEntity } from "../../../domain/entities";
 
-export class PrismaStockNormalManagementMapper {
+class PrismaStockNormalManagementMapper {
 
     static toDomain(prismaStockNormalManagemet: StockNormalManagement): StockNormalManagementEntity {
         const stockManagementEntity = StockNormalManagementEntity.create({
@@ -15,7 +15,7 @@ export class PrismaStockNormalManagementMapper {
     }
 }
 
-export class PrismaStockManagementRepository implements StockManagementRepositoryInterface {
+export class PrismaStockNormalManagementRepository implements StockNormalManagementRepositoryInterface {
 
     constructor(
         private readonly prismaClient: PrismaClient

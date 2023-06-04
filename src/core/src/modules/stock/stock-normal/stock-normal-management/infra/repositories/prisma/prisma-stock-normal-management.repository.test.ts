@@ -1,13 +1,13 @@
 import { prismaClient } from "@/modules/@shared/infra/repository/prisma/client"
-import { PrismaStockManagementRepository } from "./prisma-stock-management.repository"
+import { PrismaStockNormalManagementRepository } from "./prisma-stock-normal-management.repository"
 import { StockNormalManagementEntity } from "../../../domain/entities"
 import { mock } from "jest-mock-extended"
 
 
 
-describe("Test PrismaStockManagementRepository", () => {
+describe("Test PrismaStockNormalManagementRepository", () => {
 
-    let sut: PrismaStockManagementRepository
+    let sut: PrismaStockNormalManagementRepository
     let id: string
     let stockNormalManagementEntity: StockNormalManagementEntity
 
@@ -21,7 +21,7 @@ describe("Test PrismaStockManagementRepository", () => {
                 stockType: "AUTO"
             })
         })
-        sut = new PrismaStockManagementRepository(prismaClient)
+        sut = new PrismaStockNormalManagementRepository(prismaClient)
         await prismaClient.stockNormalManagement.deleteMany()
     })
 

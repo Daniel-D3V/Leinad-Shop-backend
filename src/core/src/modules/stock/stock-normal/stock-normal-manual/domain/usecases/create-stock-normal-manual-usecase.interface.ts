@@ -1,11 +1,11 @@
 import { UsecaseInterface } from "@/modules/@shared/domain";
 import { Either } from "@/modules/@shared/logic";
 
-export interface CreateStockManualUsecaseInterface extends UsecaseInterface {
-    execute(input: CreateStockManualUsecaseInterface.InputDto): Promise<CreateStockManualUsecaseInterface.OutputDto>
+export interface CreateStockNormalManualUsecaseInterface extends UsecaseInterface {
+    execute(input: CreateStockNormalManualUsecaseInterface.InputDto): Promise<CreateStockNormalManualUsecaseInterface.OutputDto>
 }
 
-export namespace CreateStockManualUsecaseInterface {
+export namespace CreateStockNormalManualUsecaseInterface {
     export type InputDto = {
         stockNormalManagementId: string
         stock: number

@@ -1,1 +1,1 @@
-export * from "./stock-management-facade"
+export const b = {}

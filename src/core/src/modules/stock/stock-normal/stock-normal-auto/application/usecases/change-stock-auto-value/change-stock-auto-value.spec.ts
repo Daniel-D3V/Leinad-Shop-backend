@@ -2,8 +2,8 @@ import { ChangeStockAutoValueUsecase } from "./change-stock-auto-value.usecase"
 import { EventEmitterInterface } from "@/modules/@shared/events"
 import { mock } from "jest-mock-extended"
 import { ChangeStockAutoValueUsecaseInterface } from "../../../domain/usecases";
-import { StockAutoRepositoryInterface } from "../../../domain/repository"
-import { StockAutoEntity } from "../../../domain/entities"
+import { StockNormalAutoRepositoryInterface } from "../../../domain/repository"
+import { StockNormalAutoEntity } from "../../../domain/entities"
 import { StockAutoValueChangedEvent } from "./stock-auto-value-changed.event";
 
 jest.mock("./stock-auto-value-changed.event")

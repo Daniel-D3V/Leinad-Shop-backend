@@ -51,21 +51,21 @@ model AnnounceItem {
 }
 
 
-model StockManual {
+model StockNormalManual {
   id String @id
   stock Int @default(0)
-  stockManagementId String @unique()
+  stockNormalManagementId String @unique()
 
-  @@map("stock_manual")
+  @@map("stock_normal_manual")
 }
 
-model StockAuto {
+model StockNormalAuto {
   
     id String @id
     value String @default("")
-    stockManagementId String 
+    stockNormalManagementId String 
   
-    @@map("stock_auto")
+    @@map("stock_normal_auto")
 }
 
 model StockNormalManagement {
@@ -127,7 +127,7 @@ model StockItemManagement {
 model StockItemNormal {
   id String @id @default(uuid())
   stock Int
-  stockItemId String @unique()
+  stockItemManagementId String @unique()
 
   @@map("stock_item_normal") 
 }
@@ -137,7 +137,7 @@ model StockItemNormal {
 model StockItemAuto {
   id String @id @default(uuid())
   value String
-  stockItemId String
+  stockItemManagementId String
   
   @@map("stock_item_auto") 
 }

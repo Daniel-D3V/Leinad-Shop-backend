@@ -1,1 +1,1 @@
-export * from "./create-stock-manual/create-stock-manual.usecase"
+export * from "./create-stock-normal-manual/create-stock-normal-manual.usecase"

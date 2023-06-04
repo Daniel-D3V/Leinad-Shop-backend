@@ -2,7 +2,7 @@ import { EventEmitterInterface } from "@/modules/@shared/events"
 import { mock } from "jest-mock-extended"
 import { StockNormalManualEntity } from "../../../domain/entities"
 import { StockNormalManualRepositoryInterface } from "../../../domain/repositories"
-import { CreateStockManualUsecaseInterface } from "../../../domain/usecases"
+import { CreateStockNormalManualUsecaseInterface } from "../../../domain/usecases"
 import { CreateStockNormalManualUsecase } from "./create-stock-normal-manual.usecase"
 import { StockNormalManualCreatedEvent } from "./stock-normal-manual-created.event"
 
@@ -12,7 +12,7 @@ jest.mock("./stock-normal-manual-created.event")
 describe("Test CreateProductStockNormalUsecase", () => {
 
     let sut: CreateStockNormalManualUsecase
-    let props: CreateStockManualUsecaseInterface.InputDto
+    let props: CreateStockNormalManualUsecaseInterface.InputDto
     let stockNormalManualRepository: StockNormalManualRepositoryInterface
     let eventEmitter: EventEmitterInterface
     let stockNormalManualEntity: StockNormalManualEntity
