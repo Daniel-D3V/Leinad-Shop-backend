@@ -35,7 +35,30 @@ describe("Test InitializeChatDeliveryUsecase", () => {
         sut = new InitializeChatDeliveryUsecase(chatDeliveryRepository, eventEmitter)
     })
 
-    it("Should be initialize ChatDelivery", () => {
+    it("Should be initialize ChatDelivery", async () => {
+        const output = await sut.execute(props)
+        expect(output.isRight()).toBe(true)
+    })
 
+    it("Should return left if the chatDeliveryEntity is invalid", async () => {
+        chatDeliveryEntity.create.mockReturnValueOnce({
+            isLeft: () => true,
+            value: [new Error("EntityError")]
+        } as any)
+        const output = await sut.execute(props)
+        if (output.isRight()) throw new Error("usecase should not return right")
+
+        expect(output.isLeft()).toBe(true)
+        expect(output.value[0]).toEqual(new Error("EntityError"))
+    })
+
+
+    it("Should return ChatDeliveryAlreadyCreatedError if chatDeliveryRepository finds a chat using a orderId", async () => {
+        jest.spyOn(chatDeliveryRepository, "findByOrderId").mockResolvedValueOnce(true as any);
+
+        const output = await sut.execute(props)
+        if (output.isRight()) return fail("It should not be right")
+
+        expect(output.value[0].name).toBe("ChatDeliveryAlreadyCreatedError")
     })
 })
