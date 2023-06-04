@@ -1,43 +1,43 @@
-import { PrismaClient } from "@prisma/client";
-import { StockAutoRepositoryInterface } from "../../../domain/repository";
-import { StockAutoEntity } from "../../../domain/entities";
+import { PrismaClient, StockNormalAuto } from "@prisma/client";
+import { StockNormalAutoRepositoryInterface } from "../../../domain/repository";
+import { StockNormalAutoEntity } from "../../../domain/entities";
 
-export class PrismaStockAutoRepository implements StockAutoRepositoryInterface {
+export class PrismaStockNormalAutoRepository implements StockNormalAutoRepositoryInterface {
 
     constructor(
         private readonly prismaClient: PrismaClient
     ) { }
 
-    async findById(id: string): Promise<StockAutoEntity | null> {
-        const prismaStockAuto = await this.prismaClient.stockAuto.findFirst({
+    async findById(id: string): Promise<StockNormalAutoEntity | null> {
+        const prismaStockNormalAuto = await this.prismaClient.stockNormalAuto.findFirst({
             where: { id: id ?? "" }
         })
-        if (!prismaStockAuto) return null
+        if (!prismaStockNormalAuto) return null
 
-        const stockAutoEntity = StockAutoEntity.create({
-            stockManagementId: prismaStockAuto.stockManagementId,
-            value: prismaStockAuto.value
-        }, prismaStockAuto.id)
-        if (stockAutoEntity.isLeft()) throw stockAutoEntity.value[0]
-        return stockAutoEntity.value
+        const stockNormalAutoEntity = StockNormalAutoEntity.create({
+            stockNormalManagementId: prismaStockNormalAuto.stockNormalManagementId,
+            value: prismaStockNormalAuto.value
+        }, prismaStockNormalAuto.id)
+        if (stockNormalAutoEntity.isLeft()) throw stockNormalAutoEntity.value[0]
+        return stockNormalAutoEntity.value
     }
-    async create(stockAutoEntity: StockAutoEntity): Promise<void> {
-            await this.prismaClient.stockAuto.create({
+    async create(stockNormalAutoEntity: StockNormalAutoEntity): Promise<void> {
+            await this.prismaClient.stockNormalAuto.create({
                 data: {
-                    ...stockAutoEntity.toJSON()
+                    ...stockNormalAutoEntity.toJSON()
                 }
             })
     }
     async delete(id: string): Promise<void> {
-        await this.prismaClient.stockAuto.deleteMany({
+        await this.prismaClient.stockNormalAuto.deleteMany({
             where: { id: id ?? "" }
         })
     }
-    async update(stockAutoEntity: StockAutoEntity): Promise<void> {
-        await this.prismaClient.stockAuto.updateMany({
-            where: { id: stockAutoEntity.id ?? "" },
+    async update(stockNormalAutoEntity: StockNormalAutoEntity): Promise<void> {
+        await this.prismaClient.stockNormalAuto.updateMany({
+            where: { id: stockNormalAutoEntity.id ?? "" },
             data: {
-                ...stockAutoEntity.toJSON()
+                ...stockNormalAutoEntity.toJSON()
             }
         })
     }

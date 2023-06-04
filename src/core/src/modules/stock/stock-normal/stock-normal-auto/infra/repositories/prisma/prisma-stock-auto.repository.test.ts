@@ -1,36 +1,36 @@
 import { prismaClient } from "@/modules/@shared/infra/repository/prisma/client"
 import { mock } from "jest-mock-extended"
-import { StockAutoEntity } from "../../../domain/entities"
-import { PrismaStockAutoRepository } from "./prisma-stock-auto.repository"
+import { StockNormalAutoEntity } from "../../../domain/entities"
+import { PrismaStockNormalAutoRepository } from "./prisma-stock-auto.repository"
 
 describe("Test PrismaStockAutoRepository", () => {
 
-    let sut: PrismaStockAutoRepository
-    let stockAutoEntity: StockAutoEntity
+    let sut: PrismaStockNormalAutoRepository
+    let stockNormalAutoEntity: StockNormalAutoEntity
 
     beforeEach(async () => {
-        stockAutoEntity = mock<StockAutoEntity>({
+        stockNormalAutoEntity = mock<StockNormalAutoEntity>({
             id: "any_id",
             toJSON: () => ({
                 id: "any_id",
-                stockManagementId: "any_stock_management_id",
-                value: "any_value"
+                value: "any_value",
+                stockNormalManagementId: "stock_normal_management_id"
             })
         })
-        sut = new PrismaStockAutoRepository(prismaClient)
-        await prismaClient.stockAuto.deleteMany({})
+        sut = new PrismaStockNormalAutoRepository(prismaClient)
+        await prismaClient.stockNormalAuto.deleteMany({})
     })
 
     it("Should create a stock auto", async () => {
-        await sut.create(stockAutoEntity)
-        const productStockAutoEntityFound = await sut.findById(stockAutoEntity.id)
-        expect(productStockAutoEntityFound?.toJSON()).toEqual(stockAutoEntity.toJSON())
+        await sut.create(stockNormalAutoEntity)
+        const productStockAutoEntityFound = await sut.findById(stockNormalAutoEntity.id)
+        expect(productStockAutoEntityFound?.toJSON()).toEqual(stockNormalAutoEntity.toJSON())
     })
 
     it("Should find a stock auto by id", async () => {
-        await sut.create(stockAutoEntity)
-        const stockAutoEntityFound = await sut.findById(stockAutoEntity.id)
-        expect(stockAutoEntityFound?.toJSON()).toEqual(stockAutoEntity.toJSON())
+        await sut.create(stockNormalAutoEntity)
+        const stockAutoEntityFound = await sut.findById(stockNormalAutoEntity.id)
+        expect(stockAutoEntityFound?.toJSON()).toEqual(stockNormalAutoEntity.toJSON())
     })
 
     it("Should return null if stock auto does not exists", async () => {
@@ -39,19 +39,19 @@ describe("Test PrismaStockAutoRepository", () => {
     })
 
     it("Should delete a product stock auto", async () => {
-        await sut.create(stockAutoEntity)
-        await sut.delete(stockAutoEntity.id)
-        const productStockAutoEntityFound = await sut.findById(stockAutoEntity.id)
+        await sut.create(stockNormalAutoEntity)
+        await sut.delete(stockNormalAutoEntity.id)
+        const productStockAutoEntityFound = await sut.findById(stockNormalAutoEntity.id)
         expect(productStockAutoEntityFound).toBeNull()
     })
 
     it("Should update a product stock auto", async () => {
-        await sut.create(stockAutoEntity)
-        const updatedStockAutoEntityFound = await sut.findById(stockAutoEntity.id)
+        await sut.create(stockNormalAutoEntity)
+        const updatedStockAutoEntityFound = await sut.findById(stockNormalAutoEntity.id)
         updatedStockAutoEntityFound?.changeValue("any_new_value")
 
         await sut.update(updatedStockAutoEntityFound!)
-        const productStockAutoEntityFound = await sut.findById(stockAutoEntity.id)
+        const productStockAutoEntityFound = await sut.findById(stockNormalAutoEntity.id)
 
         expect(productStockAutoEntityFound?.toJSON()).toEqual(updatedStockAutoEntityFound?.toJSON())
     })
