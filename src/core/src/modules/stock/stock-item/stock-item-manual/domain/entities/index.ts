@@ -1,0 +1,1 @@
+export * from "./stock-item-manual/stock-item-manual.entity"

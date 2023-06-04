@@ -1,0 +1,1 @@
+export * from "./stock-item-auto/stock-item-auto.entity"
