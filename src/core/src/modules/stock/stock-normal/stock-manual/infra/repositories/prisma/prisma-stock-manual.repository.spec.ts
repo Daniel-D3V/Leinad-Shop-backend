@@ -12,7 +12,7 @@ describe("Test PrismaStockNormalRepository", () => {
     beforeEach(async () => {
         stockManualEntity = mock<StockManualEntity>({
             id: "any_id",
-            stockManagementId: "stock_management_id",
+            stockManagementId: "any_stock_management_id",
             toJSON: () => ({
                 id: "any_id",
                 stock: 10,
@@ -64,7 +64,7 @@ describe("Test PrismaStockNormalRepository", () => {
     it("Should return null if stock manual does not exists", async () => {
         const stockNormal = await sut.findByStockManagementId(stockManualEntity.stockManagementId)
         expect(stockNormal).toBeNull()
-    })
+    })//
 
 })
 

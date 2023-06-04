@@ -68,14 +68,14 @@ model StockAuto {
     @@map("stock_auto")
 }
 
-model StockManagement {
+model StockNormalManagement {
   
     id String @id
     stockType String @default("NORMAL")
 
-    announceId String @unique()
+    announceNormalId String @unique()
   
-    @@map("stock_management")
+    @@map("stock_normal_management")
 }
 
 model AnnounceImages {

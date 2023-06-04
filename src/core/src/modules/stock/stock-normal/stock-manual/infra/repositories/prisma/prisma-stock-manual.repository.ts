@@ -53,6 +53,5 @@ export class PrismaStockManualRepository implements StockManualRepositoryInterfa
         })
     }
 
-  
 
 }

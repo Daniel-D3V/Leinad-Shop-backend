@@ -8,9 +8,9 @@ export class PrismaStockAutoGateway implements StockAutoGatewayInterface {
         private readonly prismaClient: PrismaClient
     ){}
 
-    async getStockAutoCount(announceId: string): Promise<number> {
+    async getStockAutoCount(stockManagementId: string): Promise<number> {
         return this.prismaClient.stockAuto.count({
-            where: { announceId: announceId ?? "" }
+            where: { stockManagementId: stockManagementId ?? "" }
         })
     }
 
