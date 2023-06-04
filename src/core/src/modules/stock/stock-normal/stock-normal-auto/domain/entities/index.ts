@@ -1,1 +1,1 @@
-export * from "./stock-auto/stock-auto.entity"
+export * from "./stock-normal-auto/stock-normal-auto.entity"
