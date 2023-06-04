@@ -1,5 +1,5 @@
-export * from "./change-stock-type-to-auto.usecase.interface"
-export * from "./change-stock-type-to-normal.usecase.interface"
+export * from "./change-stock-normal-management-type-to-auto.usecase.interface"
+export * from "./change-stock-normal-management-type-to-normal.usecase.interface"
 export * from "./check-stock-auto-from-user.interface"
 export * from "./check-stock-from-user.interface"
 export * from "./create-stock-normal-management.usecase"
