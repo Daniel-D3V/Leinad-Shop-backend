@@ -1,29 +1,29 @@
 import { Either, left, right } from "@/modules/@shared/logic";
 import { EventEmitterInterface } from "@/modules/@shared/events";
-import { StockAutoDeletedEvent } from "./stock-auto-deleted.event";
-import { DeleteStockAutoUsecaseInterface } from "../../../domain/usecases";
-import { StockAutoRepositoryInterface } from "../../../domain/repository";
+import { DeleteStockNormalAutoUsecaseInterface } from "../../../domain/usecases";
+import { StockNormalAutoRepositoryInterface } from "../../../domain/repository";
 import { StockAutoNotFoundError } from "../_errors";
+import { StockNormalAutoDeletedEvent } from "./stock-normal-auto-deleted.event";
 
-export class DeleteStockAutoUsecase implements DeleteStockAutoUsecaseInterface {
+export class DeleteStockNormalAutoUsecase implements DeleteStockNormalAutoUsecaseInterface {
 
     constructor(
-        private readonly stockAutoRepository: StockAutoRepositoryInterface,
+        private readonly stockNormalAutoRepository: StockNormalAutoRepositoryInterface,
         private readonly eventEmitter: EventEmitterInterface
     ) { }
 
-    async execute({ stockAutoId }: DeleteStockAutoUsecaseInterface.InputDto): Promise<DeleteStockAutoUsecaseInterface.OutputDto> {
+    async execute({ stockNormalAutoId }: DeleteStockNormalAutoUsecaseInterface.InputDto): Promise<DeleteStockNormalAutoUsecaseInterface.OutputDto> {
 
-        const stockAutoEntity = await this.stockAutoRepository.findById(stockAutoId)
+        const stockAutoEntity = await this.stockNormalAutoRepository.findById(stockNormalAutoId)
         if (!stockAutoEntity) return left([new StockAutoNotFoundError()])
 
-        await this.stockAutoRepository.delete(stockAutoId)
+        await this.stockNormalAutoRepository.delete(stockNormalAutoId)
 
-        const stockAutoDeletedEvent = new StockAutoDeletedEvent({
-            stockAutoId: stockAutoId
+        const stockNormalAutoDeletedEvent = new StockNormalAutoDeletedEvent({
+            stockNormalAutoId: stockNormalAutoId    
         })
 
-        await this.eventEmitter.emit(stockAutoDeletedEvent)
+        await this.eventEmitter.emit(stockNormalAutoDeletedEvent)
 
         return right(null)
     }

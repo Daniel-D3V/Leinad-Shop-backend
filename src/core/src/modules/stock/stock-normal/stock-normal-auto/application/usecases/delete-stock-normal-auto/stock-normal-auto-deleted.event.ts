@@ -1,16 +1,16 @@
 import { BaseEvent } from "@/modules/@shared/events";
 
-export class StockAutoDeletedEvent extends BaseEvent {
+export class StockNormalAutoDeletedEvent extends BaseEvent {
 
     constructor(
-        readonly payload: StockAutoDeletedEvent.Payload
+        readonly payload: StockNormalAutoDeletedEvent.Payload
     ){
         super();
     }
 }
 
-export namespace StockAutoDeletedEvent {
+export namespace StockNormalAutoDeletedEvent {
     export type Payload = {
-        stockAutoId: string
+        stockNormalAutoId: string
     }
 }

@@ -1,29 +1,30 @@
 
-import { DeleteStockAutoUsecase } from "./delete-stock-normal-auto.usecase"
+import { DeleteStockNormalAutoUsecase } from "./delete-stock-normal-auto.usecase"
 import { EventEmitterInterface } from "@/modules/@shared/events"
 import { mock } from "jest-mock-extended"
-import { StockAutoDeletedEvent } from "./stock-auto-deleted.event"
-import { DeleteStockAutoUsecaseInterface } from "../../../domain/usecases";
-import { StockAutoRepositoryInterface } from "../../../domain/repository"
+import { DeleteStockNormalAutoUsecaseInterface } from "../../../domain/usecases"
+import { StockNormalAutoRepositoryInterface } from "../../../domain/repository"
+import { StockNormalAutoDeletedEvent } from "./stock-normal-auto-deleted.event"
 
-jest.mock("./stock-auto-deleted.event")
+
+jest.mock("./stock-normal-auto-deleted.event")
 
 describe("Test DeleteAutoStockUsecase", () => {
 
-    let sut: DeleteStockAutoUsecase
-    let props: DeleteStockAutoUsecaseInterface.InputDto
-    let stockAutoRepository: StockAutoRepositoryInterface
+    let sut: DeleteStockNormalAutoUsecase
+    let props: DeleteStockNormalAutoUsecaseInterface.InputDto
+    let stockNormalAutoRepository: StockNormalAutoRepositoryInterface
     let eventEmitter: EventEmitterInterface
 
     beforeEach(() => {
         props = {
-            stockAutoId: "any_stock_id"
+            stockNormalAutoId: "stock_normal_auto_id"
         }
-        stockAutoRepository = mock<StockAutoRepositoryInterface>({
-            findById: jest.fn().mockResolvedValue({ id: props.stockAutoId }),
+        stockNormalAutoRepository = mock<StockNormalAutoRepositoryInterface>({
+            findById: jest.fn().mockResolvedValue({ id: props.stockNormalAutoId }),
         })
         eventEmitter = mock<EventEmitterInterface>()
-        sut = new DeleteStockAutoUsecase(stockAutoRepository, eventEmitter)
+        sut = new DeleteStockNormalAutoUsecase(stockNormalAutoRepository, eventEmitter)
     })
 
     it("Should execute the usecase properly", async () => {
@@ -32,7 +33,7 @@ describe("Test DeleteAutoStockUsecase", () => {
     })
 
     it("Should return StockAutoNotFoundError if the repository can not find the entity", async () => {
-        jest.spyOn(stockAutoRepository, "findById").mockResolvedValue(null)
+        jest.spyOn(stockNormalAutoRepository, "findById").mockResolvedValue(null)
         const output = await sut.execute(props)
         expect(output.value![0].name).toBe("StockAutoNotFoundError")
     })
@@ -40,7 +41,7 @@ describe("Test DeleteAutoStockUsecase", () => {
 
     it("Should call productStockAutoRepository.delete once", async () => {
         await sut.execute(props)
-        expect(stockAutoRepository.delete).toHaveBeenCalledTimes(1)
+        expect(stockNormalAutoRepository.delete).toHaveBeenCalledTimes(1)
     })
 
     it("Should call eventEmitter once", async () => {
@@ -48,8 +49,8 @@ describe("Test DeleteAutoStockUsecase", () => {
         expect(eventEmitter.emit).toHaveBeenCalledTimes(1)
     })
 
-    it("Should create StockAutoDeletedEvent with correct values", async () => {
+    it("Should create StockNormalAutoDeletedEvent with correct values", async () => {
         await sut.execute(props)
-        expect(StockAutoDeletedEvent).toHaveBeenCalledWith(props)
+        expect(StockNormalAutoDeletedEvent).toHaveBeenCalledWith(props)
     })
 })
