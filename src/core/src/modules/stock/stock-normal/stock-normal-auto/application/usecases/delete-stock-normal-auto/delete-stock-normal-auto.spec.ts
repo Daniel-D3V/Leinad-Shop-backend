@@ -1,5 +1,5 @@
 
-import { DeleteStockAutoUsecase } from "./delete-stock-auto.usecase"
+import { DeleteStockAutoUsecase } from "./delete-stock-normal-auto.usecase"
 import { EventEmitterInterface } from "@/modules/@shared/events"
 import { mock } from "jest-mock-extended"
 import { StockAutoDeletedEvent } from "./stock-auto-deleted.event"

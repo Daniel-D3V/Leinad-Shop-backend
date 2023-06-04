@@ -22,11 +22,11 @@ export class PrismaStockNormalAutoRepository implements StockNormalAutoRepositor
         return stockNormalAutoEntity.value
     }
     async create(stockNormalAutoEntity: StockNormalAutoEntity): Promise<void> {
-            await this.prismaClient.stockNormalAuto.create({
-                data: {
-                    ...stockNormalAutoEntity.toJSON()
-                }
-            })
+        await this.prismaClient.stockNormalAuto.create({
+            data: {
+                ...stockNormalAutoEntity.toJSON()
+            }
+        })
     }
     async delete(id: string): Promise<void> {
         await this.prismaClient.stockNormalAuto.deleteMany({
