@@ -1,0 +1,1 @@
+export * from "./add-stock-item-auto-usecase.interface"
