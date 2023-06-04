@@ -3,7 +3,7 @@ import {  ChangeStockTypeToAutoUsecaseInterface} from "@/modules/stock/stock-man
 import { StockManagementAlreadyIsAutoError, StockManagementNotFoundError } from "../_errors";
 import { EventEmitterInterface } from "@/modules/@shared/events";
 import { StockTypeChangedToAutoEvent } from "./stock-type-changed-to-auto.event";
-import { StockManagementRepositoryInterface } from "../../../domain/repositories/stock-management.repository";
+import { StockManagementRepositoryInterface } from "../../../domain/repositories/stock-normal-management.repository";
 
 export class ChangeStockTypeToAutoUsecase implements ChangeStockTypeToAutoUsecaseInterface {
 

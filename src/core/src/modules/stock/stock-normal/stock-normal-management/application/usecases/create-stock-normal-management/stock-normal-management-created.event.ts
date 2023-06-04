@@ -1,15 +1,15 @@
 import { BaseEvent } from "@/modules/@shared/events";
 
-export class StockNormalManagementInitializedEvent extends BaseEvent {
+export class StockNormalManagementCreatedEvent extends BaseEvent {
 
     constructor(
-        readonly payload: StockNormalManagementInitializedEvent.Payload
+        readonly payload: StockNormalManagementCreatedEvent.Payload
     ){
         super();
     }
 }
 
-export namespace StockNormalManagementInitializedEvent {
+export namespace StockNormalManagementCreatedEvent {
     export type Payload = {
         id: string
         announceNormalId: string

@@ -3,7 +3,7 @@ import {  ChangeStockTypeToAutoUsecaseInterface} from "@/modules/stock/stock-man
 import {  StockManagementAlreadyIsItemError, StockManagementNotFoundError } from "../_errors";
 import { EventEmitterInterface } from "@/modules/@shared/events";
 import { StockTypeChangedToItemEvent } from "./stock-type-changed-to-item.event";
-import { StockManagementRepositoryInterface } from "../../../domain/repositories/stock-management.repository";
+import { StockManagementRepositoryInterface } from "../../../domain/repositories/stock-normal-management.repository";
 
 export class ChangeStockTypeToItemUsecase implements ChangeStockTypeToAutoUsecaseInterface {
 
