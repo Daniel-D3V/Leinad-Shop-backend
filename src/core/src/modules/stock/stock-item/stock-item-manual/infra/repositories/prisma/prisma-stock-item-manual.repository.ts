@@ -1,6 +1,16 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, StockItemManual } from "@prisma/client";
 import { StockItemManualEntity } from "../../../domain/entities";
 import { StockItemManualRepositoryInterface } from "../../../domain/repositories";
+
+class PrismaStockItemManualMapper {
+    static toDomain(prismaStockItemManual: StockItemManual) {
+        const stockItemManualEntity = StockItemManualEntity.create({
+            ...prismaStockItemManual
+        }, prismaStockItemManual.id)
+        if(stockItemManualEntity.isLeft()) throw stockItemManualEntity.value[0]
+        return stockItemManualEntity.value
+    }
+}
 
 export class PrismaStockItemManualRepository implements StockItemManualRepositoryInterface {
 
@@ -15,11 +25,19 @@ export class PrismaStockItemManualRepository implements StockItemManualRepositor
             }
         })
     }
-    findByStockItemManagementId(stockItemManagementId: string): Promise<StockItemManualEntity | null> {
-        throw new Error("Method not implemented.");
+    async findByStockItemManagementId(stockItemManagementId: string): Promise<StockItemManualEntity | null> {
+        const prismaStockItem = await this.prismaClient.stockItemManual.findFirst({
+            where: { stockItemManagementId: stockItemManagementId ?? ""}
+        })
+        if(!prismaStockItem) return null
+        return PrismaStockItemManualMapper.toDomain(prismaStockItem)
     }
-    findById(id: string): Promise<StockItemManualEntity | null> {
-        throw new Error("Method not implemented.");
+    async findById(id: string): Promise<StockItemManualEntity | null> {
+        const prismaStockItem = await this.prismaClient.stockItemManual.findFirst({
+            where: { id: id ?? ""}
+        })
+        if(!prismaStockItem) return null
+        return PrismaStockItemManualMapper.toDomain(prismaStockItem)
     }
 
 }

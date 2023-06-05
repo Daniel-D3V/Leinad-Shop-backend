@@ -20,12 +20,43 @@ describe("Test PrismaStockItemManualRepository", () => {
                 stockItemManagementId: "any_stock_item_management_id"
             })
         })
-
+//
         sut = new PrismaStockItemManualRepository(prismaClient)
-        await prismaClient.stockItemManual.deleteMany()
+        await prismaClient.stockItemManual.deleteMany({})
     })
 
-    it("Should create a new StockItemManualEntity", async () => {
+    afterEach( async () => {
+        await prismaClient.stockItemManual.deleteMany({})
+    })
 
+    it("Should create a new StockItemManualEntity", async () => {    
+        await sut.create(stockItemManualEntity)
+        const prismaItemManual = await prismaClient.stockItemManual.findUnique({
+            where: { id: stockItemManualEntity.id }
+        })
+        expect(prismaItemManual).toEqual(stockItemManualEntity.toJSON())
+    })
+
+    it("Should return a StockItemManualEntity by stockItemManagementId", async () => {
+        await sut.create(stockItemManualEntity)
+        const stockItemManual = await sut.findByStockItemManagementId(stockItemManualEntity.stockItemManagementId)
+        expect(stockItemManual?.toJSON()).toEqual(stockItemManualEntity.toJSON())
+    })
+
+    it("Should return null if StockItemManualEntity not found by stockItemManagementId", async () => {
+        const stockItemManual = await sut.findByStockItemManagementId(stockItemManualEntity.stockItemManagementId)
+        expect(stockItemManual).toBeNull()
+    })
+
+    it("Should return a StockItemManualEntity by id", async () => {
+        await sut.create(stockItemManualEntity)
+        const stockItemManual = await sut.findById(stockItemManualEntity.id)
+        expect(stockItemManual?.toJSON()).toEqual(stockItemManualEntity.toJSON())
+    })
+
+
+    it("Should return null if StockItemManualEntity not found by id", async () => {
+        const stockItemManual = await sut.findById(stockItemManualEntity.id)
+        expect(stockItemManual).toBeNull()
     })
 })
