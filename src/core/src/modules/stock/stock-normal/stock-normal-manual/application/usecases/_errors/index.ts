@@ -1,1 +1,1 @@
-export * from "./stock-normal-not-found.error"
+export * from "./stock-manual-not-found.error"
