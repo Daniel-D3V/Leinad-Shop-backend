@@ -121,15 +121,15 @@ model StockItemManagement {
   stockItemType String
   announceItemId String @unique()
 
-  @@map("stock_items") 
+  @@map("stock_item_management") 
 }
 
-model StockItemNormal {
+model StockItemManual {
   id String @id @default(uuid())
   stock Int
   stockItemManagementId String @unique()
 
-  @@map("stock_item_normal") 
+  @@map("stock_item_manual") 
 }
 
 
