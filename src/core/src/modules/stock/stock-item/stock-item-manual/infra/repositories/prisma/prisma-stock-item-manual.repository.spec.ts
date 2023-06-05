@@ -59,4 +59,15 @@ describe("Test PrismaStockItemManualRepository", () => {
         const stockItemManual = await sut.findById(stockItemManualEntity.id)
         expect(stockItemManual).toBeNull()
     })
+
+    it("Should update a StockItemManualEntity", async () => {
+        await sut.create(stockItemManualEntity)
+        const stockItemManual = await sut.findById(stockItemManualEntity.id)
+        expect(stockItemManual?.toJSON()).toEqual(stockItemManualEntity.toJSON())
+        
+        stockItemManualEntity.updateStock(20)
+        await sut.update(stockItemManualEntity)
+        const updatedStockItemManual = await sut.findById(stockItemManualEntity.id)
+        expect(updatedStockItemManual?.toJSON()).toEqual(stockItemManualEntity.toJSON())
+    })
 })

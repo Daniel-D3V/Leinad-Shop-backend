@@ -40,4 +40,13 @@ export class PrismaStockItemManualRepository implements StockItemManualRepositor
         return PrismaStockItemManualMapper.toDomain(prismaStockItem)
     }
 
+    async update(stockItemManualEntity: StockItemManualEntity): Promise<void> {
+        const { id, stockItemManagementId, ...props } = stockItemManualEntity.toJSON()
+        await this.prismaClient.stockItemManual.update({
+            where: { id: stockItemManualEntity.id },
+            data: {
+                ...props
+            }
+        })
+    }
 }
