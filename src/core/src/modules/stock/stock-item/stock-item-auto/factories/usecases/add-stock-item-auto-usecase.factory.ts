@@ -9,9 +9,8 @@ import { AddStockItemAutoUsecase } from "../../application/usecases";
 export class AddStockItemAutoUsecaseFactory {
 
     static create(): AddStockItemAutoUsecaseInterface {
-        
-        const execute = async (input: AddStockItemAutoUsecaseInterface.InputDto): Promise<AddStockItemAutoUsecaseInterface.OutputDto> => {
             
+        const execute = async (input: AddStockItemAutoUsecaseInterface.InputDto): Promise<AddStockItemAutoUsecaseInterface.OutputDto> => {
             return await prismaClient.$transaction(async (prisma) => {
                 const prismaStockItemAutoRepository = new PrismaStockItemAutoRepository(prisma as PrismaClient)
                 const outboxEmitter = new OutboxEmitter(prisma as PrismaClient)
