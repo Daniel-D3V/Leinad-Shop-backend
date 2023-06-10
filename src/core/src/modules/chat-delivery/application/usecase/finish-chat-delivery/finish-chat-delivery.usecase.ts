@@ -2,10 +2,10 @@ import { UsecaseInterface } from "@/modules/@shared/domain";
 import { EventEmitterInterface } from "@/modules/@shared/events";
 import { left, right } from "@/modules/@shared/logic";
 import { ChatDeliveryRepositoryInterface } from "@/modules/chat-delivery/domain/repositories";
-import { DeliverChatDeliveryUsecaseInterface } from "@/modules/chat-delivery/domain/usecases/deliver-chat-delivery.usecase.interface";
 import { ChatDeliveryNotFoundError } from "../_errors";
 import { ChatDeliveryAlreadyFinishedError } from "./errors";
 import { ChatDeliveryFinishedEvent } from "./chat-delivery-finished.event";
+import { FinishChatDeliveryUsecaseInterface } from "@/modules/chat-delivery/domain/usecases/finish-chat-delivery.usecase.interface copy";
 
 export class FinishChatDeliveryUsecase implements UsecaseInterface {
     constructor(
@@ -13,7 +13,7 @@ export class FinishChatDeliveryUsecase implements UsecaseInterface {
         private readonly eventEmitter: EventEmitterInterface
     ) { }
 
-    async execute({ chatDeliveryId }: DeliverChatDeliveryUsecaseInterface.InputDto): Promise<DeliverChatDeliveryUsecaseInterface.OutputDto> {
+    async execute({ chatDeliveryId }: FinishChatDeliveryUsecaseInterface.InputDto): Promise<FinishChatDeliveryUsecaseInterface.OutputDto> {
         const chatDeliveryEntity = await this.chatDeliveryRepository.findById(chatDeliveryId);
         if (!chatDeliveryEntity) return left([new ChatDeliveryNotFoundError])
 

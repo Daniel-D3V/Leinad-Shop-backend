@@ -24,7 +24,7 @@ describe("Test prismaCategoryRepository integration with mysql", () => {
         sut = new PrismaCategoryRepository()
         await prismaClient.category.deleteMany()
     })
-    
+
     it("Should persist the category on the database", async () => {
         await sut.create(categoryEntity)
         const category = await prismaClient.category.findUnique({
