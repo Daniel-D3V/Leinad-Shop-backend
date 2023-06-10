@@ -18,7 +18,6 @@ export class CreateOrderItemsFromPropsUsecase implements UsecaseInterface {
         const orderItems: OrderItemEntity[] = []
         for (const product of products) {
 
-
             const consultStockFacade = ConsultStockFacadeFactory.create()
             let stockAvailable = await consultStockFacade.consult({
                 announceId: product.announceId,     

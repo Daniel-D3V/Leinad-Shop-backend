@@ -1,7 +1,6 @@
 import { UsecaseInterface } from "@/modules/@shared/domain";
 import { Either, left, right } from "@/modules/@shared/logic";
 import { EventEmitterInterface } from "@/modules/@shared/events";
-// import { GetProductStockAutoValueFacadeInterface, GetProductStockTypeFacadeInterface, ReduceStockFacadeInterface } from "@/modules/stock/facades";
 import { StockAllocationForOrderFailedEvent, StockForOrderAllocatedEvent } from "./events";
 import { ProductNotFoundError } from "./errors";
 import { OrderInventoryManagementEntity } from "../../../domain/entities";
@@ -11,11 +10,11 @@ import { AllocateStockForOrderUsecaseInterface } from "../../../domain/usecases"
 export class AllocateStockForOrderUsecase implements AllocateStockForOrderUsecaseInterface {
 
     constructor(
-        // private readonly orderInventoryManagementRepository: OrderInventoryManagementRepositoryInterface,
+        private readonly orderInventoryManagementRepository: OrderInventoryManagementRepositoryInterface,
         // private readonly getProductStockTypeFacade: GetProductStockTypeFacadeInterface,
         // private readonly getProductStockAutoValueFacade: GetProductStockAutoValueFacadeInterface,
         // private readonly reduceStockFacade: ReduceStockFacadeInterface,
-        // private readonly eventEmitter: EventEmitterInterface
+        private readonly eventEmitter: EventEmitterInterface
     ) { }
 
     async execute({ orderId, products }: AllocateStockForOrderUsecaseInterface.InputDto): Promise<AllocateStockForOrderUsecaseInterface.OutputDto> {
@@ -47,13 +46,13 @@ export class AllocateStockForOrderUsecase implements AllocateStockForOrderUsecas
         //     if (reduceStockResult.isLeft()) left(reduceStockResult.value)
         // }
 
-        // await this.orderInventoryManagementRepository.create(orderInventoryManagementEntity)
+        await this.orderInventoryManagementRepository.create(orderInventoryManagementEntity)
 
-        // const stockForOrderAllocatedEvent = new StockForOrderAllocatedEvent({
-        //     orderId: orderInventoryManagementEntity.id,
-        // })
+        const stockForOrderAllocatedEvent = new StockForOrderAllocatedEvent({
+            orderId: orderInventoryManagementEntity.id,
+        })
 
-        // await this.eventEmitter.emit(stockForOrderAllocatedEvent)
+        await this.eventEmitter.emit(stockForOrderAllocatedEvent)
 
         return right(null)
     }

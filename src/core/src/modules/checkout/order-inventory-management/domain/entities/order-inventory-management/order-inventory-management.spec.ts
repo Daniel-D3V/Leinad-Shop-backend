@@ -11,10 +11,10 @@ describe("Test OrderInventoryManagementEntity", () => {
         id = "any_id"
         props = {
             products: [
-                { id: "1", quantity: 1 },
-                { id: "2", quantity: 2 },
-                { id: "3", quantity: 3 },
-                { id: "4", quantity: 4, value: "any_value" }
+                { announceId: "1", announceTypeId: "1", quantity: 1 },
+                { announceId: "2", announceTypeId: "2", quantity: 2 },
+                { announceId: "3", announceTypeId: "3", quantity: 3 },
+                { announceId: "4", announceTypeId: "4", quantity: 4, value: "any_value" }
             ]
         }
         sut = OrderInventoryManagementEntity.create(props, id)
@@ -29,7 +29,7 @@ describe("Test OrderInventoryManagementEntity", () => {
     })
 
     it("Should add a new product", () => {
-        const newProduct = { id: "5", quantity: 5 }
+        const newProduct = { announceId: "5",announceTypeId: "5", quantity: 5 }
         sut.addProduct(newProduct) 
         expect(sut.products).toEqual([
             ...props.products!
@@ -44,7 +44,7 @@ describe("Test OrderInventoryManagementEntity", () => {
 
     it("Should return the product by id", () => {
         const product = sut.findByProductId("1")
-        expect(product).toEqual({ id: "1", quantity: 1 })
+        expect(product).toEqual({ announceId: "1", announceTypeId: "1", quantity: 1 },)
     })
 
     it("Should return undefined if the product does not exist", () => {

@@ -19,8 +19,8 @@ export class OrderInventoryManagementEntity extends BaseEntity<OrderInventoryMan
         this.props.products.push(product)
     }
 
-    findByProductId(productId: string): OrderInventoryManagementEntity.Product | undefined {
-        return this.props.products.find(product => product.id === productId)
+    findByProductId(announceId: string): OrderInventoryManagementEntity.Product | undefined {
+        return this.props.products.find(product => product.announceId === announceId)
     }
 
     productHasValue(productId: string): boolean {
@@ -52,7 +52,8 @@ export class OrderInventoryManagementEntity extends BaseEntity<OrderInventoryMan
 export namespace OrderInventoryManagementEntity {
     
     export type Product = {
-        id: string
+        announceId: string
+        announceTypeId: string
         quantity: number
         value?: string
     }
