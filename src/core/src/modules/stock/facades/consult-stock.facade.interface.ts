@@ -6,6 +6,6 @@ export interface ConsultStockFacadeInterface {
 export namespace ConsultStockFacadeInterface {
     export type InputDto = {
         announceId: string
-        stockId: string
+        announceTypeId: string
     }
 }

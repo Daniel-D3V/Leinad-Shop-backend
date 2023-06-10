@@ -14,12 +14,6 @@ export class OrderItemEntity extends BaseEntity<OrderItemEntity.Props> {
         const isInputValid = orderItemValidator.validate(props)
         if(isInputValid.isLeft()) return left(isInputValid.value)
 
-        if(props.productType === "ITEM") {}
-        else if(props.productType === "NORMAL") {}
-        else {
-            props.productType = "NORMAL"
-        }
-
         const orderItemEntity = new OrderItemEntity(props, id)
         return right(orderItemEntity)
     }
@@ -32,15 +26,15 @@ export class OrderItemEntity extends BaseEntity<OrderItemEntity.Props> {
     toJSON(): OrderItemEntity.PropsJSON {
         return {
             id: this.id,
-            productId: this.productId,
+            announceId: this.announceId,
             quantity: this.quantity,
             unitPrice: this.unitPrice,
-            productType: this.productType
+            announceTypeId: this.announceTypeId
         }
     }
 
-    get productId(): string {
-        return this.props.productId
+    get announceId(): string {
+        return this.props.announceId
     }
     get quantity(): number {
         return this.props.quantity
@@ -48,28 +42,26 @@ export class OrderItemEntity extends BaseEntity<OrderItemEntity.Props> {
     get unitPrice(): number {
         return this.props.unitPrice
     }
-    get productType(): OrderItemEntity.ProductType {
-        return this.props.productType
+    get announceTypeId(): string {
+        return this.props.announceTypeId
     }
     
 }
 
 export namespace OrderItemEntity {
-
-    export type ProductType = "ITEM" | "NORMAL"
-
-    export type Input = {
-        productId: string
-        quantity: number 
-        unitPrice: number
-        productType: ProductType
+                        
+    export type Input = {   
+        announceId: string      
+        announceTypeId: string      
+        quantity: number                
+        unitPrice: number                   
     }                                           
                                                  
     export type Props = {
-        productId: string
+        announceId: string
+        announceTypeId: string
         quantity: number
         unitPrice: number
-        productType: ProductType
     }
 
     export type PropsJSON = Props & { id: string }

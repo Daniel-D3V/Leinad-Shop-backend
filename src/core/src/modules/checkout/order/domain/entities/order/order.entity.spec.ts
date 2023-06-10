@@ -27,10 +27,10 @@ describe('Test OrderEntity', () => {
 
         id = "any_id"
         orderItemEntityProps = {
-            productId: "any_product_id",
+            announceId: "any_announce_id",
+            announceTypeId: "any_announce_type_id",
             quantity: 1,
             unitPrice: 1,
-            productType: "NORMAL"
         }
         props = {
             customerId: "any_customer_id"
@@ -88,8 +88,8 @@ describe('Test OrderEntity', () => {
 
     it("Should find orderItem by productId", () => {
         const orderItemEntity1 = makeOrderItemEntity(orderItemEntityProps)
-        const orderItemEntity2 = makeOrderItemEntity({...orderItemEntityProps, productId: "any_other_product_id_1"})
-        const orderItemEntity3 = makeOrderItemEntity({...orderItemEntityProps, productId: "any_other_product_id_2"})
+        const orderItemEntity2 = makeOrderItemEntity({...orderItemEntityProps, announceId: "any_other_product_id_1"})
+        const orderItemEntity3 = makeOrderItemEntity({...orderItemEntityProps, announceId: "any_other_product_id_2"})
         sut = OrderEntity.create({
             ...props,
             orderItems: [orderItemEntity1, orderItemEntity2, orderItemEntity3]

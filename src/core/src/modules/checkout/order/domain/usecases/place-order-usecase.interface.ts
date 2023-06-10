@@ -6,13 +6,16 @@ export interface PlaceOrderUsecaseInterface extends UsecaseInterface {
 }
 
 export namespace PlaceOrderUsecaseInterface {
+    
+    export type Product = {
+        announceId: string
+        announceTypeId: string
+        quantity: number
+    }
+
     export type InputDto = {
         customerId: string
-        products: {
-            id: string
-            itemId?: string
-            quantity: number
-        }[]
+        products: Product[]
     }
 
     export type OutputDto = Either<Error[], {

@@ -18,9 +18,10 @@ export namespace OrderPlacedEvent {
         totalItemsQuantity: number
         orderItems: {
             id: string
-            productId: string
+            announceId: string
+            announceTypeId: string
             quantity: number
             unitPrice: number
-        }[]
+        }[]                 
     }
 }

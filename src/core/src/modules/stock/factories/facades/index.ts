@@ -1,0 +1,1 @@
+export * from "./consult-stock.facade.factory"

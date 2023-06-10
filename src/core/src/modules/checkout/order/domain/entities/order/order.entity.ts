@@ -39,8 +39,8 @@ export class OrderEntity extends BaseEntity<OrderEntity.Props> implements Aggreg
         return this.orderItems.reduce((total, orderItem) => total + orderItem.quantity, 0)
     }
 
-    findOrderItem(productId: string): OrderItemEntity | undefined {
-        return this.orderItems.find(orderItem => orderItem.productId === productId)
+    findOrderItem(announceId: string): OrderItemEntity | undefined {
+        return this.orderItems.find(orderItem => orderItem.announceId === announceId)
     }
 
     toJSON(): OrderEntity.PropsJSON {
