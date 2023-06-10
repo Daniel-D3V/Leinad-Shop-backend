@@ -14,7 +14,7 @@ describe("Test SendMessageChatDeliveryUsecase", () => {
     let sut: SendMessageChatDeliveryUsecase
 
     beforeEach(() => {
-        messageChatDeliveryEntity = messageChatDeliveryEntity as jest.Mocked<typeof ChatDeliveryMessageEntity>
+        messageChatDeliveryEntity = ChatDeliveryMessageEntity as jest.Mocked<typeof ChatDeliveryMessageEntity>
         messageChatDeliveryEntity.create.mockReturnValue({
             isLeft: () => false,
             value: {
@@ -35,7 +35,9 @@ describe("Test SendMessageChatDeliveryUsecase", () => {
         sut = new SendMessageChatDeliveryUsecase(messageChatDeliveryRepository, eventEmitter)
     })
 
-    it("Should be sent messageChatDelivery", () => {
+    it("Should be sent messageChatDelivery", async () => {
+        const output = await sut.execute(props);
 
+        expect(output.isRight()).toBe(true);
     })
 })
