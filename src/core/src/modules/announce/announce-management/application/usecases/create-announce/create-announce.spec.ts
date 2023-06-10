@@ -27,7 +27,7 @@ describe("Test CreateAnnnounceUsecaes", () => {
         announceManagementRepository = mock<AnnounceManagementRepositoryInterface>()
         eventEmitter = mock<EventEmitterInterface>()
         sut = new CreateAnnounceUsecase(announceManagementRepository, eventEmitter)
-    })  
+    })
 
     it("Should execute the usecase properly", async () => {
         const output = await sut.execute(props)
@@ -58,6 +58,5 @@ describe("Test CreateAnnnounceUsecaes", () => {
     it("Should create AnnounceCreatedEvent with correct values", async() => {
         await sut.execute(props)
         expect(AnnounceCreatedEvent).toBeCalledWith({ ...announceManagementEntity.toJSON() })
-    })
-
+    })  
 })

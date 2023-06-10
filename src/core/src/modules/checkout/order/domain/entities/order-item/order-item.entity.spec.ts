@@ -17,7 +17,8 @@ describe("Test OrderItemEntity", () => {
         props = {
             productId: "any_product_id",
             quantity: 1,
-            unitPrice: 1
+            unitPrice: 1,
+            productType: "NORMAL"
         }
         domainValidator = mockDomainValidator()
         jest.spyOn(OrderItemValidatorFactory, "create").mockReturnValue(domainValidator)

@@ -22,7 +22,7 @@ export class OrderEntity extends BaseEntity<OrderEntity.Props> implements Aggreg
             orderItems: input.orderItems || []
         }, id)
         return right(orderEntity)
-    }
+    }               
 
     cancel(): void {
         this.props.status = "CANCELLED"

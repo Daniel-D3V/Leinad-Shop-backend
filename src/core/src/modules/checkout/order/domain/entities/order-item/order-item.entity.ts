@@ -14,6 +14,12 @@ export class OrderItemEntity extends BaseEntity<OrderItemEntity.Props> {
         const isInputValid = orderItemValidator.validate(props)
         if(isInputValid.isLeft()) return left(isInputValid.value)
 
+        if(props.productType === "ITEM") {}
+        else if(props.productType === "NORMAL") {}
+        else {
+            props.productType = "NORMAL"
+        }
+
         const orderItemEntity = new OrderItemEntity(props, id)
         return right(orderItemEntity)
     }
@@ -28,7 +34,8 @@ export class OrderItemEntity extends BaseEntity<OrderItemEntity.Props> {
             id: this.id,
             productId: this.productId,
             quantity: this.quantity,
-            unitPrice: this.unitPrice
+            unitPrice: this.unitPrice,
+            productType: this.productType
         }
     }
 
@@ -41,21 +48,28 @@ export class OrderItemEntity extends BaseEntity<OrderItemEntity.Props> {
     get unitPrice(): number {
         return this.props.unitPrice
     }
-  
+    get productType(): OrderItemEntity.ProductType {
+        return this.props.productType
+    }
+    
 }
 
 export namespace OrderItemEntity {
 
+    export type ProductType = "ITEM" | "NORMAL"
+
     export type Input = {
         productId: string
-        quantity: number
+        quantity: number 
         unitPrice: number
-    }
-
+        productType: ProductType
+    }                                           
+                                                 
     export type Props = {
         productId: string
         quantity: number
         unitPrice: number
+        productType: ProductType
     }
 
     export type PropsJSON = Props & { id: string }

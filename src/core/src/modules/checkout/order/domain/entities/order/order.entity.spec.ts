@@ -29,7 +29,8 @@ describe('Test OrderEntity', () => {
         orderItemEntityProps = {
             productId: "any_product_id",
             quantity: 1,
-            unitPrice: 1
+            unitPrice: 1,
+            productType: "NORMAL"
         }
         props = {
             customerId: "any_customer_id"
