@@ -1,15 +1,15 @@
 import { BaseEvent } from "@/modules/@shared/events";
 
-export class ChatDeliveryDeliveredEvent extends BaseEvent {
+export class ChatDeliveryFinishedEvent extends BaseEvent {
 
     constructor(
-        readonly payload: ChatDeliveryDeliveredEvent.Payload
+        readonly payload: ChatDeliveryFinishedEvent.Payload
     ) {
         super()
     }
 }
 
-export namespace ChatDeliveryDeliveredEvent {
+export namespace ChatDeliveryFinishedEvent {
     export type Payload = {
         chatDeliveryId: string
     }

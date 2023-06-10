@@ -1,19 +1,19 @@
 import { EventEmitterInterface } from "@/modules/@shared/events";
 import { ChatDeliveryEntity } from "@/modules/chat-delivery/domain/entities";
 import { ChatDeliveryRepositoryInterface } from "@/modules/chat-delivery/domain/repositories";
-import { DeliverChatDeliveryUsecaseInterface } from "@/modules/chat-delivery/domain/usecases/deliver-chat-delivery.usecase.interface"
+import { FinishChatDeliveryUsecaseInterface } from "@/modules/chat-delivery/domain/usecases/finish-chat-delivery.usecase.interface copy";
 import { mock } from "jest-mock-extended";
-import { DeliverChatDeliveryUsecase } from "./deliver-chat-delivery.usecase";
-import { ChatDeliveryDeliveredEvent } from "./chat-delivery-delivered.event";
+import { FinishChatDeliveryUsecase } from "./finish-chat-delivery.usecase";
+import { ChatDeliveryFinishedEvent } from "./chat-delivery-finished.event";
 
-jest.mock("./chat-delivery-delivered.event")
+jest.mock("./chat-delivery-finished.event")
 
-describe("Test DeliverChatDeliveryUsecase", () => {
-    let props: DeliverChatDeliveryUsecaseInterface.InputDto;
+describe("Test FinishChatDeliveryUsecase", () => {
+    let props: FinishChatDeliveryUsecaseInterface.InputDto;
     let chatDeliveryEntity: ChatDeliveryEntity
     let chatDeliveryRepository: ChatDeliveryRepositoryInterface;
     let eventEmitter: EventEmitterInterface
-    let sut: DeliverChatDeliveryUsecase
+    let sut: FinishChatDeliveryUsecaseInterface
 
     beforeEach(() => {
         chatDeliveryEntity = mock<ChatDeliveryEntity>()
@@ -27,7 +27,7 @@ describe("Test DeliverChatDeliveryUsecase", () => {
         })
 
         eventEmitter = mock<EventEmitterInterface>()
-        sut = new DeliverChatDeliveryUsecase(chatDeliveryRepository, eventEmitter)
+        sut = new FinishChatDeliveryUsecase(chatDeliveryRepository, eventEmitter)
     })
 
     it("Should execute the usecase properly", async () => {
@@ -44,10 +44,10 @@ describe("Test DeliverChatDeliveryUsecase", () => {
         expect(output.value[0].name).toBe("ChatDeliveryNotFoundError")
     })
 
-    it("Should call chatDeliveryEntity.deliver once", async () => {
+    it("Should call chatDeliveryEntity.finish once", async () => {
         await sut.execute(props);
 
-        expect(chatDeliveryEntity.deliver).toHaveBeenCalledTimes(1);
+        expect(chatDeliveryEntity.finish).toHaveBeenCalledTimes(1);
     })
 
     it("Should call chatDeliveryRepository.update once", async () => {
@@ -65,6 +65,6 @@ describe("Test DeliverChatDeliveryUsecase", () => {
     it("Should create chatDeliveryDeliveredEvent with correct values", async () => {
         await sut.execute(props);
 
-        expect(ChatDeliveryDeliveredEvent).toHaveBeenCalledTimes(1);
+        expect(ChatDeliveryFinishedEvent).toHaveBeenCalledTimes(1);
     })
 })
