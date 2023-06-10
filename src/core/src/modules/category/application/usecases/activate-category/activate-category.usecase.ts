@@ -7,18 +7,18 @@ import { ActivateCategoryUsecaseInterface } from "@/modules/category/domain/usec
 import { CategoryAlreadyActivatedError } from "./errors";
 
 export class ActivateCategoryUsecase implements ActivateCategoryUsecaseInterface {
-    
+
     constructor(
         private readonly categoryRepository: CategoryRepositoryInterface,
         private readonly eventEmitter: EventEmitterInterface
-    ){}
+    ) { }
 
     async execute({ categoryId }: ActivateCategoryUsecaseInterface.InputDto): Promise<ActivateCategoryUsecaseInterface.OutputDto> {
 
         const categoryEntity = await this.categoryRepository.findById(categoryId)
-        if(!categoryEntity) return left([ new CategoryNotFoundError() ])
+        if (!categoryEntity) return left([new CategoryNotFoundError()])
 
-        if(categoryEntity.isActivate()) return left([ new CategoryAlreadyActivatedError() ])
+        if (categoryEntity.isActivate()) return left([new CategoryAlreadyActivatedError()])
 
         categoryEntity.activate()
         await this.categoryRepository.update(categoryEntity)
@@ -26,8 +26,8 @@ export class ActivateCategoryUsecase implements ActivateCategoryUsecaseInterface
         const categoryActivatedEvent = new CategoryActivatedEvent({
             categoryId
         })
-        await this.eventEmitter.emit(categoryActivatedEvent)
 
+        await this.eventEmitter.emit(categoryActivatedEvent)
         return right(null)
     }
 }

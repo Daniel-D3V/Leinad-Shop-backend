@@ -10,5 +10,5 @@ export namespace ActivateCategoryUsecaseInterface {
         categoryId: string
     }
 
-    export type OutputDto = Either<Error[], null> 
+    export type OutputDto = Either<Error[], null>
 }
