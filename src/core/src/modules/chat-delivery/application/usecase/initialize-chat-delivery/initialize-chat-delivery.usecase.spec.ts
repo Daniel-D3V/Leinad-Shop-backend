@@ -45,6 +45,7 @@ describe("Test InitializeChatDeliveryUsecase", () => {
             isLeft: () => true,
             value: [new Error("EntityError")]
         } as any)
+
         const output = await sut.execute(props)
         if (output.isRight()) throw new Error("usecase should not return right")
 

@@ -23,7 +23,7 @@ describe("test AddAutoStockUsecase", () => {
         }
         stockNormalAutoEntity = mock<StockNormalAutoEntity>()
         jest.spyOn(StockNormalAutoEntity, "create")
-        .mockReturnValue({ isLeft: () => false, value: stockNormalAutoEntity } as any)
+            .mockReturnValue({ isLeft: () => false, value: stockNormalAutoEntity } as any)
 
         stockNormalAutoRepository = mock<StockNormalAutoRepositoryInterface>()
         eventEmitter = mock<EventEmitterInterface>()
@@ -51,8 +51,6 @@ describe("test AddAutoStockUsecase", () => {
         await sut.execute(props)
         expect(stockNormalAutoRepository.create).toHaveBeenCalledTimes(1)
     })
-
-    
 
     it("Should create StockNormalAutoAddedEvent with correct values", async () => {
         await sut.execute(props)

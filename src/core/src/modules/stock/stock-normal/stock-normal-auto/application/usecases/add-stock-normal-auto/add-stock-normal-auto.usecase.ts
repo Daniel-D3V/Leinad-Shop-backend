@@ -1,6 +1,6 @@
 import { EventEmitterInterface } from "@/modules/@shared/events";
 import { Either, left, right } from "@/modules/@shared/logic";
-import {  StockNormalAutoAddedEvent } from "./stock-normal-auto-added.event";
+import { StockNormalAutoAddedEvent } from "./stock-normal-auto-added.event";
 import { StockNormalAutoRepositoryInterface } from "../../../domain/repository";
 import { AddStockNormalAutoUsecaseInterface } from "../../../domain/usecases";
 import { StockNormalAutoEntity } from "../../../domain/entities";

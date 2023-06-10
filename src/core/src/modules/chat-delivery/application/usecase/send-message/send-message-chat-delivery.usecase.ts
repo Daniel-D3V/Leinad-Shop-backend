@@ -14,7 +14,8 @@ export class SendMessageChatDeliveryUsecase implements UsecaseInterface {
 
     async execute(input: SendMessageChatDeliveryUsecaseInterface.InputDto): Promise<SendMessageChatDeliveryUsecaseInterface.OutputDto> {
         const messageChatDeliveryEntityOrError = ChatDeliveryMessageEntity.create({
-            ...input
+            ...input,
+            dateTimeSent: new Date()
         })
 
         if (messageChatDeliveryEntityOrError.isLeft()) return left(messageChatDeliveryEntityOrError.value)
