@@ -23,5 +23,5 @@ export namespace OrderPlacedEvent {
             quantity: number
             unitPrice: number
         }[]                 
-    }
+    }       
 }

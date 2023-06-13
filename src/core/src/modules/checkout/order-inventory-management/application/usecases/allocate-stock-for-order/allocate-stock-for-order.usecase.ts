@@ -6,13 +6,17 @@ import { ProductNotFoundError } from "./errors";
 import { OrderInventoryManagementEntity } from "../../../domain/entities";
 import { OrderInventoryManagementRepositoryInterface } from "../../../domain/repositories";
 import { AllocateStockForOrderUsecaseInterface } from "../../../domain/usecases";
+import { ConsultAnnounceTypeFacadeInterface } from "@/modules/announce/announce-management/facades";
+import { ConsultStockItemStockTypeFacadeInterface } from "@/modules/stock/stock-item/stock-item-management/facades";
+import { ConsultStockNormalStockTypeFacadeInterface } from "@/modules/stock/stock-normal/stock-normal-management/facades";
 
 export class AllocateStockForOrderUsecase implements AllocateStockForOrderUsecaseInterface {
 
     constructor(
         private readonly orderInventoryManagementRepository: OrderInventoryManagementRepositoryInterface,
-        // private readonly getProductStockTypeFacade: GetProductStockTypeFacadeInterface,
-        // private readonly getProductStockAutoValueFacade: GetProductStockAutoValueFacadeInterface,
+        private readonly consultAnnounceTypeFacade: ConsultAnnounceTypeFacadeInterface,
+        private readonly consultStockItemStockTypeFacade: ConsultStockItemStockTypeFacadeInterface,
+        private readonly consultStockNormalStockTypeFacade: ConsultStockNormalStockTypeFacadeInterface,
         // private readonly reduceStockFacade: ReduceStockFacadeInterface,
         private readonly eventEmitter: EventEmitterInterface
     ) { }
@@ -23,13 +27,16 @@ export class AllocateStockForOrderUsecase implements AllocateStockForOrderUsecas
             orderId
         )
 
-        // for (const product of products) {
+        for (const product of products) {
 
-        //     const stockType = await this.getProductStockTypeFacade.execute(product.id)
-        //     if (!stockType) {
-        //         await this.eventEmitter.emit(this.createFailStockAllocationEvent(new ProductNotFoundError(), orderId))
-        //         return left([new ProductNotFoundError()])
-        //     }
+            const stockType = await this.consultAnnounceTypeFacade.consult({
+                announceId: product.announceId
+            })
+            if (!stockType) {
+                await this.eventEmitter.emit(this.createFailStockAllocationEvent(new ProductNotFoundError(), orderId))
+                return left([new ProductNotFoundError()])
+            }                                               
+
 
         //     if (stockType === "AUTO") {
         //         const productStockAutoValue = await this.getProductStockAutoValueFacade.execute(product.id)
@@ -44,7 +51,7 @@ export class AllocateStockForOrderUsecase implements AllocateStockForOrderUsecas
 
         //     const reduceStockResult = await this.reduceStock(product, orderId)
         //     if (reduceStockResult.isLeft()) left(reduceStockResult.value)
-        // }
+        }
 
         await this.orderInventoryManagementRepository.create(orderInventoryManagementEntity)
 
@@ -66,15 +73,15 @@ export class AllocateStockForOrderUsecase implements AllocateStockForOrderUsecas
     //     return right(null)
     // }
 
-    // createFailStockAllocationEvent(error: Error, orderId: string): StockAllocationForOrderFailedEvent {
-    //     return new StockAllocationForOrderFailedEvent({
-    //         orderId,
-    //         logs: {
-    //             reason: error.name,
-    //             description: error.message
-    //         }
-    //     })
-    // }
+    createFailStockAllocationEvent(error: Error, orderId: string): StockAllocationForOrderFailedEvent {
+        return new StockAllocationForOrderFailedEvent({
+            orderId,
+            logs: {
+                reason: error.name,
+                description: error.message
+            }
+        })
+    }
 
 
 }

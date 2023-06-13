@@ -1,0 +1,1 @@
+export * from "./consult-stock-item-stock-type.facade.interface"

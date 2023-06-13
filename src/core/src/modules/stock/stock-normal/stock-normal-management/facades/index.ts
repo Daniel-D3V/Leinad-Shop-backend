@@ -1,1 +1,2 @@
-export const b = {}
+
+export * from "./consult-stock-normal-stock-type.facade.interface"

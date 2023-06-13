@@ -9,7 +9,8 @@ export namespace AllocateStockForOrderUsecaseInterface {
     export type InputDto = {
         orderId: string
         products: {
-            id: string
+            announceId: string
+            announceTypeId: string
             quantity: number
         }[]
 
