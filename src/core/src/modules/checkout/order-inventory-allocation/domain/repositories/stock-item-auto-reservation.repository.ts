@@ -1,4 +1,4 @@
-import { StockItemAutoReservationModel } from "../domain/models";
+import { StockItemAutoReservationModel } from "../models";
 
 export interface StockItemAutoReservationRepositoryInterface {
 

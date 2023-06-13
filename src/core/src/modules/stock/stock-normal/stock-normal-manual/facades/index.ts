@@ -1,0 +1,1 @@
+export * from "./stock-normal-manual.facade.interface"

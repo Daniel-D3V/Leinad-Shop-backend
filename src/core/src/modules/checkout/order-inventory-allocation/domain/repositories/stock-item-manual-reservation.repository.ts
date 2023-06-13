@@ -1,4 +1,4 @@
-import { StockItemManualReservationModel } from "../domain/models";
+import { StockItemManualReservationModel } from "../models";
 
 export interface StockItemManualReservationRepositoryInterface {
 

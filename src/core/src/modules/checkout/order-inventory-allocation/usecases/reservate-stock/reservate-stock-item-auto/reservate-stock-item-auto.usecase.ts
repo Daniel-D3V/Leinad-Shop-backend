@@ -1,6 +1,6 @@
 import { UsecaseInterface } from "@/modules/@shared/domain";
 import { Either, left, right } from "@/modules/@shared/logic";
-import { StockItemAutoReservationRepositoryInterface } from "../../../repositories";
+import { StockItemAutoReservationRepositoryInterface } from "../../../domain/repositories";
 import { randomUUID } from "crypto";
 import { StockItemAutoFacadeInterface } from "@/modules/stock/stock-item/stock-item-auto/facades";
 import { NoStockItemAutoAvailableError } from "./errors";
