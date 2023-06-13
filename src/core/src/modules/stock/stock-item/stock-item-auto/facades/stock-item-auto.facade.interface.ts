@@ -1,6 +1,6 @@
 export interface StockItemAutoFacadeInterface {
 
-    pickOne(): Promise<StockItemAutoFacadeInterface.FindByIdOutputDto>
+    pickOneAndDelete(stockItemId: string): Promise<StockItemAutoFacadeInterface.FindByIdOutputDto>
 }
 
 export namespace StockItemAutoFacadeInterface {

@@ -12,12 +12,10 @@ export class ReservateStockItemAutoUsecase implements UsecaseInterface {
         private readonly stockItemAutoFacadeInterface: StockItemAutoFacadeInterface
     ){}
 
-    async execute({ orderItemId, orderId }: ReservateStockItemAutoUsecase.InputDto): Promise<Either<Error[], null>> {
+    async execute({ orderItemId, orderId, stockItemId }: ReservateStockItemAutoUsecase.InputDto): Promise<Either<Error[], null>> {
         
-        const stockItemAuto = await this.stockItemAutoFacadeInterface.pickOne()
+        const stockItemAuto = await this.stockItemAutoFacadeInterface.pickOneAndDelete(stockItemId)
         if(!stockItemAuto) return left([ new NoStockItemAutoAvailableError() ])
-
-
 
         await this.stockItemAutoReservationRepositoryInterface.create({
             id: randomUUID(),
@@ -34,6 +32,7 @@ export class ReservateStockItemAutoUsecase implements UsecaseInterface {
 export namespace ReservateStockItemAutoUsecase {
 
     export type InputDto = {
+        stockItemId: string
         orderItemId: string
         orderId: string
     }
