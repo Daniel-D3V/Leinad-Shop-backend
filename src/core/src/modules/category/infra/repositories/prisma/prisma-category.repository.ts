@@ -4,30 +4,30 @@ import { CategoryRepositoryInterface } from "@/modules/category/domain/repositor
 import { Category, PrismaClient, Prisma } from "@prisma/client";
 
 const setStatus = (categoryEntity: CategoryEntity, status: string) => {
-    if(status === "ACTIVE") categoryEntity.activate()
+    if (status === "ACTIVE") categoryEntity.activate()
     else categoryEntity.deactivate()
 }
 
 class PrismaCategoryEntityMapper {
     static toDomain(prismaCategory: Category | null): CategoryEntity | null {
-        if(!prismaCategory) return null;
+        if (!prismaCategory) return null;
         const categoryEntity = CategoryEntity.create({
             ...prismaCategory,
             description: prismaCategory.description!,
         }, prismaCategory.id)
-        if(categoryEntity.isLeft()) throw categoryEntity.value[0]
-        if(prismaCategory.parentId) categoryEntity.value.setParentId(prismaCategory.parentId)
+        if (categoryEntity.isLeft()) throw categoryEntity.value[0]
+        if (prismaCategory.parentId) categoryEntity.value.setParentId(prismaCategory.parentId)
 
         setStatus(categoryEntity.value, prismaCategory.status)
         return categoryEntity.value
     }
-} 
+}
 
 export class PrismaCategoryRepository implements CategoryRepositoryInterface {
 
     prismaClient: PrismaClient
 
-    constructor(provideprismaClient?: PrismaClient){
+    constructor(provideprismaClient?: PrismaClient) {
         this.prismaClient = provideprismaClient ?? prismaClient
     }
 
@@ -44,7 +44,7 @@ export class PrismaCategoryRepository implements CategoryRepositoryInterface {
         return PrismaCategoryEntityMapper.toDomain(prismaCategory)
     }
     async create(category: CategoryEntity): Promise<void> {
-        await this.prismaClient.category.create({ 
+        await this.prismaClient.category.create({
             data: {
                 ...category.toJSON(),
 
@@ -61,7 +61,7 @@ export class PrismaCategoryRepository implements CategoryRepositoryInterface {
         await this.prismaClient.category.update({
             where: { id: id ?? "" },
             data: {
-              ...propsToUpdate,
+                ...propsToUpdate,
             }
         })
     }

@@ -4,7 +4,7 @@ import { left, right } from "@/modules/@shared/logic";
 import { ChatDeliveryEntity } from "@/modules/chat-delivery/domain/entities";
 import { ChatDeliveryRepositoryInterface } from "@/modules/chat-delivery/domain/repositories/chat-delivery.repository.interface";
 import { InitializeChatDeliveryUsecaseInterface } from "@/modules/chat-delivery/domain/usecases/initilize-chat-delivery-usecase.interface";
-import { InitializedChatDeliveryEvent } from "./initialized-chat-delivery.event";
+import { InitializedChatDeliveryEvent } from "./chat-delivery-initialized.event";
 import { ChatDeliveryAlreadyCreatedError } from "./_errors/chat-delivery-already-created.error";
 
 export class InitializeChatDeliveryUsecase implements UsecaseInterface {

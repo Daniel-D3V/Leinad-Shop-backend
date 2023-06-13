@@ -1,7 +1,6 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,78 +10,69 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model Category {
-
-  id String @id
-  title String @unique @default("")
-  description String? @db.Text
-  status String @default("DEACTIVATED")
+  id          String     @id
+  title       String     @unique @default("")
+  description String?    @db.Text
+  status      String     @default("DEACTIVATED")
   parentId    String?
-  parent      Category? @relation("CategoryToParent", fields: [parentId], references: [id], onDelete: Cascade)
+  parent      Category?  @relation("CategoryToParent", fields: [parentId], references: [id], onDelete: Cascade)
   children    Category[] @relation("CategoryToParent")
 
   @@map("categories")
 }
 
 model Announce {
+  id          String  @id
+  title       String  @default("")
+  description String? @db.Text
+  status      String  @default("DEACTIVATED")
+  price       Float   @default(0.50)
 
-  id String @id
-  title String @default("")
-  description String? @db.Text 
-  status String @default("DEACTIVATED")
-  price Float @default(0.50)
-
-  userId String?
-  categoryId String?  
-
+  userId     String?
+  categoryId String?
 
   @@map("announces")
 }
 
 model AnnounceItem {
-
-  id String @id
-  title String
-  price Float 
+  id         String @id
+  title      String
+  price      Float
   announceId String
 
   @@map("announce_item")
 }
 
-
 model StockNormalManual {
-  id String @id
-  stock Int @default(0)
+  id                      String @id
+  stock                   Int    @default(0)
   stockNormalManagementId String @unique()
 
   @@map("stock_normal_manual")
 }
 
 model StockNormalAuto {
-  
-    id String @id
-    value String @default("")
-    stockNormalManagementId String 
-  
-    @@map("stock_normal_auto")
+  id                      String @id
+  value                   String @default("")
+  stockNormalManagementId String
+
+  @@map("stock_normal_auto")
 }
 
 model StockNormalManagement {
-  
-    id String @id
-    stockType String @default("NORMAL")
+  id        String @id
+  stockType String @default("NORMAL")
 
-    announceNormalId String @unique()
-  
-    @@map("stock_normal_management")
+  announceNormalId String @unique()
+
+  @@map("stock_normal_management")
 }
 
 model AnnounceImages {
-
-  id String @id @default(uuid())
+  id     String @id @default(uuid())
   weight Int
-  url String
+  url    String
 
   announceId String
 
@@ -90,77 +80,102 @@ model AnnounceImages {
 }
 
 model User {
-  id String @id @default(uuid())
+  id       String @id @default(uuid())
   username String @unique
-  email String @unique
-  password String 
+  email    String @unique
+  password String
 
-  @@map("users") 
+  @@map("users")
 }
 
 model Order {
-  id String @id @default(uuid())
-  status String 
+  id     String @id @default(uuid())
+  status String
   userId String
 
-  @@map("orders") 
+  @@map("orders")
 }
 
 model OrderItems {
-  id String @id @default(uuid())
-  quantity Int
-  unitPrice Float
-  orderId String
-  announceId String 
+  id         String @id @default(uuid())
+  quantity   Int
+  unitPrice  Float
+  orderId    String
+  announceId String
 
-  @@map("order_items") 
+  @@map("order_items")
 }
 
 model StockItemManagement {
-  id String @id @default(uuid())
-  stockItemType String
+  id             String @id @default(uuid())
+  stockItemType  String
   announceItemId String @unique()
 
-  @@map("stock_item_management") 
+  @@map("stock_item_management")
 }
 
 model StockItemManual {
-  id String @id @default(uuid())
-  stock Int
+  id                    String @id @default(uuid())
+  stock                 Int
   stockItemManagementId String @unique()
 
-  @@map("stock_item_manual") 
+  @@map("stock_item_manual")
 }
 
-
-
 model StockItemAuto {
-  id String @id @default(uuid())
-  value String
+  id                    String @id @default(uuid())
+  value                 String
   stockItemManagementId String
-  
-  @@map("stock_item_auto") 
+
+  @@map("stock_item_auto")
 }
 
 model EventConsumer {
-  
-  id String @id @default(uuid())
-  eventId String 
-  consumerName String 
+  id           String @id @default(uuid())
+  eventId      String
+  consumerName String
 
   @@unique([eventId, consumerName])
   @@map("event_consumer")
 }
 
 model Outbox {
-
-  id String @id @default(uuid())
-  payload String @db.Text
-  eventName String 
-  timestamp DateTime
-  status    String @default("PENDING")
-  error_message    String @default("PENDING")
-  retry_count Int @default(0)
+  id            String   @id @default(uuid())
+  payload       String   @db.Text
+  eventName     String
+  timestamp     DateTime
+  status        String   @default("PENDING")
+  error_message String   @default("PENDING")
+  retry_count   Int      @default(0)
 
   @@map("outbox")
+}
+
+model ChatDelivery {
+  id         String @id @default(uuid())
+  salesmanId String
+  customerId String
+  orderId    String
+  status     String
+
+  @@map("chat-delivery")
+}
+
+model ChatDeliveryMessage {
+  id           String   @id @default(uuid())
+  authorId     String
+  chatId       String
+  content      String?
+  dateTimeSent DateTime
+
+  @@map("chat-delivery-message")
+}
+
+model ChatDeliveryMessageAttachment {
+  id                    String @id @default(uuid())
+  type                  String
+  attachment            String
+  chatDeliveryMessageId String
+
+  @@map("chat-delivery-message-attachment")
 }
