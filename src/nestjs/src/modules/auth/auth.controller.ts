@@ -1,7 +1,11 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Res, Req } from '@nestjs/common';
 import { Response, Request } from "express";
 import { formatError } from "@core/domain/dist/src/modules/@shared/utils"
-import { SignupUsecaseFactory, LoginUsecaseFactory, RefreshTokenUsecaseFactory, GetUserByAccessTokenUsecaseFactory } from "@core/domain/dist/src/modules/auth/factories"
+import { 
+  SignupUsecaseFactory, 
+  LoginUsecaseFactory, 
+  RefreshTokenUsecaseFactory 
+} from "@core/domain/dist/src/modules/auth/factories"
 
 
 @Controller('auth')

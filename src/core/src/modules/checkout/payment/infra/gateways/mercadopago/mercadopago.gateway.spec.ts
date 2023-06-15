@@ -14,4 +14,11 @@ describe('Test MercadoPagoGateway', () => {
         paymentEntity = mock<PaymentEntity>()
         sut = new MercadopagoGateway()
     })
+
+
+    it("Should generate a payment", async () => {
+            
+        const response = await sut.generatePayment(paymentEntity)
+        
+    })//dsdfsdfsd/////////////
 })

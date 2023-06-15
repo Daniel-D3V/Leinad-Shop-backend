@@ -39,6 +39,7 @@
     "@types/bcrypt": "^5.0.0",
     "@types/mysql": "^2.15.21",
     "amqplib": "^0.10.3",
+    "axios": "^1.4.0",
     "bcrypt": "^5.1.0",
     "jest-mock-extended": "^3.0.4",
     "jsonwebtoken": "^9.0.0",
