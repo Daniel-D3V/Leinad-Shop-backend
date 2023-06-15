@@ -28,8 +28,8 @@ export class PaymentEntity extends BaseEntity<PaymentEntity.Props> {
         this.props.status = "CANCELLED"
     }
 
-    pay(): void {
-        this.props.status = "PAID"
+    approve(): void {
+        this.props.status = "APPROVED"
     }
 
     toJSON(): PaymentEntity.PropsJSON {
@@ -66,7 +66,7 @@ export class PaymentEntity extends BaseEntity<PaymentEntity.Props> {
 
 export namespace PaymentEntity {
     
-    export type Status = "PENDING" | "CANCELLED" | "PAID" 
+    export type Status = "PENDING" | "CANCELLED" | "REFUNDED" |  "APPROVED" 
     export type PaymentMethod = "MERCADOPAGO" | "STRIPE"
 
     export type Input = {

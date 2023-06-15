@@ -1,33 +1,35 @@
 import { UsecaseInterface } from "@/modules/@shared/domain";
 import { Either, left, right } from "@/modules/@shared/logic";
-import { ProcessPaymentInputDto } from "./process-payment.dto";
+import { ApprovePaymentInputDto } from "./approve-payment.dto";
 import { PaymentRepositoryInterface } from "../../../domain/repositories";
 import { PaymentNotFoundError } from "../_errors";
 import { EventEmitterInterface } from "@/modules/@shared/events";
-import { PaymentProcessedEvent } from "./payment-processed.event";
+import { PaymentApprovedEvent } from "./payment-approved.event"
 
-
-export class ProcessPaymentUsecase implements UsecaseInterface {
+export class ApprovePaymentUsecase implements UsecaseInterface {
     
     constructor(
         private readonly paymentRepository: PaymentRepositoryInterface,
         private readonly eventEmitter: EventEmitterInterface
     ){}
 
-    async execute({ paymentId }: ProcessPaymentInputDto): Promise<Either<Error[], any>> {
+    async execute({ paymentId }: ApprovePaymentInputDto): Promise<Either<Error[], any>> {
 
         const paymentEntity = await this.paymentRepository.findById(paymentId)
         if(!paymentEntity) return left([ new PaymentNotFoundError() ])
 
-        paymentEntity.pay()
+        paymentEntity.approve()
         await this.paymentRepository.update(paymentEntity)
 
-        const paymentProcessedEvent = new PaymentProcessedEvent({
+        const paymentApprovedEvent = new PaymentApprovedEvent({
             paymentId: paymentEntity.id,
             status: paymentEntity.status
         })
-        await this.eventEmitter.emit(paymentProcessedEvent)
+        await this.eventEmitter.emit(paymentApprovedEvent)
 
         return right(null)
     }
 }
+
+
+// Escrevi fui trabalhar, quem ta lendo quer me dar um emprego? 

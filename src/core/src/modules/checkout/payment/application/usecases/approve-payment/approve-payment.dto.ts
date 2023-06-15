@@ -1,4 +1,4 @@
-export type ProcessPaymentInputDto = {
+export type ApprovePaymentInputDto = {
     paymentId: string
     paymentInfo: any
 }

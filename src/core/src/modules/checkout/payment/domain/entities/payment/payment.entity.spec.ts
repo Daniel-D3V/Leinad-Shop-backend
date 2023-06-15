@@ -45,7 +45,7 @@ describe("Test PaymentEntity", () => {
 
     it("Should pay a PaymentEntity", () => {
         expect(sut.status).toBe("PENDING")
-        sut.pay()
-        expect(sut.status).toBe("PAID")
+        sut.approve()
+        expect(sut.status).toBe("APPROVED")
     })
 })
