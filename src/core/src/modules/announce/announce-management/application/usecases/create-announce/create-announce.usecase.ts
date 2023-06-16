@@ -12,10 +12,11 @@ export class CreateAnnounceUsecase implements CreateAnnounceUsecaseInterface {
         private readonly eventEmitter: EventEmitterInterface 
     ){}
     
-    async execute({ userId }: CreateAnnounceUsecaseInterface.InputDto): Promise<CreateAnnounceUsecaseInterface.OutputDto> {
+    async execute({ userId, categoryId }: CreateAnnounceUsecaseInterface.InputDto): Promise<CreateAnnounceUsecaseInterface.OutputDto> {
         
         const announceEntity = AnnounceManagementEntity.create({
-            userId
+            userId,
+            categoryId
         });
         if(announceEntity.isLeft()) return left(announceEntity.value)
 

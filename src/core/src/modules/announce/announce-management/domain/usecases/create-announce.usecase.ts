@@ -8,6 +8,7 @@ export interface CreateAnnounceUsecaseInterface extends UsecaseInterface {
 export namespace CreateAnnounceUsecaseInterface {
     export type InputDto = {
         userId: string
+        categoryId: string
     }
 
     export type OutputDto = Either<Error[], { id: string }> 

@@ -6,7 +6,11 @@ import { RabbitMQService } from './services/rabbitmq/rabbitmq.service';
 import { MysqlConsumerService } from './services/mysql-consumer/mysql-consumer.service';
 
 @Module({
-  imports: [AuthModule, EventSourcingModule, CategoriesModule, ],
+  imports: [
+    AuthModule, 
+    EventSourcingModule, 
+    CategoriesModule, 
+  ],
   controllers: [],
   providers: [RabbitMQService, MysqlConsumerService],
 })

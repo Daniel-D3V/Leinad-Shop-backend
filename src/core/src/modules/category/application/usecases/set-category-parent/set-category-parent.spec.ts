@@ -67,6 +67,11 @@ describe("Test SetCategoryParentUsecase", () => {
         expect(result.value[0].name).toBe("SubCategoryProvidedError")
     })
 
+    it("Should call category.setParentId with correct value", async () => {
+        await sut.execute(props)
+        expect(categoryEntity.setParentId).toHaveBeenCalledWith(props.parentId)
+    })
+
     it("Should emit a CategoryParentSetEvent", async () => {
         await sut.execute(props)
         expect(eventEmitter.emit).toBeCalledTimes(1)

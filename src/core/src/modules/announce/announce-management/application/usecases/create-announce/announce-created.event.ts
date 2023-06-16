@@ -14,6 +14,7 @@ export namespace AnnounceCreatedEvent {
         id: string
         status: string
         announceType: string
+        categoryId: string
         userId: string
     }
 }

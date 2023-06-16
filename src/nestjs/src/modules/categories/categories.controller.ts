@@ -49,9 +49,9 @@ export class CategoriesController {
 
 
   @Post("/remove-category-parent/:categoryId")
-  async removeCategoryParent(@Param('categoryId') categoryId: string, @Body() removeParentDto: any, @Res() res: Response) {
+  async removeCategoryParent(@Param('categoryId') categoryId: string, @Res() res: Response) {
     const removeCategoryParentUsecase = RemoveCategoryParentFactory.create()
-    const usecaseResult = await removeCategoryParentUsecase.execute({ ...removeParentDto ,categoryId })
+    const usecaseResult = await removeCategoryParentUsecase.execute({ categoryId })
     if(usecaseResult.isLeft()) {
       return res.status(400).json(formatError(usecaseResult.value))
     }

@@ -2,7 +2,9 @@ import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/c
 import { AuthController } from './auth.controller';
 
 @Module({
-  controllers: [AuthController],
+  controllers: [
+    AuthController
+  ],
   providers: []
 })
 

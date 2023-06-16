@@ -19,7 +19,8 @@ describe("Test CreateAnnnounceUsecaes", () => {
     beforeEach(() => {
 
         props = {
-            userId: "any_user_id"
+            userId: "any_user_id",
+            categoryId: "any_category_id"
         }
         announceManagementEntity = mock<AnnounceManagementEntity>()
         jest.spyOn(AnnounceManagementEntity, "create")

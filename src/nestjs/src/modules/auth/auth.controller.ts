@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Res, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res, Req, UseGuards } from '@nestjs/common';
 import { Response, Request } from "express";
 import { formatError } from "@core/domain/dist/src/modules/@shared/utils"
 import { 
@@ -6,6 +6,7 @@ import {
   LoginUsecaseFactory, 
   RefreshTokenUsecaseFactory 
 } from "@core/domain/dist/src/modules/auth/factories"
+import { AuthGuard } from 'src/guards';
 
 
 @Controller('auth')
@@ -51,6 +52,7 @@ export class AuthController {
     return res.status(200).json()
   }
 
+  @UseGuards(new AuthGuard())
   @Post("/current-user")
   async currentUser(@Req() req: Request, @Res() res: Response) {
     return res.status(200).json(req.currentUser)

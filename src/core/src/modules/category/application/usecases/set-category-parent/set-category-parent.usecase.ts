@@ -22,6 +22,8 @@ export class SetCategoryParentUsecase implements SetCategoryParentUsecaseInterfa
 
         if(parentCategory.isSubCategory()) return left([ new SubCategoryProvidedError() ])
 
+        category.setParentId(parentCategory.id)
+
         await this.categoryRepository.update(category)
 
         const categoryParentSetEvent = new CategoryParentSetEvent({
