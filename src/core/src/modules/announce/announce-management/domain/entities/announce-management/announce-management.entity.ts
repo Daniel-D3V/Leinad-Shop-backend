@@ -51,6 +51,14 @@ export class AnnounceManagementEntity extends BaseEntity<AnnounceManagementEntit
         this.props.announceType = "NORMAL"
     }
 
+    isTypeItem(): boolean {
+        return this.props.announceType === "ITEM"
+    }
+
+    isTypeNormal(): boolean {
+        return this.props.announceType === "NORMAL"
+    }
+
     toJSON(): AnnounceManagementEntity.PropsJSON {
         return {
             id: this.id,

@@ -56,4 +56,12 @@ describe("Test AnnounceManagement", () => {
         expect(sut.announceType).toBe("NORMAL")
     })
     
+    it("should return true if type is item", () => {
+        sut.changeTypeToItem()
+        expect(sut.isTypeItem()).toBe(true)
+    })
+
+    it("should return true if type is normal", () => {
+        expect(sut.isTypeNormal()).toBe(true)
+    })
 })
