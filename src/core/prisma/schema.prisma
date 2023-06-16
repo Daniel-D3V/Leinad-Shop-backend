@@ -22,27 +22,28 @@ model Category {
   @@map("categories")
 }
 
-model Announce {
-  id          String  @id
-  title       String  @default("")
-  description String? @db.Text
-  status      String  @default("DEACTIVATED")
-  price       Float   @default(0.50)
 
-  userId     String?
-  categoryId String?
+model AnnounceManagement {
+  id        String @id
+  status    String @default("DEACTIVATED")
+  announceType String @default("NORMAL")
 
-  @@map("announces")
+  categoryId String
+  userId     String
+
+  @@map("announce_management")
 }
 
-model AnnounceItem {
-  id         String @id
-  title      String
-  price      Float
+model AnnounceImages {
+  id     String @id @default(uuid())
+  weight Int
+  url    String
+
   announceId String
 
-  @@map("announce_item")
+  @@map("announce_images")
 }
+
 
 model StockNormalManual {
   id                      String @id
@@ -69,15 +70,6 @@ model StockNormalManagement {
   @@map("stock_normal_management")
 }
 
-model AnnounceImages {
-  id     String @id @default(uuid())
-  weight Int
-  url    String
-
-  announceId String
-
-  @@map("announce_images")
-}
 
 model User {
   id       String @id @default(uuid())
