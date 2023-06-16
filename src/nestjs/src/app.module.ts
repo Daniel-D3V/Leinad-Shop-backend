@@ -4,12 +4,13 @@ import { EventSourcingModule } from './modules/event-sourcing/event-sourcing.mod
 import { CategoriesModule } from './modules/categories/categories.module';
 import { RabbitMQService } from './services/rabbitmq/rabbitmq.service';
 import { MysqlConsumerService } from './services/mysql-consumer/mysql-consumer.service';
+import { AnnounceManagementModule } from './modules/announce/announce-management/announce-management.module';
 
 @Module({
   imports: [
     AuthModule, 
     EventSourcingModule, 
-    CategoriesModule, 
+    CategoriesModule, AnnounceManagementModule, 
   ],
   controllers: [],
   providers: [RabbitMQService, MysqlConsumerService],
