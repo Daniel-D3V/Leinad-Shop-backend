@@ -60,4 +60,17 @@ describe("Test PrismaAnnounceNormalRepository", () => {
         const announceNormalFound = await sut.findByAnnounceId(announceNormalEntity.announceId)
         expect(announceNormalFound).toBeNull()
     })
+
+    it("Should update announce normal", async () => {
+        await sut.create(announceNormalEntity)
+        
+        const announceNormalEntityFound = await sut.findById(announceNormalEntity.id)
+        if(!announceNormalEntityFound) return fail("Should find announce normal")
+
+        announceNormalEntityFound.changePrice(20)
+        await sut.update(announceNormalEntityFound)
+        
+        const announceNormalUpdated = await sut.findById(announceNormalEntity.id)
+        expect(announceNormalUpdated?.toJSON()).toEqual(announceNormalEntityFound.toJSON())
+    })
 })

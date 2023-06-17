@@ -41,5 +41,15 @@ export class PrismaAnnounceNormalRepository implements AnnounceNormalRepositoryI
         if(!prismaAnnounceNormal) return null
         return PrismaAnnounceNormalMapper.toDomain(prismaAnnounceNormal)
     }
+    
+    async update(announceNormalEntity: AnnounceNormalEntity): Promise<void> {
+        const { id, announceId, ...props } = announceNormalEntity.toJSON()
+        await this.prismaClient.announceNormal.updateMany({
+            where: { id: id ?? "" },
+            data: {
+                ...props
+            }
+        })
+    }
 
 }
