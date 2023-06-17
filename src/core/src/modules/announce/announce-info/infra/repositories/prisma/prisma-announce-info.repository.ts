@@ -40,5 +40,14 @@ export class PrismaAnnounceInfoRepository implements AnnounceInfoRepositoryInter
         return PrismaAnnounceInfoMapper.toDomain(prismaAnnounceInfo)
     }
 
+    async update(announceInfoEntity: AnnounceInfoEntity): Promise<void> {
+        const { id, announceId, ...props } = announceInfoEntity.toJSON()
+        await this.prismaClient.announceInfo.updateMany({
+            where: { id: id ?? "" },
+            data: {
+                ...props
+            }
+        })
+    }
     
 }

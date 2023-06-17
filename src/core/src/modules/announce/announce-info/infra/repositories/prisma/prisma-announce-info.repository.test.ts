@@ -54,4 +54,16 @@ describe("Test PrismaAnnounceInfoRepository", () => {
         const announceInfoEntityFound = await sut.findById(announceInfoEntity.id)
         expect(announceInfoEntityFound?.toJSON()).toEqual(announceInfoEntity.toJSON())
     })
+
+    it("Should update", async () => {
+        await sut.create(announceInfoEntity)
+
+        announceInfoEntity.changeDescription("any_description_updated")
+        announceInfoEntity.changeTitle("any_title_updated")
+
+        await sut.update(announceInfoEntity)
+        const announceInfoEntityUpdated = await sut.findById(announceInfoEntity.id)
+        
+        expect(announceInfoEntityUpdated?.toJSON()).toEqual(announceInfoEntity.toJSON())
+    })
 })
