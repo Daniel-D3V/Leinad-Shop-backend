@@ -21,6 +21,13 @@ export class PrismaAnnounceManagementRepository implements AnnounceManagementRep
         }, prismaAnnounceManagement.id)
         if(announceManagementEntity.isLeft()) throw announceManagementEntity.value[0]
 
+        if(prismaAnnounceManagement.status === "DEACTIVATED") announceManagementEntity.value.deactivate()
+        if(prismaAnnounceManagement.status === "ACTIVATED") announceManagementEntity.value.activate()
+        if(prismaAnnounceManagement.status === "BANNED") announceManagementEntity.value.ban()
+
+        if(prismaAnnounceManagement.announceType === "NORMAL") announceManagementEntity.value.changeTypeToNormal()
+        if(prismaAnnounceManagement.announceType === "ITEM") announceManagementEntity.value.changeTypeToItem()
+
         return announceManagementEntity.value
     }
 
