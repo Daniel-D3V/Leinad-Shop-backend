@@ -34,6 +34,16 @@ model AnnounceManagement {
   @@map("announce_management")
 }
 
+model AnnounceInfo {
+  id        String @id
+  title String
+  description String
+
+  announceId String
+
+  @@map("announce_info")
+}
+
 model AnnounceImages {
   id     String @id @default(uuid())
   weight Int
