@@ -38,4 +38,22 @@ describe("Test AnnounceItem", () => {
         expect(result.isLeft()).toBe(true)
         expect(result.value).toEqual([propsError])
     })
+
+    it("Should change title", () => {
+        const newTitle = "new_title"
+        const result = sut.changeTitle(newTitle)
+        expect(result.isRight()).toBe(true)
+        expect(sut.title).toBe(newTitle)
+    })
+
+    it("Should return an error if title is invalid", () => {
+        const newTitle = "new_title"
+        const propsError = new Error("props error")
+        jest.spyOn(AnnounceItemEntity, "validateAnnounceItemProps")
+        .mockReturnValue({ isLeft: () => true, value: [propsError] } as any )
+
+        const result = sut.changeTitle(newTitle)
+        expect(result.isLeft()).toBe(true)
+        expect(result.value).toEqual([propsError])
+    })
 })

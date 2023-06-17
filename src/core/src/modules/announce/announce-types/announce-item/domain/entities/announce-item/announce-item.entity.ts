@@ -33,6 +33,14 @@ export class AnnounceItemEntity extends BaseAnnounceEntity<AnnounceItemEntity.Pr
         return right(announceNormalEntity)
     }
 
+    changeTitle(title: string): Either<Error[], null> {
+        const validationResult = AnnounceItemEntity.validateAnnounceItemProps({ title, price: this.getPrice() })
+        if(validationResult.isLeft()) return left(validationResult.value)
+        
+        this.props.title = title
+        return right(null)
+    }
+
     toJSON(): AnnounceItemEntity.PropsJSON {
         return {
             id: this.id,
