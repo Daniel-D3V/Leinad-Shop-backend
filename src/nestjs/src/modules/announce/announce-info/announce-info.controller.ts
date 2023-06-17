@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Param, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { 
   CreateAnnounceInfoUsecaseFactory,
@@ -22,5 +22,33 @@ export class AnnounceInfoController {
         throw new ApplicationError(result.value)
     }
     return res.status(201).json(result.value)
+  }
+
+  @UseGuards(new AuthGuard())
+  @Post("/change-title/:announceInfoId")
+  async changeTitle(@Param('announceInfoId') announceInfoId: string, @Body() changeDto: any, @Res() res: Response) {
+    const usecase = ChangeAnnounceInfoTitleUsecaseFactory.create()
+    const result = await usecase.execute({
+      ...changeDto,
+      announceInfoId
+    })
+    if (result.isLeft()) {
+        throw new ApplicationError(result.value)
+    }
+    return res.status(200).json()
+  }
+
+  @UseGuards(new AuthGuard())
+  @Post("/change-description/:announceInfoId")
+  async changeDescription(@Param('announceInfoId') announceInfoId: string, @Body() changeDto: any, @Res() res: Response) {
+    const usecase = ChangeAnnounceInfoDescriptionUsecaseFactory.create()
+    const result = await usecase.execute({
+      ...changeDto,
+      announceInfoId
+    })
+    if (result.isLeft()) {
+        throw new ApplicationError(result.value)
+    }
+    return res.status(200).json()
   }
 }
