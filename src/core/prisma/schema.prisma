@@ -39,10 +39,30 @@ model AnnounceInfo {
   title String
   description String
 
-  announceId String
+  announceId String @unique
 
   @@map("announce_info")
 }
+
+model AnnounceItem {
+  id        String @id
+  price Int
+  title String
+
+  announceId String
+
+  @@map("announce_item")
+}
+
+model AnnounceNormal {
+  id        String @id
+  price Int
+
+  announceId String @unique
+
+  @@map("announce_normal")
+}
+
 
 model AnnounceImages {
   id     String @id @default(uuid())
