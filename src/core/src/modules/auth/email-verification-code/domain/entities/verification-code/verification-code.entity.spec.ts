@@ -16,12 +16,12 @@ describe("Test VerificationCodeEntity", () => {
         }
         sut = VerificationCodeEntity.create(props, id);
     })
-
+    
     it("should create a new VerificationCodeEntity", () => {
         expect(sut).toBeDefined();
         expect(sut.toJSON()).toEqual({ ...props, id });
     })
-
+    
     it("should create a new VerificationCodeEntity with random code", () => {
         delete props.code
         const sut = VerificationCodeEntity.create(props);
