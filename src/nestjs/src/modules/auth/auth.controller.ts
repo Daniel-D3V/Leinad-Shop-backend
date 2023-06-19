@@ -5,7 +5,7 @@ import {
   SignupUsecaseFactory, 
   LoginUsecaseFactory, 
   RefreshTokenUsecaseFactory 
-} from "@core/domain/dist/src/modules/auth/factories"
+} from "@core/domain/dist/src/modules/auth/main/factories"
 import { AuthGuard } from 'src/guards';
 
 
