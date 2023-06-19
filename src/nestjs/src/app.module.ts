@@ -9,12 +9,14 @@ import { AnnounceInfoModule } from './modules/announce/announce-info/announce-in
 import { AnnounceNormalModule } from './modules/announce/announce-types/announce-normal/announce-normal.module';
 import { AnnounceItemModule } from './modules/announce/announce-types/announce-item/announce-item.module';
 import { StockItemManagementModule } from './modules/stock/stock-item/stock-item-management/stock-item-management.module';
+import { StockItemManualModule } from './modules/stock/stock-item/stock-item-manual/stock-item-manual.module';
+import { StockItemAutoModule } from './modules/stock/stock-item/stock-item-auto/stock-item-auto.module';
 
 @Module({
   imports: [
     AuthModule, 
     EventSourcingModule, 
-    CategoriesModule, AnnounceManagementModule, AnnounceInfoModule, AnnounceNormalModule, AnnounceItemModule, StockItemManagementModule, 
+    CategoriesModule, AnnounceManagementModule, AnnounceInfoModule, AnnounceNormalModule, AnnounceItemModule, StockItemManagementModule, StockItemManualModule, StockItemAutoModule, 
   ],
   controllers: [],
   providers: [RabbitMQService, MysqlConsumerService],
