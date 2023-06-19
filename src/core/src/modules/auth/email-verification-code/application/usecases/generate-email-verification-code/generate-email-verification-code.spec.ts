@@ -5,6 +5,7 @@ import { GenerateEmailVerificationCodeUsecase } from "./generate-email-verificat
 import { VerificationCodeEntity } from "../../../domain/entities"
 import { mock } from "jest-mock-extended"
 import { EmailVerificationCodeGeneratedEvent } from "./email-verification-code-generated.event"
+import { AuthUserFacadeInterface } from "@/modules/auth/main/facades"
 
 jest.mock("./email-verification-code-generated.event")
 
@@ -13,6 +14,7 @@ describe("Test Generate Verification Code Use Case", () => {
     let sut: GenerateEmailVerificationCodeUsecase
     let props: GenerateEmailVerificationCodeUsecaseInterface.InputDto
     let verificationCodeRepository: VerificationCodeRepositoryInterface
+    let authUserFacade: AuthUserFacadeInterface
     let eventEmitter: EventEmitterInterface
     let verificationCodeEntity: VerificationCodeEntity
 
@@ -25,8 +27,13 @@ describe("Test Generate Verification Code Use Case", () => {
         jest.spyOn(VerificationCodeEntity, "create")
         .mockReturnValue(verificationCodeEntity)
         verificationCodeRepository = mock<VerificationCodeRepositoryInterface>()
+        authUserFacade = mock<AuthUserFacadeInterface>()
         eventEmitter = mock<EventEmitterInterface>()
-        sut = new GenerateEmailVerificationCodeUsecase(verificationCodeRepository, eventEmitter)
+        sut = new GenerateEmailVerificationCodeUsecase(
+            verificationCodeRepository, 
+            authUserFacade,
+            eventEmitter
+        )
     })
 
     it("Should execute the usecase properly", async () => {
@@ -40,6 +47,14 @@ describe("Test Generate Verification Code Use Case", () => {
         const output = await sut.execute(props)
         if(output.isRight()) return fail("Should not return right")
         expect(output.value[0].name).toBe("VerificationCodeAlreadyGeneratedError")
+    })
+
+    it("Should return EmailAlreadyVerifiedError if the email is already verified", async () => {
+        jest.spyOn(authUserFacade, "isEmailVerified")
+        .mockResolvedValue(true)
+        const output = await sut.execute(props)
+        if(output.isRight()) return fail("Should not return right")
+        expect(output.value[0].name).toBe("EmailAlreadyVerifiedError")
     })
 
     it("Should call verificationCodeRepository.create once", async () => {

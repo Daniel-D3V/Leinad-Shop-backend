@@ -3,13 +3,15 @@ import { VerificationCodeEntity } from "../../../domain/entities";
 import { VerificationCodeRepositoryInterface } from "../../../domain/repositories";
 import { GenerateEmailVerificationCodeUsecaseInterface } from "../../../domain/usecases";
 import { left, right } from "@/modules/@shared/logic";
-import { VerificationCodeAlreadyGeneratedError } from "./errors";
+import { EmailAlreadyVerifiedError, VerificationCodeAlreadyGeneratedError } from "./errors";
 import { EmailVerificationCodeGeneratedEvent } from "./email-verification-code-generated.event";
+import { AuthUserFacadeInterface } from "@/modules/auth/main/facades";
 
 export class GenerateEmailVerificationCodeUsecase implements GenerateEmailVerificationCodeUsecaseInterface {
     
     constructor(
         private readonly verificationCodeRepository: VerificationCodeRepositoryInterface,
+        private readonly authUserFacade: AuthUserFacadeInterface,
         private readonly eventEmitter: EventEmitterInterface
     ) {}
 
@@ -17,6 +19,9 @@ export class GenerateEmailVerificationCodeUsecase implements GenerateEmailVerifi
         
         const existingVerificationCode = await this.verificationCodeRepository.findByUserId(userId);
         if(existingVerificationCode) return left([ new VerificationCodeAlreadyGeneratedError() ])
+
+        const isEmailVerified = await this.authUserFacade.isEmailVerified(userId);
+        if(isEmailVerified) return left( [ new EmailAlreadyVerifiedError() ]) 
 
         const verificationCodeEntity = VerificationCodeEntity.create({ userId });
         await this.verificationCodeRepository.create(verificationCodeEntity);
