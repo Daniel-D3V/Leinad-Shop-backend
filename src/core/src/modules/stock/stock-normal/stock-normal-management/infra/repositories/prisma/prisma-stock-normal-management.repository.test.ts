@@ -62,10 +62,10 @@ describe("Test PrismaStockNormalManagementRepository", () => {
         await sut.create(stockNormalManagementEntity)
         const entityFound = await sut.findById(id)
         expect(entityFound?.stockType).toBe("AUTO")
-        entityFound?.toStockNormal()
+        entityFound?.toStockManual()
         await sut.update(entityFound!)
         const entityUpdated = await sut.findById(id)
-        expect(entityUpdated?.stockType).toBe("NORMAL")
+        expect(entityUpdated?.stockType).toBe("MANUAL")
 
     })
 

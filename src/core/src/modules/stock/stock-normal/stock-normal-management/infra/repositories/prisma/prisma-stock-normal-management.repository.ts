@@ -10,7 +10,7 @@ class PrismaStockNormalManagementMapper {
         },prismaStockNormalManagemet.id)
 
         if (prismaStockNormalManagemet.stockType === "AUTO") stockManagementEntity.toStockAuto()
-        if (prismaStockNormalManagemet.stockType === "NORMAL") stockManagementEntity.toStockNormal()
+        if (prismaStockNormalManagemet.stockType === "MANUAL") stockManagementEntity.toStockManual()
         return stockManagementEntity
     }
 }

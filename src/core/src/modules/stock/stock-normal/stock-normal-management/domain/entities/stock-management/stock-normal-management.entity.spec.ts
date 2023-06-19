@@ -20,27 +20,27 @@ describe("Test StockManagementEntity", () => {
         sut = StockNormalManagementEntity.create(props, id)
         expect(sut.toJSON()).toMatchObject({
             id,
-            stockType: "NORMAL",
+            stockType: "MANUAL",
             ...props
         })
     })
 
     it("Should change to stock AUTO", () => {
-        expect(sut.stockType).toBe("NORMAL")
+        expect(sut.stockType).toBe("MANUAL")
         sut.toStockAuto()
         expect(sut.stockType).toBe("AUTO")
     })
 
-    it("Should change to stock NORMAL", () => {
+    it("Should change to stock MANUAL", () => {
         sut.toStockAuto()
         expect(sut.stockType).toBe("AUTO")
-        sut.toStockNormal()
-        expect(sut.stockType).toBe("NORMAL")
+        sut.toStockManual()
+        expect(sut.stockType).toBe("MANUAL")
     })  
 
-    it("Should check if stock is NORMAL", () => {
-        expect(sut.stockType).toBe("NORMAL")
-        expect(sut.isStockNormal()).toBe(true)
+    it("Should check if stock is MANUAL", () => {
+        expect(sut.stockType).toBe("MANUAL")
+        expect(sut.isStockManual()).toBe(true)
     })  
         
     it("Should check if stock is AUTO", () => {

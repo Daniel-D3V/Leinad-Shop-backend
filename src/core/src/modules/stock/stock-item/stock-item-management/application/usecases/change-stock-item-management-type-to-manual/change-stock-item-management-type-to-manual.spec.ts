@@ -1,18 +1,18 @@
 
 import { mock } from "jest-mock-extended";
-import { StockItemManagementTypeChangedToNormalEvent } from "./stock-item-management-type-changed-to-normal.event";
-import { ChangeStockItemManagementTypeToNormalUsecase } from "./change-stock-item-management-type-to-normal.usecase";
-import { ChangeStockItemManagementTypeToNormalUsecaseInterface } from "../../../domain/usecases";
+import { StockItemManagementTypeChangedToManualEvent } from "./stock-item-management-type-changed-to-manual.event";
+import { ChangeStockItemManagementTypeToManualUsecase } from "./change-stock-item-management-type-to-manual.usecase";
+import { ChangeStockItemManagementTypeToManualUsecaseInterface } from "../../../domain/usecases";
 import { StockItemManagementRepositoryInterface } from "../../../domain/repositories";
 import { EventEmitterInterface } from "@/modules/@shared/events";
 import { StockItemManagementEntity } from "../../../domain/entities";
 
-jest.mock("./stock-item-management-type-changed-to-normal.event")
+jest.mock("./stock-item-management-type-changed-to-manual.event")
 
 describe("Test ChangeStockItemTypeToAuto", () => {
 
-    let sut: ChangeStockItemManagementTypeToNormalUsecase;
-    let props: ChangeStockItemManagementTypeToNormalUsecaseInterface.InputDto
+    let sut: ChangeStockItemManagementTypeToManualUsecase;
+    let props: ChangeStockItemManagementTypeToManualUsecaseInterface.InputDto
     let stockItemManagementRepository: StockItemManagementRepositoryInterface
     let eventEmitter: EventEmitterInterface
     let stockItemManagementEntity: StockItemManagementEntity
@@ -29,7 +29,7 @@ describe("Test ChangeStockItemTypeToAuto", () => {
             findById: async () => stockItemManagementEntity,
         })
         eventEmitter = mock<EventEmitterInterface>()
-        sut = new ChangeStockItemManagementTypeToNormalUsecase(stockItemManagementRepository, eventEmitter)
+        sut = new ChangeStockItemManagementTypeToManualUsecase(stockItemManagementRepository, eventEmitter)
     })
 
     it("Should execute the usecase properly", async () => {
@@ -44,16 +44,16 @@ describe("Test ChangeStockItemTypeToAuto", () => {
         expect(output.value![0].name).toBe("StockItemNotFoundError")
     })
 
-    it("Should return StockItemTypeIsAlreadyNormalError if stock item type is already normal", async () => {
-        jest.spyOn(stockItemManagementEntity, "isStockTypeNormal").mockReturnValueOnce(true)
+    it("Should return StockItemTypeIsAlreadyManualError if stock item type is already manual", async () => {
+        jest.spyOn(stockItemManagementEntity, "isStockTypeManual").mockReturnValueOnce(true)
         const output = await sut.execute(props)
         expect(output.isLeft()).toBeTruthy()
-        expect(output.value![0].name).toBe("StockItemTypeIsAlreadyNormalError")
+        expect(output.value![0].name).toBe("StockItemTypeIsAlreadyManualError")
     })
 
-    it("Should call changeToTypeNormal method from stock item entity", async () => {
+    it("Should call changeToTypeManual method from stock item entity", async () => {
         await sut.execute(props)
-        expect(stockItemManagementEntity.changeToTypeNormal).toHaveBeenCalledTimes(1)
+        expect(stockItemManagementEntity.changeToTypeManual).toHaveBeenCalledTimes(1)
     })
 
     it("Should call update method from stockItemRepository", async () => {
@@ -66,9 +66,9 @@ describe("Test ChangeStockItemTypeToAuto", () => {
         expect(eventEmitter.emit).toHaveBeenCalledTimes(1)
     })
 
-    it("Should create  StockItemManagementTypeChangedToNormalEvent with correct values", async () => {
+    it("Should create  StockItemManagementTypeChangedToManualEvent with correct values", async () => {
         await sut.execute(props)
-        expect(StockItemManagementTypeChangedToNormalEvent).toHaveBeenCalledWith({
+        expect(StockItemManagementTypeChangedToManualEvent).toHaveBeenCalledWith({
             stockItemManagementId: stockItemManagementEntity.id
         })
     })

@@ -5,7 +5,7 @@ import { Request, Response } from "express"
 import { 
   CreateStockItemManagementUsecaseFactory,
   ChangeStockItemManagementTypeToAutoUsecaseFactory,
-  ChangeStockItemManagementTypeToNormalUsecaseFactory
+  ChangeStockItemManagementTypeToManualUsecaseFactory
 } from "@core/domain/dist/src/modules/stock/stock-item/stock-item-management/factories"
 
 @Controller('stock-item')
@@ -38,9 +38,9 @@ export class StockItemManagementController {
   }
 
   @UseGuards(new AuthGuard())
-  @Post("/change-type-to-normal/:stockItemManagementId")
+  @Post("/change-type-to-manual/:stockItemManagementId")
   async changeTypeToNormal(@Param('stockItemManagementId') stockItemManagementId: string, @Res() res: Response) {
-    const usecase = ChangeStockItemManagementTypeToNormalUsecaseFactory.create()
+    const usecase = ChangeStockItemManagementTypeToManualUsecaseFactory.create()
     const result = await usecase.execute({
       stockItemManagementId
     })

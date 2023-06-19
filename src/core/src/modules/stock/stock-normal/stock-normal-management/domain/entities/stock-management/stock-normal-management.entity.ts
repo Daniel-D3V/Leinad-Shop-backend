@@ -9,19 +9,19 @@ export class StockNormalManagementEntity extends BaseEntity<StockNormalManagemen
     static create(input: StockNormalManagementEntity.Input, id?: string): StockNormalManagementEntity {
         const stockNormalManagementEntity = new StockNormalManagementEntity({
             ...input,
-            stockType: "NORMAL"
+            stockType: "MANUAL"
         }, id) 
         return stockNormalManagementEntity
     }
 
-    toStockNormal(){
-        this.props.stockType = "NORMAL"
+    toStockManual(){
+        this.props.stockType = "MANUAL"
     }
     toStockAuto(){
         this.props.stockType = "AUTO"
     }
-    isStockNormal(): boolean {
-        return this.props.stockType === "NORMAL"
+    isStockManual(): boolean {
+        return this.props.stockType === "MANUAL"
     }
     isStockAuto(): boolean {
         return this.props.stockType === "AUTO"
@@ -48,7 +48,7 @@ export class StockNormalManagementEntity extends BaseEntity<StockNormalManagemen
 
 export namespace StockNormalManagementEntity {
 
-    export type StockType = "NORMAL" | "AUTO" 
+    export type StockType = "MANUAL" | "AUTO" 
 
     export type Input = {
         announceNormalId: string

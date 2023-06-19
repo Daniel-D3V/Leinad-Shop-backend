@@ -2,23 +2,23 @@ import { OutboxEmitter } from "@/modules/@shared/infra/providers";
 import { prismaClient } from "@/modules/@shared/infra/repository/prisma/client";
 import { PrismaClient } from "@prisma/client";
 import { PrismaStockNormalManagementRepository } from "../../infra/repositories";
-import { ChangeStockNormalManagementTypeToNormalUsecaseInterface } from "../../domain/usecases";
-import { ChangeStockNormalManagementTypeToNormalUsecase } from "../../application/usecases";
+import { ChangeStockNormalManagementTypeToManualUsecaseInterface } from "../../domain/usecases";
+import { ChangeStockNormalManagementTypeToManualUsecase } from "../../application/usecases";
 
-export class ChangeStockNormalManagementTypeToNormalFactory {
+export class ChangeStockNormalManagementTypeToManualFactory {
 
-    static create(): ChangeStockNormalManagementTypeToNormalUsecaseInterface {
+    static create(): ChangeStockNormalManagementTypeToManualUsecaseInterface {
         
-        const execute = async (input: ChangeStockNormalManagementTypeToNormalUsecaseInterface.InputDto): Promise<ChangeStockNormalManagementTypeToNormalUsecaseInterface.OutputDto> => {
+        const execute = async (input: ChangeStockNormalManagementTypeToManualUsecaseInterface.InputDto): Promise<ChangeStockNormalManagementTypeToManualUsecaseInterface.OutputDto> => {
             
             return await prismaClient.$transaction(async (prisma) => {
                 const prismaStockNormalManagementRepository = new PrismaStockNormalManagementRepository(prisma as PrismaClient)
                 const outboxEmitter = new OutboxEmitter(prisma as PrismaClient)
-                const changeStockNormalManagementTypeToNormalUsecase = new ChangeStockNormalManagementTypeToNormalUsecase(
+                const changeStockNormalManagementTypeToManualUsecase = new ChangeStockNormalManagementTypeToManualUsecase(
                     prismaStockNormalManagementRepository, 
                     outboxEmitter
                 )
-                return await changeStockNormalManagementTypeToNormalUsecase.execute(input)
+                return await changeStockNormalManagementTypeToManualUsecase.execute(input)
             })
         }
 

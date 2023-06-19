@@ -1,5 +1,5 @@
 export * from "./stock-management-not-found.error"
 export * from "./stock-management-already-is-auto.error"
-export *from "./stock-management-already-is-normal.error"
+export *from "./stock-management-already-is-manual.error"
 export * from "./stock-management-auto-not-found.error"
 export * from "./stock-management-already-is-item.error"

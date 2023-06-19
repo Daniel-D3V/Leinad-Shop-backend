@@ -11,7 +11,7 @@ export class StockItemManagementEntity extends  BaseEntity<StockItemManagementEn
 
         const stockItemManagementEntity = new StockItemManagementEntity({
             ...input,
-            stockItemType: "NORMAL"
+            stockItemType: "MANUAL"
         }, id)
         return right(stockItemManagementEntity)
     }
@@ -24,16 +24,16 @@ export class StockItemManagementEntity extends  BaseEntity<StockItemManagementEn
         }
     }
 
-    changeToTypeNormal(): void {
-        this.props.stockItemType = "NORMAL"
+    changeToTypeManual(): void {
+        this.props.stockItemType = "MANUAL"
     }
 
     changeToTypeAuto(): void {
         this.props.stockItemType = "AUTO"
     }
 
-    isStockTypeNormal(): boolean {
-        return this.props.stockItemType === "NORMAL"
+    isStockTypeManual(): boolean {
+        return this.props.stockItemType === "MANUAL"
     }
 
     isStockTypeAuto(): boolean {
@@ -51,7 +51,7 @@ export class StockItemManagementEntity extends  BaseEntity<StockItemManagementEn
 
 export namespace StockItemManagementEntity {
 
-    export type StockItemType = "NORMAL" | "AUTO"
+    export type StockItemType = "MANUAL" | "AUTO"
 
     export type Input = {
         announceItemId: string
