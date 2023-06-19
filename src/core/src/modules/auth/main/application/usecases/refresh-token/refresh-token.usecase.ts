@@ -1,4 +1,4 @@
-import { RefreshTokenUsecaseInterface } from "@/modules/auth/domain/usecases";
+import { RefreshTokenUsecaseInterface } from "@/modules/auth/main/domain/usecases";
 import { TokenManagementInterface } from "../../protocols";
 import { left, right } from "@/modules/@shared/logic";
 

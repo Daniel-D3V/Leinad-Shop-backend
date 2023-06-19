@@ -1,4 +1,4 @@
-import { RefreshTokenUsecaseInterface } from "@/modules/auth/domain/usecases"
+import { RefreshTokenUsecaseInterface } from "@/modules/auth/main/domain/usecases"
 import { TokenManagementInterface } from "../../protocols"
 import { RefreshTokenUsecase } from "./refresh-token.usecase"
 import { mock } from "jest-mock-extended"

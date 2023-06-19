@@ -1,5 +1,5 @@
-import { UserEntity } from "@/modules/auth/domain/entities";
-import { UserRepositoryInterface } from "@/modules/auth/domain/repositories";
+import { UserEntity } from "@/modules/auth/main/domain/entities";
+import { UserRepositoryInterface } from "@/modules/auth/main/domain/repositories";
 import { PrismaClient } from "@prisma/client";
 
 export class PrismaUserRepository implements UserRepositoryInterface {

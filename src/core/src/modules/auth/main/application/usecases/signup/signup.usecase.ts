@@ -1,10 +1,10 @@
 import { Either, left, right } from "@/modules/@shared/logic";
-import { UserRepositoryInterface } from "@/modules/auth/domain/repositories";
+import { UserRepositoryInterface } from "@/modules/auth/main/domain/repositories";
 import { EmailInUseError, UsernameInUseError } from "./errors";
-import { UserEntity } from "@/modules/auth/domain/entities";
+import { UserEntity } from "@/modules/auth/main/domain/entities";
 import { EventEmitterInterface } from "@/modules/@shared/events";
 import { UserSignupEvent } from "./user-signup.event";
-import { SignupUsecaseInterface } from "@/modules/auth/domain/usecases";
+import { SignupUsecaseInterface } from "@/modules/auth/main/domain/usecases";
 
 export class SignupUsecase implements SignupUsecaseInterface {
 

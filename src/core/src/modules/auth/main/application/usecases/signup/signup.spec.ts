@@ -1,10 +1,10 @@
-import { UserRepositoryInterface } from "@/modules/auth/domain/repositories"
+import { UserRepositoryInterface } from "@/modules/auth/main/domain/repositories"
 import { SignupUsecase } from "./signup.usecase"
 import { EventEmitterInterface } from "@/modules/@shared/events"
 import { mock } from "jest-mock-extended"
-import { UserEntity } from "@/modules/auth/domain/entities";
+import { UserEntity } from "@/modules/auth/main/domain/entities";
 import { UserSignupEvent } from "./user-signup.event"
-import { SignupUsecaseInterface } from "@/modules/auth/domain/usecases";
+import { SignupUsecaseInterface } from "@/modules/auth/main/domain/usecases";
 
 jest.mock("@/modules/auth/domain/entities")
 jest.mock("./user-signup.event")

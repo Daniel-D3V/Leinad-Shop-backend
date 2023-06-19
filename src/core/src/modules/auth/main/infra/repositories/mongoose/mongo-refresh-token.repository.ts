@@ -1,4 +1,4 @@
-import { RefreshTokenRepositoryInterface } from "@/modules/auth/domain/repositories";
+import { RefreshTokenRepositoryInterface } from "@/modules/auth/main/domain/repositories";
 import { MongoRefreshTokenModel } from "./models";
 
 export class MongoRefreshTokenRepository implements RefreshTokenRepositoryInterface {

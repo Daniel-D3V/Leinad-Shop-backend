@@ -2,7 +2,7 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { ApplicationError } from 'src/utils';
-import { GetUserByAccessTokenUsecaseFactory } from '@core/domain/dist/src/modules/auth/factories';
+import { GetUserByAccessTokenUsecaseFactory } from '@core/domain/dist/src/modules/auth/main/factories';
 
 interface User {
   id: string;

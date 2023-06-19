@@ -1,5 +1,5 @@
-import { UserRepositoryInterface } from "@/modules/auth/domain/repositories";
-import { GetUserByAccessTokenUsecaseInterface } from "@/modules/auth/domain/usecases";
+import { UserRepositoryInterface } from "@/modules/auth/main/domain/repositories";
+import { GetUserByAccessTokenUsecaseInterface } from "@/modules/auth/main/domain/usecases";
 import { TokenManagementInterface } from "../../protocols";
 import { left, right } from "@/modules/@shared/logic";
 import { UserNotFoundError } from "../_errors";

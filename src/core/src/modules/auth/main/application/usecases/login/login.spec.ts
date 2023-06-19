@@ -1,9 +1,9 @@
-import { LoginUsecaseInterface } from "@/modules/auth/domain/usecases"
+import { LoginUsecaseInterface } from "@/modules/auth/main/domain/usecases"
 import { LoginUsecase } from "./login.usecase"
-import { UserRepositoryInterface } from "@/modules/auth/domain/repositories"
+import { UserRepositoryInterface } from "@/modules/auth/main/domain/repositories"
 import { TokenManagementInterface } from "../../protocols"
 import { mock } from "jest-mock-extended"
-import { UserEntity } from "@/modules/auth/domain/entities"
+import { UserEntity } from "@/modules/auth/main/domain/entities"
 
 
 describe("Tets Login", () => {

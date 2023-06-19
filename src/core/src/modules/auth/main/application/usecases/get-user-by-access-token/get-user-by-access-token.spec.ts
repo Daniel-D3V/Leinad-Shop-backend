@@ -1,8 +1,8 @@
-import { GetUserByAccessTokenUsecaseInterface } from "@/modules/auth/domain/usecases"
+import { GetUserByAccessTokenUsecaseInterface } from "@/modules/auth/main/domain/usecases"
 import { GetUserByAccessTokenUsecase } from "./get-user-by-access-token.usecase"
-import { UserRepositoryInterface } from "@/modules/auth/domain/repositories"
+import { UserRepositoryInterface } from "@/modules/auth/main/domain/repositories"
 import { TokenManagementInterface } from "../../protocols"
-import { UserEntity } from "@/modules/auth/domain/entities"
+import { UserEntity } from "@/modules/auth/main/domain/entities"
 import { mock } from "jest-mock-extended"
 
 describe("Test GetUserByAccessTokenUsecase", () => {

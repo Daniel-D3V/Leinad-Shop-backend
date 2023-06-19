@@ -1,8 +1,8 @@
 import { Either, left, right } from "@/modules/@shared/logic";
-import { UserRepositoryInterface } from "@/modules/auth/domain/repositories";
+import { UserRepositoryInterface } from "@/modules/auth/main/domain/repositories";
 import { InvalidCredentialsError } from "./errors";
 import { TokenManagementInterface } from "../../protocols";
-import { LoginUsecaseInterface } from "@/modules/auth/domain/usecases";
+import { LoginUsecaseInterface } from "@/modules/auth/main/domain/usecases";
 import { TokenPayloadModel } from "../../models";
 
 export class LoginUsecase implements LoginUsecaseInterface {
