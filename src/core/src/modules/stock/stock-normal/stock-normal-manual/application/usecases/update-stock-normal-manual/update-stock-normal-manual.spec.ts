@@ -19,7 +19,7 @@ describe("Test UpdateStockNormalManualUsecase", () => {
     beforeEach(() => {
 
         props = {
-            stockNormaManualId: "any_stock_normal_manual_id",
+            stockNormalManualId: "any_stock_normal_manual_id",
             stock: 10
         }
         stockNormalManualEntity = mock<StockNormalManualEntity>({

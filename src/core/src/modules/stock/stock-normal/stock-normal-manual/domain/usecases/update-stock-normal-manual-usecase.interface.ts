@@ -7,7 +7,7 @@ export interface UpdateStockNormalManualUsecaseInterface extends UsecaseInterfac
 
 export namespace UpdateStockNormalManualUsecaseInterface {
     export type InputDto = {
-        stockNormaManualId: string
+        stockNormalManualId: string
         stock: number
     }
 

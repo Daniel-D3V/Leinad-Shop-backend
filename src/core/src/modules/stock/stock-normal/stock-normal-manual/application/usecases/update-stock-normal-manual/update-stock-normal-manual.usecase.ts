@@ -14,8 +14,8 @@ export class UpdateStockNormalManualUsecase implements UpdateStockNormalManualUs
     ){}
 
     async execute(input: UpdateStockNormalManualUsecaseInterface.InputDto): Promise<UpdateStockNormalManualUsecaseInterface.OutputDto> {
-        
-        const stockNormalManualEntity = await this.stockNormalManualRepository.findById(input.stockNormaManualId)
+
+        const stockNormalManualEntity = await this.stockNormalManualRepository.findById(input.stockNormalManualId)
         if(!stockNormalManualEntity) return left([ new StockNormalManualNotFoundError() ])
 
         const updateStockResult = stockNormalManualEntity.updateStock(input.stock)

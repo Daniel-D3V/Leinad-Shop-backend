@@ -12,12 +12,14 @@ import { StockItemManagementModule } from './modules/stock/stock-item/stock-item
 import { StockItemManualModule } from './modules/stock/stock-item/stock-item-manual/stock-item-manual.module';
 import { StockItemAutoModule } from './modules/stock/stock-item/stock-item-auto/stock-item-auto.module';
 import { StockNormalManagementModule } from './modules/stock/stock-normal/stock-normal-management/stock-normal-management.module';
+import { StockNormalManualModule } from './modules/stock/stock-normal/stock-normal-manual/stock-normal-manual.module';
+import { StockNormalAutoModule } from './modules/stock/stock-normal/stock-normal-auto/stock-normal-auto.module';
 
 @Module({
   imports: [
     AuthModule, 
     EventSourcingModule, 
-    CategoriesModule, AnnounceManagementModule, AnnounceInfoModule, AnnounceNormalModule, AnnounceItemModule, StockItemManagementModule, StockItemManualModule, StockItemAutoModule, StockNormalManagementModule, 
+    CategoriesModule, AnnounceManagementModule, AnnounceInfoModule, AnnounceNormalModule, AnnounceItemModule, StockItemManagementModule, StockItemManualModule, StockItemAutoModule, StockNormalManagementModule, StockNormalManualModule, StockNormalAutoModule, 
   ],
   controllers: [],
   providers: [RabbitMQService, MysqlConsumerService],
