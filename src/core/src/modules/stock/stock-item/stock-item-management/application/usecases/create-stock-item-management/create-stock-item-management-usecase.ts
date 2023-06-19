@@ -4,6 +4,7 @@ import { CreateStockItemManagementUsecaseInterface } from "@/modules/stock/stock
 import { StockItemManagementCreatedEvent } from "./stock-item-management-created.event";
 import { StockItemManagementRepositoryInterface } from "../../../domain/repositories";
 import { StockItemManagementEntity } from "../../../domain/entities";
+import { StockItemAlreadyCreatedError } from "./errors";
 
 
 export class CreateStockItemManagementUsecase implements CreateStockItemManagementUsecaseInterface {
@@ -19,6 +20,9 @@ export class CreateStockItemManagementUsecase implements CreateStockItemManageme
             announceItemId
         })
         if(stockItemManagementEntity.isLeft()) return left(stockItemManagementEntity.value)
+        
+        const existingStockItemManagement = await this.stockItemManagementRepository.findByAnnounceItemId(announceItemId)
+        if(existingStockItemManagement) return left([ new StockItemAlreadyCreatedError() ])
 
         await this.stockItemManagementRepository.create(stockItemManagementEntity.value)
 

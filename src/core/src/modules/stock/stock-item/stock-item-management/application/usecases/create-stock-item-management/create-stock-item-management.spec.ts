@@ -47,6 +47,12 @@ describe("Test CreateStockItemUsecase", () => {
         expect(output.value).toEqual([ entityCreationError ])
     })
 
+    it("Should return StockItemAlreadyCreatedError if stockItemManagementRepository.findByAnnounceItemId() returns a value", async () => {
+        jest.spyOn(stockItemManagementRepository, "findByAnnounceItemId").mockResolvedValueOnce(stockItemManagementEntity)
+        const output = await sut.execute(props)
+        if(output.isRight()) return fail("Should return a right")
+        expect(output.value[0].name).toBe("StockItemAlreadyCreatedError")
+    })
 
     it("Should call stockItemManagementRepository.create() once", async () => {
         await sut.execute(props)

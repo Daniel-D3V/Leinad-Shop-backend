@@ -8,12 +8,13 @@ import { AnnounceManagementModule } from './modules/announce/announce-management
 import { AnnounceInfoModule } from './modules/announce/announce-info/announce-info.module';
 import { AnnounceNormalModule } from './modules/announce/announce-types/announce-normal/announce-normal.module';
 import { AnnounceItemModule } from './modules/announce/announce-types/announce-item/announce-item.module';
+import { StockItemManagementModule } from './modules/stock/stock-item/stock-item-management/stock-item-management.module';
 
 @Module({
   imports: [
     AuthModule, 
     EventSourcingModule, 
-    CategoriesModule, AnnounceManagementModule, AnnounceInfoModule, AnnounceNormalModule, AnnounceItemModule, 
+    CategoriesModule, AnnounceManagementModule, AnnounceInfoModule, AnnounceNormalModule, AnnounceItemModule, StockItemManagementModule, 
   ],
   controllers: [],
   providers: [RabbitMQService, MysqlConsumerService],
