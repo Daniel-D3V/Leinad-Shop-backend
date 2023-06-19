@@ -1,19 +1,19 @@
 import { EventEmitterInterface } from "@/modules/@shared/events";
 import { VerificationCodeEntity } from "../../../domain/entities";
 import { VerificationCodeRepositoryInterface } from "../../../repositories";
-import { GenerateVerificationCodeUsecaseInterface } from "../../../usecases/generate-verification-code.usecase.interface";
+import { GenerateEmailVerificationCodeUsecaseInterface } from "../../../usecases";
 import { left, right } from "@/modules/@shared/logic";
 import { VerificationCodeAlreadyGeneratedError } from "./errors";
-import { VerificationCodeGeneratedEvent } from "./verification-code-generated.event";
+import { EmailVerificationCodeGeneratedEvent } from "./email-verification-code-generated.event";
 
-export class GenerateVerificationCodeUsecase implements GenerateVerificationCodeUsecaseInterface {
+export class GenerateEmailVerificationCodeUsecase implements GenerateEmailVerificationCodeUsecaseInterface {
     
     constructor(
         private readonly verificationCodeRepository: VerificationCodeRepositoryInterface,
         private readonly eventEmitter: EventEmitterInterface
     ) {}
 
-    async execute({ userId }: GenerateVerificationCodeUsecaseInterface.InputDto): Promise<GenerateVerificationCodeUsecaseInterface.OutputDto> {
+    async execute({ userId }: GenerateEmailVerificationCodeUsecaseInterface.InputDto): Promise<GenerateEmailVerificationCodeUsecaseInterface.OutputDto> {
         
         const existingVerificationCode = await this.verificationCodeRepository.findByUserId(userId);
         if(existingVerificationCode) return left([ new VerificationCodeAlreadyGeneratedError() ])
@@ -21,10 +21,10 @@ export class GenerateVerificationCodeUsecase implements GenerateVerificationCode
         const verificationCodeEntity = VerificationCodeEntity.create({ userId });
         await this.verificationCodeRepository.create(verificationCodeEntity);
 
-        const verificationCodeGeneratedEvent = new VerificationCodeGeneratedEvent({
+        const emailVerificationCodeGeneratedEvent = new EmailVerificationCodeGeneratedEvent({
             ...verificationCodeEntity.toJSON()
         })
-        await this.eventEmitter.emit(verificationCodeGeneratedEvent);
+        await this.eventEmitter.emit(emailVerificationCodeGeneratedEvent);
 
         return right({
             id: verificationCodeEntity.id,

@@ -1,15 +1,15 @@
 import { BaseEvent } from "@/modules/@shared/events";
 
-export class VerificationCodeGeneratedEvent extends BaseEvent {
+export class EmailVerificationCodeGeneratedEvent extends BaseEvent {
 
     constructor(
-        readonly payload: UserSignupEvent.Payload
+        readonly payload: EmailVerificationCodeGeneratedEvent.Payload
     ){
         super();
     }
 }
 
-export namespace UserSignupEvent {
+export namespace EmailVerificationCodeGeneratedEvent {
     export type Payload = {
         id: string
         code: string

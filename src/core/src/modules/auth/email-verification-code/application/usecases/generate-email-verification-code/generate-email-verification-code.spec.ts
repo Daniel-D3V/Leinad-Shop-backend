@@ -1,17 +1,17 @@
 import { EventEmitterInterface } from "@/modules/@shared/events"
 import { VerificationCodeRepositoryInterface } from "../../../repositories"
-import { GenerateVerificationCodeUsecaseInterface } from "../../../usecases/generate-verification-code.usecase.interface"
-import { GenerateVerificationCodeUsecase } from "./generate-verification-code.usecase"
+import { GenerateEmailVerificationCodeUsecaseInterface } from "../../../usecases"
+import { GenerateEmailVerificationCodeUsecase } from "./generate-email-verification-code.usecase"
 import { VerificationCodeEntity } from "../../../domain/entities"
 import { mock } from "jest-mock-extended"
-import { VerificationCodeGeneratedEvent } from "./verification-code-generated.event"
+import { EmailVerificationCodeGeneratedEvent } from "./email-verification-code-generated.event"
 
-jest.mock("./verification-code-generated.event")
+jest.mock("./email-verification-code-generated.event")
 
 describe("Test Generate Verification Code Use Case", () => {
 
-    let sut: GenerateVerificationCodeUsecase
-    let props: GenerateVerificationCodeUsecaseInterface.InputDto
+    let sut: GenerateEmailVerificationCodeUsecase
+    let props: GenerateEmailVerificationCodeUsecaseInterface.InputDto
     let verificationCodeRepository: VerificationCodeRepositoryInterface
     let eventEmitter: EventEmitterInterface
     let verificationCodeEntity: VerificationCodeEntity
@@ -26,7 +26,7 @@ describe("Test Generate Verification Code Use Case", () => {
         .mockReturnValue(verificationCodeEntity)
         verificationCodeRepository = mock<VerificationCodeRepositoryInterface>()
         eventEmitter = mock<EventEmitterInterface>()
-        sut = new GenerateVerificationCodeUsecase(verificationCodeRepository, eventEmitter)
+        sut = new GenerateEmailVerificationCodeUsecase(verificationCodeRepository, eventEmitter)
     })
 
     it("Should execute the usecase properly", async () => {
@@ -53,9 +53,9 @@ describe("Test Generate Verification Code Use Case", () => {
         expect(eventEmitter.emit).toHaveBeenCalledTimes(1)
     })
 
-    it("Should create VerificationCodeGeneratedEvent with correct values", async () => {
+    it("Should create EmailVerificationCodeGeneratedEvent with correct values", async () => {
         await sut.execute(props)
-        expect(VerificationCodeGeneratedEvent).toHaveBeenCalledWith({
+        expect(EmailVerificationCodeGeneratedEvent).toHaveBeenCalledWith({
             ...verificationCodeEntity.toJSON()
         })
     })

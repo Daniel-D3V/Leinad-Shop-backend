@@ -1,0 +1,1 @@
+export * from "./generate-email-verification-code.usecase.interface"
