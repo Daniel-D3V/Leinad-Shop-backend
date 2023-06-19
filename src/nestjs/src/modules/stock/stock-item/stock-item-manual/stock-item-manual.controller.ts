@@ -25,7 +25,7 @@ export class StockItemManualController {
 
   @UseGuards(new AuthGuard())
   @Post("/update-stock/:stockItemManualId")
-  async changeTypeToAuto(@Param('stockItemManualId') stockItemManualId: string,@Body() updateStockItemManualDto: any, @Res() res: Response) {
+  async changeTypeToAuto(@Param('stockItemManualId') stockItemManualId: string, @Body() updateStockItemManualDto: any, @Res() res: Response) {
     const usecase = UpdateStockItemManualUsecaseFactory.create()
     const result = await usecase.execute({
       stockItemManualId,
