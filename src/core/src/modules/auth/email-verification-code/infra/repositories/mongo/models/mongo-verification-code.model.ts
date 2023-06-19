@@ -1,12 +1,14 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IVerificationCodeModel extends Document {
-    refreshToken: string;
+    code: string;
+    userId: string
     expirationDate: Date;
 }
 
 const verificationCodeSchema: Schema = new Schema({
-    code: { type: String, required: true,  },
+    id: { type: String, required: true, unique: true },
+    code: { type: String, required: true, unique: true  },
     userId: { type: String, required: true, unique: true },
     expirationDate: { type: Date, required: true }
 });
@@ -14,4 +16,4 @@ const verificationCodeSchema: Schema = new Schema({
 verificationCodeSchema.index({ expirationDate: 1 }, { expireAfterSeconds: 0 });
 verificationCodeSchema.index({ userId: 1, });
 
-export const MongoRefreshTokenModel = mongoose.model<IVerificationCodeModel>('VerificationCode', verificationCodeSchema);
+export const MongoVerificationCodeModel = mongoose.model<IVerificationCodeModel>('VerificationCode', verificationCodeSchema);
