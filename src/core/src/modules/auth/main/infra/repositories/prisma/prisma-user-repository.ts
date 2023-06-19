@@ -51,5 +51,15 @@ export class PrismaUserRepository implements UserRepositoryInterface {
         if(userEntity.isLeft()) return null
         return userEntity.value
     }
+
+    async update(userEntity: UserEntity): Promise<void> {
+        const { id, ...props } = userEntity.toJSON()
+        await this.prismaClient.user.updateMany({
+            where: { id: id ?? "" },
+            data: {
+                ...props
+            }
+        })
+    }
     
 }

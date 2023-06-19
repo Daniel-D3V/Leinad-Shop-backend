@@ -4,6 +4,7 @@ import { VerifyEmailUsecaseInterface } from "../../../domain/usecases";
 import { left, right } from "@/modules/@shared/logic";
 import { UserNotFoundError } from "../_errors";
 import { AuthUserEmailVerifiedEvent } from "./auth-user-email-verified.event";
+import { EmailAlreadyVerifiedError } from "./errors";
 
 
 export class VerifyEmailUsecase implements VerifyEmailUsecaseInterface {
@@ -17,6 +18,8 @@ export class VerifyEmailUsecase implements VerifyEmailUsecaseInterface {
         
         const userEntity = await this.userRepository.findById(userId)
         if(!userEntity) return left([ new UserNotFoundError() ])
+
+        if(userEntity.isEmailVerified) return left([ new EmailAlreadyVerifiedError() ])
 
         userEntity.verifyEmail()
         await this.userRepository.update(userEntity)

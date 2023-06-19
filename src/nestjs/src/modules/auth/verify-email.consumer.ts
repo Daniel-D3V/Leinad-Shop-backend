@@ -2,8 +2,8 @@ import { OnModuleInit } from "@nestjs/common";
 import { Message } from "amqplib";
 import { RabbitMQService } from "src/services/rabbitmq/rabbitmq.service";
 import { 
-
-} from "@core/domain/dist/src/modules/auth/email-verification-code/factories"
+    VerifyEmailUsecase
+} from "@core/domain/dist/src/modules/auth/main/factories"
 
 export class VerifyEmailConsumer implements OnModuleInit {
 

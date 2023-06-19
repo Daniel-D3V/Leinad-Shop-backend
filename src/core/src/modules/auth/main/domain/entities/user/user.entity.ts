@@ -70,7 +70,7 @@ export class UserEntity extends BaseEntity<UserEntity.Props>{
     isActivated(): boolean {
         return this.props.status === "ACTIVE"
     }
-
+    
     verifyEmail(): void {
         this.props.isEmailVerified = true
     }
