@@ -1,10 +1,11 @@
-import { OnModuleInit } from "@nestjs/common";
+import { Controller, OnModuleInit } from "@nestjs/common";
 import { Message } from "amqplib";
 import { RabbitMQService } from "src/services/rabbitmq/rabbitmq.service";
 import { 
-    VerifyEmailUsecase
+    VerifyEmailUsecaseFactory
 } from "@core/domain/dist/src/modules/auth/main/factories"
 
+@Controller()
 export class VerifyEmailConsumer implements OnModuleInit {
 
     constructor(
@@ -20,7 +21,10 @@ export class VerifyEmailConsumer implements OnModuleInit {
     }
 
     async verifyEmail(message: Message) {
-        const payload = RabbitMQService.getContentFromMessage(message)
-        
+        const content = RabbitMQService.getContentFromMessage(message)
+        const usecase = VerifyEmailUsecaseFactory.create()
+        await usecase.execute({
+            userId: content.payload.userId
+        })
     }
 }
