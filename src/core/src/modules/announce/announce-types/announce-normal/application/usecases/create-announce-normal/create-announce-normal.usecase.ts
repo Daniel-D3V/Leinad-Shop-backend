@@ -31,7 +31,7 @@ export class CreateAnnounceNormalUsecase implements CreateAnnounceNormalUsecaseI
         await this.eventEmitter.emit(announceNormalCreatedEvent)
 
         return right({
-            id: "any_id",
+            id: announceNormalEntity.value.id,
         })
     }
 }

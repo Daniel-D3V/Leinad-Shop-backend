@@ -28,7 +28,7 @@ export class ChangeAnnounceItemPriceUsecase implements ChangeAnnounceItemPriceUs
             price: announceItemEntity.getPrice()
         })
 
-        this.eventEmitter.emit(announceItemPriceChangedEvent)
+        await this.eventEmitter.emit(announceItemPriceChangedEvent)
 
         return right(null)
     }

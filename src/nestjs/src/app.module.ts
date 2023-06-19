@@ -6,12 +6,14 @@ import { RabbitMQService } from './services/rabbitmq/rabbitmq.service';
 import { MysqlConsumerService } from './services/mysql-consumer/mysql-consumer.service';
 import { AnnounceManagementModule } from './modules/announce/announce-management/announce-management.module';
 import { AnnounceInfoModule } from './modules/announce/announce-info/announce-info.module';
+import { AnnounceNormalModule } from './modules/announce/announce-types/announce-normal/announce-normal.module';
+import { AnnounceItemModule } from './modules/announce/announce-types/announce-item/announce-item.module';
 
 @Module({
   imports: [
     AuthModule, 
     EventSourcingModule, 
-    CategoriesModule, AnnounceManagementModule, AnnounceInfoModule, 
+    CategoriesModule, AnnounceManagementModule, AnnounceInfoModule, AnnounceNormalModule, AnnounceItemModule, 
   ],
   controllers: [],
   providers: [RabbitMQService, MysqlConsumerService],

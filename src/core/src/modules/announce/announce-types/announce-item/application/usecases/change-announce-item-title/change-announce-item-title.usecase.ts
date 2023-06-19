@@ -27,7 +27,7 @@ export class ChangeAnnounceItemTitleUsecase implements ChangeAnnounceItemTitleUs
             title: announceItemEntity.title
         })
 
-        this.eventEmitter.emit(announceItemTitleChangedEvent)
+        await this.eventEmitter.emit(announceItemTitleChangedEvent)
 
         return right(null)
     }
