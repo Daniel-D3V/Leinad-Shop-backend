@@ -1,6 +1,6 @@
 import { EventEmitterInterface } from "@/modules/@shared/events"
-import { VerificationCodeRepositoryInterface } from "../../../repositories"
-import { VerifyEmailVerificationCodeUsecaseInterface } from "../../../usecases"
+import { VerificationCodeRepositoryInterface } from "../../../domain/repositories"
+import { VerifyEmailVerificationCodeUsecaseInterface } from "../../../domain/usecases"
 import { VerifyEmailVerificationCodeUsecase } from "./verify-email-verification-code.usecase"
 import { VerificationCodeEntity } from "../../../domain/entities"
 import { mock } from "jest-mock-extended"

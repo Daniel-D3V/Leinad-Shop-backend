@@ -1,4 +1,4 @@
-import { VerificationCodeEntity } from "../domain/entities";
+import { VerificationCodeEntity } from "../entities";
 
 export interface VerificationCodeRepositoryInterface {
 

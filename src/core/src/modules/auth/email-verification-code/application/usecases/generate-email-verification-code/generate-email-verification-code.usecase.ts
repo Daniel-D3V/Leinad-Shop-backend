@@ -1,7 +1,7 @@
 import { EventEmitterInterface } from "@/modules/@shared/events";
 import { VerificationCodeEntity } from "../../../domain/entities";
-import { VerificationCodeRepositoryInterface } from "../../../repositories";
-import { GenerateEmailVerificationCodeUsecaseInterface } from "../../../usecases";
+import { VerificationCodeRepositoryInterface } from "../../../domain/repositories";
+import { GenerateEmailVerificationCodeUsecaseInterface } from "../../../domain/usecases";
 import { left, right } from "@/modules/@shared/logic";
 import { VerificationCodeAlreadyGeneratedError } from "./errors";
 import { EmailVerificationCodeGeneratedEvent } from "./email-verification-code-generated.event";

@@ -1,6 +1,6 @@
 import { left, right } from "@/modules/@shared/logic";
-import { VerifyEmailVerificationCodeUsecaseInterface } from "../../../usecases";
-import { VerificationCodeRepositoryInterface } from "../../../repositories";
+import { VerifyEmailVerificationCodeUsecaseInterface } from "../../../domain/usecases";
+import { VerificationCodeRepositoryInterface } from "../../../domain/repositories";
 import { EventEmitterInterface } from "@/modules/@shared/events";
 import { VerificationCodeExpiredError, VerificationCodeNotFoundError } from "../_errors";
 import { EmailVerifiedEvent } from "./email-verified.event";

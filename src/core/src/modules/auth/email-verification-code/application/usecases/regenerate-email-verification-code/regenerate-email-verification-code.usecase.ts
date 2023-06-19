@@ -1,6 +1,6 @@
 import { left, right } from "@/modules/@shared/logic";
-import { VerificationCodeRepositoryInterface } from "../../../repositories";
-import { GenerateEmailVerificationCodeUsecaseInterface, RegenerateEmailVerificationCodeUsecaseInterface } from "../../../usecases";
+import { VerificationCodeRepositoryInterface } from "../../../domain/repositories";
+import { GenerateEmailVerificationCodeUsecaseInterface, RegenerateEmailVerificationCodeUsecaseInterface } from "../../../domain/usecases";
 import { VerificationCodeNotFoundError } from "../_errors";
 
 export class RegenerateEmailVerificationCodeUsecase implements RegenerateEmailVerificationCodeUsecaseInterface {

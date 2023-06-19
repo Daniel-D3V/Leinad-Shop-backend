@@ -1,6 +1,6 @@
 import { mock } from "jest-mock-extended"
-import { VerificationCodeRepositoryInterface } from "../../../repositories"
-import { GenerateEmailVerificationCodeUsecaseInterface, RegenerateEmailVerificationCodeUsecaseInterface } from "../../../usecases"
+import { VerificationCodeRepositoryInterface } from "../../../domain/repositories"
+import { GenerateEmailVerificationCodeUsecaseInterface, RegenerateEmailVerificationCodeUsecaseInterface } from "../../../domain/usecases"
 import { RegenerateEmailVerificationCodeUsecase } from "./regenerate-email-verification-code.usecase"
 import { VerificationCodeEntity } from "../../../domain/entities"
 
