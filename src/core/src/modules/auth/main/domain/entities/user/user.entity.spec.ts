@@ -11,6 +11,7 @@ describe("Test UserEntity", () => {
 
     let sut: UserEntity
     let props: UserEntity.Input
+    let propsExistingUser: UserEntity.InputExistingUser
     let domainValidator: DomainValidator<any>
     let id: string
 
@@ -23,6 +24,7 @@ describe("Test UserEntity", () => {
             email: "any_mail@mail.com",
             password: "Anypassword1!"
         }
+        propsExistingUser = { ...props, isEmailVerified: true }
         sut = UserEntity.create(props).value as UserEntity
     })
     
@@ -33,6 +35,19 @@ describe("Test UserEntity", () => {
         expect(passwordSpy).toHaveBeenCalledTimes(1)
         expect(passwordSpy).toHaveBeenCalledWith(plainTextPassword)
     })
+
+    it("Should ban the user", () => {
+        sut.ban()
+        expect(sut.status).toBe("BANNED")
+        expect(sut.isBanned()).toBe(true)
+    })
+
+    it("Should activate the user", () => {
+        sut.activate()
+        expect(sut.status).toBe("ACTIVE")
+        expect(sut.isActivated()).toBe(true)
+    })
+
 
     describe("Test UserEntity Create", () => {
     
@@ -90,7 +105,7 @@ describe("Test UserEntity", () => {
     describe("Test UserEntity creatingExistingUser", () => {
     
         it("Should create a new UserEntity", () => {
-            sut = UserEntity.createExistingUser(props, id).value as UserEntity
+            sut = UserEntity.createExistingUser(propsExistingUser, id).value as UserEntity
             expect(sut).toBeInstanceOf(UserEntity)
             expect(sut.id).toBe(id)
         })
@@ -102,7 +117,7 @@ describe("Test UserEntity", () => {
                 value: [ validatorError ]
             } as any)
 
-            const sut = UserEntity.createExistingUser(props, id)
+            const sut = UserEntity.createExistingUser(propsExistingUser, id)
             expect(sut.value).toEqual([ validatorError ])
         })
 

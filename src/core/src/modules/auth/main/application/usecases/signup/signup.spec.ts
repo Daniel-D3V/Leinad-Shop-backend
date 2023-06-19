@@ -6,7 +6,7 @@ import { UserEntity } from "@/modules/auth/main/domain/entities";
 import { UserSignupEvent } from "./user-signup.event"
 import { SignupUsecaseInterface } from "@/modules/auth/main/domain/usecases";
 
-jest.mock("@/modules/auth/domain/entities")
+jest.mock("@/modules/auth/main/domain/entities")
 jest.mock("./user-signup.event")
 
 describe('Test signupUsecase', () => { 

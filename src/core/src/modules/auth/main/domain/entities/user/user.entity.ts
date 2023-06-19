@@ -27,12 +27,14 @@ export class UserEntity extends BaseEntity<UserEntity.Props>{
 
         const userEntity = new UserEntity({
             ...props,
-            password: passwordValueObject.value as PasswordValueObject
+            password: passwordValueObject.value as PasswordValueObject,
+            status: "ACTIVE",
+            isEmailVerified: false
         }) 
         return right(userEntity)
     }
 
-    static createExistingUser(props: UserEntity.Input, id: string): Either<Error[], UserEntity> {
+    static createExistingUser(props: UserEntity.InputExistingUser, id: string): Either<Error[], UserEntity> {
         const userValidator = UserValidatorFactory.create()
         const userValidatorResult = userValidator.validate({
             ...props
@@ -45,7 +47,8 @@ export class UserEntity extends BaseEntity<UserEntity.Props>{
 
         const userEntity = new UserEntity({
             ...props,
-            password: passwordValueObject
+            password: passwordValueObject,
+            status: "ACTIVE"
         }, id) 
         return right(userEntity)
     }
@@ -54,12 +57,32 @@ export class UserEntity extends BaseEntity<UserEntity.Props>{
         return this.password.comparePassword(plainPassword)
     }
 
+    ban(): void {
+        this.props.status = "BANNED"
+    }
+    isBanned(): boolean {
+        return this.props.status === "BANNED"
+    }
+
+    activate(): void {
+        this.props.status = "ACTIVE"
+    }
+    isActivated(): boolean {
+        return this.props.status === "ACTIVE"
+    }
+
+    verifyEmail(): void {
+        this.props.isEmailVerified = true
+    }
+
     toJSON(): UserEntity.PropsJSON {
         return {
             id: this.id,
             username: this.username,
             email: this.email,
-            password: this.password.value
+            password: this.password.value,
+            status: this.status,
+            isEmailVerified: this.isEmailVerified
         }
     }
 
@@ -72,20 +95,34 @@ export class UserEntity extends BaseEntity<UserEntity.Props>{
     get password(): PasswordValueObject {
         return this.props.password;
     }
+    get status(): UserEntity.Status {
+        return this.props.status;
+    }
+    get isEmailVerified(): boolean {
+        return this.props.isEmailVerified;
+    }
 }
 
 export namespace UserEntity {
     
+    export type Status = "ACTIVE" | "BANNED"
+
     export type Input = {
         username: string
         email: string
         password: string
     }
 
+    export type InputExistingUser = Input & { 
+        isEmailVerified: boolean
+    }
+
     export type Props = {
         username: string
         email: string
         password: PasswordValueObject
+        status: Status
+        isEmailVerified: boolean
     }
 
     export type PropsJSON = Omit<Props, "password"> & { id: string, password: string }

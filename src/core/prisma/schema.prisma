@@ -106,6 +106,8 @@ model User {
   username String @unique
   email    String @unique
   password String
+  isEmailVerified Boolean @default(false)
+  status   String @default("ACTIVE")
 
   @@map("users")
 }
