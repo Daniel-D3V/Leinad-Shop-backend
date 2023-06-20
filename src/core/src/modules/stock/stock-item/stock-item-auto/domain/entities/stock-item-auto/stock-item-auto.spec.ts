@@ -14,4 +14,5 @@ describe("Test StockItemAutoEntity", () => {
         }
         sut = StockItemAutoEntity.create(props).value as StockItemAutoEntity
     })
+    it("", () => {})
 })

@@ -13,7 +13,7 @@ export class PrismaAnnounceImagesRepository implements AnnounceImagesRepositoryI
 
     async findById(id: string): Promise<AnnounceImageEntity | null> {
         
-        const prismaAnnounce = await this.prismaClient.announce.findFirst({ where: { id } })
+        const prismaAnnounce = await this.prismaClient.announceManagement.findFirst({ where: { id } })
         if(!prismaAnnounce) return null;
 
         const prismaAnnounceImages = await this.prismaClient.announceImages.findMany({
@@ -22,7 +22,7 @@ export class PrismaAnnounceImagesRepository implements AnnounceImagesRepositoryI
         })
         const announceImageEntity = AnnounceImageEntity.create({
             images: prismaAnnounceImages.map(img => ({ url: img.url, weight: img.weight  }))
-        }, id)
+        }, prismaAnnounce.id)
         if(announceImageEntity.isLeft()) throw announceImageEntity.value[0]
         return announceImageEntity.value
     }
