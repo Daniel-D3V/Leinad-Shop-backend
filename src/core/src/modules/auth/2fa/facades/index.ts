@@ -1,0 +1,1 @@
+export * from "./temporary-2fa-token.facade.interface"
