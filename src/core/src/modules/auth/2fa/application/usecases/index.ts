@@ -1,1 +1,1 @@
-export * from "./generate-f2a/generate-2fa.usecase"
+export * from "./generate-2fa/generate-2fa.usecase"
