@@ -1,17 +1,19 @@
 import { LoginUsecaseInterface } from "@/modules/auth/main/domain/usecases"
 import { LoginUsecase } from "./login.usecase"
 import { UserRepositoryInterface } from "@/modules/auth/main/domain/repositories"
-import { TokenManagementInterface } from "../../protocols"
 import { mock } from "jest-mock-extended"
 import { UserEntity } from "@/modules/auth/main/domain/entities"
-
+import { AuthTokenFacadeInterface } from "../../../facades"
+import { Temporary2faTokenFacadeInterface, TwoFactorAuthenticationFacadeInterface } from "@/modules/auth/2fa/facades"
 
 describe("Tets Login", () => {
 
     let sut: LoginUsecase
     let props: LoginUsecaseInterface.InputDto
     let userRepository: UserRepositoryInterface
-    let tokenManagement: TokenManagementInterface
+    let authTokenFacade: AuthTokenFacadeInterface
+    let twoFactorAuthenticationFacade: TwoFactorAuthenticationFacadeInterface
+    let temporary2faTokenFacade: Temporary2faTokenFacadeInterface
     let userEntity: UserEntity
 
     beforeEach(() => {
@@ -19,18 +21,25 @@ describe("Tets Login", () => {
             email: "any_email@mail.com",
             password: "any_password"
         }
-        tokenManagement = mock<TokenManagementInterface>({
-            generateToken: () => "any_token",
-            generateRefreshToken: () => "any_refresh_token"  
-        } as any)
-        userRepository = mock<UserRepositoryInterface>()
+
         userEntity = mock<UserEntity>({
             comparePassword: () => true,
             id: "any_id",
             email: "any_mail"
         })
-        jest.spyOn(userRepository, "findByEmail").mockResolvedValue(userEntity)
-        sut = new LoginUsecase(userRepository, tokenManagement)
+        userRepository = mock<UserRepositoryInterface>({
+            findByEmail: async () => userEntity
+        })
+        authTokenFacade = mock<AuthTokenFacadeInterface>()
+        twoFactorAuthenticationFacade = mock<TwoFactorAuthenticationFacadeInterface>()
+        temporary2faTokenFacade = mock<Temporary2faTokenFacadeInterface>()
+
+        sut = new LoginUsecase(
+            userRepository, 
+            authTokenFacade,
+            twoFactorAuthenticationFacade,
+            temporary2faTokenFacade
+        )
     })
 
     it("Should execute the usecase properly", async () => {
@@ -56,23 +65,5 @@ describe("Tets Login", () => {
         expect(output.value[0].name).toBe("InvalidCredentialsError")
     })
 
-    it("Should call tokenManagement.generateToken with correct params", async () => {
-        const generateTokenSpy = jest.spyOn(tokenManagement, "generateToken")
-        await sut.execute(props)
-        expect(generateTokenSpy).toHaveBeenCalledTimes(1)
-        expect(generateTokenSpy).toHaveBeenCalledWith({
-            email: userEntity.email,
-            userId: userEntity.id
-        })
-    })
 
-    it("Should call tokenManagement.generateRefreshToken with correct params", async () => {
-        const generateRefreshTokenSpy = jest.spyOn(tokenManagement, "generateRefreshToken")
-        await sut.execute(props)
-        expect(generateRefreshTokenSpy).toHaveBeenCalledTimes(1)
-        expect(generateRefreshTokenSpy).toHaveBeenCalledWith({
-            email: userEntity.email,
-            userId: userEntity.id
-        })
-    })
 })

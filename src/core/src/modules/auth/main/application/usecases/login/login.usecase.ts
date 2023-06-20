@@ -1,15 +1,17 @@
 import { Either, left, right } from "@/modules/@shared/logic";
 import { UserRepositoryInterface } from "@/modules/auth/main/domain/repositories";
 import { InvalidCredentialsError } from "./errors";
-import { TokenManagementInterface } from "../../protocols";
 import { LoginUsecaseInterface } from "@/modules/auth/main/domain/usecases";
-import { TokenPayloadModel } from "../../models";
+import { Temporary2faTokenFacadeInterface, TwoFactorAuthenticationFacadeInterface } from "@/modules/auth/2fa/facades";
+import { AuthTokenFacadeInterface } from "../../../facades";
 
 export class LoginUsecase implements LoginUsecaseInterface {
 
     constructor(
         private readonly userRepository: UserRepositoryInterface,
-        private readonly tokenManagement: TokenManagementInterface
+        private readonly authTokenFacade: AuthTokenFacadeInterface,
+        private readonly twoFactorAuthenticationFacade: TwoFactorAuthenticationFacadeInterface,
+        private readonly temporary2faTokenFacade: Temporary2faTokenFacadeInterface
     ){}
 
 
@@ -21,16 +23,24 @@ export class LoginUsecase implements LoginUsecaseInterface {
         const passwordMatch = userEntity.comparePassword(password)
         if(!passwordMatch) return left([ new InvalidCredentialsError() ])
 
-        const tokenPayload: TokenPayloadModel = {
-            email: userEntity.email,
-            userId: userEntity.id
+        const hasValid2fa = await this.twoFactorAuthenticationFacade.hasValid2fa(userEntity.id)
+        if(hasValid2fa) {
+            const temporaryToken = await this.temporary2faTokenFacade.generate({
+                userId: userEntity.id
+            })
+            return right({
+                loginType: "2FA",
+                temporaryToken: temporaryToken.temporary2faToken
+            })
         }
-        const accessToken = await this.tokenManagement.generateToken(tokenPayload)
-        const refreshToken = await this.tokenManagement.generateRefreshToken(tokenPayload)
         
+        const result = await this.authTokenFacade.generateTokens({
+            userId: userEntity.id,
+            email: userEntity.email
+        })
         return right({ 
-            refreshToken,
-            accessToken
+            loginType: "1FA",
+            ...result  
         })
     }
 }
