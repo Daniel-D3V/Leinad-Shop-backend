@@ -5,13 +5,15 @@ export interface TwoFactorAuthenticationManagementInterface {
 }
 
 export namespace TwoFactorAuthenticationManagementInterface {
+    
+    export type Verify2faInputDto = {
+        secret: string
+        code: string
+    }
+
     export type Generate2faOutputDto = {
         secret: string
         qrCode: string
     }
 
-    export type Verify2faInputDto = {
-        secret: string
-        token: string
-    }
 }

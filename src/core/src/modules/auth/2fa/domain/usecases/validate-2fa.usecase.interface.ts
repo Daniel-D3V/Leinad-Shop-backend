@@ -8,7 +8,7 @@ export interface Validate2faUsecaseInterface extends UsecaseInterface {
 export namespace Validate2faUsecaseInterface {
     export type InputDto = {
         userId: string
-        token: string
+        code: string
     }
 
     export type OutputDto = Either<Error[], null>

@@ -16,7 +16,7 @@ export class Validate2faUsecase implements Validate2faUsecaseInterface {
         private readonly eventEmitter: EventEmitterInterface
     ){}
 
-    async execute({ token, userId }: Validate2faUsecaseInterface.InputDto): Promise<Validate2faUsecaseInterface.OutputDto> {
+    async execute({ code, userId }: Validate2faUsecaseInterface.InputDto): Promise<Validate2faUsecaseInterface.OutputDto> {
         
         const twoFactorAuthenticationEntity = await this.twoFactorAuthenticationRepository.findByUserId(userId)
         if(!twoFactorAuthenticationEntity) return left([ new TwoFactorNotFoundError() ])
@@ -24,7 +24,7 @@ export class Validate2faUsecase implements Validate2faUsecaseInterface {
         if(twoFactorAuthenticationEntity.isValid()) return left([ new TwoFactorIsAlreadyValidError() ])
 
         const isTokenValid = await this.twoFactorAuthenticationManagement.verify2fa({
-            token,
+            code,
             secret: twoFactorAuthenticationEntity.secret
         })
         if(!isTokenValid) return left([ new Invalid2faTokenError() ])

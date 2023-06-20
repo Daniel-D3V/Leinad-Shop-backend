@@ -22,7 +22,7 @@ describe("Test Validate2faUsecase", () => {
 
         props = { 
             userId: "any_user_id",
-            token: "any_token"
+            code: "any_code"
         }
         
         twoFactorAuthenticationEntity = mock<TwoFactorAuthenticationEntity>()
