@@ -4,7 +4,7 @@ import { Verify2faCodeUsecaseInterface } from "../../../domain/usecases";
 import { Temporary2faTokenFacadeInterface } from "../../../facades";
 import { TwoFactorAuthenticationManagementInterface } from "../../protocols";
 import { TemporaryTokenNotFoundError } from "./errors";
-import { Invalid2faTokenError, TwoFactorIsNotValidError, TwoFactorNotFoundError } from "../_errors";
+import { Invalid2faCodeError, TwoFactorIsNotValidError, TwoFactorNotFoundError } from "../_errors";
 
 
 export class Verify2faCodeUsecase implements Verify2faCodeUsecaseInterface {
@@ -29,7 +29,7 @@ export class Verify2faCodeUsecase implements Verify2faCodeUsecaseInterface {
             code,
             secret: twoFactorAuthenticationEntity.secret
         })
-        if(!isTokenValid) return left([ new Invalid2faTokenError() ])
+        if(!isTokenValid) return left([ new Invalid2faCodeError() ])
 
         await this.temporary2faTokenFacade.delete(temporaryToken)
 

@@ -64,13 +64,13 @@ describe("Test Validate2faUsecase", () => {
         expect(output.value[0].name).toBe("TwoFactorIsAlreadyValidError")
     })
 
-    it("Should return Invalid2faTokenError if twoFactorAuthenticationManagement.verify2fa returns false", async () => {
+    it("Should return Invalid2faCodeError if twoFactorAuthenticationManagement.verify2fa returns false", async () => {
         jest.spyOn(twoFactorAuthenticationManagement, "verify2fa")
         .mockResolvedValueOnce(false)
 
         const output = await sut.execute(props)
         if(output.isRight()) return fail("it should not be right")
-        expect(output.value[0].name).toBe("Invalid2faTokenError")
+        expect(output.value[0].name).toBe("Invalid2faCodeError")
     })
 
     it("Should call twoFactorAuthenticationEntity.validate once", async () => {

@@ -3,7 +3,7 @@ import { TwoFactorAuthenticationRepositoryInterface } from "../../../domain/repo
 import { Validate2faUsecaseInterface } from "../../../domain/usecases";
 import { TwoFactorAuthenticationManagementInterface } from "../../protocols";
 import { left, right } from "@/modules/@shared/logic";
-import { Invalid2faTokenError, TwoFactorNotFoundError } from "../_errors";
+import { Invalid2faCodeError, TwoFactorNotFoundError } from "../_errors";
 import { TwoFactorAuthenticationValidatedEvent } from "./2fa-validated.event";
 import { TwoFactorIsAlreadyValidError } from "./errors";
 
@@ -27,7 +27,7 @@ export class Validate2faUsecase implements Validate2faUsecaseInterface {
             code,
             secret: twoFactorAuthenticationEntity.secret
         })
-        if(!isTokenValid) return left([ new Invalid2faTokenError() ])
+        if(!isTokenValid) return left([ new Invalid2faCodeError() ])
 
         twoFactorAuthenticationEntity.validate()
 

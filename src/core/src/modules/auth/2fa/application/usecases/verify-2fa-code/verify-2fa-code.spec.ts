@@ -46,4 +46,45 @@ describe("Test Verify2faTokenUsecase", () => {
         const output = await sut.execute(props)
         expect(output.isRight()).toBe(true)
     })
+
+    it("Should return TemporaryTokenNotFoundError if temporary token is not found", async () => {
+        jest.spyOn(temporary2faTokenFacade, "find")
+        .mockResolvedValueOnce(null)
+        
+        const output = await sut.execute(props)
+        if(output.isRight()) return fail("it should not be right")
+        expect(output.value[0].name).toBe("TemporaryTokenNotFoundError")
+    })
+
+    it("Should return TwoFactorNotFoundError if 2faEntity is not found", async () => {
+        jest.spyOn(twoFactorAuthenticationRepository, "findByUserId")
+        .mockResolvedValueOnce(null)
+        
+        const output = await sut.execute(props)
+        if(output.isRight()) return fail("it should not be right")
+        expect(output.value[0].name).toBe("TwoFactorNotFoundError")
+    })
+
+    it("Should return TwoFactorIsNotValidError if 2faEntity is not valid", async () => {
+        jest.spyOn(twoFactorAuthenticationEntity, "isValid")
+        .mockReturnValueOnce(false)
+        
+        const output = await sut.execute(props)
+        if(output.isRight()) return fail("it should not be right")
+        expect(output.value[0].name).toBe("TwoFactorIsNotValidError")
+    })
+
+    it("Should return Invalid2faCodeError if 2fa code provided is invalid", async () => {
+        jest.spyOn(twoFactorAuthenticationManagement, "verify2fa")
+        .mockResolvedValueOnce(false)
+        
+        const output = await sut.execute(props)
+        if(output.isRight()) return fail("it should not be right")
+        expect(output.value[0].name).toBe("Invalid2faCodeError")
+    })
+
+    it("Should call temporary2faTokenFacade.delete once", async () => {
+        await sut.execute(props)
+        expect(temporary2faTokenFacade.delete).toHaveBeenCalledTimes(1)
+    })
 })
