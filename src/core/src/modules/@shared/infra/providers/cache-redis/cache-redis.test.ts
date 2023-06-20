@@ -1,9 +1,9 @@
-import { CacheRedisProvider } from "./cache-redis.provider"
+import { RedisCacheProvider } from "./cache-redis.provider"
 
 
-describe("Test CacheRedisProvider", () => {
+describe("Test RedisCacheProvider", () => {
 
-    let sut: CacheRedisProvider
+    let sut: RedisCacheProvider
     let prefix: string
     let key: string
     let value: any
@@ -14,7 +14,7 @@ describe("Test CacheRedisProvider", () => {
         }
         prefix = "any_prefix"
         key = "any_key"
-        sut = new CacheRedisProvider()
+        sut = new RedisCacheProvider()
         sut.client.flushall()
     })
 

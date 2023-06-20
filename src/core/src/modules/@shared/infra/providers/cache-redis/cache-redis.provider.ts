@@ -1,7 +1,7 @@
 import { CacheProviderInterface } from "@/modules/@shared/application";
 import Redis from "ioredis";
 
-export class CacheRedisProvider implements CacheProviderInterface {
+export class RedisCacheProvider implements CacheProviderInterface {
 
     client: Redis
 
