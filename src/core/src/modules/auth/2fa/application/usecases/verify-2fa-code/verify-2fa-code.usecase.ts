@@ -4,9 +4,10 @@ import { Verify2faCodeUsecaseInterface } from "../../../domain/usecases";
 import { Temporary2faTokenFacadeInterface } from "../../../facades";
 import { TwoFactorAuthenticationManagementInterface } from "../../protocols";
 import { TemporaryTokenNotFoundError } from "./errors";
+import { Invalid2faTokenError, TwoFactorIsNotValidError, TwoFactorNotFoundError } from "../_errors";
 
 
-export class Verify2faTokenUsecase implements Verify2faCodeUsecaseInterface {
+export class Verify2faCodeUsecase implements Verify2faCodeUsecaseInterface {
 
     constructor(
         private readonly twoFactorAuthenticationRepository: TwoFactorAuthenticationRepositoryInterface,
@@ -19,7 +20,18 @@ export class Verify2faTokenUsecase implements Verify2faCodeUsecaseInterface {
         const temporaryTokenResult = await this.temporary2faTokenFacade.find(temporaryToken)
         if(!temporaryTokenResult) return left([ new TemporaryTokenNotFoundError() ])
 
-        
+        const twoFactorAuthenticationEntity = await this.twoFactorAuthenticationRepository.findByUserId(temporaryTokenResult.userId)
+        if(!twoFactorAuthenticationEntity) return left([ new TwoFactorNotFoundError() ])
+
+        if(!twoFactorAuthenticationEntity.isValid()) return left([ new TwoFactorIsNotValidError() ])
+
+        const isTokenValid = await this.twoFactorAuthenticationManagement.verify2fa({
+            code,
+            secret: twoFactorAuthenticationEntity.secret
+        })
+        if(!isTokenValid) return left([ new Invalid2faTokenError() ])
+
+        await this.temporary2faTokenFacade.delete(temporaryToken)
 
         return right(null)
     }

@@ -30,4 +30,11 @@ export class Temporary2faTokenFacadeImp implements Temporary2faTokenFacadeInterf
         )
     }
 
+    async delete(temporaryToken: string): Promise<void> {
+        await this.cacheProvider.delete(
+            this.prefix,
+            temporaryToken
+        )
+    }
+
 }

@@ -4,6 +4,7 @@
 export interface Temporary2faTokenFacadeInterface {
     generate(input: Temporary2faTokenFacadeInterface.GenerateInputDto): Promise<Temporary2faTokenFacadeInterface.GenerateOutputDto>
     find(temporaryToken: string): Promise<Temporary2faTokenFacadeInterface.FindOutputDto>
+    delete(temporaryToken: string): Promise<void>
 }
 
 export namespace Temporary2faTokenFacadeInterface {
