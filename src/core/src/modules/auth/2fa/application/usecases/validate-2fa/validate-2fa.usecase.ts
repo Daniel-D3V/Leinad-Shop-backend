@@ -4,7 +4,7 @@ import { Validate2faUsecaseInterface } from "../../../domain/usecases";
 import { TwoFactorAuthenticationManagementInterface } from "../../protocols";
 import { left, right } from "@/modules/@shared/logic";
 import { Invalid2faTokenError, TwoFactorNotFoundError } from "../_errors";
-import { TwoFactorAuthenticationValidateddEvent } from "./2fa-validated.event";
+import { TwoFactorAuthenticationValidatedEvent } from "./2fa-validated.event";
 import { TwoFactorIsAlreadyValidError } from "./errors";
 
 
@@ -33,10 +33,10 @@ export class Validate2faUsecase implements Validate2faUsecaseInterface {
 
         await this.twoFactorAuthenticationRepository.update(twoFactorAuthenticationEntity)
 
-        const twoFactorAuthenticationValidateddEvent = new TwoFactorAuthenticationValidateddEvent({
+        const twoFactorAuthenticationValidatedEvent = new TwoFactorAuthenticationValidatedEvent({
             twoFactorAuthenticationId: twoFactorAuthenticationEntity.id
         })
-        await this.eventEmitter.emit(twoFactorAuthenticationValidateddEvent)
+        await this.eventEmitter.emit(twoFactorAuthenticationValidatedEvent)
 
         return right(null)
     }
