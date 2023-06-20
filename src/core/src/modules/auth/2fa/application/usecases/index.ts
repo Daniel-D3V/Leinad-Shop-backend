@@ -1,0 +1,1 @@
+export * from "./generate-f2a/generate-2fa.usecase"
