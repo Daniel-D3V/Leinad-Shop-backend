@@ -23,6 +23,7 @@ export class Temporary2faTokenFacadeImp implements Temporary2faTokenFacadeInterf
             temporary2faToken
         }
     }
+    
     async find(temporaryToken: string): Promise<Temporary2faTokenFacadeInterface.FindOutputDto> {
         return await this.cacheProvider.get<Temporary2faTokenFacadeInterface.Temporary2faTokenResult>(
             this.prefix,
