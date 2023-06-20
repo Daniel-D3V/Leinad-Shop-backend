@@ -18,10 +18,10 @@ export class PrismaOrderRepository implements OrderRepositoryInterface {
         })
         await this.prismaClient.orderItems.createMany({
             data: orderItems.map(orderItem => {
-                const { productId, ...orderItemsProps } = orderItem
+                const { announceId, ...orderItemsProps } = orderItem
                 return {
                     ...orderItemsProps,
-                    announceId: orderItem.productId,
+                    announceId: orderItem.announceId,
                     orderId: orderEntity.id
                 }
             })

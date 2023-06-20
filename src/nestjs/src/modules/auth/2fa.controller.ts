@@ -21,4 +21,4 @@ export class Auth2faController {
       }
       return res.json(usecaseResult.value)
     }
-}///
+}///////

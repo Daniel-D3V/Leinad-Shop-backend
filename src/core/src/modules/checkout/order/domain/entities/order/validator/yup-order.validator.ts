@@ -17,7 +17,7 @@ export class YupOrderValidator extends YupValidatorProvider implements DomainVal
                 if (!products) {
                     return true; 
                 }
-                const productIds = products.map((product: OrderItemEntity) => product.productId)
+                const productIds = products.map((product: OrderItemEntity) => product.announceId)
                 const uniqueProductIds = new Set(productIds)
                 return productIds.length === uniqueProductIds.size
             }),

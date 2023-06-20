@@ -38,7 +38,7 @@ describe("test YupOrderItemValidator", () => {
         it("Should return UniqueProductIdConstraintError if the product from a orderItem is equals to a productId from other order item", () => {
             while(props.orderItems.length < 2){
                 orderItem = mock<OrderItemEntity>({
-                    productId: "1"
+                    announceId: "1"
                 })
                 props.orderItems.push(orderItem)
             }
