@@ -10,6 +10,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Twofactor {
+  id  String @id
+  isValid Boolean
+  secret String
+  userId String
+}
+
 model Category {
   id          String     @id
   title       String     @unique @default("")

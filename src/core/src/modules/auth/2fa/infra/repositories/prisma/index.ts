@@ -1,0 +1,1 @@
+export * from "./prisma-2fa.repository"
