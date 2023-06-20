@@ -39,7 +39,7 @@ describe("Test PrismaStockItemRepository", () => {
 
     it("Should update a stockItem in database", async () => {
         await sut.create(stockItemManagementEntity)
-        stockItemManagementEntity.changeToTypeNormal()
+        stockItemManagementEntity.changeToTypeManual()
         await sut.update(stockItemManagementEntity)
 
         const stockItemFound = await sut.findById(stockItemManagementEntity.id)

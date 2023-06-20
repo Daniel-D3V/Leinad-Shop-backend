@@ -14,7 +14,7 @@ model Twofactor {
   id  String @id
   isValid Boolean
   secret String
-  userId String
+  userId String @unique()
 }
 
 model Category {

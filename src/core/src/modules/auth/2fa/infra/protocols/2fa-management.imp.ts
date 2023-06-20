@@ -16,7 +16,10 @@ export class TwoFactorAuthenticationManagementImp implements TwoFactorAuthentica
     
     async generate2fa(): Promise<TwoFactorAuthenticationManagementInterface.Generate2faOutputDto> {
         
-        var secret = generateSecret({ length: 30 });
+        var secret = generateSecret({ 
+            length: 30,  
+            issuer: "Leinad Shop"
+        });
         const qrCodeString = await this.generateQrCode(secret.otpauth_url ?? "")
 
         return {

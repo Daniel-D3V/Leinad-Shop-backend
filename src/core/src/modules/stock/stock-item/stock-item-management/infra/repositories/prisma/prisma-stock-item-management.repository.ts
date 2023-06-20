@@ -10,7 +10,7 @@ class PrismaStockItemManagementMapper {
         }, prismaStockItemManagement.id)
         if(stockItemEntity.isLeft()) throw stockItemEntity.value[0]
         if(prismaStockItemManagement.stockItemType === "AUTO") stockItemEntity.value.changeToTypeAuto()
-        if(prismaStockItemManagement.stockItemType === "NORMAL") stockItemEntity.value.changeToTypeNormal()
+        if(prismaStockItemManagement.stockItemType === "Manual") stockItemEntity.value.changeToTypeManual()
         return stockItemEntity.value
     }
 }
