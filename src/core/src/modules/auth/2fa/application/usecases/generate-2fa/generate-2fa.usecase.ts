@@ -20,7 +20,9 @@ export class Generate2faUsecase implements Generate2faUsecaseInterface {
         const twoFactorExists = await this.twoFactorAuthenticationRepository.findByUserId(userId)
         if(twoFactorExists) return left([ new UserAlreadyHasTwoFactorError() ])
         
-        const { qrCode, secret } = await this.twoFactorAuthenticationManagement.generate2fa()
+        const { qrCode, secret } = await this.twoFactorAuthenticationManagement.generate2fa({
+            userId
+        })
 
         const twoFactorAuthenticationEntity = TwoFactorAuthenticationEntity.create({
             secret,

@@ -7,6 +7,7 @@ import { PrismaClient } from "@prisma/client"
 import { TwoFactorAuthenticationManagementImp } from "../../infra/protocols"
 import { Temporary2faTokenFacadeFactory } from "../facades"
 import { AuthTokenFacadeFactory } from "@/modules/auth/main/factories"
+import { TwoFactorAuthenticationManagementFactory } from "../protocols"
 
 
 export class Verify2faCodeUsecaseFactory {
@@ -16,12 +17,12 @@ export class Verify2faCodeUsecaseFactory {
         const execute = async (input: Verify2faCodeUsecaseInterface.InputDto): Promise<Verify2faCodeUsecaseInterface.OutputDto> => {
             return await prismaClient.$transaction(async (prisma) => {
                 const prismaTwoFactorAuthenticationRepository = new PrismaTwoFactorAuthenticationRepository(prisma as PrismaClient)
-                const twoFactorAuthenticationManagementImp = new TwoFactorAuthenticationManagementImp()
+                const twoFactorAuthenticationManagement = TwoFactorAuthenticationManagementFactory.create(prisma as PrismaClient)
                 const temporary2faTokenFacade = Temporary2faTokenFacadeFactory.create()
                 const authTokenFacadeFactory = AuthTokenFacadeFactory.create(prisma as PrismaClient)
                 const verify2faCodeUsecase = new Verify2faCodeUsecase(
                     prismaTwoFactorAuthenticationRepository,
-                    twoFactorAuthenticationManagementImp,
+                    twoFactorAuthenticationManagement,
                     temporary2faTokenFacade,
                     authTokenFacadeFactory
                 )
