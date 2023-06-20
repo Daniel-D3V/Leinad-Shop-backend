@@ -23,11 +23,11 @@ export class Validate2faUsecase implements Validate2faUsecaseInterface {
 
         if(twoFactorAuthenticationEntity.isValid()) return left([ new TwoFactorIsAlreadyValidError() ])
 
-        const isTokenValid = await this.twoFactorAuthenticationManagement.verify2fa({
+        const isCodeValid = await this.twoFactorAuthenticationManagement.verify2fa({
             code,
             secret: twoFactorAuthenticationEntity.secret
         })
-        if(!isTokenValid) return left([ new Invalid2faCodeError() ])
+        if(!isCodeValid) return left([ new Invalid2faCodeError() ])
 
         twoFactorAuthenticationEntity.validate()
 

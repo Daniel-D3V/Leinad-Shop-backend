@@ -25,11 +25,11 @@ export class Verify2faCodeUsecase implements Verify2faCodeUsecaseInterface {
 
         if(!twoFactorAuthenticationEntity.isValid()) return left([ new TwoFactorIsNotValidError() ])
 
-        const isTokenValid = await this.twoFactorAuthenticationManagement.verify2fa({
+        const isCodeValid = await this.twoFactorAuthenticationManagement.verify2fa({
             code,
             secret: twoFactorAuthenticationEntity.secret
         })
-        if(!isTokenValid) return left([ new Invalid2faCodeError() ])
+        if(!isCodeValid) return left([ new Invalid2faCodeError() ])
 
         await this.temporary2faTokenFacade.delete(temporaryToken)
 
