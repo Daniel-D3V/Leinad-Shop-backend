@@ -30,7 +30,9 @@ describe("Tets Login", () => {
         userRepository = mock<UserRepositoryInterface>({
             findByEmail: async () => userEntity
         })
-        authTokenFacade = mock<AuthTokenFacadeInterface>()
+        authTokenFacade = mock<AuthTokenFacadeInterface>({
+            generateTokens: async () => ({ accessToken: "", refreshToken: "" })
+        })
         twoFactorAuthenticationFacade = mock<TwoFactorAuthenticationFacadeInterface>()
         temporary2faTokenFacade = mock<Temporary2faTokenFacadeInterface>()
 

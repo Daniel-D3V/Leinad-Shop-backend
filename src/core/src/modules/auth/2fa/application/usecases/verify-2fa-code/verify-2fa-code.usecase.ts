@@ -5,6 +5,7 @@ import { Temporary2faTokenFacadeInterface } from "../../../facades";
 import { TwoFactorAuthenticationManagementInterface } from "../../protocols";
 import { TemporaryTokenNotFoundError } from "./errors";
 import { Invalid2faCodeError, TwoFactorIsNotValidError, TwoFactorNotFoundError } from "../_errors";
+import { AuthTokenFacadeInterface } from "@/modules/auth/main/facades";
 
 
 export class Verify2faCodeUsecase implements Verify2faCodeUsecaseInterface {
@@ -12,7 +13,8 @@ export class Verify2faCodeUsecase implements Verify2faCodeUsecaseInterface {
     constructor(
         private readonly twoFactorAuthenticationRepository: TwoFactorAuthenticationRepositoryInterface,
         private readonly twoFactorAuthenticationManagement: TwoFactorAuthenticationManagementInterface,
-        private readonly temporary2faTokenFacade: Temporary2faTokenFacadeInterface
+        private readonly temporary2faTokenFacade: Temporary2faTokenFacadeInterface,
+        private readonly authTokenFacade: AuthTokenFacadeInterface
     ){}
     
     async execute({ temporaryToken, code }: Verify2faCodeUsecaseInterface.InputDto): Promise<Verify2faCodeUsecaseInterface.OutputDto> {
@@ -33,6 +35,10 @@ export class Verify2faCodeUsecase implements Verify2faCodeUsecaseInterface {
 
         await this.temporary2faTokenFacade.delete(temporaryToken)
 
-        return right(null)
+        const tokenGenerateResult = await this.authTokenFacade.generateTokens(twoFactorAuthenticationEntity.userId)
+
+        return right({
+            ...tokenGenerateResult
+        })
     }
 }

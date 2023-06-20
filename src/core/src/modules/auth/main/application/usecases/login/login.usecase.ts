@@ -25,22 +25,27 @@ export class LoginUsecase implements LoginUsecaseInterface {
 
         const hasValid2fa = await this.twoFactorAuthenticationFacade.hasValid2fa(userEntity.id)
         if(hasValid2fa) {
-            const temporaryToken = await this.temporary2faTokenFacade.generate({
-                userId: userEntity.id
-            })
-            return right({
-                loginType: "2FA",
-                temporaryToken: temporaryToken.temporary2faToken
-            })
+            return await this.returnTemporaryTokenResult(userEntity.id)
         }
-        
-        const result = await this.authTokenFacade.generateTokens({
-            userId: userEntity.id,
-            email: userEntity.email
+        return await this.returnTokenResult(userEntity.id)
+    }
+
+    private async returnTemporaryTokenResult(userId: string): Promise<LoginUsecaseInterface.OutputDto> {
+        const temporaryToken = await this.temporary2faTokenFacade.generate({
+            userId
         })
+        return right({
+            loginType: "2FA",
+            temporaryToken: temporaryToken.temporary2faToken
+        })
+    }
+
+    private async returnTokenResult(userId: string): Promise<LoginUsecaseInterface.OutputDto> {
+        const { accessToken, refreshToken } = await this.authTokenFacade.generateTokens(userId)
         return right({ 
             loginType: "1FA",
-            ...result  
+            accessToken,
+            refreshToken
         })
     }
 }

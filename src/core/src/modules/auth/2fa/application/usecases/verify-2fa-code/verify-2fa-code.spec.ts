@@ -5,6 +5,7 @@ import { Verify2faCodeUsecaseInterface } from "../../../domain/usecases"
 import { Temporary2faTokenFacadeInterface } from "../../../facades"
 import { TwoFactorAuthenticationManagementInterface } from "../../protocols"
 import { Verify2faCodeUsecase } from "./verify-2fa-code.usecase"
+import { AuthTokenFacadeInterface } from "@/modules/auth/main/facades"
 
 
 describe("Test Verify2faTokenUsecase", () => {
@@ -15,6 +16,7 @@ describe("Test Verify2faTokenUsecase", () => {
     let twoFactorAuthenticationManagement: TwoFactorAuthenticationManagementInterface
     let temporary2faTokenFacade: Temporary2faTokenFacadeInterface
     let twoFactorAuthenticationEntity: TwoFactorAuthenticationEntity
+    let authTokenFacade: AuthTokenFacadeInterface
 
     beforeEach(() => {
         props = {
@@ -35,10 +37,12 @@ describe("Test Verify2faTokenUsecase", () => {
                 userId: "any_user_id"
             })
         })
+        authTokenFacade = mock<AuthTokenFacadeInterface>()
         sut = new Verify2faCodeUsecase(
             twoFactorAuthenticationRepository,
             twoFactorAuthenticationManagement,
-            temporary2faTokenFacade
+            temporary2faTokenFacade,
+            authTokenFacade
         )
     })
 

@@ -1,7 +1,6 @@
-import { TokenPayloadModel } from "../application/models";
 
 export interface AuthTokenFacadeInterface {
-    generateTokens(tokenPayload: TokenPayloadModel): Promise<AuthTokenFacadeInterface.GenerateTokenOutput>
+    generateTokens(userId: string): Promise<AuthTokenFacadeInterface.GenerateTokenOutput>
 }
 
 export namespace AuthTokenFacadeInterface{

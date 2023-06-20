@@ -11,5 +11,8 @@ export namespace Verify2faCodeUsecaseInterface {
         code: string
     }
 
-    export type OutputDto = Either<Error[], null>
+    export type OutputDto = Either<Error[], {
+        accessToken: string
+        refreshToken: string
+    }>
 }
