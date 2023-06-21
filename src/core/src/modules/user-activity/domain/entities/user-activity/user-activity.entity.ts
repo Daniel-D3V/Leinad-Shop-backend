@@ -38,6 +38,13 @@ export class UserActivityEntity extends BaseEntity<UserActivityEntity.Props> {
         this.props.StatusOptions = "DEFAULT"
     }
 
+    isOptionIdle(): boolean {
+        return this.props.StatusOptions === "IDLE"
+    }
+    isOptionDefault(): boolean {
+        return this.props.StatusOptions === "DEFAULT"
+    }
+
     lastSeen(): Date | undefined {
         return this.props.lastSeen
     }
