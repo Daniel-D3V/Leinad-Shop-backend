@@ -10,6 +10,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Notification {
+  id  String @id
+  content String @db.Text
+  dateTimeSent DateTime
+  hasBeenSeen Boolean
+  topic String
+  userId String
+}
+
+
 model Twofactor {
   id  String @id
   isValid Boolean

@@ -10,15 +10,33 @@ export class PrismaNotificationRepository implements NotificationRepositoryInter
     ){}
 
     async create(notificationEntity: NotificationEntity): Promise<void> {
-        throw new Error("Method not implemented.");
+        await this.prismaClient.notification.create({
+            data: {
+                ...notificationEntity.toJSON()
+            }
+        })
     }
 
     async findById(id: string): Promise<NotificationEntity | null> {
-        throw new Error("Method not implemented.");
+        const prismaNotification = await this.prismaClient.notification.findFirst({
+            where: { id: id ?? "" }
+        })
+        if(!prismaNotification) return null
+        const notificationEntity = NotificationEntity.create({
+            ...prismaNotification,
+        }, prismaNotification.id)
+        if(prismaNotification.hasBeenSeen) notificationEntity.markAsRead()
+        return notificationEntity
     }
     
     async update(notificationEntity: NotificationEntity): Promise<void> {
-        throw new Error("Method not implemented.");
+        const { id, userId, ...props } = notificationEntity.toJSON()
+        await this.prismaClient.notification.updateMany({
+            where: { id: id ?? "" },
+            data: {
+                ...props
+            }
+        })
     }
 
 }
