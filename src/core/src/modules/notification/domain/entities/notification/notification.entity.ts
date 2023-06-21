@@ -59,8 +59,8 @@ export namespace NotificationEntity {
     export type Props = {
         content: string
         topic: string
-        hasBeenSeen: boolean
         userId: string
+        hasBeenSeen: boolean
         dateTimeSent: Date
     }
 
