@@ -26,19 +26,19 @@ describe("Test UserActivityEntity", () => {
     })
 
     it("Should set user online", () => {
-        sut.setUserOnline()
+        sut.setStatusOnline()
         expect(sut.isUserOnline()).toBeTruthy()
     })
 
     it("Should set user offline", () => {
-        sut.setUserOnline()
+        sut.setStatusOnline()
         expect(sut.isUserOnline()).toBeTruthy()
-        sut.setUserOffline()
+        sut.setStatusOffline()
         expect(sut.isUserOffline()).toBeTruthy()
     })
 
     it("Should return true if user is online", () => {
-        sut.setUserOnline()
+        sut.setStatusOnline()
         expect(sut.isUserOnline()).toBeTruthy()
         expect(sut.status).toBe("ONLINE")
     })
@@ -73,12 +73,12 @@ describe("Test UserActivityEntity", () => {
 
     it("Should set last seen if status is set to offline", () => {
         expect(sut.lastSeen()).toBeUndefined()
-        sut.setUserOffline()
+        sut.setStatusOffline()
         expect(sut.lastSeen()).toBeInstanceOf(Date)
     })
 
     it("Should return undefined if status is set to online", () => {
-        sut.setUserOnline()
+        sut.setStatusOnline()
         expect(sut.lastSeen()).toBeUndefined()
     })
 })

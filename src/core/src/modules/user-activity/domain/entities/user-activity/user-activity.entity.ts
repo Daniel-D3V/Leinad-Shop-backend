@@ -16,11 +16,11 @@ export class UserActivityEntity extends BaseEntity<UserActivityEntity.Props> {
         return userActivityEntity
     }
 
-    setUserOnline(): void {
+    setStatusOnline(): void {
         this.props.lastSeen = undefined
         this.props.status = "ONLINE"
     }
-    setUserOffline(): void {
+    setStatusOffline(): void {
         this.props.lastSeen = new Date()
         this.props.status = "OFFLINE"
     }
