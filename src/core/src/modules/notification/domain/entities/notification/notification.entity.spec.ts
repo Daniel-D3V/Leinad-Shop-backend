@@ -30,7 +30,7 @@ describe("Test NotificationEntity", () => {
     })
 
     it("should view a NotificationEntity", () => {
-        sut.view()
+        sut.markAsRead()
         expect(sut.hasBeenSeen()).toBeTruthy()
     })
 

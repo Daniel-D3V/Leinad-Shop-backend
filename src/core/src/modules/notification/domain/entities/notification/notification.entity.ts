@@ -15,7 +15,7 @@ export class NotificationEntity extends BaseEntity<NotificationEntity.Props> {
         }, id)
     }
 
-    view(): void {
+    markAsRead(): void {
         this.props.hasBeenSeen = true
     }
 
