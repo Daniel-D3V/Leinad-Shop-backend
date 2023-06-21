@@ -1,24 +1,24 @@
 import { OutboxEmitter } from "@/modules/@shared/infra/providers";
 import { prismaClient } from "@/modules/@shared/infra/repository/prisma/client";
 import { PrismaClient } from "@prisma/client";
-import { SendNotificationUsecaseInterface } from "../../domain/usecases";
-import { SendNotificationUsecase } from "../../application/usecases";
+import { MarkNotificationAsReadUsecaseInterface,  } from "../../domain/usecases";
+import { MarkNotificationAsReadUsecase } from "../../application/usecases";
 import { PrismaNotificationRepository } from "../../infra/repositories";
 
-export class SendNotificationUsecaseFactory {
+export class MarkNotificationAsReadUsecaseFactory {
 
-    static create(): SendNotificationUsecaseInterface {
+    static create(): MarkNotificationAsReadUsecaseInterface {
 
-        const execute = async (input: SendNotificationUsecaseInterface.InputDto): Promise<SendNotificationUsecaseInterface.OutputDto> => {
+        const execute = async (input: MarkNotificationAsReadUsecaseInterface.InputDto): Promise<MarkNotificationAsReadUsecaseInterface.OutputDto> => {
 
             return await prismaClient.$transaction(async (prisma) => {
                 const prismaNotificationRepository = new PrismaNotificationRepository(prisma as PrismaClient)
                 const outboxEmitter = new OutboxEmitter(prisma as PrismaClient)
-                const sendNotificationUsecase = new SendNotificationUsecase(
+                const markNotificationAsReadUsecase = new MarkNotificationAsReadUsecase(
                     prismaNotificationRepository,
                      outboxEmitter
                 )
-                return await sendNotificationUsecase.execute(input)
+                return await markNotificationAsReadUsecase.execute(input)
             })
         }
 
