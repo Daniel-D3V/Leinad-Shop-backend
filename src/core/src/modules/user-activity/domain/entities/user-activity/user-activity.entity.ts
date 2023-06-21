@@ -55,8 +55,8 @@ export class UserActivityEntity extends BaseEntity<UserActivityEntity.Props> {
             id: this.id,
             userId: this.userId,
             status: this.status,
+            StatusOptions: this.statusOptions,
             lastSeen: this.lastSeen(),
-            StatusOptions: this.statusOptions
         }
     }
 
