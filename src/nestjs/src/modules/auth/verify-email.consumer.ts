@@ -16,9 +16,9 @@ export class VerifyEmailConsumer implements OnModuleInit {
         const exchange = "EmailVerifiedEventExchange"
         this.rabbitMqService.setupConsumer({
             exchange,
-            queue: "verify-user-email-queue"
-        }, this.verifyEmail)
-    }
+            queue: "verify-user-email-queue"        
+        }, this.verifyEmail)                
+    }                                                   
 
     async verifyEmail(message: Message) {
         const content = RabbitMQService.getContentFromMessage(message)
