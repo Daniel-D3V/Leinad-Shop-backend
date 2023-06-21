@@ -1,8 +1,8 @@
 import { right } from "@/modules/@shared/logic";
-import { CreateUserActivityUsecaseInterface } from "../../domain/usecases";
-import { UserActivityRepositoryInterface } from "../../domain/repositories";
+import { CreateUserActivityUsecaseInterface } from "../../../domain/usecases";
+import { UserActivityRepositoryInterface } from "../../../domain/repositories";
 import { EventEmitterInterface } from "@/modules/@shared/events";
-import { UserActivityEntity } from "../../domain/entities";
+import { UserActivityEntity } from "../../../domain/entities";
 import { UserActivityCreatedEvent } from "./user-activity-created.event";
 
 
@@ -18,7 +18,6 @@ export class CreateUserActivityUsecase implements CreateUserActivityUsecaseInter
         const userActivityEntity = UserActivityEntity.create({
             userId
         })
-
         await this.userActivityRepository.create(userActivityEntity)
 
         const userActivityCreatedEvent = new UserActivityCreatedEvent({
