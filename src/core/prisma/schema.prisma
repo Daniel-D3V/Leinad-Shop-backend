@@ -10,6 +10,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model UserActivity {
+  id  String @id
+  userId String
+  status String
+  StatusOptions String
+  lastSeen DateTime?
+}
+
+
 model Notification {
   id  String @id
   content String @db.Text
