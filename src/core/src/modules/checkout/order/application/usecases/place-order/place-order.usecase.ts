@@ -1,11 +1,11 @@
 
 import { Either, left, right } from "@/modules/@shared/logic";
-import { CreateOrderItemsFromPropsUsecase } from "./create-order-items-from-props/create-order-items-from-props.usecase";
 import { OrderEntity } from "../../../domain/entities";
 import { OrderPlacedEvent } from "./order-placed.event";
 import { EventEmitterInterface } from "@/modules/@shared/events";
 import { OrderRepositoryInterface } from "../../../domain/repositories";
 import { PlaceOrderUsecaseInterface } from "../../../domain/usecases";
+import { CreateOrderItemFromPropsUsecaseFactory } from "../../../factories";
 
 export class PlaceOrderUsecase implements PlaceOrderUsecaseInterface {
 
@@ -16,7 +16,7 @@ export class PlaceOrderUsecase implements PlaceOrderUsecaseInterface {
 
     async execute({ customerId, products }: PlaceOrderUsecaseInterface.InputDto): Promise<PlaceOrderUsecaseInterface.OutputDto> {
 
-        const createOrderItemsFromPropsUsecase = new CreateOrderItemsFromPropsUsecase()
+        const createOrderItemsFromPropsUsecase = CreateOrderItemFromPropsUsecaseFactory.create()
         const orderItems = await createOrderItemsFromPropsUsecase.execute(products)
         if(orderItems.isLeft()) return left(orderItems.value)
 

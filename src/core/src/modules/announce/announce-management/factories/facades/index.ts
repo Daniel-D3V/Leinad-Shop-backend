@@ -1,1 +1,1 @@
-export * from "./consult-price-facade.factory"
+export * from "./announce.facade.factory"

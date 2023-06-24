@@ -1,20 +1,18 @@
 import { prismaClient } from "@/modules/@shared/infra/repository/prisma/client"
 import {  PrismaClient } from "@prisma/client"
-import { OutboxEmitter } from "@/modules/@shared/infra/providers"
-import { PlaceOrderUsecaseInterface } from "../../domain/usecases"
-import { PlaceOrderUsecase } from "../../application/usecases"
-import { PrismaOrderRepository } from "../../infra/repositories"
+import { CreateOrderItemFromPropsUsecaseInterface } from "../../domain/usecases"
+import { CreateOrderItemsFromPropsUsecase } from "../../application/usecases"
+import { AnnounceFacadeFactory } from "@/modules/announce/announce-management/factories"
 
 export class CreateOrderItemFromPropsUsecaseFactory {
 
     static create(): CreateOrderItemFromPropsUsecaseInterface {
 
-        const execute = async (input: PlaceOrderUsecaseInterface.InputDto) => {
+        const execute = async (input: CreateOrderItemFromPropsUsecaseInterface.InputDto): Promise<CreateOrderItemFromPropsUsecaseInterface.OutputDto> => {
             return await prismaClient.$transaction(async (prisma) => {
-                const prismaOrderRepository = new PrismaOrderRepository(prisma as PrismaClient)
-                const outboxEmitter = new OutboxEmitter(prisma as PrismaClient)
-                const placeOrderUsecase = new PlaceOrderUsecase(prismaOrderRepository, outboxEmitter)
-                return await placeOrderUsecase.execute(input)
+                const announceFacade = AnnounceFacadeFactory.create(prisma as PrismaClient)
+                const createOrderItemsFromPropsUsecase = new CreateOrderItemsFromPropsUsecase(announceFacade)
+                return await createOrderItemsFromPropsUsecase.execute(input)
             })
         }
         return {
