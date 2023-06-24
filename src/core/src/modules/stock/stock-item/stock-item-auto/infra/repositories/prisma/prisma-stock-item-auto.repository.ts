@@ -25,7 +25,7 @@ export class PrismaStockItemAutoRepository implements StockItemAutoRepositoryInt
         })
     }
     async update(stockItemAutoEntity: StockItemAutoEntity): Promise<void> {
-        const { id, stockItemManagementId, ...props} = stockItemAutoEntity.toJSON()
+        const { id, announceItemId, ...props} = stockItemAutoEntity.toJSON()
         await this.prismaClient.stockItemAuto.updateMany({
             where: { id },
             data: {

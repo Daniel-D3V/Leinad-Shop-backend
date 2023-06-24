@@ -21,7 +21,7 @@ export class CreateStockItemManualUsecase implements CreateStockItemManualUsecas
         })
         if(stockItemManualEntity.isLeft()) return left(stockItemManualEntity.value)
 
-        const stockItemManagementManualExists = await this.stockItemManualRepository.findByStockItemManagementId(input.stockItemManagementId)
+        const stockItemManagementManualExists = await this.stockItemManualRepository.findByAnnounceItemId(input.announceItemId)
         if(stockItemManagementManualExists) return left([ new StockItemManagementManualAlreadyCreatedError() ])
 
         await this.stockItemManualRepository.create(stockItemManualEntity.value)

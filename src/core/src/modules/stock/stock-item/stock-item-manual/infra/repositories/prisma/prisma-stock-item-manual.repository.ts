@@ -25,9 +25,9 @@ export class PrismaStockItemManualRepository implements StockItemManualRepositor
             }
         })
     }
-    async findByStockItemManagementId(stockItemManagementId: string): Promise<StockItemManualEntity | null> {
+    async findByAnnounceItemId(announceItemId: string): Promise<StockItemManualEntity | null> {
         const prismaStockItem = await this.prismaClient.stockItemManual.findFirst({
-            where: { stockItemManagementId: stockItemManagementId ?? ""}
+            where: { announceItemId: announceItemId ?? ""}
         })
         if(!prismaStockItem) return null
         return PrismaStockItemManualMapper.toDomain(prismaStockItem)
@@ -41,7 +41,7 @@ export class PrismaStockItemManualRepository implements StockItemManualRepositor
     }
 
     async update(stockItemManualEntity: StockItemManualEntity): Promise<void> {
-        const { id, stockItemManagementId, ...props } = stockItemManualEntity.toJSON()
+        const { id, announceItemId, ...props } = stockItemManualEntity.toJSON()
         await this.prismaClient.stockItemManual.update({
             where: { id: stockItemManualEntity.id },
             data: {

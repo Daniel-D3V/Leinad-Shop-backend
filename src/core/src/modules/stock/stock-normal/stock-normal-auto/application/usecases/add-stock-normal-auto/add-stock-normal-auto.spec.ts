@@ -19,7 +19,7 @@ describe("test AddAutoStockUsecase", () => {
     beforeEach(() => {
         props = {
             value: "any_value",
-            stockNormalManagementId: "any_stock_normal_management_id"
+            announceNormalId: "any_announce_normal_id"
         }
         stockNormalAutoEntity = mock<StockNormalAutoEntity>()
         jest.spyOn(StockNormalAutoEntity, "create")

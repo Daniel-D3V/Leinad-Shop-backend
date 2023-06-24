@@ -13,6 +13,6 @@ export namespace StockItemManualCreatedEvent {
     export type Payload = {
         id: string
         stock: number
-        stockItemManagementId: string
+        announceItemId: string
     }
 }

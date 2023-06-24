@@ -21,7 +21,7 @@ describe("Test CreateStockItemManualUsecase", () => {
 
         props = {
             stock: 10,
-            stockItemManagementId: "any_stock_item_management_id"
+            announceItemId: "any_announce_item_id"
         }
         stockItemManualEntity = mock<StockItemManualEntity>()
         jest.spyOn(StockItemManualEntity, "create")
@@ -46,7 +46,7 @@ describe("Test CreateStockItemManualUsecase", () => {
     })
 
     it("Should return StockItemManagementManualAlreadyCreatedError if a normal entity was already created", async () => {
-        jest.spyOn(stockItemManualRepository, "findByStockItemManagementId")
+        jest.spyOn(stockItemManualRepository, "findByAnnounceItemId")
         .mockResolvedValueOnce(stockItemManualEntity)
         const output = await sut.execute(props)
         if(output.isRight()) return fail("it should not return right")

@@ -9,7 +9,7 @@ describe("Test StockItemAutoEntity", () => {
     beforeEach(() => {
 
         props = {
-            stockItemManagementId: "stock_item_management_id",
+            announceItemId: "any_announce_item_id",
             value: "any_value"
         }
         sut = StockItemAutoEntity.create(props).value as StockItemAutoEntity

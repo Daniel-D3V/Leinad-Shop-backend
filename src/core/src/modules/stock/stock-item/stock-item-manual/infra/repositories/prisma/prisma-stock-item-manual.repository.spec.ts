@@ -13,11 +13,11 @@ describe("Test PrismaStockItemManualRepository", () => {
 
         stockItemManualEntity = mock<StockItemManualEntity>({
             id: "any_id",
-            stockItemManagementId: "any_stock_item_management_id",
+            announceItemId: "any_announce_item_id",
             toJSON: () => ({
                 id: "any_id",
                 stock: 10,
-                stockItemManagementId: "any_stock_item_management_id"
+                announceItemId: "any_announce_item_id",
             })
         })
 //
@@ -39,12 +39,12 @@ describe("Test PrismaStockItemManualRepository", () => {
 
     it("Should return a StockItemManualEntity by stockItemManagementId", async () => {
         await sut.create(stockItemManualEntity)
-        const stockItemManual = await sut.findByStockItemManagementId(stockItemManualEntity.stockItemManagementId)
+        const stockItemManual = await sut.findByAnnounceItemId(stockItemManualEntity.announceItemId)
         expect(stockItemManual?.toJSON()).toEqual(stockItemManualEntity.toJSON())
     })
 
     it("Should return null if StockItemManualEntity not found by stockItemManagementId", async () => {
-        const stockItemManual = await sut.findByStockItemManagementId(stockItemManualEntity.stockItemManagementId)
+        const stockItemManual = await sut.findByAnnounceItemId(stockItemManualEntity.announceItemId)
         expect(stockItemManual).toBeNull()
     })
 

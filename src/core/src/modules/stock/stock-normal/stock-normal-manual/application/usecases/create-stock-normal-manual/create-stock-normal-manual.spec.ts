@@ -19,7 +19,7 @@ describe("Test CreateProductStockNormalUsecase", () => {
 
     beforeEach(() => {
         props = {
-            stockNormalManagementId: "any_stock_normal_management_id",
+            announceNormalId: "any_announce_normal_id",
             stock: 10
         }
         stockNormalManualRepository = mock<StockNormalManualRepositoryInterface>()
@@ -27,7 +27,7 @@ describe("Test CreateProductStockNormalUsecase", () => {
         stockNormalManualEntity = mock<StockNormalManualEntity>()
         jest.spyOn(StockNormalManualEntity, "create")
         .mockReturnValue({ isLeft: () => false, value: stockNormalManualEntity } as any)
-        jest.spyOn(stockNormalManualRepository, "findByStockNormalManagementId").mockResolvedValue(null)
+        jest.spyOn(stockNormalManualRepository, "findByAnnounceNormalId").mockResolvedValue(null)
         eventEmitter = mock<EventEmitterInterface>()
         sut = new CreateStockNormalManualUsecase(stockNormalManualRepository , eventEmitter)
     })
@@ -49,7 +49,7 @@ describe("Test CreateProductStockNormalUsecase", () => {
 
 
     it("Should return StockManualAlreadyCreatedError if stock manual already exists", async () => {
-        jest.spyOn(stockNormalManualRepository, "findByStockNormalManagementId").mockResolvedValueOnce(true as any)
+        jest.spyOn(stockNormalManualRepository, "findByAnnounceNormalId").mockResolvedValueOnce(true as any)
         const output = await sut.execute(props)
         if (output.isRight()) throw new Error("Should not be right")
         expect(output.isLeft()).toBeTruthy()

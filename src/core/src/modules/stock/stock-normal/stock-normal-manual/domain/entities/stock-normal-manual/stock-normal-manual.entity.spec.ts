@@ -11,7 +11,7 @@ describe("Test StockNormalManualEntity", () => {
         id = "any_id"
         props = {
             stock: 10,
-            stockNormalManagementId: "any_stock_normal_management_id"
+            announceNormalId: "any_announce_normal_id"
         }
         const sutCreated = StockNormalManualEntity.create(props, id)
         sut = sutCreated.value as StockNormalManualEntity

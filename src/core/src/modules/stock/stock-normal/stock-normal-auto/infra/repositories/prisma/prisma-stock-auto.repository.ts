@@ -15,7 +15,7 @@ export class PrismaStockNormalAutoRepository implements StockNormalAutoRepositor
         if (!prismaStockNormalAuto) return null
 
         const stockNormalAutoEntity = StockNormalAutoEntity.create({
-            stockNormalManagementId: prismaStockNormalAuto.stockNormalManagementId,
+            announceNormalId: prismaStockNormalAuto.announceNormalId,
             value: prismaStockNormalAuto.value
         }, prismaStockNormalAuto.id)
         if (stockNormalAutoEntity.isLeft()) throw stockNormalAutoEntity.value[0]

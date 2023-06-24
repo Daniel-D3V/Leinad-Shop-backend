@@ -21,7 +21,7 @@ export class CreateStockNormalManualUsecase implements CreateStockNormalManualUs
         })
         if(stockNormalManualEntity.isLeft()) return left(stockNormalManualEntity.value)
 
-        const stockManualAlreadyExists = await this.stockManualRepository.findByStockNormalManagementId(input.stockNormalManagementId)
+        const stockManualAlreadyExists = await this.stockManualRepository.findByAnnounceNormalId(input.announceNormalId)
         if (stockManualAlreadyExists) return left([new StockManualAlreadyCreatedError()])
 
         await this.stockManualRepository.create(stockNormalManualEntity.value)

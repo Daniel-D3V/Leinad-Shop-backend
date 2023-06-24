@@ -106,7 +106,7 @@ model AnnounceImages {
 model StockNormalManual {
   id                      String @id
   stock                   Int    @default(0)
-  stockNormalManagementId String @unique()
+  announceNormalId String @unique()
 
   @@map("stock_normal_manual")
 }
@@ -114,7 +114,7 @@ model StockNormalManual {
 model StockNormalAuto {
   id                      String @id
   value                   String @default("")
-  stockNormalManagementId String
+  announceNormalId String
 
   @@map("stock_normal_auto")
 }
@@ -154,7 +154,7 @@ model OrderItems {
 model StockItemManual {
   id                    String @id @default(uuid())
   stock                 Int
-  stockItemManagementId String @unique()
+  announceItemId String @unique()
 
   @@map("stock_item_manual")
 }
@@ -162,7 +162,7 @@ model StockItemManual {
 model StockItemAuto {
   id                    String @id @default(uuid())
   value                 String
-  stockItemManagementId String
+  announceItemId String
 
   @@map("stock_item_auto")
 }

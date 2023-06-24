@@ -9,7 +9,7 @@ class PrismaStockManualMapper {
     static toDomain(prismaStockNormalManual: StockNormalManual): StockNormalManualEntity {
         const stockNormalManualEntity = StockNormalManualEntity.create({
             stock: prismaStockNormalManual.stock,
-            stockNormalManagementId: prismaStockNormalManual.stockNormalManagementId
+            announceNormalId: prismaStockNormalManual.announceNormalId
         }, prismaStockNormalManual.id)
         if (stockNormalManualEntity.isLeft()) throw stockNormalManualEntity.value[0]
         return stockNormalManualEntity.value
@@ -36,9 +36,9 @@ export class PrismaStockNormalManualRepository implements StockNormalManualRepos
         return PrismaStockManualMapper.toDomain(prismaStockManual)
     }
 
-    async findByStockNormalManagementId(stockNormalManagementId: string): Promise<StockNormalManualEntity | null> {
+    async findByAnnounceNormalId(announceNormalId: string): Promise<StockNormalManualEntity | null> {
         const prismaStockManual = await this.prismaClient.stockNormalManual.findFirst({
-            where: { stockNormalManagementId: stockNormalManagementId ?? "" }
+            where: { announceNormalId: announceNormalId ?? "" }
         })
         if (!prismaStockManual) return null
         return PrismaStockManualMapper.toDomain(prismaStockManual)

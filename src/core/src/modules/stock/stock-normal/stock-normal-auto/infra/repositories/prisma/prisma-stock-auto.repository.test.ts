@@ -14,7 +14,7 @@ describe("Test PrismaStockAutoRepository", () => {
             toJSON: () => ({
                 id: "any_id",
                 value: "any_value",
-                stockNormalManagementId: "stock_normal_management_id"
+                announceNormalId: "any_announce_normal_id"
             })
         })
         sut = new PrismaStockNormalAutoRepository(prismaClient)

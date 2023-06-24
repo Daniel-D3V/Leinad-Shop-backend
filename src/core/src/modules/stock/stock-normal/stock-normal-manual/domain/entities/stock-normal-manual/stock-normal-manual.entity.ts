@@ -22,12 +22,12 @@ export class StockNormalManualEntity extends BaseStockManualEntity<StockNormalMa
         return {
             id: this.id,
             stock: this.getCurrentStock(),
-            stockNormalManagementId: this.stockNormalManagementId
+            announceNormalId: this.announceNormalId
         }
     }
 
-    get stockNormalManagementId(): string {
-        return this.props.stockNormalManagementId
+    get announceNormalId(): string {
+        return this.props.announceNormalId
     }
 
 }
@@ -35,7 +35,7 @@ export class StockNormalManualEntity extends BaseStockManualEntity<StockNormalMa
 export namespace StockNormalManualEntity {
 
     export type Props = BaseStockManualEntity.Props & {
-        stockNormalManagementId: string
+        announceNormalId: string
     }
     
     export type PropsJSON = Props & { id: string }

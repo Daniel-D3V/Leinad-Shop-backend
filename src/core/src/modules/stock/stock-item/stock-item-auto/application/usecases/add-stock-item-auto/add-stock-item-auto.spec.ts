@@ -19,7 +19,7 @@ describe("Test AddStockItemAutoUsecase", () => {
     beforeEach(() => {
 
         props = {
-            stockItemManagementId: "any_stock_item_management_id",
+            announceItemId: "any_announce_item_id",
             value: "any_value"
         }
 
