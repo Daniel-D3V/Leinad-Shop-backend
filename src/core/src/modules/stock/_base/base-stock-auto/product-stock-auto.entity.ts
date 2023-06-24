@@ -15,16 +15,6 @@ export abstract class BaseStockAutoEntity<T> extends BaseEntity<BaseStockAutoEnt
         return right(null)
     }
 
-    // static create(input: ProductStockAutoEntity.Input, id?: string): Either<Error[], ProductStockAutoEntity>{
-        
-    //     const validationResult = this.validateProps({ ...input })
-    //     if(validationResult.isLeft()) return left(validationResult.value)
-
-    //     const productStockAutoEntity = new ProductStockAutoEntity({
-    //         ...input
-    //     }, id)
-    //     return right(productStockAutoEntity)
-    // }
 
     changeValue(newValue: string): Either<Error[], string> {
         const validationResult = BaseStockAutoEntity.validateProps({ value: newValue })

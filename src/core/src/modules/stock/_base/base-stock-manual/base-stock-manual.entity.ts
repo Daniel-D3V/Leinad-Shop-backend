@@ -15,16 +15,7 @@ export abstract class BaseStockManualEntity<T> extends BaseEntity<BaseStockManua
         return right(null)
     }
 
-    // static create(input: BaseStockNormalEntity.Input, id: string): Either<Error[], BaseStockNormalEntity>{
 
-    //     const validationResult = this.validateProps({ ...input })
-    //     if(validationResult.isLeft()) return left(validationResult.value)
-
-    //     const baseStockNormalEntity = new BaseStockNormalEntity({
-    //         ...input
-    //     }, id)
-    //     return right(baseStockNormalEntity)
-    // }
 
     updateStock(newStock: number): Either<Error[], number>{
         const validationResult = BaseStockManualEntity.validateProps({ stock: newStock })
