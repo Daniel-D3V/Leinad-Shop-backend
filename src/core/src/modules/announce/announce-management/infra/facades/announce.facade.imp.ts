@@ -15,8 +15,8 @@ export class AnnounceFacadeImp implements AnnounceFacadeInterface {
 
     constructor(
         private readonly announceManagementRepository: AnnounceManagementRepositoryInterface,
-        private readonly announceItemFacade: AnnounceItemFacadeInterface,
-        private readonly announceNormalFacade: AnnounceNormalFacadeInterface
+        private readonly announceNormalFacade: AnnounceNormalFacadeInterface,
+        private readonly announceItemFacade: AnnounceItemFacadeInterface
     ){}
 
     async getAnnounceDetails({ announceId, announceTypeId }: AnnounceFacadeInterface.GetAnnounceDetailsInput): Promise<AnnounceFacadeInterface.AnnounceModel | null> {
