@@ -1,4 +1,3 @@
-import { UsecaseInterface } from "@/modules/@shared/domain";
 import { Either, left, right } from "@/modules/@shared/logic";
 import { OrderItemEntity } from "@/modules/checkout/order/domain/entities";
 import { InsufficientProductStockError, ProductNotFoundError, ProductOutOfStockError } from "./errors";
@@ -14,7 +13,7 @@ export class CreateOrderItemsFromPropsUsecase implements CreateOrderItemFromProp
 
     async execute(products: CreateOrderItemFromPropsUsecaseInterface.InputDto): Promise<CreateOrderItemFromPropsUsecaseInterface.OutputDto> {
 
-        if (products.length === 0) return left([new NoProductsProvidedError()])
+        if (products?.length === 0) return left([new NoProductsProvidedError()])
 
         const orderItems: OrderItemEntity[] = []
         for (const product of products) {
@@ -29,8 +28,8 @@ export class CreateOrderItemsFromPropsUsecase implements CreateOrderItemFromProp
             if (stockValidationResult.isLeft()) return left(stockValidationResult.value)
 
             const orderItemEntity = OrderItemEntity.create({
-                announceId: product.announceId,
-                announceTypeId: product.announceTypeId,
+                announceId: announceDetails.announceId,
+                announceTypeId: announceDetails.announceTypeId,
                 quantity: product.quantity,
                 unitPrice: announceDetails.price,
                 announceType: announceDetails.announceType,

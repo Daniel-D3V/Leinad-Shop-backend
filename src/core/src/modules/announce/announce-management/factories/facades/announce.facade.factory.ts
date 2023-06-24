@@ -1,10 +1,12 @@
 import { PrismaClient } from "@prisma/client";
 import { AnnounceFacadeInterface } from "../../facades";
+import { AnnounceFacadeImp } from "../../infra/facades";
 
 
 export class AnnounceFacadeFactory {
 
     static create(prismaClient: PrismaClient): AnnounceFacadeInterface {
-        throw new Error("Method not implemented.")
+        const announceFacadeImp = new AnnounceFacadeImp()
+        return announceFacadeImp
     }
 }
