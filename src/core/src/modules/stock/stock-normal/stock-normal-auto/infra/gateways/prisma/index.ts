@@ -1,0 +1,1 @@
+export * from "./prisma-stock-normal-auto.gateway"

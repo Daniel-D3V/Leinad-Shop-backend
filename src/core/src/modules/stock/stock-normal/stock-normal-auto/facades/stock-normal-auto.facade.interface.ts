@@ -1,14 +1,9 @@
 export interface StockNormalAutoFacadeInterface {
 
-    pickOneAndDelete(stockItemId: string): Promise<StockNormalAutoFacadeInterface.FindByIdOutputDto>
+    cosultStockAvailability(announceNormalId: string): Promise<number | null>
 }
 
 export namespace StockNormalAutoFacadeInterface {
 
-    type StockItemAuto = {
-        id: string
-        value: string
-    }
 
-    export type FindByIdOutputDto = StockItemAuto | null
 }

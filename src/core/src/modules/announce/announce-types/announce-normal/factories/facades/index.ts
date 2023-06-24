@@ -1,0 +1,1 @@
+export * from "./announce-normal.facade.factory"
