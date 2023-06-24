@@ -74,6 +74,7 @@ model AnnounceItem {
   id        String @id
   price Float
   title String
+  stockType String @default("NORMAL")
 
   announceId String
 
@@ -83,6 +84,7 @@ model AnnounceItem {
 model AnnounceNormal {
   id        String @id
   price Float
+  stockType String @default("NORMAL")
 
   announceId String @unique
 
@@ -117,14 +119,7 @@ model StockNormalAuto {
   @@map("stock_normal_auto")
 }
 
-model StockNormalManagement {
-  id        String @id
-  stockType String @default("NORMAL")
 
-  announceNormalId String @unique()
-
-  @@map("stock_normal_management")
-}
 
 
 model User {
@@ -154,14 +149,6 @@ model OrderItems {
   announceId String
 
   @@map("order_items")
-}
-
-model StockItemManagement {
-  id             String @id @default(uuid())
-  stockItemType  String
-  announceItemId String @unique()
-
-  @@map("stock_item_management")
 }
 
 model StockItemManual {

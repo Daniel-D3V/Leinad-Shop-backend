@@ -17,7 +17,8 @@ describe("Test PrismaAnnounceNormalRepository", () => {
             toJSON: () => ({
                 id: "any_id",
                 price: 10,
-                announceId: "any_announce_id"
+                announceId: "any_announce_id",
+                stockType: "AUTO"
             })
         })
         sut = new PrismaAnnounceNormalRepository(prismaClient)

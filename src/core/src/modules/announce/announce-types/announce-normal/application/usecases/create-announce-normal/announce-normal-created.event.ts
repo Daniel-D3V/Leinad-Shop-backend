@@ -14,5 +14,6 @@ export namespace AnnounceNormalCreatedEvent {
         id: string
         price: number
         announceId: string
+        stockType: string
     }
 }

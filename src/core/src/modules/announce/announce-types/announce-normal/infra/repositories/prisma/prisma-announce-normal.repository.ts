@@ -10,6 +10,7 @@ class PrismaAnnounceNormalMapper {
             ...prismaAnnounceNormal
         }, prismaAnnounceNormal.id)
         if(announceNormalEntity.isLeft()) throw announceNormalEntity.value[0]
+        if(prismaAnnounceNormal.stockType === "AUTO") announceNormalEntity.value.toStockAuto()
         return announceNormalEntity.value
     }
 }
