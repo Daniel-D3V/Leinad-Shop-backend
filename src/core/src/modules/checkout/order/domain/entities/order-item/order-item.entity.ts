@@ -1,6 +1,7 @@
 import { BaseEntity } from "@/modules/@shared/domain";
 import { Either, left, right } from "@/modules/@shared/logic";
 import { OrderItemValidatorFactory } from "./validator";
+import { AnnounceManagementEntity } from "@/modules/announce/announce-management/domain/entities";
 
 export class OrderItemEntity extends BaseEntity<OrderItemEntity.Props> {
 
@@ -29,7 +30,9 @@ export class OrderItemEntity extends BaseEntity<OrderItemEntity.Props> {
             announceId: this.announceId,
             quantity: this.quantity,
             unitPrice: this.unitPrice,
-            announceTypeId: this.announceTypeId
+            announceTypeId: this.announceTypeId,
+            announceType: this.announceType,
+            stockType: this.props.stockType
         }
     }
 
@@ -45,23 +48,36 @@ export class OrderItemEntity extends BaseEntity<OrderItemEntity.Props> {
     get announceTypeId(): string {
         return this.props.announceTypeId
     }
+    get announceType(): OrderItemEntity.AnnounceType {
+        return this.props.announceType
+    }
+    get stockType(): OrderItemEntity.StockType {
+        return this.props.stockType
+    }
     
 }
 
 export namespace OrderItemEntity {
-                        
+    
+    export type AnnounceType = AnnounceManagementEntity.AnnounceType
+    export type StockType = "MANUAL" | "AUTO"
+
     export type Input = {   
-        announceId: string      
+        announceId: string
+        announceType: AnnounceType
         announceTypeId: string      
+        stockType: StockType
         quantity: number                
         unitPrice: number                   
     }                                           
                                                  
     export type Props = {
         announceId: string
-        announceTypeId: string
-        quantity: number
-        unitPrice: number
+        announceType: AnnounceType
+        announceTypeId: string      
+        stockType: StockType
+        quantity: number                
+        unitPrice: number   
     }
 
     export type PropsJSON = Props & { id: string }

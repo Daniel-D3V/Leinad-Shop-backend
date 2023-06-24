@@ -17,8 +17,24 @@ describe("Test PrismaOrderRepository", () => {
                 customerId: "any_customer_id",
                 status: "PENDINGPAYMENT",
                 orderItems: [
-                    { id: "any_id", productId: "any_product_id", quantity: 1, unitPrice: 1 },
-                    { id: "any_id_1", productId: "any_product_id", quantity: 1, unitPrice: 1 }
+                    { 
+                        id: "any_id", 
+                        quantity: 1, 
+                        unitPrice: 1, 
+                        announceId: "any_announce_id",
+                        stockType: "MANUAL", 
+                        announceType: "ITEM", 
+                        announceTypeId: "any_announce_type_id" 
+                    },
+                    { 
+                        id: "any_id_2", 
+                        quantity: 1, 
+                        unitPrice: 1, 
+                        announceId: "any_announce_id",
+                        stockType: "MANUAL", 
+                        announceType: "ITEM", 
+                        announceTypeId: "any_announce_type_id" 
+                    },
                 ]
             }) as any
         })

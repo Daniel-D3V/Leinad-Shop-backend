@@ -146,6 +146,9 @@ model OrderItems {
   quantity   Int
   unitPrice  Float
   orderId    String
+  announceType String
+  announceTypeId String
+  stockType String
   announceId String
 
   @@map("order_items")

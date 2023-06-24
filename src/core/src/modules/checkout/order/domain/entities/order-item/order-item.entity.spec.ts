@@ -17,6 +17,8 @@ describe("Test OrderItemEntity", () => {
         props = {
             announceId: "any_announce_id",
             announceTypeId: "any_announce_type_id",
+            announceType: "ITEM",
+            stockType: "MANUAL",
             quantity: 1,
             unitPrice: 1,
         }
