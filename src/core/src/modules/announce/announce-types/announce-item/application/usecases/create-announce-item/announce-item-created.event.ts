@@ -15,5 +15,6 @@ export namespace AnnounceItemCreatedEvent {
         announceId: string
         price: number
         title: string
+        stockType: string
     }
 }

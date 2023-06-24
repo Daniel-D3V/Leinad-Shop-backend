@@ -25,7 +25,8 @@ describe("Test AnnounceItem", () => {
         expect(sut).toBeInstanceOf(AnnounceItemEntity)
         expect(sut.toJSON()).toEqual({
             id,
-            ...props
+            ...props,
+            stockType: "MANUAL"
         })
     })
 
@@ -56,4 +57,29 @@ describe("Test AnnounceItem", () => {
         expect(result.isLeft()).toBe(true)
         expect(result.value).toEqual([propsError])
     })
+
+    it("Should change to stock AUTO", () => {
+        expect(sut.stockType).toBe("MANUAL")
+        sut.toStockAuto()
+        expect(sut.stockType).toBe("AUTO")
+    })
+
+    it("Should change to stock MANUAL", () => {
+        sut.toStockAuto()
+        expect(sut.stockType).toBe("AUTO")
+        sut.toStockManual()
+        expect(sut.stockType).toBe("MANUAL")
+    })  
+
+    it("Should check if stock is MANUAL", () => {
+        expect(sut.stockType).toBe("MANUAL")
+        expect(sut.isStockManual()).toBe(true)
+    })  
+        
+    it("Should check if stock is AUTO", () => {
+        sut.toStockAuto()
+        expect(sut.stockType).toBe("AUTO")
+        expect(sut.isStockAuto()).toBe(true)
+    })
+
 })

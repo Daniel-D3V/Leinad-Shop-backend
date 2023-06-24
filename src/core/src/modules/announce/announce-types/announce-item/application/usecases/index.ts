@@ -1,3 +1,5 @@
 export * from "./create-announce-item/create-announce-item.usecase"
 export * from "./change-announce-item-price/change-announce-item-price.usecase"
 export * from "./change-announce-item-title/change-announce-item-title.usecase"
+export * from "./change-announce-item-stock-type-to-auto/change-announce-item-stock-type-to-auto.usecase"
+export * from "./change-announce-item-stock-type-to-manual/change-announce-normal-stock-type-to-manual.usecase"

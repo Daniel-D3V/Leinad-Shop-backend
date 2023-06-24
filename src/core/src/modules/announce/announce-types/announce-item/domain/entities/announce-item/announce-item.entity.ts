@@ -28,7 +28,8 @@ export class AnnounceItemEntity extends BaseAnnounceEntity<AnnounceItemEntity.Pr
         if(validationResult.isLeft()) return left(validationResult.value)
         
         const announceNormalEntity = new AnnounceItemEntity({
-            ...input
+            ...input,
+            stockType: "MANUAL"
         }, id)
         return right(announceNormalEntity)
     }
@@ -41,12 +42,27 @@ export class AnnounceItemEntity extends BaseAnnounceEntity<AnnounceItemEntity.Pr
         return right(null)
     }
 
+    toStockManual(){
+        this.props.stockType = "MANUAL"
+    }
+    toStockAuto(){
+        this.props.stockType = "AUTO"
+    }
+    isStockManual(): boolean {
+        return this.props.stockType === "MANUAL"
+    }
+    isStockAuto(): boolean {
+        return this.props.stockType === "AUTO"
+    }
+
+
     toJSON(): AnnounceItemEntity.PropsJSON {
         return {
             id: this.id,
             price: this.getPrice(),
             announceId: this.announceId,
-            title: this.title
+            title: this.title,
+            stockType: this.stockType
         }
     }
 
@@ -56,9 +72,14 @@ export class AnnounceItemEntity extends BaseAnnounceEntity<AnnounceItemEntity.Pr
     get title(): string {
         return this.props.title
     }
+    get stockType(): AnnounceItemEntity.StockType {
+        return this.props.stockType
+    }
 }
 
 export namespace AnnounceItemEntity {
+
+    export type StockType = "MANUAL" | "AUTO" 
 
     export type Input = { 
         price: number
@@ -67,6 +88,7 @@ export namespace AnnounceItemEntity {
     }
     export type Props = BaseAnnounceEntity.Props & {
         title: string
+        stockType: StockType
         announceId: string
     }
     export type PropsJSON = Props & { id: string }

@@ -18,7 +18,8 @@ describe("Test PrismaAnnounceItemRepository", () => {
                 id: "any_id",
                 title: "any_title",
                 price: 1,
-                announceId: "any_announce_id"
+                announceId: "any_announce_id",
+                stockType: "MANUAL"
             })
         })
 
