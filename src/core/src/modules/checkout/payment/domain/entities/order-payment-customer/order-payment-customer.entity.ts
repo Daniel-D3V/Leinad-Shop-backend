@@ -1,18 +1,18 @@
 import { BaseEntity } from "@/modules/@shared/domain";
 
 
-export class CustomerEntity extends BaseEntity<CustomerEntity.Props> {
+export class OrderPaymentCustomerEntity extends BaseEntity<OrderPaymentCustomerEntity.Props> {
 
-    private constructor(props: CustomerEntity.Props, id?: string){
+    private constructor(props: OrderPaymentCustomerEntity.Props, id: string){
         super(props, id)
     }
 
-    static create(props: CustomerEntity.Props, id?: string): CustomerEntity {
-        const customerEntity = new CustomerEntity(props, id)
-        return customerEntity
+    static create(props: OrderPaymentCustomerEntity.Props, id: string): OrderPaymentCustomerEntity {
+        const orderPaymentCustomerEntity = new OrderPaymentCustomerEntity(props, id)
+        return orderPaymentCustomerEntity
     }
 
-    toJSON(): CustomerEntity.PropsJSON {
+    toJSON(): OrderPaymentCustomerEntity.PropsJSON {
         return {
             id: this.id,
             name: this.name,
@@ -29,7 +29,7 @@ export class CustomerEntity extends BaseEntity<CustomerEntity.Props> {
 }
 
 
-export namespace CustomerEntity {
+export namespace OrderPaymentCustomerEntity {
     
     export type Input = {
         name: string

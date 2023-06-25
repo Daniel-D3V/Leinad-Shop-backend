@@ -1,2 +1,2 @@
 export * from "./payment/payment.entity"
-export * from "./customer/customer.entity"
+export * from "./order-payment-customer/order-payment-customer.entity"

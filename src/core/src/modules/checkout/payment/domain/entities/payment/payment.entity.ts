@@ -1,7 +1,7 @@
 import { BaseEntity } from "@/modules/@shared/domain"
 import { Either, left, right } from "@/modules/@shared/logic"
 import { PaymentValidatorFactory } from "./validator"
-import { CustomerEntity } from "../customer/customer.entity"
+import { CustomerEntity } from "../order-payment-customer/customer.entity"
 
 export class PaymentEntity extends BaseEntity<PaymentEntity.Props> {
     
@@ -58,9 +58,20 @@ export class PaymentEntity extends BaseEntity<PaymentEntity.Props> {
     }
 
 }
+
+interface PaymentInterface {
+    cancel(): void
+    approve(): void
+    toJSON(): PaymentEntity.PropsJSON
+}
+
+
+
 export namespace PaymentEntity {
+
     export type Status = "PENDING" | "CANCELLED" | "REFUNDED" |  "APPROVED" 
     export type PaymentMethod = "MERCADOPAGO" | "STRIPE"
+
     export type Input = {
         amount: number
         customer: CustomerEntity
