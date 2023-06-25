@@ -11,7 +11,7 @@ export class MercadopagoGateway implements PaymentGatewayInterface {
         this.mercadolivreUrl = "https://api.mercadopago.com/v1/payments"
     }
 
-    async generatePayment(paymentEntity: PaymentEntity): Promise<Either<Error[], MercadopagoGateway.Output>> {
+    async generatePayment(paymentEntity: PaymentEntity):  Promise<Either<Error[], PaymentGatewayInterface.generatePaymentOuput>> {
 
 
         const response = await axios.post(`${this.mercadolivreUrl}`, {
@@ -21,7 +21,9 @@ export class MercadopagoGateway implements PaymentGatewayInterface {
         console.log(response.data)
 
         return right({
-
+            RedirectData: {
+                url: ""
+            }
         })
     }
 }

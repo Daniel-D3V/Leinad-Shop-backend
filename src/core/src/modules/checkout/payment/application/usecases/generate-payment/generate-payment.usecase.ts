@@ -7,9 +7,10 @@ import { CustomerNotFoundError } from "./errors";
 import { EventEmitterInterface } from "@/modules/@shared/events";
 import { PaymentGeneratedEvent } from "./payment-generated.event";
 import { PaymentGatewayInterface } from "../../../domain/gateways";
+import { GeneratePaymentUsecaseInterface } from "../../../domain/usecases";
 
 
-export class GeneratePaymentUsecase implements UsecaseInterface {
+export class GeneratePaymentUsecase implements GeneratePaymentUsecaseInterface {
 
     constructor(
         private readonly paymentRepository: PaymentRepositoryInterface,
@@ -18,7 +19,7 @@ export class GeneratePaymentUsecase implements UsecaseInterface {
         private readonly eventEmitter: EventEmitterInterface
     ){}
 
-    async execute({ customerId, orderId, paymentMethod, amount }: GeneratePaymentInputDto): Promise<Either<Error[], { redirectUrl: string }>> {
+    async execute({ customerId, orderId, paymentMethod, amount }: GeneratePaymentInputDto): Promise<GeneratePaymentUsecaseInterface.OutputDto> {
 
         const customerEntity = await this.customerRepository.findById(customerId)
         if(!customerEntity) return left([new CustomerNotFoundError()])

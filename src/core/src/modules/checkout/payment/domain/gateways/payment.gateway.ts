@@ -10,6 +10,6 @@ export namespace PaymentGatewayInterface {
         RedirectData: {
             url: string
         }
-        data: any
+        data?: any
     }
 }
