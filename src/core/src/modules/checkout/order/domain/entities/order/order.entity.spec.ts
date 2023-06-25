@@ -31,6 +31,8 @@ describe('Test OrderEntity', () => {
             announceTypeId: "any_announce_type_id",
             quantity: 1,
             unitPrice: 1,
+            announceType: "ITEM",
+            stockType: "AUTO"
         }
         props = {
             customerId: "any_customer_id"

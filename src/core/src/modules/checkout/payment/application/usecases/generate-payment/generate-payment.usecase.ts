@@ -44,7 +44,8 @@ export class GeneratePaymentUsecase implements GeneratePaymentUsecaseInterface {
         await this.eventEmitter.emit(paymentGeneratedEvent)
 
         return right({
-            redirectUrl: paymentMethodGatewayResponse.value.RedirectData.url
+            redirectUrl: paymentMethodGatewayResponse.value.redirectData.url,
+            data: paymentMethodGatewayResponse.value.redirectData.additionalData
         })
     }
 }

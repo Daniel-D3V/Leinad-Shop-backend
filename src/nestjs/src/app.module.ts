@@ -13,6 +13,7 @@ import { StockItemAutoModule } from './modules/stock/stock-item/stock-item-auto/
 import { StockNormalManualModule } from './modules/stock/stock-normal/stock-normal-manual/stock-normal-manual.module';
 import { StockNormalAutoModule } from './modules/stock/stock-normal/stock-normal-auto/stock-normal-auto.module';
 import { OrderModule } from './modules/checkout/order/order.module';
+import { PaymentModule } from './modules/checkout/payment/payment.module';
 
 @Module({
   imports: [
@@ -26,7 +27,7 @@ import { OrderModule } from './modules/checkout/order/order.module';
     StockItemManualModule, 
     StockItemAutoModule, 
     StockNormalManualModule, 
-    StockNormalAutoModule, OrderModule, 
+    StockNormalAutoModule, OrderModule, PaymentModule, 
   ],
   controllers: [],
   providers: [RabbitMQService, MysqlConsumerService],

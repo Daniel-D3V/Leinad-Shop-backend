@@ -7,8 +7,9 @@ export interface PaymentGatewayInterface {
 
 export namespace PaymentGatewayInterface {
     export type generatePaymentOuput = {
-        RedirectData: {
+        redirectData: {
             url: string
+            additionalData?: any
         }
         data?: any
     }

@@ -15,5 +15,8 @@ export namespace GeneratePaymentUsecaseInterface {
         amount: number
     }
 
-    export type OutputDto = Either<Error[], { redirectUrl: string }>
+    export type OutputDto = Either<Error[], { 
+        redirectUrl: string
+        data?: any 
+    }>
 }
