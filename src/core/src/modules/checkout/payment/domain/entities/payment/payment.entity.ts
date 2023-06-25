@@ -19,10 +19,14 @@ export class PaymentEntity extends BaseEntity<PaymentEntity.Props> {
             dateTimeCreated: props.dateTimeCreated ?? new Date()
         }, id)
         return right(paymentEntity)
+    }
+
     cancel(): void {
         this.props.status = "CANCELLED"
+    }
     approve(): void {
         this.props.status = "APPROVED"
+    }
     toJSON(): PaymentEntity.PropsJSON {
         return {
             id: this.id,
@@ -33,18 +37,26 @@ export class PaymentEntity extends BaseEntity<PaymentEntity.Props> {
             dateTimeCreated: this.dateTimeCreated,
             amount: this.amount
         }
+    }
     get status(): PaymentEntity.Status {
         return this.props.status
+    }
     get paymentMethod(): PaymentEntity.PaymentMethod {
         return this.props.paymentMethod
+    }
     get orderId(): string {
         return this.props.orderId
+    }
     get customer(): CustomerEntity {
         return this.props.customer
+    }
     get dateTimeCreated(): Date {
         return this.props.dateTimeCreated
+    }
     get amount(): number {
         return this.props.amount
+    }
+
 }
 export namespace PaymentEntity {
     export type Status = "PENDING" | "CANCELLED" | "REFUNDED" |  "APPROVED" 
@@ -55,7 +67,14 @@ export namespace PaymentEntity {
         orderId: string
         paymentMethod: PaymentMethod
         dateTimeCreated?: Date
+    }
     export type Props = {
         status: Status
+        paymentMethod: PaymentMethod
+        amount: number
+        customer: CustomerEntity
+        orderId: string
         dateTimeCreated: Date
+    }
     export type PropsJSON = Omit<Props, "customer"> & { id: string, customer: CustomerEntity.PropsJSON }
+}
