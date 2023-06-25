@@ -12,12 +12,11 @@ export class CreateOrderItemsFromPropsUsecase implements CreateOrderItemFromProp
     ){}
 
     async execute(products: CreateOrderItemFromPropsUsecaseInterface.InputDto): Promise<CreateOrderItemFromPropsUsecaseInterface.OutputDto> {
-
-        if (products?.length === 0) return left([new NoProductsProvidedError()])
+        
+        if (!products?.length) return left([ new NoProductsProvidedError() ])
 
         const orderItems: OrderItemEntity[] = []
         for (const product of products) {
-
             const announceDetails = await this.announceFacade.getAnnounceDetails({
                 announceId: product.announceId,
                 announceTypeId: product.announceTypeId

@@ -29,7 +29,6 @@ export class AnnounceNormalFacadeImp implements AnnounceNormalFacadeInterface {
     }
 
     async consultStockAvailability(announceNormalId: string, stockType: AnnounceNormalEntity.StockType): Promise<number | null> {
-
         if(stockType === "MANUAL"){
             return await this.stockNormalManualFacade.cosultStockAvailability(announceNormalId)
         }

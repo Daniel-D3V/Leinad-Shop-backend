@@ -23,7 +23,6 @@ export class AnnounceFacadeImp implements AnnounceFacadeInterface {
 
         const announceManagementEntity = await this.announceManagementRepository.findById(announceId)
         if(!announceManagementEntity) return null
-
         const announceTypeDetails = await this.getAnnounceTypeDetails(
             announceManagementEntity.announceType, 
             announceTypeId

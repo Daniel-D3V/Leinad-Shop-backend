@@ -27,6 +27,7 @@ export class PrismaAnnounceItemRepository implements AnnounceItemRepositoryInter
             ...prismaAnnounceItem
         }, prismaAnnounceItem.id)
         if(announceItemEntity.isLeft()) throw announceItemEntity.value[0]
+        if(prismaAnnounceItem.stockType === "AUTO") announceItemEntity.value.toStockAuto()
         return announceItemEntity.value
     }
 

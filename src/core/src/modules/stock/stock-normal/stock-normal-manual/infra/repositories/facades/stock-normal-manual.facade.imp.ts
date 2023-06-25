@@ -9,7 +9,7 @@ export class StockNormalManualFacadeImp implements StockNormalManualFacadeInterf
     ){}
 
     async cosultStockAvailability(announceNormalId: string): Promise<number | null> {
-        const announceNormalManualEntity = await this.stockNormalManualRepository.findById(announceNormalId)
+        const announceNormalManualEntity = await this.stockNormalManualRepository.findByAnnounceNormalId(announceNormalId)
         if(!announceNormalManualEntity) return null
         return announceNormalManualEntity.getCurrentStock()
     }

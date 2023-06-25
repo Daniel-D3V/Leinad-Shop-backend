@@ -15,7 +15,7 @@ export class PlaceOrderUsecase implements PlaceOrderUsecaseInterface {
     ){}
 
     async execute({ customerId, products }: PlaceOrderUsecaseInterface.InputDto): Promise<PlaceOrderUsecaseInterface.OutputDto> {
-
+        
         const createOrderItemsFromPropsUsecase = CreateOrderItemFromPropsUsecaseFactory.create()
         const orderItems = await createOrderItemsFromPropsUsecase.execute(products)
         if(orderItems.isLeft()) return left(orderItems.value)
