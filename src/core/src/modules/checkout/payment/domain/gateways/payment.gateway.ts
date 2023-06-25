@@ -9,7 +9,8 @@ export namespace PaymentGatewayInterface {
     export type generatePaymentOuput = {
         redirectData: {
             url: string
-            additionalData?: any
+            [key: string]: any
+            
         }
         data?: any
     }

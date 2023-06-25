@@ -29,9 +29,7 @@ export class MercadopagoGateway implements PaymentGatewayInterface {
         return right({
             redirectData: {
                 url: paymentLink,
-                additionalData: {
-                    qrCode: payment.response.point_of_interaction.transaction_data.qr_code_base64
-                }
+                qrCode: payment.response.point_of_interaction.transaction_data.qr_code_base64,
             }
         })
     }
