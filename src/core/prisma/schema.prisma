@@ -211,6 +211,7 @@ model ChatDeliveryMessage {
   @@map("chat-delivery-message")
 }
 
+
 model ChatDeliveryMessageAttachment {
   id                    String @id @default(uuid())
   type                  String
@@ -219,3 +220,15 @@ model ChatDeliveryMessageAttachment {
 
   @@map("chat-delivery-message-attachment")
 }
+
+model Payment {
+  id String @id 
+  status String
+  paymentMethod String
+  orderId String
+  userId String
+  dateTimeCreated DateTime
+  amount Float
+  @@map("payment")
+}
+

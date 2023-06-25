@@ -18,7 +18,7 @@ export class GeneratePaymentUsecase implements UsecaseInterface {
         private readonly eventEmitter: EventEmitterInterface
     ){}
 
-    async execute({ customerId, orderId, paymentMethod, amount }: GeneratePaymentInputDto): Promise<Either<Error[], any>> {
+    async execute({ customerId, orderId, paymentMethod, amount }: GeneratePaymentInputDto): Promise<Either<Error[], { redirectUrl: string }>> {
 
         const customerEntity = await this.customerRepository.findById(customerId)
         if(!customerEntity) return left([new CustomerNotFoundError()])
@@ -38,10 +38,12 @@ export class GeneratePaymentUsecase implements UsecaseInterface {
 
         const paymentGeneratedEvent = new PaymentGeneratedEvent({
             ...paymentEntity.value.toJSON(),
-            paymentGeneratedInfo: paymentMethodGatewayResponse.value
+            paymentGeneratedInfo: paymentMethodGatewayResponse.value.data
         })
         await this.eventEmitter.emit(paymentGeneratedEvent)
 
-        return right(paymentMethodGatewayResponse.value)
+        return right({
+            redirectUrl: paymentMethodGatewayResponse.value.RedirectData.url
+        })
     }
 }
