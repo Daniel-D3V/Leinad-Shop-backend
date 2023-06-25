@@ -3,7 +3,9 @@ import { Request, Response } from 'express';
 import { AuthGuard } from 'src/guards';
 import { 
   CreateAnnounceNormalUsecaseFactory,
-  ChangeAnnounceNormalPriceUsecaseFactory
+  ChangeAnnounceNormalPriceUsecaseFactory,
+  ChangeAnnounceNormalStockTypeToManualUsecaseFactory,
+  ChangeAnnounceNormalStockTypeToAutoUsecaseFactory
 } from "@core/domain/dist/src/modules/announce/announce-types/announce-normal/factories"
 import { ApplicationError } from 'src/utils';
 
@@ -30,6 +32,32 @@ export class AnnounceNormalController {
     const result = await usecase.execute({
       announceNormalId,
       ...inputDto
+    })
+    if (result.isLeft()) {
+        throw new ApplicationError(result.value)
+    }
+    return res.status(200).json()
+  }
+
+  @UseGuards(new AuthGuard())
+  @Post("/change-type-to-auto/:announceNormalId")
+  async changeTypeToAuto(@Param('announceNormalId') announceNormalId: string, @Res() res: Response) {
+    const usecase = ChangeAnnounceNormalStockTypeToAutoUsecaseFactory.create()
+    const result = await usecase.execute({
+      announceNormalId
+    })
+    if (result.isLeft()) {
+        throw new ApplicationError(result.value)
+    }
+    return res.status(200).json()
+  }
+
+  @UseGuards(new AuthGuard())
+  @Post("/change-type-to-manual/:announceNormalId")
+  async changeTypeToNormal(@Param('announceNormalId') announceNormalId: string, @Res() res: Response) {
+    const usecase = ChangeAnnounceNormalStockTypeToManualUsecaseFactory.create()
+    const result = await usecase.execute({
+      announceNormalId
     })
     if (result.isLeft()) {
         throw new ApplicationError(result.value)
