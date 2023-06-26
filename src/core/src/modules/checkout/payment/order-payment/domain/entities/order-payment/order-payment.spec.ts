@@ -16,10 +16,8 @@ describe("Test OrderPayment", () => {
             email: "any_email"
         }, "any_customer_id")
         props = {
-            amount: 100,
             orderId: "any_order_id",
             orderPaymentCustomer: orderPaymentCustomerEntity,
-            paymentProvider: "MERCADOPAGO",
             dateTimeCreated: new Date()
         }
         sut = OrderPaymentEntity.create(props, id).value as OrderPaymentEntity
@@ -29,7 +27,6 @@ describe("Test OrderPayment", () => {
         expect(sut).toBeInstanceOf(OrderPaymentEntity)
         expect(sut.toJSON()).toEqual({
             id,
-            status: "NOPAYMENTSELECTED",
             ...props,
             orderPaymentCustomer: orderPaymentCustomerEntity.toJSON(),
         })

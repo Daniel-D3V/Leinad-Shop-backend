@@ -34,6 +34,12 @@ export abstract class BasePaymentProviderEntity<T> extends BaseEntity<BasePaymen
     get status(): BasePaymentProviderEntity.Status {
         return this.props.status
     }
+    get orderPaymentId(): string {
+        return this.props.orderPaymentId
+    }
+    get amount(): number {
+        return this.props.amount
+    }
 }
 
 export namespace BasePaymentProviderEntity {
@@ -44,5 +50,6 @@ export namespace BasePaymentProviderEntity {
     export type Props = {
         orderPaymentId: string
         status: Status
+        amount: number
     }
 }

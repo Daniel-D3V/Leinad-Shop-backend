@@ -21,7 +21,8 @@ describe("Test BasePaymentProvider", () => {
         id = "any_id"
         props = {
             orderPaymentId: "orderPaymentId",
-            status: "PENDING"
+            status: "PENDING",
+            amount: 1
         }
         sut = new BasePaymentProviderEntityStub(props, id)
     })

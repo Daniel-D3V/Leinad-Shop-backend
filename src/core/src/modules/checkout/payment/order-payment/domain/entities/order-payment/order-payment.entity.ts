@@ -22,7 +22,6 @@ export class OrderPaymentEntity extends BaseEntity<OrderPaymentEntity.Props> {
     toJSON(): OrderPaymentEntity.PropsJSON {
         return {
             id: this.id,
-            amount: this.amount,
             orderPaymentCustomer: this.orderPaymentCustomer.toJSON(),
             orderId: this.orderId,
             dateTimeCreated: this.dateTimeCreated,
@@ -49,9 +48,6 @@ export class OrderPaymentEntity extends BaseEntity<OrderPaymentEntity.Props> {
     }
 
 
-    get amount(): number {
-        return this.props.amount
-    }
     get orderPaymentCustomer(): OrderPaymentCustomerEntity {
         return this.props.orderPaymentCustomer
     }
@@ -75,7 +71,6 @@ export namespace OrderPaymentEntity {
     export type PaymentProvider = "MERCADOPAGO" | "STRIPE"
 
     export type Input = {
-        amount: number
         orderPaymentCustomer: OrderPaymentCustomerEntity
         orderId: string
         dateTimeCreated?: Date
@@ -84,7 +79,6 @@ export namespace OrderPaymentEntity {
     }
 
     export type Props = {
-        amount: number
         orderPaymentCustomer: OrderPaymentCustomerEntity
         orderId: string
         dateTimeCreated: Date
