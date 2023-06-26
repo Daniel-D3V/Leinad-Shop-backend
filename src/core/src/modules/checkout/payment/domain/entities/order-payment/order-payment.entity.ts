@@ -12,7 +12,8 @@ export class OrderPaymentEntity extends BaseEntity<OrderPaymentEntity.Props> {
     static create(props: OrderPaymentEntity.Input, id?: string): Either<Error[], OrderPaymentEntity> {
         const orderPaymentEntity = new OrderPaymentEntity({
             ...props,
-            status: "NOPAYMENTSELECTED",
+            paymentProvider: "MERCADOPAGO",
+            paymentProviderId: undefined,
             dateTimeCreated: props.dateTimeCreated || new Date()
         }, id)
         return right(orderPaymentEntity)
@@ -24,10 +25,29 @@ export class OrderPaymentEntity extends BaseEntity<OrderPaymentEntity.Props> {
             amount: this.amount,
             orderPaymentCustomer: this.orderPaymentCustomer.toJSON(),
             orderId: this.orderId,
-            status: this.status,
-            dateTimeCreated: this.dateTimeCreated
+            dateTimeCreated: this.dateTimeCreated,
+            paymentProvider: this.paymentProvider
         }
     }
+
+    hasPaymentProvider(): boolean {
+        return !!this.props.paymentProviderId
+    }
+
+    setMercadopagoPaymentProvider(): void {
+        this.props.paymentProvider = "MERCADOPAGO"
+    }
+    setStripePaymentProvider(): void {
+        this.props.paymentProvider = "STRIPE"
+    }
+
+    setPaymentProviderId(paymentProviderId: string): void {
+        this.props.paymentProviderId = paymentProviderId
+    }
+    unsetPaymentProviderId(): void {
+        this.props.paymentProviderId = undefined
+    }
+
 
     get amount(): number {
         return this.props.amount
@@ -38,31 +58,38 @@ export class OrderPaymentEntity extends BaseEntity<OrderPaymentEntity.Props> {
     get orderId(): string {
         return this.props.orderId
     }
-    get status(): OrderPaymentEntity.Status {
-        return this.props.status
-    }
     get dateTimeCreated(): Date {
         return this.props.dateTimeCreated
     }
+    get paymentProvider(): OrderPaymentEntity.PaymentProvider  {
+        return this.props.paymentProvider
+    }
+    get paymentProviderId(): string | undefined {
+        return this.props.paymentProviderId
+    }
 }
+
 
 export namespace OrderPaymentEntity {
 
-    export type Status = "NOPAYMENTSELECTED" | "PENDING" | "CANCELLED" | "REFUNDED" |  "APPROVED" 
+    export type PaymentProvider = "MERCADOPAGO" | "STRIPE"                                          
 
     export type Input = {
         amount: number
         orderPaymentCustomer: OrderPaymentCustomerEntity
         orderId: string
         dateTimeCreated?: Date
+        paymentProvider: PaymentProvider
+        paymentProviderId?: string
     }
 
     export type Props = {
         amount: number
         orderPaymentCustomer: OrderPaymentCustomerEntity
         orderId: string
-        status: Status
         dateTimeCreated: Date
+        paymentProvider: PaymentProvider
+        paymentProviderId?: string
     }
 
     export type PropsJSON = Omit<Props, "orderPaymentCustomer"> & { id: string, orderPaymentCustomer: OrderPaymentCustomerEntity.PropsJSON }

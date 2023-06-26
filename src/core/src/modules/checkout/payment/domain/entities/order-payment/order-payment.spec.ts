@@ -19,6 +19,7 @@ describe("Test OrderPayment", () => {
             amount: 100,
             orderId: "any_order_id",
             orderPaymentCustomer: orderPaymentCustomerEntity,
+            paymentProvider: "MERCADOPAGO",
             dateTimeCreated: new Date()
         }
         sut = OrderPaymentEntity.create(props, id).value as OrderPaymentEntity
