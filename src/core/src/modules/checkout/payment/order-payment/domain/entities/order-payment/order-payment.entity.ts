@@ -12,7 +12,7 @@ export class OrderPaymentEntity extends BaseEntity<OrderPaymentEntity.Props> {
     static create(props: OrderPaymentEntity.Input, id?: string): Either<Error[], OrderPaymentEntity> {
         const orderPaymentEntity = new OrderPaymentEntity({
             ...props,
-            paymentProvider: "MERCADOPAGO",
+            paymentProvider: undefined,
             paymentProviderId: undefined,
             dateTimeCreated: props.dateTimeCreated || new Date()
         }, id)
@@ -34,17 +34,17 @@ export class OrderPaymentEntity extends BaseEntity<OrderPaymentEntity.Props> {
         return !!this.props.paymentProviderId
     }
 
-    setMercadopagoPaymentProvider(): void {
+    setMercadopagoPaymentProvider(paymentProviderId: string): void {
+        this.props.paymentProviderId = paymentProviderId
         this.props.paymentProvider = "MERCADOPAGO"
     }
-    setStripePaymentProvider(): void {
+    setStripePaymentProvider(paymentProviderId: string): void {
+        this.props.paymentProviderId = paymentProviderId
         this.props.paymentProvider = "STRIPE"
     }
 
-    setPaymentProviderId(paymentProviderId: string): void {
-        this.props.paymentProviderId = paymentProviderId
-    }
-    unsetPaymentProviderId(): void {
+    unsetPaymentProvider(): void {
+        this.props.paymentProvider = undefined
         this.props.paymentProviderId = undefined
     }
 
@@ -61,7 +61,7 @@ export class OrderPaymentEntity extends BaseEntity<OrderPaymentEntity.Props> {
     get dateTimeCreated(): Date {
         return this.props.dateTimeCreated
     }
-    get paymentProvider(): OrderPaymentEntity.PaymentProvider  {
+    get paymentProvider(): OrderPaymentEntity.PaymentProvider | undefined  {
         return this.props.paymentProvider
     }
     get paymentProviderId(): string | undefined {
@@ -72,14 +72,14 @@ export class OrderPaymentEntity extends BaseEntity<OrderPaymentEntity.Props> {
 
 export namespace OrderPaymentEntity {
 
-    export type PaymentProvider = "MERCADOPAGO" | "STRIPE"                                          
+    export type PaymentProvider = "MERCADOPAGO" | "STRIPE"
 
     export type Input = {
         amount: number
         orderPaymentCustomer: OrderPaymentCustomerEntity
         orderId: string
         dateTimeCreated?: Date
-        paymentProvider: PaymentProvider
+        paymentProvider?: PaymentProvider
         paymentProviderId?: string
     }
 
@@ -88,7 +88,7 @@ export namespace OrderPaymentEntity {
         orderPaymentCustomer: OrderPaymentCustomerEntity
         orderId: string
         dateTimeCreated: Date
-        paymentProvider: PaymentProvider
+        paymentProvider?: PaymentProvider
         paymentProviderId?: string
     }
 
