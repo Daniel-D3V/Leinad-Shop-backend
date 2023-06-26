@@ -232,3 +232,12 @@ model Payment {
   @@map("payment")
 }
 
+model MercadopagoPaymentProvider {
+  id String @id 
+  orderPaymentId String
+  status String
+  mercadopagoPaymentId String
+  amount Float
+  @@map("mercadopago_payment_provider")
+}
+

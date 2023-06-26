@@ -1,0 +1,1 @@
+export * from "./prisma-mercadopago-payment-provider.repository"
