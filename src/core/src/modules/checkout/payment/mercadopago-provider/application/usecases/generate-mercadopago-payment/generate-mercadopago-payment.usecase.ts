@@ -1,5 +1,5 @@
 import { left, right } from "@/modules/@shared/logic";
-import { GenerateMercadoPagoPaymentUsecaseInterface } from "../../../domain/usecases";
+import { GenerateMercadopagoPaymentUsecaseInterface } from "../../../domain/usecases";
 import { MercadopagoPaymentProviderEntity } from "../../../domain/entities";
 import { OrderFacadeInterface } from "@/modules/checkout/order/facades";
 import { OrderNotFoundError, PaymentAlreadyCreatedError } from "./errors";
@@ -10,8 +10,7 @@ import { MercadopagoGatewayInterface } from "../../../domain/gateways";
 import { MercadopagoPaymentGeneratedEvent } from "./mercadopago-payment-generated.event";
 
 
-
-export class GenerateMercadopagoPaymentUsecase implements GenerateMercadoPagoPaymentUsecaseInterface {
+export class GenerateMercadopagoPaymentUsecase implements GenerateMercadopagoPaymentUsecaseInterface {
 
     constructor(
         private readonly orderFacade: OrderFacadeInterface,
@@ -21,19 +20,23 @@ export class GenerateMercadopagoPaymentUsecase implements GenerateMercadoPagoPay
         private readonly eventEmitter: EventEmitterInterface
     ){}
 
-    async execute({ orderId, email }: GenerateMercadoPagoPaymentUsecaseInterface.InputDto): Promise<GenerateMercadoPagoPaymentUsecaseInterface.OutputDto> {
+    async execute({ orderId, email }: GenerateMercadopagoPaymentUsecaseInterface.InputDto): Promise<GenerateMercadopagoPaymentUsecaseInterface.OutputDto> {
         
+        // Check if payment already exists
         const paymentAlreadyCreated = await this.orderPaymentFacade.hasPaymentCreated(orderId)
         if(paymentAlreadyCreated) return left([ new PaymentAlreadyCreatedError() ])
 
+        // Retrieve order details
         const orderDetails = await this.orderFacade.consultOrderDetails(orderId)
         if(!orderDetails) return left([ new OrderNotFoundError() ])
 
+        // Generate Mercadopago payment
         const mercadopagoPayment = await this.mercadopagoGateway.generatePayment({
             amount: orderDetails.totalAmount,
             email
         })
         
+        // Create payment provider entity
         const mercadopagoPaymentProviderEntity = MercadopagoPaymentProviderEntity.create({
             amount: orderDetails.totalAmount,
             orderPaymentId: orderDetails.orderPaymentId,
@@ -41,11 +44,13 @@ export class GenerateMercadopagoPaymentUsecase implements GenerateMercadoPagoPay
         })
         await this.mercadopagoPaymentProviderRepository.create(mercadopagoPaymentProviderEntity)
 
+        // Emit payment generated event
         const mercadopagoPaymentGeneratedEvent = new MercadopagoPaymentGeneratedEvent({
             ...mercadopagoPaymentProviderEntity.toJSON()
         })
         await this.eventEmitter.emit(mercadopagoPaymentGeneratedEvent)
 
+        // Return right-side data if no errors occurred
         return right({
             id: mercadopagoPaymentProviderEntity.id
         })

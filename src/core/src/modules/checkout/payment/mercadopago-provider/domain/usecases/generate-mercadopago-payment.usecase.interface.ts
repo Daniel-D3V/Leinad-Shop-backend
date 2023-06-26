@@ -1,11 +1,11 @@
 import { UsecaseInterface } from "@/modules/@shared/domain";
 import { Either } from "@/modules/@shared/logic";
 
-export interface GenerateMercadoPagoPaymentUsecaseInterface extends UsecaseInterface {
-    execute(input: GenerateMercadoPagoPaymentUsecaseInterface.InputDto): Promise<GenerateMercadoPagoPaymentUsecaseInterface.OutputDto>
+export interface GenerateMercadopagoPaymentUsecaseInterface extends UsecaseInterface {
+    execute(input: GenerateMercadopagoPaymentUsecaseInterface.InputDto): Promise<GenerateMercadopagoPaymentUsecaseInterface.OutputDto>
 }
 
-export namespace GenerateMercadoPagoPaymentUsecaseInterface {
+export namespace GenerateMercadopagoPaymentUsecaseInterface {
 
     export type InputDto = {
         orderId: string
