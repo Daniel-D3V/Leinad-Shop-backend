@@ -8,13 +8,13 @@ export class MercadopagoPaymentProviderEntity extends BasePaymentProviderEntity<
         super(props, id)
     }
 
-    static create(input: MercadopagoPaymentProviderEntity.Input, id?: string): Either<Error[], MercadopagoPaymentProviderEntity> {
+    static create(input: MercadopagoPaymentProviderEntity.Input, id?: string): MercadopagoPaymentProviderEntity {
 
         const mercadopagoPaymentProviderEntity = new MercadopagoPaymentProviderEntity({
             ...input,
             status: "PENDING"
         }, id)
-        return right(mercadopagoPaymentProviderEntity)
+        return mercadopagoPaymentProviderEntity
     }
 
     toJSON(): MercadopagoPaymentProviderEntity.PropsJSON {

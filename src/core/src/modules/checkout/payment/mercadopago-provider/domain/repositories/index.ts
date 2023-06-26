@@ -1,0 +1,1 @@
+export * from "./mercadopago-payment-provider.repository.interface"

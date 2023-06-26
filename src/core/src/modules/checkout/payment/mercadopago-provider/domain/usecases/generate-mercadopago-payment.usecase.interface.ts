@@ -9,6 +9,7 @@ export namespace GenerateMercadoPagoPaymentUsecaseInterface {
 
     export type InputDto = {
         orderId: string
+        email: string
     }
 
     export type OutputDto = Either<Error[], {
