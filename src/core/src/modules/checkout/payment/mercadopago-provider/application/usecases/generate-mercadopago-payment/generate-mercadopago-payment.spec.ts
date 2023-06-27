@@ -24,7 +24,8 @@ describe('Test GenerateMercadoPagoPayment', () => {
 
     beforeEach(() => {
         props = {
-            orderId: "any_order_id"
+            orderId: "any_order_id",
+            paymentMethod: "PIX"
         }
         mercadopagoPaymentProviderEntity = mock<MercadopagoPaymentProviderEntity>()
         jest.spyOn(MercadopagoPaymentProviderEntity, "create")

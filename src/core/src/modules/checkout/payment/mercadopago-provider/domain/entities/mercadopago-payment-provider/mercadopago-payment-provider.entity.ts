@@ -9,6 +9,10 @@ export class MercadopagoPaymentProviderEntity extends BasePaymentProviderEntity<
     }
 
     static create(input: MercadopagoPaymentProviderEntity.Input, id?: string): MercadopagoPaymentProviderEntity {
+        const paymentMethods: MercadopagoPaymentProviderEntity.PaymentMethods[]  = [ "PIX", "BOLETO" ]
+        if(!paymentMethods.includes(input.paymentMethod)) {
+            input.paymentMethod = "PIX"
+        }
 
         const mercadopagoPaymentProviderEntity = new MercadopagoPaymentProviderEntity({
             ...input,

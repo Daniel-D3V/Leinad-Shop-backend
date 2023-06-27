@@ -26,14 +26,15 @@ export class MercadopagoGatewayImp implements MercadopagoGatewayInterface {
                 email: customer.email
             }
         })
-        console.log(payment)
         const qrCode = payment.body.point_of_interaction.transaction_data.qr_code_base64
         const pixCode = payment.body.point_of_interaction.transaction_data.qr_code
+        const paymentLink = payment.body.point_of_interaction.transaction_data.ticket_url
         return {
-            paymentId: payment.body.id,
+            paymentId: `${payment.body.id}`,
             data: {
                 qrCode,
-                pixCode
+                pixCode,
+                paymentLink
             }
         }
     }

@@ -56,7 +56,8 @@ export class GenerateMercadopagoPaymentUsecase implements GenerateMercadopagoPay
 
         // Return right-side data if no errors occurred
         return right({
-            id: mercadopagoPaymentProviderEntity.id
+            id: mercadopagoPaymentProviderEntity.id,
+            ...mercadopagoPayment.data
         })
     }
 }
