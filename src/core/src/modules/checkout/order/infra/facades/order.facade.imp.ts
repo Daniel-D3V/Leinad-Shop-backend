@@ -20,7 +20,10 @@ export class OrderFacadeImp implements OrderFacadeInterface {
             orderId: orderEntity.id,
             totalPrice: orderEntity.getTotal(),
             totalQuantity: orderEntity.getTotalQuantity(),
-            orderPaymentId: orderPaymentDetails.orderPaymentId
+            orderPaymentId: orderPaymentDetails.orderPaymentId,
+            customer: {
+                ...orderPaymentDetails.orderPaymentCustomer
+            }
         }
     }
 

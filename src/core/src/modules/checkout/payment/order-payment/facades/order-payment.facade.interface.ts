@@ -9,5 +9,10 @@ export namespace OrderPaymentFacadeInterface {
 
     export type OrderPaymentDetailsModel = {
         orderPaymentId: string
+        orderPaymentCustomer: {
+            id: string
+            name: string
+            email: string
+        }
     }
 }

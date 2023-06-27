@@ -9,5 +9,10 @@ export namespace OrderFacadeInterface {
         totalPrice: number
         totalQuantity: number
         orderPaymentId: string
+        customer: {
+            id: string
+            name: string
+            email: string
+        }
     }
 }

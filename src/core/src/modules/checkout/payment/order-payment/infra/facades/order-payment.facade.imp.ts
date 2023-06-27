@@ -16,7 +16,8 @@ export class OrderPaymentFacadeImp implements OrderPaymentFacadeInterface {
         const orderPaymentEntity = await this.orderPaymentRepository.findByOrderId(orderId)
         if(!orderPaymentEntity) return null
         return {
-            orderPaymentId: orderPaymentEntity.id
+            orderPaymentId: orderPaymentEntity.id,
+            orderPaymentCustomer: orderPaymentEntity.orderPaymentCustomer.toJSON()
         }
     }
 
