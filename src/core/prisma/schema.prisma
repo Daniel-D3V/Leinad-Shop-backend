@@ -228,11 +228,13 @@ model OrderPayment {
   orderId String
   userId String
   dateTimeCreated DateTime
-  @@map("payment")
+
+  @@map("order_payment")
 }
 
 model MercadopagoPaymentProvider {
   id String @id 
+  paymentMethod String
   orderPaymentId String
   status String
   mercadopagoPaymentId String
