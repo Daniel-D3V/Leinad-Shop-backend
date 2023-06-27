@@ -9,21 +9,32 @@ mercadopago.configure({
 
 export class MercadopagoGatewayImp implements MercadopagoGatewayInterface {
 
-    async generatePayment(input: MercadopagoGatewayInterface.GeneratePaymentInput): Promise<MercadopagoGatewayInterface.GeneratePaymentOutput> {
+    async generatePayment({ amount, customer, paymentMethod }: MercadopagoGatewayInterface.GeneratePaymentInput): Promise<MercadopagoGatewayInterface.GeneratePaymentOutput> {
         
-        
+        let paymentMethodChoosed = "pix"
+
+        if(paymentMethod === "BOLETO") {
+            paymentMethodChoosed = "ticket"
+        } else {
+            paymentMethodChoosed = "pix"
+        }
         const payment = await mercadopago.payment.create({
             installments: 1,
-            transaction_amount: input.amount,
-            payment_method_id: "pix",
+            transaction_amount: amount,
+            payment_method_id: paymentMethodChoosed,
             payer: {
-                email: input.email
+                email: customer.email
             }
         })
         console.log(payment)
-
+        const qrCode = payment.body.point_of_interaction.transaction_data.qr_code_base64
+        const pixCode = payment.body.point_of_interaction.transaction_data.qr_code
         return {
-            paymentId: ""
+            paymentId: payment.body.id,
+            data: {
+                qrCode,
+                pixCode
+            }
         }
     }
 

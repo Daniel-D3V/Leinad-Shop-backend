@@ -20,7 +20,7 @@ export class GenerateMercadopagoPaymentUsecase implements GenerateMercadopagoPay
         private readonly eventEmitter: EventEmitterInterface
     ){}
 
-    async execute({ orderId }: GenerateMercadopagoPaymentUsecaseInterface.InputDto): Promise<GenerateMercadopagoPaymentUsecaseInterface.OutputDto> {
+    async execute({ orderId, paymentMethod }: GenerateMercadopagoPaymentUsecaseInterface.InputDto): Promise<GenerateMercadopagoPaymentUsecaseInterface.OutputDto> {
         
         // Check if payment already exists
         const paymentAlreadyCreated = await this.orderPaymentFacade.hasPaymentCreated(orderId)
@@ -29,11 +29,14 @@ export class GenerateMercadopagoPaymentUsecase implements GenerateMercadopagoPay
         // Retrieve order details
         const orderDetails = await this.orderFacade.consultOrderDetails(orderId)
         if(!orderDetails) return left([ new OrderNotFoundError() ])
-
+        
         // Generate Mercadopago payment
         const mercadopagoPayment = await this.mercadopagoGateway.generatePayment({
             amount: orderDetails.totalPrice,
-            email: orderDetails.customer.email
+            paymentMethod: paymentMethod,
+            customer: {
+                email: orderDetails.customer.email
+            }
         })
         
         // Create payment provider entity
@@ -41,6 +44,7 @@ export class GenerateMercadopagoPaymentUsecase implements GenerateMercadopagoPay
             amount: orderDetails.totalPrice,
             orderPaymentId: orderDetails.orderPaymentId,
             mercadopagoPaymentId: mercadopagoPayment.paymentId,
+            paymentMethod: paymentMethod
         })
         await this.mercadopagoPaymentProviderRepository.create(mercadopagoPaymentProviderEntity)
 

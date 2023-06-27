@@ -23,26 +23,34 @@ export class MercadopagoPaymentProviderEntity extends BasePaymentProviderEntity<
             orderPaymentId: this.orderPaymentId,
             status: this.status,
             mercadopagoPaymentId: this.mercadopagoPaymentId,
-            amount: this.amount
+            amount: this.amount,
+            paymentMethod: this.paymentMethod
         }
     }
 
     get mercadopagoPaymentId(): string {
         return this.props.mercadopagoPaymentId
     }
+    get paymentMethod(): MercadopagoPaymentProviderEntity.PaymentMethods {
+        return this.props.paymentMethod
+    }
 
 }
 
 export namespace MercadopagoPaymentProviderEntity {
 
+    export type PaymentMethods = "PIX" | "BOLETO"
+
     export type Input = {
         orderPaymentId: string
         mercadopagoPaymentId: string
+        paymentMethod: PaymentMethods
         amount: number
     }
 
     export type Props = BasePaymentProviderEntity.Props & {
         mercadopagoPaymentId: string
+        paymentMethod: PaymentMethods
     }
 
     export type PropsJSON = Props & {

@@ -15,6 +15,7 @@ export namespace MercadopagoPaymentGeneratedEvent {
         amount: number
         status: string
         orderPaymentId: string
+        paymentMethod: string
         mercadopagoPaymentId: string
     }
 }

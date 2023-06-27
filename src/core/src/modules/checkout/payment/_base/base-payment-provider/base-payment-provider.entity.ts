@@ -45,7 +45,7 @@ export abstract class BasePaymentProviderEntity<T> extends BaseEntity<BasePaymen
 export namespace BasePaymentProviderEntity {
 
     export type Status =  "PENDING" | "CANCELLED" | "REFUNDED" |  "APPROVED" 
-    export type PaymentMethods = "PIX" 
+    export type PaymentMethods = "PIX" | "BOLETO"
 
     export type Props = {
         orderPaymentId: string

@@ -25,7 +25,7 @@ export class OrderPaymentConsumer implements OnModuleInit {
         const usecase = CreateOrderPaymentUsecaseFactory.create()
         await usecase.execute({
           orderId: content.payload.id,
-          userId: content.payload.userId
+          userId: content.payload.customerId
         })
     }
 }

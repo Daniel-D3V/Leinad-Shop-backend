@@ -10,13 +10,13 @@ import {
 @Controller('payment/mercadopago')
 export class MercadopagoProviderController {
 
-//dddddddsfdfsddsfdsfsdfsdfsdfdsfdsfdsdsfsfsdffd
+//dddddddsfdfsddsfdsfsdfsdfsdfdsfdsfdsdsfsfsdffddsfsddf
 @UseGuards(new AuthGuard())
   @Post()
   async create(@Body() body: any,@Req() req: Request ,@Res() res: Response) {
     const usecase = GenerateMercadopagoPaymentUsecaseFactory.create()
     const result = await usecase.execute({
-      orderId: body.orderId,
+      ...body
     })
     if (result.isLeft()) {
         throw new ApplicationError(result.value)

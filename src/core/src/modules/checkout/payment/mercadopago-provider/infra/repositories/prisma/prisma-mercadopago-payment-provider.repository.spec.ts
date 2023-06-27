@@ -18,7 +18,8 @@ describe('Test PrismaMercadopagoPaymentProviderRepository', () => {
                 amount: 100,
                 mercadopagoPaymentId: "any_mercadopago_payment_id",
                 orderPaymentId: "any_order_payment_id",
-                status: "APPROVED"
+                status: "APPROVED",
+                paymentMethod: "PIX"
             })
         })
         sut = new PrismaMercadopagoPaymentProviderRepository(prismaClient)

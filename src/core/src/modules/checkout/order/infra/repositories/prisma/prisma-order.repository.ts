@@ -30,7 +30,7 @@ export class PrismaOrderRepository implements OrderRepositoryInterface {
     
     async findById(id: string): Promise<OrderEntity | null> {
         const prismaOrder = await this.prismaClient.order.findFirst({
-            where: { id }
+            where: { id: id ?? "" }
         })
         if(!prismaOrder) return null
         const prismaOrderItems = await this.prismaClient.orderItems.findMany({
