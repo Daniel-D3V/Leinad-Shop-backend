@@ -30,6 +30,7 @@ export class SetMercadopagoProviderUsecase implements SetMercadopagoProviderUsec
         orderPaymentEntity.setMercadopagoPaymentProvider(mercadopagoProviderId)
         await this.orderPaymentRepository.update(orderPaymentEntity)
 
+        
         const orderPaymentMercadopagoProviderSetEvent = new OrderPaymentMercadopagoProviderSetEvent({
             orderPaymentId: orderPaymentEntity.id,
             mercadopagoProviderId: orderPaymentEntity.paymentProviderId ?? ""

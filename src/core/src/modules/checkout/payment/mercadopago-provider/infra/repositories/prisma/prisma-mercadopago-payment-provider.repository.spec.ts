@@ -36,4 +36,27 @@ describe('Test PrismaMercadopagoPaymentProviderRepository', () => {
         expect(prismaMercadopagoPaymentProvider).toEqual(mercadopagoPaymentProviderEntity.toJSON())
     })
 
+    it("Should find a payment by id", async () => {
+        await sut.create(mercadopagoPaymentProviderEntity)
+
+        const result = await sut.findById(mercadopagoPaymentProviderEntity.id)
+        expect(result?.toJSON()).toEqual(mercadopagoPaymentProviderEntity.toJSON())
+    })
+
+    it("Should return null if payment not found", async () => {
+        const result = await sut.findById("any_id")
+        expect(result).toBeNull()
+    })
+
+    it("Should update a payment", async () => {
+        await sut.create(mercadopagoPaymentProviderEntity)
+
+        const mercadopagoPayment = await sut.findById(mercadopagoPaymentProviderEntity.id)
+
+        mercadopagoPayment?.cancel()
+        await sut.update(mercadopagoPayment!)
+
+        const updatedMercadopagoPayment = await sut.findById(mercadopagoPaymentProviderEntity.id)
+        expect(updatedMercadopagoPayment?.toJSON()).toEqual(mercadopagoPayment?.toJSON())
+    })
 })
