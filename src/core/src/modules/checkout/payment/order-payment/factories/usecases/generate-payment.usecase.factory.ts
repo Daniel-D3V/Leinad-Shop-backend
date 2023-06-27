@@ -3,7 +3,7 @@ import { prismaClient } from "@/modules/@shared/infra/repository/prisma/client";
 import { PrismaClient } from "@prisma/client";
 import { GeneratePaymentUsecaseInterface } from "../../domain/usecases";
 import { GeneratePaymentUsecase } from "../../application/usecases";
-import { PrismaCustomerRepository, PrismaPaymentRepository } from "../../infra/repositories";
+import { PrismaCustomerRepository } from "../../infra/repositories";
 import { MercadopagoGateway } from "../../infra/gateways";
 
 

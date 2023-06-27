@@ -1,8 +1,8 @@
 export interface MercadopagoGatewayInterface {
-    generatePayment(input: MercadopagoGatewayFactoryInterface.GeneratePaymentInput): Promise<MercadopagoGatewayFactoryInterface.GeneratePaymentOutput>
+    generatePayment(input: MercadopagoGatewayInterface.GeneratePaymentInput): Promise<MercadopagoGatewayInterface.GeneratePaymentOutput>
 }
 
-export namespace MercadopagoGatewayFactoryInterface {
+export namespace MercadopagoGatewayInterface {
     
     export type GeneratePaymentInput = {
         amount: number

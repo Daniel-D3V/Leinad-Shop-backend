@@ -1,20 +1,20 @@
 import { PrismaClient } from "@prisma/client";
-import { CustomerEntity } from "../../../domain/entities";
-import { CustomerRepositoryInterface } from "../../../domain/repositories";
+import { OrderPaymentCustomerEntity } from "../../../domain/entities";
+import { OrderPaymentCustomerRepositoryInterface } from "../../../domain/repositories";
 
-export class PrismaCustomerRepository implements CustomerRepositoryInterface {
+export class PrismaOrderPaymentCustomerRepository implements OrderPaymentCustomerRepositoryInterface {
     
     constructor(
         private readonly prismaClient: PrismaClient
     ){}
 
-    async findById(id: string): Promise<CustomerEntity | null> {
+    async findById(id: string): Promise<OrderPaymentCustomerEntity | null> {
         const prismaCustomer = await this.prismaClient.user.findFirst({
             where: { id: id ?? "" }
         })
         if(!prismaCustomer) return null
 
-        return CustomerEntity.create({
+        return OrderPaymentCustomerEntity.create({
             name: prismaCustomer.username,
             email: prismaCustomer.email,
         }, prismaCustomer.id)

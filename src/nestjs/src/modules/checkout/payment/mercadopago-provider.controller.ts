@@ -4,20 +4,20 @@ import { AuthGuard } from 'src/guards';
 import { ApplicationError } from 'src/utils';
 
 import { 
-  GeneratePaymentUsecaseFactory
-} from "@core/domain/dist/src/modules/checkout/payment/order-payment/factories"
+  GenerateMercadopagoPaymentUsecaseFactory
+} from "@core/domain/dist/src/modules/checkout/payment/mercadopago-provider/factory"
 
-@Controller('payment')
-export class PaymentController {
+@Controller('payment/mercadopago')
+export class MercadopagoProviderController {
 
 //dddddddsfdfsddsfdsfsdfsdfsdfdsfdsfdsdsfsfsdffd
 @UseGuards(new AuthGuard())
   @Post()
   async create(@Body() body: any,@Req() req: Request ,@Res() res: Response) {
-    const usecase = GeneratePaymentUsecaseFactory.create()
+    const usecase = GenerateMercadopagoPaymentUsecaseFactory.create()
     const result = await usecase.execute({
-      ...body,
-      customerId: req.currentUser.id
+      orderId: body.orderId,
+      email: req.currentUser.email
     })
     if (result.isLeft()) {
         throw new ApplicationError(result.value)

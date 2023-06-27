@@ -223,12 +223,11 @@ model ChatDeliveryMessageAttachment {
 
 model OrderPayment {
   id String @id 
-  status String
-  paymentMethod String
+  paymentProvider String?
+  paymentProviderId String?
   orderId String
   userId String
   dateTimeCreated DateTime
-  amount Float
   @@map("payment")
 }
 

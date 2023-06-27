@@ -1,48 +1,73 @@
-import { PrismaClient } from "@prisma/client";
+import { OrderPayment, PrismaClient } from "@prisma/client";
 import { OrderPaymentEntity } from "../../../domain/entities";
 import { OrderPaymentRepositoryInterface, OrderPaymentCustomerRepositoryInterface } from "../../../domain/repositories";
 
+
+class PrismaOrderPaymentMapper {
+
+    constructor(
+        private readonly orderPaymentCustomerRepository: OrderPaymentCustomerRepositoryInterface
+    ){}
+
+    async toDomain(prismaOrderPayment: OrderPayment): Promise<OrderPaymentEntity | null> {
+        const customerEntity = await this.orderPaymentCustomerRepository.findById(prismaOrderPayment.userId)
+        if(!customerEntity) return null
+
+        const orderPaymentEntity = OrderPaymentEntity.create({
+            ...prismaOrderPayment,
+            paymentProvider: prismaOrderPayment.paymentProvider as OrderPaymentEntity.PaymentProvider ?? undefined,
+            paymentProviderId: prismaOrderPayment.paymentProviderId ?? undefined,
+            orderPaymentCustomer: customerEntity
+        }, prismaOrderPayment.id)
+        if(orderPaymentEntity.isLeft()) throw orderPaymentEntity.value[0]
+        return orderPaymentEntity.value 
+    }
+}
+
 export class PrismaOrderPaymentRepository implements OrderPaymentRepositoryInterface {
     
+    prismaOrderPaymentMapper: PrismaOrderPaymentMapper
+
     constructor(
         private readonly prismaClient: PrismaClient,
         private readonly orderPaymentCustomerRepository: OrderPaymentCustomerRepositoryInterface
-    ){}
-    findByOrderId(orderId: string): Promise<OrderPaymentEntity | null> {
-        throw new Error("Method not implemented.");
+    ){
+        this.prismaOrderPaymentMapper = new PrismaOrderPaymentMapper(
+            this.orderPaymentCustomerRepository
+        )
     }
     
     async create(orderPaymentEntity: OrderPaymentEntity): Promise<void> {
-        const { customer, ...props } = orderPaymentEntity.toJSON()
-        await this.prismaClient.payment.create({
+        const { orderPaymentCustomer, ...props } = orderPaymentEntity.toJSON()
+        await this.prismaClient.orderPayment.create({
             data: {
                 ...props,
-                userId: customer.id
+                userId: orderPaymentCustomer.id
             }
         })
     }
-    async findById(id: string): Promise<PaymentEntity | null> {
-        const prismaPayment = await this.prismaClient.payment.findFirst({
+    
+    async findByOrderId(orderId: string): Promise<OrderPaymentEntity | null> {
+        const prismaPayment = await this.prismaClient.orderPayment.findFirst({
+            where: { orderId: orderId ?? "" }
+        })
+        if(!prismaPayment) return null
+        return await this.prismaOrderPaymentMapper.toDomain(prismaPayment)
+    }
+
+    async findById(id: string): Promise<OrderPaymentEntity | null> {
+        const prismaPayment = await this.prismaClient.orderPayment.findFirst({
             where: { id: id ?? "" }
         })
         if(!prismaPayment) return null
-
-        const customerEntity = await this.customerRepository.findById(prismaPayment.userId)
-        if(!customerEntity) return null
-
-        const paymentEntity = PaymentEntity.create({
-            ...prismaPayment,
-            paymentMethod: prismaPayment.paymentMethod as PaymentEntity.PaymentMethod,
-            customer: customerEntity
-        }, prismaPayment.id)
-        if(paymentEntity.isLeft()) throw paymentEntity.value[0]
-        return paymentEntity.value 
+        return await this.prismaOrderPaymentMapper.toDomain(prismaPayment)
     }
-    async update(paymentEntity: PaymentEntity): Promise<void> {
-        await this.prismaClient.payment.updateMany({
-            where: { id: paymentEntity.id ?? ""},
+    async update(orderPaymentEntity: OrderPaymentEntity): Promise<void> {
+        const { orderPaymentCustomer,id, dateTimeCreated, orderId ,...props } = orderPaymentEntity.toJSON()
+        await this.prismaClient.orderPayment.updateMany({
+            where: { id: orderPaymentEntity.id ?? ""},
             data: {
-                status: paymentEntity.status,
+                ...props
             }
         })
     }
