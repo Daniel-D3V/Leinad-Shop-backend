@@ -1,16 +1,19 @@
 import { PrismaClient } from "@prisma/client";
-import { PaymentEntity } from "../../../domain/entities";
-import { CustomerRepositoryInterface, PaymentRepositoryInterface } from "../../../domain/repositories";
+import { OrderPaymentEntity } from "../../../domain/entities";
+import { OrderPaymentRepositoryInterface, OrderPaymentCustomerRepositoryInterface } from "../../../domain/repositories";
 
-export class PrismaPaymentRepository implements PaymentRepositoryInterface {
+export class PrismaOrderPaymentRepository implements OrderPaymentRepositoryInterface {
     
     constructor(
         private readonly prismaClient: PrismaClient,
-        private readonly customerRepository: CustomerRepositoryInterface
+        private readonly orderPaymentCustomerRepository: OrderPaymentCustomerRepositoryInterface
     ){}
+    findByOrderId(orderId: string): Promise<OrderPaymentEntity | null> {
+        throw new Error("Method not implemented.");
+    }
     
-    async create(paymentEntity: PaymentEntity): Promise<void> {
-        const { customer, ...props } = paymentEntity.toJSON()
+    async create(orderPaymentEntity: OrderPaymentEntity): Promise<void> {
+        const { customer, ...props } = orderPaymentEntity.toJSON()
         await this.prismaClient.payment.create({
             data: {
                 ...props,

@@ -32,13 +32,13 @@ export class GenerateMercadopagoPaymentUsecase implements GenerateMercadopagoPay
 
         // Generate Mercadopago payment
         const mercadopagoPayment = await this.mercadopagoGateway.generatePayment({
-            amount: orderDetails.totalAmount,
+            amount: orderDetails.totalPrice,
             email
         })
         
         // Create payment provider entity
         const mercadopagoPaymentProviderEntity = MercadopagoPaymentProviderEntity.create({
-            amount: orderDetails.totalAmount,
+            amount: orderDetails.totalPrice,
             orderPaymentId: orderDetails.orderPaymentId,
             mercadopagoPaymentId: mercadopagoPayment.paymentId,
         })

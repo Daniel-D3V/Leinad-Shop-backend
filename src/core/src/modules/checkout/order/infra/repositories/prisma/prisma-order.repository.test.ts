@@ -64,13 +64,21 @@ describe("Test PrismaOrderRepository", () => {
         expect(prismaOrderItems.length).toBe(2)
         expect( {
             ...prismaOrderItems[0],
-            productId: prismaOrderItems[0].announceId,
         }).toMatchObject(orderItems[0])
         expect( {
             ...prismaOrderItems[1],
-            productId: prismaOrderItems[1].announceId,
         }).toMatchObject(orderItems[1])
+    })
 
+    it("Should find an order by id", async () => {
+        await sut.create(orderEntity)
 
+        const orderFound = await sut.findById(orderEntity.id)
+        expect(orderFound?.toJSON()).toEqual(orderEntity.toJSON())
+    })
+
+    it("Should return null if no order is found", async () => {
+        const output = await sut.findById("any_id")
+        expect(output).toBeNull()
     })
 })

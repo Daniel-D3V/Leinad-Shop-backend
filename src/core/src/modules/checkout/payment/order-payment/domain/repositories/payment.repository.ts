@@ -1,7 +1,8 @@
-import { PaymentEntity } from "../entities";
+import { OrderPaymentEntity } from "../entities";
 
-export interface PaymentRepositoryInterface {
-    create(paymentEntity: PaymentEntity): Promise<void>
-    findById(id: string): Promise<PaymentEntity | null>
-    update(paymentEntity: PaymentEntity): Promise<void>
+export interface OrderPaymentRepositoryInterface {
+    create(orderPaymentEntity: OrderPaymentEntity): Promise<void>
+    findById(id: string): Promise<OrderPaymentEntity | null>
+    findByOrderId(orderId: string): Promise<OrderPaymentEntity | null>
+    update(orderPaymentEntity: OrderPaymentEntity): Promise<void>
 }

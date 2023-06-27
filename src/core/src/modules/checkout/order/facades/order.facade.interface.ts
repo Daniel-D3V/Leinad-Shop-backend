@@ -6,7 +6,8 @@ export interface OrderFacadeInterface {
 export namespace OrderFacadeInterface {
     export type OrderDetailsModel = {
         orderId: string
-        totalAmount: number
+        totalPrice: number
+        totalQuantity: number
         orderPaymentId: string
     }
 }

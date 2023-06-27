@@ -221,7 +221,7 @@ model ChatDeliveryMessageAttachment {
   @@map("chat-delivery-message-attachment")
 }
 
-model Payment {
+model OrderPayment {
   id String @id 
   status String
   paymentMethod String
