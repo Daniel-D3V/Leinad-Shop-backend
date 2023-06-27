@@ -12,7 +12,6 @@ class PrismaOrderPaymentMapper {
     async toDomain(prismaOrderPayment: OrderPayment): Promise<OrderPaymentEntity | null> {
         const customerEntity = await this.orderPaymentCustomerRepository.findById(prismaOrderPayment.userId)
         if(!customerEntity) return null
-
         const orderPaymentEntity = OrderPaymentEntity.create({
             ...prismaOrderPayment,
             paymentProvider: prismaOrderPayment.paymentProvider as OrderPaymentEntity.PaymentProvider ?? undefined,

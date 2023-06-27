@@ -12,8 +12,6 @@ export class OrderPaymentEntity extends BaseEntity<OrderPaymentEntity.Props> {
     static create(props: OrderPaymentEntity.Input, id?: string): Either<Error[], OrderPaymentEntity> {
         const orderPaymentEntity = new OrderPaymentEntity({
             ...props,
-            paymentProvider: undefined,
-            paymentProviderId: undefined,
             dateTimeCreated: props.dateTimeCreated || new Date()
         }, id)
         return right(orderPaymentEntity)
