@@ -25,7 +25,8 @@ export class OrderPaymentEntity extends BaseEntity<OrderPaymentEntity.Props> {
             orderPaymentCustomer: this.orderPaymentCustomer.toJSON(),
             orderId: this.orderId,
             dateTimeCreated: this.dateTimeCreated,
-            paymentProvider: this.paymentProvider
+            paymentProvider: this.paymentProvider,
+            paymentProviderId: this.paymentProviderId
         }
     }
 
