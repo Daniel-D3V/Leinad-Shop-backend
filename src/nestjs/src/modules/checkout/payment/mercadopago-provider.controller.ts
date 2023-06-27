@@ -17,7 +17,6 @@ export class MercadopagoProviderController {
     const usecase = GenerateMercadopagoPaymentUsecaseFactory.create()
     const result = await usecase.execute({
       orderId: body.orderId,
-      email: req.currentUser.email
     })
     if (result.isLeft()) {
         throw new ApplicationError(result.value)

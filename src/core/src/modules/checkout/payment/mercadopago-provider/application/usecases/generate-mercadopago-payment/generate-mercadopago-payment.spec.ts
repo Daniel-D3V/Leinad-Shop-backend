@@ -24,14 +24,13 @@ describe('Test GenerateMercadoPagoPayment', () => {
 
     beforeEach(() => {
         props = {
-            email: "any_mail",
             orderId: "any_order_id"
         }
         mercadopagoPaymentProviderEntity = mock<MercadopagoPaymentProviderEntity>()
         jest.spyOn(MercadopagoPaymentProviderEntity, "create")
         .mockReturnValue(mercadopagoPaymentProviderEntity)
         orderFacade = mock<OrderFacadeInterface>({
-            consultOrderDetails: jest.fn().mockResolvedValue({})
+            consultOrderDetails: jest.fn().mockResolvedValue({ customer: {}})
         })
         orderPaymentFacade = mock<OrderPaymentFacadeInterface>()
         mercadopagoGateway = mock<MercadopagoGatewayInterface>({

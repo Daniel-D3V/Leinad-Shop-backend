@@ -1,9 +1,12 @@
 import { Module } from '@nestjs/common';
-import { PaymentController } from './payment.controller';
+import { OrderPaymentConsumer } from "./order-payment.consumer"
 import { MercadopagoProviderController } from "./mercadopago-provider.controller"
+import { RabbitMQService } from 'src/services/rabbitmq/rabbitmq.service';
 
 @Module({
-  controllers: [PaymentController, MercadopagoProviderController],
-  providers: []
+  controllers: [OrderPaymentConsumer, MercadopagoProviderController],
+  providers: [
+    RabbitMQService
+  ]
 })
 export class PaymentModule {}
