@@ -225,8 +225,8 @@ model OrderPayment {
   id String @id 
   paymentProvider String?
   paymentProviderId String?
-  orderId String
-  userId String
+  orderId String @unique()
+  userId String @unique()
   dateTimeCreated DateTime
 
   @@map("order_payment")
@@ -237,7 +237,8 @@ model MercadopagoPaymentProvider {
   paymentMethod String
   orderPaymentId String
   status String
-  mercadopagoPaymentId String
+  mercadopagoPaymentId String @unique()
+  expirationDate DateTime
   amount Float
   @@map("mercadopago_payment_provider")
 }

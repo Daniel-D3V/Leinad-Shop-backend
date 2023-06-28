@@ -51,12 +51,7 @@ describe("Test SetMercadoPagoProvider", () => {
         expect(output.value[0].name).toBe("OrderPaymentAlreadyHasAProviderError")
     })
 
-    it("Should call the event emitter once if the order payment already has a provider", async () => {
-        jest.spyOn(orderPaymentEntity, "hasPaymentProvider").mockReturnValueOnce(true)
-        const output = await sut.execute(props)
-        expect(output.isLeft()).toBe(true)
-        expect(eventEmitter.emit).toHaveBeenCalledTimes(1)
-    })
+
 
     it("Should call setMercadopagoPaymentProvider from orderPaymentEntity once", async () => {
         const output = await sut.execute(props)

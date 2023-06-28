@@ -10,7 +10,7 @@ import {
 @Controller('payment/mercadopago')
 export class MercadopagoProviderController {
 
-//ddddddfdffgdf
+//dd
 @UseGuards(new AuthGuard())
   @Post()
   async create(@Body() body: any,@Req() req: Request ,@Res() res: Response) {

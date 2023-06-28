@@ -19,11 +19,6 @@ export class SetMercadopagoProviderUsecase implements SetMercadopagoProviderUsec
         if(!orderPaymentEntity) return left([ new OrderPaymentNotFoundError() ])
 
         if(orderPaymentEntity.hasPaymentProvider()){
-            const orderPaymentMercadopagoAssignmentFailureEvent = new OrderPaymentMercadopagoAssignmentFailureEvent({
-                orderPaymentId: orderPaymentEntity.id,
-                mercadopagoProviderId: orderPaymentEntity.paymentProviderId ?? ""
-            })
-            await this.eventEmitter.emit(orderPaymentMercadopagoAssignmentFailureEvent)
             return left([ new OrderPaymentAlreadyHasAProviderError() ])
         }
 

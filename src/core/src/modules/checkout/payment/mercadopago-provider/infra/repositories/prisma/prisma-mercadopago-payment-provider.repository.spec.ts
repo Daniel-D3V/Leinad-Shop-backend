@@ -10,12 +10,14 @@ describe('Test PrismaMercadopagoPaymentProviderRepository', () => {
     let mercadopagoPaymentProviderEntity: MercadopagoPaymentProviderEntity
 
     beforeEach( async() => {
-
+        const expirationDate = new Date()
         mercadopagoPaymentProviderEntity = mock<MercadopagoPaymentProviderEntity>({
             id: "any_id",
+            expirationDate,
             toJSON: () => ({
                 id: "any_id",
                 amount: 100,
+                expirationDate,
                 mercadopagoPaymentId: "any_mercadopago_payment_id",
                 orderPaymentId: "any_order_payment_id",
                 status: "APPROVED",
@@ -40,7 +42,7 @@ describe('Test PrismaMercadopagoPaymentProviderRepository', () => {
         await sut.create(mercadopagoPaymentProviderEntity)
 
         const result = await sut.findById(mercadopagoPaymentProviderEntity.id)
-        expect(result?.toJSON()).toEqual(mercadopagoPaymentProviderEntity.toJSON())
+        expect({...result?.toJSON()}).toEqual({...mercadopagoPaymentProviderEntity.toJSON(), expirationDate: result?.expirationDate})
     })
 
     it("Should return null if payment not found", async () => {
@@ -57,6 +59,6 @@ describe('Test PrismaMercadopagoPaymentProviderRepository', () => {
         await sut.update(mercadopagoPayment!)
 
         const updatedMercadopagoPayment = await sut.findById(mercadopagoPaymentProviderEntity.id)
-        expect(updatedMercadopagoPayment?.toJSON()).toEqual(mercadopagoPayment?.toJSON())
+        expect({...updatedMercadopagoPayment?.toJSON(), expirationDate: mercadopagoPayment?.expirationDate}).toEqual(mercadopagoPayment?.toJSON())
     })
 })

@@ -14,25 +14,25 @@ export class MercadopagoConsumer implements OnModuleInit {
         private readonly rabbitMqService: RabbitMQService
     ){}
 
-    setupCancelPaymentConsumer() {
-        const exchange = "orderPaymentMercadopagoAssignmentFailureEventExchange"
-        this.rabbitMqService.setupConsumer({
-            exchange,
-            queue: "cancel-mercadopago-payment-if-failed-queue"        
-        }, this.CancelPayment)                
-    }
+    // setupCancelPaymentConsumer() {
+    //     const exchange = "orderPaymentMercadopagoAssignmentFailureEventExchange"
+    //     this.rabbitMqService.setupConsumer({
+    //         exchange,
+    //         queue: "cancel-mercadopago-payment-if-failed-queue"        
+    //     }, this.CancelPayment)                
+    // }
 
     onModuleInit(): void {
-        this.setupCancelPaymentConsumer()
+        // this.setupCancelPaymentConsumer()
     }          
     //fdsfdfdsf
-    async CancelPayment(message: Message) {
-        const content = RabbitMQService.getContentFromMessage(message)
-        this.logger.log(content)
-        const usecase = CancelMercadopagoPaymentUsecaseFactory.create()
-        await usecase.execute({
-            mercadopagoPaymentProviderId: content.payload.mercadopagoProviderId
-        })
-    }
+    // async CancelPayment(message: Message) {
+    //     const content = RabbitMQService.getContentFromMessage(message)
+    //     this.logger.log(content)
+    //     const usecase = CancelMercadopagoPaymentUsecaseFactory.create()
+    //     await usecase.execute({
+    //         mercadopagoPaymentProviderId: content.payload.mercadopagoProviderId
+    //     })
+    // }
 
 }

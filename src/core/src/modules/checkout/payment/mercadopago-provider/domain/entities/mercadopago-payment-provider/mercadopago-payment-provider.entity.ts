@@ -14,11 +14,27 @@ export class MercadopagoPaymentProviderEntity extends BasePaymentProviderEntity<
             input.paymentMethod = "PIX"
         }
 
+        let expirationDate: Date
+        if(input.paymentMethod === "PIX"){
+            expirationDate = new Date()
+            expirationDate.setHours(expirationDate.getHours() + 1)
+        }
+        else{
+            expirationDate = new Date()
+            expirationDate.setDate(expirationDate.getDate() + 1)
+        }
+
         const mercadopagoPaymentProviderEntity = new MercadopagoPaymentProviderEntity({
             ...input,
-            status: "PENDING"
+            status: "PENDING",
+            expirationDate
         }, id)
         return mercadopagoPaymentProviderEntity
+    }
+
+    isExpired(): boolean {
+        if(!this.isPeding()) return false
+        return this.props.expirationDate.getTime() < new Date().getTime()
     }
 
     toJSON(): MercadopagoPaymentProviderEntity.PropsJSON {
@@ -28,7 +44,8 @@ export class MercadopagoPaymentProviderEntity extends BasePaymentProviderEntity<
             status: this.status,
             mercadopagoPaymentId: this.mercadopagoPaymentId,
             amount: this.amount,
-            paymentMethod: this.paymentMethod
+            paymentMethod: this.paymentMethod,
+            expirationDate: this.expirationDate
         }
     }
 
@@ -37,6 +54,9 @@ export class MercadopagoPaymentProviderEntity extends BasePaymentProviderEntity<
     }
     get paymentMethod(): MercadopagoPaymentProviderEntity.PaymentMethods {
         return this.props.paymentMethod
+    }
+    get expirationDate(): Date {
+        return this.props.expirationDate
     }
 
 }
@@ -55,6 +75,7 @@ export namespace MercadopagoPaymentProviderEntity {
     export type Props = BasePaymentProviderEntity.Props & {
         mercadopagoPaymentId: string
         paymentMethod: PaymentMethods
+        expirationDate: Date
     }
 
     export type PropsJSON = Props & {

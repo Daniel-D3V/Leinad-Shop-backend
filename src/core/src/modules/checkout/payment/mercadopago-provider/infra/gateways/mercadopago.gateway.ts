@@ -19,6 +19,7 @@ export class MercadopagoGatewayImp implements MercadopagoGatewayInterface {
             paymentMethodChoosed = "pix"
         }
         const payment = await mercadopago.payment.create({
+            callback_url: process.env.MERCADOPAGO_REDIRECT_URL!,
             installments: 1,
             transaction_amount: amount,
             payment_method_id: paymentMethodChoosed,
