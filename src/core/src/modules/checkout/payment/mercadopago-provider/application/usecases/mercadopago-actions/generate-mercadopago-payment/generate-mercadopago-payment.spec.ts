@@ -1,13 +1,12 @@
 import { OrderFacadeInterface } from "@/modules/checkout/order/facades"
-import { GenerateMercadopagoPaymentUsecaseInterface } from "../../../domain/usecases"
+import { GenerateMercadopagoPaymentUsecaseInterface } from "../../../../domain/usecases"
 import { GenerateMercadopagoPaymentUsecase } from "./generate-mercadopago-payment.usecase"
 import { OrderPaymentFacadeInterface } from "@/modules/checkout/payment/order-payment/facades"
-import { MercadopagoGatewayInterface } from "../../../domain/gateways"
-import { MercadopagoPaymentProviderRepositoryInterface } from "../../../domain/repositories"
+import { MercadopagoGatewayInterface } from "../../../../domain/gateways"
+import { MercadopagoPaymentProviderRepositoryInterface } from "../../../../domain/repositories"
 import { EventEmitterInterface } from "@/modules/@shared/events"
 import { mock } from "jest-mock-extended"
-import { MercadopagoPaymentProviderEntity } from "../../../domain/entities"
-import { MercadopagoPaymentGeneratedEvent } from "./mercadopago-payment-generated.event"
+import { MercadopagoPaymentProviderEntity } from "../../../../domain/entities"
 
 jest.mock("./mercadopago-payment-generated.event")
 
@@ -44,8 +43,6 @@ describe('Test GenerateMercadoPagoPayment', () => {
             orderFacade,
             orderPaymentFacade,
             mercadopagoGateway,
-            mercadopagoPaymentProviderRepository,
-            eventEmitter
         )
     })
 
@@ -79,21 +76,6 @@ describe('Test GenerateMercadoPagoPayment', () => {
         expect(mercadopagoGateway.generatePayment).toBeCalledTimes(1)
     })
 
-    it("Should call create from mercadopagoPaymentProviderRepository once", async () => {
-        await sut.execute(props)
-        expect(mercadopagoPaymentProviderRepository.create).toBeCalledTimes(1)
-    })
 
-    it("Should call emit from eventEmitter once", async () => {
-        await sut.execute(props)
-        expect(eventEmitter.emit).toBeCalledTimes(1)
-    })
-
-    it("Should create MercadopagoPaymentGeneratedEvent with correct values", async () => {
-        await sut.execute(props)
-        expect(MercadopagoPaymentGeneratedEvent).toHaveBeenCalledWith({
-            ...mercadopagoPaymentProviderEntity.toJSON()
-        })
-    })
     
 })

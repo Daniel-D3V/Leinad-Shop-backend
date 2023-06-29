@@ -20,16 +20,11 @@ export class GenerateMercadopagoPaymentUsecaseFactory {
                 const orderFacade = OrderFacadeFactory.create(prisma as PrismaClient)
                 const orderPaymentFacade = OrderPaymentFacadeFactory.create(prisma as PrismaClient)
                 const mercadopagoGateway = new MercadopagoGatewayImp()
-                const prismaMercadoPagoProviderRepository = new PrismaMercadopagoPaymentProviderRepository(prisma as PrismaClient)
-                const outboxEmitter = new OutboxEmitter(prisma as PrismaClient)
-
 
                 const generateMercadopagoPaymentUsecase = new GenerateMercadopagoPaymentUsecase(
                     orderFacade,
                     orderPaymentFacade,
                     mercadopagoGateway,
-                    prismaMercadoPagoProviderRepository,
-                    outboxEmitter
                 )
                 return generateMercadopagoPaymentUsecase.execute(input)
             })

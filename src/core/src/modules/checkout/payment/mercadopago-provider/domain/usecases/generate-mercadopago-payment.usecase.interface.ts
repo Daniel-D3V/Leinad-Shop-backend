@@ -13,6 +13,7 @@ export namespace GenerateMercadopagoPaymentUsecaseInterface {
     }
 
     export type OutputDto = Either<Error[], {
-        id: string
+        id?: string 
+        [key: string]: any
     }>
 }

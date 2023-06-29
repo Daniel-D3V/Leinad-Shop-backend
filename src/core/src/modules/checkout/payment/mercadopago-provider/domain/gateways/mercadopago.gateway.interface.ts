@@ -10,6 +10,7 @@ export namespace MercadopagoGatewayInterface {
     
     export type GeneratePaymentInput = {
         amount: number
+        orderPaymentId: string
         paymentMethod: MercadopagoPaymentProviderEntity.PaymentMethods
         customer: {
             email: string
