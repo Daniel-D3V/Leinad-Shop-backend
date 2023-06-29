@@ -7,7 +7,7 @@ import { Either } from "@/modules/@shared/logic";
 
 export namespace RedirectMercadopagoActionsUsecaseInterface {
 
-    export type Actions = "payment.created"
+    export type Actions = "payment.created" | "payment.updated"
 
     export type InputDto = {
         action: Actions

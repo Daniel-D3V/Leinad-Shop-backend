@@ -18,6 +18,11 @@ export class RedirectMercadopagoActionsUsecase implements RedirectMercadopagoAct
             output = await usecase.execute({ mercadopagoPaymentId: mercadoPagoPaymentId })
         }
 
+        if(action === "payment.updated") {
+            const usecase = this.createMercadopagoPaymentUsecase
+            output = await usecase.execute({ mercadopagoPaymentId: mercadoPagoPaymentId })
+        }
+
         if(!output) return left([ new Error("no valid actios provided") ])
         if(output.isLeft()) return left(output.value)
 

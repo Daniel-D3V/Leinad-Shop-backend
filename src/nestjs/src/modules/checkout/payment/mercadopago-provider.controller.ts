@@ -29,7 +29,7 @@ export class MercadopagoProviderController {
     }
     return res.status(201).json(result.value)
   }
-  //dddd
+  //ddd
   @Post("/callback")
   async callback(@Body() body: any ,@Res() res: Response) {
     const usecase = RedirectMercadopagoActionsUsecaseFactory.create()
