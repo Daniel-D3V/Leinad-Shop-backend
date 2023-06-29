@@ -29,7 +29,7 @@ describe("Test ApproveMercadopagoPaymentUsecase", () => {
             findByMercadopagoPaymentId: jest.fn().mockResolvedValue(mercadopagoPaymentProviderEntity),
         })
         mercadopagoGateway = mock<MercadopagoGatewayInterface>({
-            findById: jest.fn().mockResolvedValue({ status: "PENDING" })
+            findById: jest.fn().mockResolvedValue({ status: "APPROVED" })
         })
         eventEmitter = mock<EventEmitterInterface>()
         sut = new ApproveMercadopagoPaymentUsecase(
@@ -53,13 +53,13 @@ describe("Test ApproveMercadopagoPaymentUsecase", () => {
         expect(output.value[0].name).toBe("MercadopagoPaymentNotFoundError")
     })
 
-    it("Should return MercadopagoPaymentStatusNotPendingError if mercadopagoGateway.findById returns a payment with status different than PENDING", async () => {
+    it("Should return MercadopagoPaymentStatusNotApprovedError if mercadopagoGateway.findById returns a payment with status different than PENDING", async () => {
         jest.spyOn(mercadopagoGateway, "findById")
         .mockResolvedValueOnce({ status: "any_status" } as any)
         const output = await sut.execute(props)
         if(output.isRight()) throw new Error("Should not return right")
         expect(output.isLeft()).toBeTruthy()
-        expect(output.value[0].name).toBe("MercadopagoPaymentStatusNotPendingError")
+        expect(output.value[0].name).toBe("MercadopagoPaymentStatusNotApprovedError")
     })
 
     it("Should return MercadopagoPaymentProviderNotFoundError if mercadopagoPaymentProviderRepository.findByMercadopagoPaymentId returns null", async () => {

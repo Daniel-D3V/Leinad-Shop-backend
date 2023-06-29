@@ -1,12 +1,13 @@
 import { left, right } from "@/modules/@shared/logic";
-import { CreateMercadopagoPaymentUsecaseInterface, RedirectMercadopagoActionsUsecaseInterface } from "../../../../domain/usecases/application-actions";
+import { ApproveMercadopagoPaymentUsecaseInterface, CreateMercadopagoPaymentUsecaseInterface, RedirectMercadopagoActionsUsecaseInterface } from "../../../../domain/usecases/application-actions";
 import { UsecaseInterface } from "@/modules/@shared/domain";
 
 
 export class RedirectMercadopagoActionsUsecase implements RedirectMercadopagoActionsUsecaseInterface {
 
     constructor(
-        private readonly createMercadopagoPaymentUsecase: CreateMercadopagoPaymentUsecaseInterface
+        private readonly createMercadopagoPaymentUsecase: CreateMercadopagoPaymentUsecaseInterface,
+        private readonly approveMercadopagoPaymentUsecase: ApproveMercadopagoPaymentUsecaseInterface 
     ){}
 
    async execute({ action,  mercadoPagoPaymentId }: RedirectMercadopagoActionsUsecaseInterface.InputDto): Promise<RedirectMercadopagoActionsUsecaseInterface.OutputDto> {
@@ -17,9 +18,8 @@ export class RedirectMercadopagoActionsUsecase implements RedirectMercadopagoAct
             const usecase = this.createMercadopagoPaymentUsecase
             output = await usecase.execute({ mercadopagoPaymentId: mercadoPagoPaymentId })
         }
-
         if(action === "payment.updated") {
-            const usecase = this.createMercadopagoPaymentUsecase
+            const usecase = this.approveMercadopagoPaymentUsecase
             output = await usecase.execute({ mercadopagoPaymentId: mercadoPagoPaymentId })
         }
 
