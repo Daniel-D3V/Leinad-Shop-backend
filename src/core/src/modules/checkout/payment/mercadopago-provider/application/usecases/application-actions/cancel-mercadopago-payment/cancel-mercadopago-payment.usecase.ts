@@ -1,8 +1,8 @@
 import { EventEmitterInterface } from "@/modules/@shared/events";
-import { MercadopagoPaymentProviderRepositoryInterface } from "../../../domain/repositories";
-import { CancelMercadopagoPaymentUsecaseInterface } from "../../../domain/usecases";
+import { MercadopagoPaymentProviderRepositoryInterface } from "../../../../domain/repositories";
+import { CancelMercadopagoPaymentUsecaseInterface } from "../../../../domain/usecases";
 import { left, right } from "@/modules/@shared/logic";
-import { MercadopagoPaymentProviderNotFoundError } from "../_errors";
+import { MercadopagoPaymentProviderNotFoundError } from "../../_errors";
 import { MercadopagoPaymentCancelledEvent } from "./mercadopago-payment-cancelled.event";
 
 export class CancelMercadopagoPaymentUsecase implements CancelMercadopagoPaymentUsecaseInterface {

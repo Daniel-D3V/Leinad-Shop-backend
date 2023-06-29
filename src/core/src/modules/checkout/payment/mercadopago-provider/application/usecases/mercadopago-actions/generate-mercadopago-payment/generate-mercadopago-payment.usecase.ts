@@ -1,12 +1,12 @@
 import { left, right } from "@/modules/@shared/logic";
-import { GenerateMercadopagoPaymentUsecaseInterface } from "../../../domain/usecases";
-import { MercadopagoPaymentProviderEntity } from "../../../domain/entities";
+import { GenerateMercadopagoPaymentUsecaseInterface } from "../../../../domain/usecases";
+import { MercadopagoPaymentProviderEntity } from "../../../../domain/entities";
 import { OrderFacadeInterface } from "@/modules/checkout/order/facades";
 import { OrderNotFoundError, PaymentAlreadyCreatedError } from "./errors";
 import { OrderPaymentFacadeInterface } from "@/modules/checkout/payment/order-payment/facades";
-import { MercadopagoPaymentProviderRepositoryInterface } from "../../../domain/repositories";
+import { MercadopagoPaymentProviderRepositoryInterface } from "../../../../domain/repositories";
 import { EventEmitterInterface } from "@/modules/@shared/events";
-import { MercadopagoGatewayInterface } from "../../../domain/gateways";
+import { MercadopagoGatewayInterface } from "../../../../domain/gateways";
 import { MercadopagoPaymentGeneratedEvent } from "./mercadopago-payment-generated.event";
 
 
