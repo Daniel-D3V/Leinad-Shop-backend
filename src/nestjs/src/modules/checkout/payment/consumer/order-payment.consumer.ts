@@ -33,7 +33,7 @@ export class OrderPaymentConsumer implements OnModuleInit {
         this.setupCreateOrderPaymentConsumer()
         this.setupSetMercadopagoProviderConsumer()
     }          
-    //fdsfdfdsfd
+    //fdsfdfdsfds
     async setMercadopagoProvider(message: Message) {
         const content = RabbitMQService.getContentFromMessage(message)
         const usecase = SetMercadopagoProviderUsecaseFactory.create()

@@ -226,7 +226,7 @@ model OrderPayment {
   paymentProvider String?
   paymentProviderId String?
   orderId String @unique()
-  userId String @unique()
+  userId String 
   dateTimeCreated DateTime
 
   @@map("order_payment")

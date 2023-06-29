@@ -11,7 +11,7 @@ export class YupBaseAnnounceValidator extends YupValidatorProvider implements Do
             .strict(true)
             .typeError(YupErrorAdapter.toYupFormat(new InvalidPriceTypeError()))
             .required(YupErrorAdapter.toYupFormat(new PriceNotProvidedError()))
-            .min(0.50, YupErrorAdapter.toYupFormat(new InvalidPriceLengthError()))
+            .min(0.01, YupErrorAdapter.toYupFormat(new InvalidPriceLengthError()))
             .max(100000000, YupErrorAdapter.toYupFormat(new InvalidPriceLengthError())),
     }); 
 

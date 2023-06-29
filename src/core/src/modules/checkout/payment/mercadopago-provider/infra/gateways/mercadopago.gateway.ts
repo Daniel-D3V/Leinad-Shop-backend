@@ -1,5 +1,6 @@
 import { MercadopagoGatewayInterface } from "../../domain/gateways";
 import * as mercadopago from "mercadopago"
+import { MercadopagoPaymentModel } from "../../domain/models";
 
 
 mercadopago.configure({
@@ -18,6 +19,7 @@ export class MercadopagoGatewayImp implements MercadopagoGatewayInterface {
         } else {
             paymentMethodChoosed = "pix"
         }
+        
         const payment = await mercadopago.payment.create({
             callback_url: process.env.MERCADOPAGO_REDIRECT_URL!,
             installments: 1,
@@ -38,6 +40,10 @@ export class MercadopagoGatewayImp implements MercadopagoGatewayInterface {
                 paymentLink
             }
         }
+    }
+
+    async findById(id: string): Promise<MercadopagoPaymentModel | null> {
+        return null
     }
 
 
