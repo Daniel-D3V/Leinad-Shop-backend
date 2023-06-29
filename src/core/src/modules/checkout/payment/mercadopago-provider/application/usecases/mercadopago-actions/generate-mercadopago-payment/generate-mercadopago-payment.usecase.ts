@@ -1,5 +1,5 @@
 import { left, right } from "@/modules/@shared/logic";
-import { GenerateMercadopagoPaymentUsecaseInterface } from "../../../../domain/usecases";
+import { GenerateMercadopagoPaymentUsecaseInterface } from "../../../../domain/usecases/mercadopago-actions"
 import { OrderFacadeInterface } from "@/modules/checkout/order/facades";
 import { OrderNotFoundError, PaymentAlreadyCreatedError } from "./errors";
 import { OrderPaymentFacadeInterface } from "@/modules/checkout/payment/order-payment/facades";

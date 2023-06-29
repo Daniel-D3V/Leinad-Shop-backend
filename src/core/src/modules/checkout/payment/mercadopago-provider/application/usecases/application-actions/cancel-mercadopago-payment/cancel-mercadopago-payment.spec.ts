@@ -1,6 +1,6 @@
 import { EventEmitterInterface } from "@/modules/@shared/events"
 import { MercadopagoPaymentProviderRepositoryInterface } from "../../../../domain/repositories"
-import { CancelMercadopagoPaymentUsecaseInterface } from "../../../../domain/usecases"
+import { CancelMercadopagoPaymentUsecaseInterface } from "../../../../domain/usecases/application-actions"
 import { CancelMercadopagoPaymentUsecase } from "./cancel-mercadopago-payment.usecase"
 import { MercadopagoPaymentProviderEntity } from "../../../../domain/entities"
 import { mock } from "jest-mock-extended"

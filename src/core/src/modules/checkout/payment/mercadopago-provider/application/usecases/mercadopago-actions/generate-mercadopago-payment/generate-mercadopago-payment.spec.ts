@@ -1,5 +1,5 @@
 import { OrderFacadeInterface } from "@/modules/checkout/order/facades"
-import { GenerateMercadopagoPaymentUsecaseInterface } from "../../../../domain/usecases"
+import { GenerateMercadopagoPaymentUsecaseInterface } from "../../../../domain/usecases/mercadopago-actions"
 import { GenerateMercadopagoPaymentUsecase } from "./generate-mercadopago-payment.usecase"
 import { OrderPaymentFacadeInterface } from "@/modules/checkout/payment/order-payment/facades"
 import { MercadopagoGatewayInterface } from "../../../../domain/gateways"
