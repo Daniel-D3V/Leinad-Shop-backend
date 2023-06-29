@@ -1,1 +1,2 @@
 export * from "./mercadopago-payment-provider-not-found.error"
+export * from "./mercadopago-payment-not-found.error"

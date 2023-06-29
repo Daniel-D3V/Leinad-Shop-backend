@@ -1,15 +1,15 @@
 import { BaseEvent } from "@/modules/@shared/events";
 
-export class MercadopagoPaymentGeneratedEvent extends BaseEvent {
+export class MercadopagoPaymentCreatedEvent extends BaseEvent {
 
     constructor(
-        readonly payload: MercadopagoPaymentGeneratedEvent.Payload
+        readonly payload: MercadopagoPaymentCreatedEvent.Payload
     ){
         super();
     }
 }
 
-export namespace MercadopagoPaymentGeneratedEvent {
+export namespace MercadopagoPaymentCreatedEvent {
     export type Payload = {
         id: string
         amount: number

@@ -8,8 +8,6 @@ import { EventEmitterInterface } from "@/modules/@shared/events"
 import { mock } from "jest-mock-extended"
 import { MercadopagoPaymentProviderEntity } from "../../../../domain/entities"
 
-jest.mock("./mercadopago-payment-generated.event")
-
 describe('Test GenerateMercadoPagoPayment', () => {
 
     let sut: GenerateMercadopagoPaymentUsecase
