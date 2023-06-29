@@ -23,7 +23,7 @@ export class CreateMercadopagoPaymentUsecase implements CreateMercadopagoPayment
 
         const mercadopagoPaymentProviderExists = await this.mercadopagoPaymentProviderRepository.findByMercadopagoPaymentId(mercadopagoPayment.paymentId)
         if(mercadopagoPaymentProviderExists) return left([ new MercadopagoPaymentProviderAlreadyCreatedError() ])
-
+        
         const mercadopagoPaymentProviderEntity = MercadopagoPaymentProviderEntity.create({
             mercadopagoPaymentId: mercadopagoPayment.paymentId,
             amount: mercadopagoPayment.amount,

@@ -8,3 +8,7 @@ export type MercadopagoPaymentModel = {
     paymentMethod: MercadopagoPaymentProviderEntity.PaymentMethods
     status: BasePaymentProviderEntity.Status
 }
+
+export namespace MercadopagoPaymentModel {
+    export type Status = BasePaymentProviderEntity.Status
+}

@@ -22,7 +22,7 @@ export class OrderPaymentConsumer implements OnModuleInit {
     }
 
     setupSetMercadopagoProviderConsumer() {
-        const exchange = "MercadopagoPaymentGeneratedEventExchange"
+        const exchange = "MercadopagoPaymentCreatedEventExchange"
         this.rabbitMqService.setupConsumer({
             exchange,
             queue: "set-mercadopago-provider-queue"        

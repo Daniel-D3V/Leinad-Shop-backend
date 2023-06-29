@@ -7,6 +7,15 @@ mercadopago.configure({
     access_token: process.env.MERCADOPAGO_ACCESS_TOKEN!,
 });
 
+const getStatus = (status: string): MercadopagoPaymentModel.Status =>  {
+    if(status === "approved"){
+        return "APPROVED"
+    }
+    if(status === "pending"){
+        return "PENDING"
+    }
+    return "PENDING"
+}
 
 export class MercadopagoGatewayImp implements MercadopagoGatewayInterface {
 
@@ -47,22 +56,21 @@ export class MercadopagoGatewayImp implements MercadopagoGatewayInterface {
         }
     }
 
+
     async findById(id: string): Promise<MercadopagoPaymentModel | null> {
 
         try{
             const payment = await mercadopago.payment.findById(parseInt(id))
-            console.log(payment)
             return {
                 paymentId: `${payment.body.id}`,
-                amount: 100,
-                orderPaymentId: "",
-                paymentMethod: "PIX",
-                status: "PENDING"
+                amount: payment.body.metadata.amount,
+                orderPaymentId:  payment.body.metadata.order_payment_id,
+                paymentMethod: payment.body.metadata.payment_method,
+                status: getStatus(payment.body.status)
             }
         }catch(err){
             return null
         }
-        return null
     }
 
 

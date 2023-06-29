@@ -5,11 +5,13 @@ import { ApplicationError } from 'src/utils';
 
 import { 
   GenerateMercadopagoPaymentUsecaseFactory
-} from "@core/domain/dist/src/modules/checkout/payment/mercadopago-provider/factory"
+} from "@core/domain/dist/src/modules/checkout/payment/mercadopago-provider/factory/usecases/mercadopago-actions"
 
 import { 
-  MercadopagoGatewayImp
-} from "@core/domain/dist/src/modules/checkout/payment/mercadopago-provider/infra/gateways"
+  RedirectMercadopagoActionsUsecaseFactory
+} from "@core/domain/dist/src/modules/checkout/payment/mercadopago-provider/factory/usecases/application-actions"
+
+
 
 @Controller('payment/mercadopago')
 export class MercadopagoProviderController {
@@ -30,8 +32,15 @@ export class MercadopagoProviderController {
   //dddd
   @Post("/callback")
   async callback(@Body() body: any ,@Res() res: Response) {
-
-    res.status(200).json()
+    const usecase = RedirectMercadopagoActionsUsecaseFactory.create()
+    const result = await usecase.execute({
+      action: body.action,
+      mercadoPagoPaymentId: body.data?.id ?? ""
+    })
+    if (result.isLeft()) {
+        throw new ApplicationError(result.value)
+    }
+    return res.status(200).json()
   }
 }
 
