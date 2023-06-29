@@ -48,6 +48,20 @@ export class MercadopagoGatewayImp implements MercadopagoGatewayInterface {
     }
 
     async findById(id: string): Promise<MercadopagoPaymentModel | null> {
+
+        try{
+            const payment = await mercadopago.payment.findById(parseInt(id))
+            console.log(payment)
+            return {
+                paymentId: `${payment.body.id}`,
+                amount: 100,
+                orderPaymentId: "",
+                paymentMethod: "PIX",
+                status: "PENDING"
+            }
+        }catch(err){
+            return null
+        }
         return null
     }
 

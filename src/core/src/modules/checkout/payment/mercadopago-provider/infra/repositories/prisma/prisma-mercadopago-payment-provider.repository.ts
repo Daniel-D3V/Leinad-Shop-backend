@@ -22,13 +22,21 @@ export class PrismaMercadopagoPaymentProviderRepository implements MercadopagoPa
     constructor(
         private readonly prismaClient: PrismaClient
     ){}
-
+    
     async create(mercadopagoPaymentProviderEntity: MercadopagoPaymentProviderEntity): Promise<void> {
         await this.prismaClient.mercadopagoPaymentProvider.create({
             data: {
                 ...mercadopagoPaymentProviderEntity.toJSON()
             }
         })
+    }
+
+    async findByMercadopagoPaymentId(mercadopagoPaymentId: string): Promise<MercadopagoPaymentProviderEntity | null> {
+        const prismaMercadopago = await this.prismaClient.mercadopagoPaymentProvider.findFirst({
+            where: { mercadopagoPaymentId: mercadopagoPaymentId ?? ""}
+        })
+        if(!prismaMercadopago) return null
+        return PrismaMercadopagoPaymentProvider.toDomain(prismaMercadopago)
     }
 
     async findById(id: string): Promise<MercadopagoPaymentProviderEntity | null> {

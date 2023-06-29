@@ -1,12 +1,12 @@
 import { OutboxEmitter } from "@/modules/@shared/infra/providers";
 import { prismaClient } from "@/modules/@shared/infra/repository/prisma/client";
 import { PrismaClient } from "@prisma/client";
-import { GenerateMercadopagoPaymentUsecase } from "../../application/usecases";
-import { GenerateMercadopagoPaymentUsecaseInterface } from "../../domain/usecases";
+import { GenerateMercadopagoPaymentUsecase } from "../../../application/usecases";
 import { OrderFacadeFactory } from "@/modules/checkout/order/factories";
-import { OrderPaymentFacadeFactory } from "../../../order-payment/factories";
-import { PrismaMercadopagoPaymentProviderRepository } from "../../infra/repositories";
-import { MercadopagoGatewayImp } from "../../infra/gateways";
+import { OrderPaymentFacadeFactory } from "../../../../order-payment/factories";
+import { PrismaMercadopagoPaymentProviderRepository } from "../../../infra/repositories";
+import { MercadopagoGatewayImp } from "../../../infra/gateways";
+import { GenerateMercadopagoPaymentUsecaseInterface } from "../../../domain/usecases/mercadopago-actions";
 
 
 export class GenerateMercadopagoPaymentUsecaseFactory {
