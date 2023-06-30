@@ -14,6 +14,9 @@ const getStatus = (status: string): MercadopagoPaymentModel.Status =>  {
     if(status === "pending"){
         return "PENDING"
     }
+    if(status === "refunded"){
+        return "REFUNDED"
+    }
     if(status === "cancelled"){
         return "CANCELLED"
     }
@@ -22,11 +25,12 @@ const getStatus = (status: string): MercadopagoPaymentModel.Status =>  {
 }
 
 export class MercadopagoGatewayImp implements MercadopagoGatewayInterface {
-
+    
     async generatePayment({ amount, customer, paymentMethod, orderPaymentId }: MercadopagoGatewayInterface.GeneratePaymentInput): Promise<MercadopagoGatewayInterface.GeneratePaymentOutput> {
         
         let paymentMethodChoosed = "pix"
-
+        
+        
         if(paymentMethod !== "PIX") {
             paymentMethodChoosed = "pix"
         }
@@ -71,8 +75,6 @@ export class MercadopagoGatewayImp implements MercadopagoGatewayInterface {
 
 
     async findById(id: string): Promise<MercadopagoPaymentModel | null> {
-
-        
         try{
             const payment = await mercadopago.payment.findById(parseInt(id))
             const expirationDate = new Date(payment.body.metadata.expiration_date)
@@ -89,5 +91,15 @@ export class MercadopagoGatewayImp implements MercadopagoGatewayInterface {
         }
     }
 
+    async refund(paymentId: string): Promise<boolean> {
+
+        try {
+            await mercadopago.payment.refund( parseInt(paymentId) )
+            return true
+        }catch(err){
+            console.log(err)
+            return false
+        }
+    }
 
 }

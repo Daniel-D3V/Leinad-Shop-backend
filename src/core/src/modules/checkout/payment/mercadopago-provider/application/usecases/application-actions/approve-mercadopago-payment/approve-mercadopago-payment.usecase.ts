@@ -4,14 +4,16 @@ import { MercadopagoPaymentProviderRepositoryInterface } from "../../../../domai
 import { ApproveMercadopagoPaymentUsecaseInterface } from "../../../../domain/usecases/application-actions";
 import { left, right } from "@/modules/@shared/logic";
 import { MercadopagoPaymentNotFoundError,MercadopagoPaymentProviderNotFoundError ,MercadopagoPaymentStatusNotApprovedError } from "../../_errors";
-import { MercadopagoPaymentProviderIsAlreadyApprovedError } from "./errors";
+import { MercadopagoPaymentProviderIsAlreadyApprovedError, OrderPaymentNotFoundError, PaymentIsNotInUseError, RefundError } from "./errors";
 import { MercadopagoPaymentApprovedEvent } from "./mercadopago-payment-approved.event";
+import { OrderPaymentFacadeInterface } from "@/modules/checkout/payment/order-payment/facades";
 
 export class ApproveMercadopagoPaymentUsecase implements ApproveMercadopagoPaymentUsecaseInterface {
 
     constructor(
         private readonly mercadopagoPaymentProviderRepository: MercadopagoPaymentProviderRepositoryInterface,
         private readonly mercadopagoGateway: MercadopagoGatewayInterface, 
+        private readonly orderPaymentFacade: OrderPaymentFacadeInterface,
         private readonly eventEmitter: EventEmitterInterface
     ){}
 
@@ -27,6 +29,15 @@ export class ApproveMercadopagoPaymentUsecase implements ApproveMercadopagoPayme
     
         if(mercadopagoPaymentProviderEntity.isApproved()) return left([ new MercadopagoPaymentProviderIsAlreadyApprovedError() ])
         
+        const orderPayment = await this.orderPaymentFacade.getOrderPaymentDetailsById(mercadopagoPaymentProviderEntity.orderPaymentId)
+        if(!orderPayment) return left([ new OrderPaymentNotFoundError() ])
+
+        if(mercadopagoPaymentProviderEntity.id !== orderPayment.orderPaymentProviderId ) {
+            const refundResult = await this.mercadopagoGateway.refund(mercadopagoPayment.paymentId)
+            if(!refundResult) return left([ new RefundError() ])
+            return left([ new PaymentIsNotInUseError() ])
+        }
+
         mercadopagoPaymentProviderEntity.approve()
 
         await this.mercadopagoPaymentProviderRepository.update(mercadopagoPaymentProviderEntity)

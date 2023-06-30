@@ -4,6 +4,7 @@ import { MercadopagoPaymentModel } from "../models"
 export interface MercadopagoGatewayInterface {
     generatePayment(input: MercadopagoGatewayInterface.GeneratePaymentInput): Promise<MercadopagoGatewayInterface.GeneratePaymentOutput>
     findById(id: string): Promise<MercadopagoPaymentModel | null>
+    refund(paymentId: string): Promise<boolean>
 }
 
 export namespace MercadopagoGatewayInterface {
