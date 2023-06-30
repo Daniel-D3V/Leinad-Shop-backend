@@ -24,7 +24,9 @@ export class RedirectMercadopagoActionsUsecase implements RedirectMercadopagoAct
         if(action === "payment.updated") {
             const mercadopagoPayment = await this.mercadopagoGateway.findById(mercadoPagoPaymentId)
             if(!mercadopagoPayment) return left([ new Error("payment not found") ])
-            console.log("mercado pago", mercadopagoPayment)
+            
+            console.log("🚀 ~ file: redirect-mercadopago-actions.usecase.ts:40 ~ RedirectMercadopagoActionsUsecase ~ execute ~ mercadopagoPayment:", mercadopagoPayment)
+            
             if(mercadopagoPayment.status === "APPROVED"){
                 const usecase = this.approveMercadopagoPaymentUsecase
                 output = await usecase.execute({ mercadopagoPaymentId: mercadoPagoPaymentId })

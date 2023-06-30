@@ -1,18 +1,18 @@
 import { EventEmitterInterface } from "@/modules/@shared/events"
 import { MercadopagoPaymentProviderRepositoryInterface } from "../../../../domain/repositories"
-import { CancelMercadopagoPaymentUsecaseInterface } from "../../../../domain/usecases/application-actions"
-import { CancelMercadopagoPaymentUsecase } from "./cancel-mercadopago-payment.usecase"
+import {  RefundMercadopagoPaymentUsecaseInterface } from "../../../../domain/usecases/application-actions"
 import { MercadopagoPaymentProviderEntity } from "../../../../domain/entities"
 import { mock } from "jest-mock-extended"
-import { MercadopagoPaymentCancelledEvent } from "./mercadopago-payment-cancelled.event"
 import { MercadopagoGatewayInterface } from "../../../../domain/gateways"
+import { RefundMercadopagoPaymentUsecase } from "./refund-mercadopago-payment.usecase"
+import { MercadopagoPaymentRefundedEvent } from "./mercadopago-payment-approved.event"
 
-jest.mock("./mercadopago-payment-cancelled.event")
+jest.mock("./mercadopago-payment-approved.event")
 
 describe('Test CancelMercadoPagoPayment', () => {
 
-    let sut: CancelMercadopagoPaymentUsecase
-    let props: CancelMercadopagoPaymentUsecaseInterface.InputDto
+    let sut: RefundMercadopagoPaymentUsecase
+    let props: RefundMercadopagoPaymentUsecaseInterface.InputDto
     let mercadopagoPaymentProviderRepository: MercadopagoPaymentProviderRepositoryInterface
     let eventEmitter: EventEmitterInterface
     let mercadopagoPaymentProviderEntity: MercadopagoPaymentProviderEntity
@@ -24,13 +24,13 @@ describe('Test CancelMercadoPagoPayment', () => {
         }
         mercadopagoPaymentProviderEntity = mock<MercadopagoPaymentProviderEntity>()
         mercadopagoGateway = mock<MercadopagoGatewayInterface>({
-            findById: jest.fn().mockResolvedValue({ status: "CANCELLED" })
+            findById: jest.fn().mockResolvedValue({ status: "REFUNDED" })
         })
         mercadopagoPaymentProviderRepository = mock<MercadopagoPaymentProviderRepositoryInterface>({
             findByMercadopagoPaymentId: jest.fn().mockResolvedValue(mercadopagoPaymentProviderEntity),
         })
         eventEmitter = mock<EventEmitterInterface>()
-        sut = new CancelMercadopagoPaymentUsecase(
+        sut = new RefundMercadopagoPaymentUsecase(
             mercadopagoPaymentProviderRepository, 
             mercadopagoGateway, 
             eventEmitter
@@ -60,27 +60,27 @@ describe('Test CancelMercadoPagoPayment', () => {
         expect(output.value[0].name).toBe("MercadopagoPaymentProviderNotFoundError")
     })
 
-    it("Should return MercadopagoPaymentStatusNotCancelledError if the payment status is not cancelled", async () => {
+    it("Should return MercadopagoPaymentStatusNotRefundedError if the payment status is not cancelled", async () => {
         jest.spyOn(mercadopagoGateway, "findById").mockResolvedValueOnce({ status: "any_status" } as any)
         const output = await sut.execute(props)
 
         if(output.isRight()) throw new Error("Should not return right")
         expect(output.isLeft()).toBeTruthy()
-        expect(output.value[0].name).toBe("MercadopagoPaymentStatusNotCancelledError")
+        expect(output.value[0].name).toBe("MercadopagoPaymentStatusNotRefundedError")
     })
 
-    it("Should return MercadopagoPaymentProviderIsAlreadyCancelledError if the payment provider is already cancelled", async () => {
-        jest.spyOn(mercadopagoPaymentProviderEntity, "isCancelled").mockReturnValueOnce(true)
+    it("Should return MercadopagoPaymentProviderIsAlreadyRefundedError if the payment provider is already cancelled", async () => {
+        jest.spyOn(mercadopagoPaymentProviderEntity, "isRefunded").mockReturnValueOnce(true)
         const output = await sut.execute(props)
 
         if(output.isRight()) throw new Error("Should not return right")
         expect(output.isLeft()).toBeTruthy()
-        expect(output.value[0].name).toBe("MercadopagoPaymentProviderIsAlreadyCancelledError")
+        expect(output.value[0].name).toBe("MercadopagoPaymentProviderIsAlreadyRefundedError")
     })
 
-    it("Should call cancel method from MercadopagoPaymentProviderEntity", async () => {
+    it("Should call refund method from MercadopagoPaymentProviderEntity", async () => {
         await sut.execute(props)
-        expect(mercadopagoPaymentProviderEntity.cancel).toBeCalledTimes(1)
+        expect(mercadopagoPaymentProviderEntity.refund).toBeCalledTimes(1)
     })
 
     it("Should call update method from MercadopagoPaymentProviderRepository", async () => {
@@ -93,9 +93,9 @@ describe('Test CancelMercadoPagoPayment', () => {
         expect(eventEmitter.emit).toBeCalledTimes(1)
     })
 
-    it("Should create MercadopagoPaymentCancelledEvent with correct values", async () => {
+    it("Should create MercadopagoPaymentRefundedEvent with correct values", async () => {
         await sut.execute(props)
-        expect(MercadopagoPaymentCancelledEvent).toHaveBeenCalledWith({
+        expect(MercadopagoPaymentRefundedEvent).toHaveBeenCalledWith({
             mercadopagoPaymentProviderId: mercadopagoPaymentProviderEntity.id
         })
     })
