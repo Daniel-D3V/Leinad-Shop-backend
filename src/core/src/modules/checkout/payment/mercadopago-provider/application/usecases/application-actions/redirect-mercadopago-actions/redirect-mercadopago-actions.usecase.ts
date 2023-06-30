@@ -1,5 +1,11 @@
 import { left, right } from "@/modules/@shared/logic";
-import { ApproveMercadopagoPaymentUsecaseInterface, CancelMercadopagoPaymentUsecaseInterface, CreateMercadopagoPaymentUsecaseInterface, RedirectMercadopagoActionsUsecaseInterface } from "../../../../domain/usecases/application-actions";
+import { 
+    ApproveMercadopagoPaymentUsecaseInterface, 
+    CancelMercadopagoPaymentUsecaseInterface, 
+    CreateMercadopagoPaymentUsecaseInterface,
+    RefundMercadopagoPaymentUsecaseInterface, 
+    RedirectMercadopagoActionsUsecaseInterface
+} from "../../../../domain/usecases/application-actions";
 import { UsecaseInterface } from "@/modules/@shared/domain";
 import { MercadopagoGatewayInterface } from "../../../../domain/gateways";
 
@@ -10,7 +16,8 @@ export class RedirectMercadopagoActionsUsecase implements RedirectMercadopagoAct
         private readonly mercadopagoGateway: MercadopagoGatewayInterface,
         private readonly createMercadopagoPaymentUsecase: CreateMercadopagoPaymentUsecaseInterface,
         private readonly approveMercadopagoPaymentUsecase: ApproveMercadopagoPaymentUsecaseInterface,
-        private readonly cancelMercadopagoPaymentUsecase: CancelMercadopagoPaymentUsecaseInterface
+        private readonly cancelMercadopagoPaymentUsecase: CancelMercadopagoPaymentUsecaseInterface,
+        private readonly refundMercadopagoPaymentUsecase: RefundMercadopagoPaymentUsecaseInterface
     ){}
 
    async execute({ action,  mercadoPagoPaymentId }: RedirectMercadopagoActionsUsecaseInterface.InputDto): Promise<RedirectMercadopagoActionsUsecaseInterface.OutputDto> {
@@ -24,9 +31,7 @@ export class RedirectMercadopagoActionsUsecase implements RedirectMercadopagoAct
         if(action === "payment.updated") {
             const mercadopagoPayment = await this.mercadopagoGateway.findById(mercadoPagoPaymentId)
             if(!mercadopagoPayment) return left([ new Error("payment not found") ])
-            
-            console.log("🚀 ~ file: redirect-mercadopago-actions.usecase.ts:40 ~ RedirectMercadopagoActionsUsecase ~ execute ~ mercadopagoPayment:", mercadopagoPayment)
-            
+                        
             if(mercadopagoPayment.status === "APPROVED"){
                 const usecase = this.approveMercadopagoPaymentUsecase
                 output = await usecase.execute({ mercadopagoPaymentId: mercadoPagoPaymentId })
@@ -36,7 +41,7 @@ export class RedirectMercadopagoActionsUsecase implements RedirectMercadopagoAct
                 output = await usecase.execute({ mercadopagoPaymentId: mercadoPagoPaymentId })
             }
             if(mercadopagoPayment.status === "REFUNDED"){
-                const usecase = this.cancelMercadopagoPaymentUsecase
+                const usecase = this.refundMercadopagoPaymentUsecase
                 output = await usecase.execute({ mercadopagoPaymentId: mercadoPagoPaymentId })
             }
         }

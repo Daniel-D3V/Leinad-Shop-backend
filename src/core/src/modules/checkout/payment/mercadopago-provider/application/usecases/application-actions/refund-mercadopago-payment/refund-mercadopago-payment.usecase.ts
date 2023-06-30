@@ -37,7 +37,5 @@ export class RefundMercadopagoPaymentUsecase implements RefundMercadopagoPayment
         await this.eventEmitter.emit(mercadopagoPaymentRefundedEvent)
 
         return right(null)
-
-        return right(null)
     }
 }

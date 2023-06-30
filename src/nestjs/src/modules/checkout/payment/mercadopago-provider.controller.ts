@@ -27,7 +27,7 @@ export class MercadopagoProviderController {
     }
     return res.status(201).json(result.value)
   }
-  //ddddddddfd
+  //ddddddddfddd
   @Post("/callback")
   async callback(@Body() body: any, @Res() res: Response) {
     console.log(body)

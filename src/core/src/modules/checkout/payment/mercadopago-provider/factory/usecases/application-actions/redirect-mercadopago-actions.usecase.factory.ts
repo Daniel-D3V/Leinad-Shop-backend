@@ -5,6 +5,7 @@ import { CreateMercadopagoPaymentUsecaseFactory} from "./create-mercadopago-paym
 import { ApproveMercadopagoPaymentUsecaseFactory } from "./approve-mercadopago-payment.usecase.factory";
 import { MercadopagoGatewayImp } from "../../../infra/gateways";
 import { CancelMercadopagoPaymentUsecaseFactory } from "./cancel-mercadopago-payment.usecase.factory";
+import { RefundMercadopagoPaymentUsecaseFactory } from "./refund-mercadopago-payment.usecase.factory";
 
 
 export class RedirectMercadopagoActionsUsecaseFactory {
@@ -15,12 +16,14 @@ export class RedirectMercadopagoActionsUsecaseFactory {
         const createMercadopagoPaymentUsecase = CreateMercadopagoPaymentUsecaseFactory.create()
         const approveMercadopagoPaymentUsecase = ApproveMercadopagoPaymentUsecaseFactory.create()
         const cancelMercadopagoPaymentUsecase = CancelMercadopagoPaymentUsecaseFactory.create()
+        const refundMercadopagoPaymentUsecase = RefundMercadopagoPaymentUsecaseFactory.create()
 
         const redirectMercadopagoActionsUsecase = new RedirectMercadopagoActionsUsecase(
             mercadopagoGatewayImp,
             createMercadopagoPaymentUsecase,
             approveMercadopagoPaymentUsecase,
-            cancelMercadopagoPaymentUsecase
+            cancelMercadopagoPaymentUsecase,
+            refundMercadopagoPaymentUsecase
         )
         return redirectMercadopagoActionsUsecase
     }

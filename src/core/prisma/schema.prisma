@@ -224,7 +224,7 @@ model ChatDeliveryMessageAttachment {
 model OrderPayment {
   id String @id 
   paymentProvider String?
-  paymentProviderId String?
+  paymentProviderId String? @unique()
   orderId String @unique()
   userId String 
   dateTimeCreated DateTime
