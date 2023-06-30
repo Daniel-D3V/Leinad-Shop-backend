@@ -8,7 +8,7 @@ export interface CancelMercadopagoPaymentUsecaseInterface extends UsecaseInterfa
 export namespace CancelMercadopagoPaymentUsecaseInterface {
 
     export type InputDto = {
-        mercadopagoPaymentProviderId: string
+        mercadopagoPaymentId: string
     }
 
     export type OutputDto = Either<Error[], null>

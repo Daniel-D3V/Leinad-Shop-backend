@@ -8,26 +8,11 @@ export class MercadopagoPaymentProviderEntity extends BasePaymentProviderEntity<
         super(props, id)
     }
 
-    static create(input: MercadopagoPaymentProviderEntity.Input, id?: string): MercadopagoPaymentProviderEntity {
-        const paymentMethods: MercadopagoPaymentProviderEntity.PaymentMethods[]  = [ "PIX", "BOLETO" ]
-        if(!paymentMethods.includes(input.paymentMethod)) {
-            input.paymentMethod = "PIX"
-        }
-
-        let expirationDate: Date
-        if(input.paymentMethod === "PIX"){
-            expirationDate = new Date()
-            expirationDate.setHours(expirationDate.getHours() + 1)
-        }
-        else{
-            expirationDate = new Date()
-            expirationDate.setDate(expirationDate.getDate() + 1)
-        }
+    static create(input: MercadopagoPaymentProviderEntity.Input, id?: string): MercadopagoPaymentProviderEntity {        
 
         const mercadopagoPaymentProviderEntity = new MercadopagoPaymentProviderEntity({
             ...input,
-            status: "PENDING",
-            expirationDate
+            status: "PENDING"
         }, id)
         return mercadopagoPaymentProviderEntity
     }
@@ -63,9 +48,10 @@ export class MercadopagoPaymentProviderEntity extends BasePaymentProviderEntity<
 
 export namespace MercadopagoPaymentProviderEntity {
 
-    export type PaymentMethods = "PIX" | "BOLETO"
+    export type PaymentMethods = "PIX" 
 
     export type Input = {
+        expirationDate: Date
         orderPaymentId: string
         mercadopagoPaymentId: string
         paymentMethod: PaymentMethods

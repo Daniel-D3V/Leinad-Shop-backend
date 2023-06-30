@@ -11,12 +11,10 @@ import {
   RedirectMercadopagoActionsUsecaseFactory
 } from "@core/domain/dist/src/modules/checkout/payment/mercadopago-provider/factory/usecases/application-actions"
 
-
-
 @Controller('payment/mercadopago')
 export class MercadopagoProviderController {
 
-//dd
+  //dddddd
   @UseGuards(new AuthGuard())
   @Post()
   async create(@Body() body: any ,@Res() res: Response) {
@@ -29,9 +27,10 @@ export class MercadopagoProviderController {
     }
     return res.status(201).json(result.value)
   }
-  //dddeddd
+  //ddd
   @Post("/callback")
-  async callback(@Body() body: any ,@Res() res: Response) {
+  async callback(@Body() body: any, @Res() res: Response) {
+    console.log(body)
     const usecase = RedirectMercadopagoActionsUsecaseFactory.create()
     const result = await usecase.execute({
       action: body.action,

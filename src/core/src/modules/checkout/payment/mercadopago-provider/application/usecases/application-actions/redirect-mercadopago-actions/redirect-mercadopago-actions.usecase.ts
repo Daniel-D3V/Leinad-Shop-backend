@@ -1,13 +1,16 @@
 import { left, right } from "@/modules/@shared/logic";
-import { ApproveMercadopagoPaymentUsecaseInterface, CreateMercadopagoPaymentUsecaseInterface, RedirectMercadopagoActionsUsecaseInterface } from "../../../../domain/usecases/application-actions";
+import { ApproveMercadopagoPaymentUsecaseInterface, CancelMercadopagoPaymentUsecaseInterface, CreateMercadopagoPaymentUsecaseInterface, RedirectMercadopagoActionsUsecaseInterface } from "../../../../domain/usecases/application-actions";
 import { UsecaseInterface } from "@/modules/@shared/domain";
+import { MercadopagoGatewayInterface } from "../../../../domain/gateways";
 
 
 export class RedirectMercadopagoActionsUsecase implements RedirectMercadopagoActionsUsecaseInterface {
 
     constructor(
+        private readonly mercadopagoGateway: MercadopagoGatewayInterface,
         private readonly createMercadopagoPaymentUsecase: CreateMercadopagoPaymentUsecaseInterface,
-        private readonly approveMercadopagoPaymentUsecase: ApproveMercadopagoPaymentUsecaseInterface 
+        private readonly approveMercadopagoPaymentUsecase: ApproveMercadopagoPaymentUsecaseInterface,
+        private readonly cancelMercadopagoPaymentUsecase: CancelMercadopagoPaymentUsecaseInterface
     ){}
 
    async execute({ action,  mercadoPagoPaymentId }: RedirectMercadopagoActionsUsecaseInterface.InputDto): Promise<RedirectMercadopagoActionsUsecaseInterface.OutputDto> {
@@ -19,8 +22,17 @@ export class RedirectMercadopagoActionsUsecase implements RedirectMercadopagoAct
             output = await usecase.execute({ mercadopagoPaymentId: mercadoPagoPaymentId })
         }
         if(action === "payment.updated") {
-            const usecase = this.approveMercadopagoPaymentUsecase
-            output = await usecase.execute({ mercadopagoPaymentId: mercadoPagoPaymentId })
+            const mercadopagoPayment = await this.mercadopagoGateway.findById(mercadoPagoPaymentId)
+            if(!mercadopagoPayment) return left([ new Error("payment not found") ])
+
+            if(mercadopagoPayment.status === "APPROVED"){
+                const usecase = this.approveMercadopagoPaymentUsecase
+                output = await usecase.execute({ mercadopagoPaymentId: mercadoPagoPaymentId })
+            } 
+            if(mercadopagoPayment.status === "CANCELLED"){
+                const usecase = this.cancelMercadopagoPaymentUsecase
+                output = await usecase.execute({ mercadopagoPaymentId: mercadoPagoPaymentId })
+            }
         }
 
         if(!output) return left([ new Error("no valid actios provided") ])

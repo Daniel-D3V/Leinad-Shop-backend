@@ -29,6 +29,7 @@ export class CreateMercadopagoPaymentUsecase implements CreateMercadopagoPayment
             amount: mercadopagoPayment.amount,
             orderPaymentId: mercadopagoPayment.orderPaymentId,
             paymentMethod: mercadopagoPayment.paymentMethod,
+            expirationDate: mercadopagoPayment.expirationDate
         })
 
         await this.mercadopagoPaymentProviderRepository.create(mercadopagoPaymentProviderEntity)

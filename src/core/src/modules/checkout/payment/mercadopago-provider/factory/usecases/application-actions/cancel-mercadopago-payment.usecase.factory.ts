@@ -4,6 +4,7 @@ import { PrismaClient } from "@prisma/client";
 import { CancelMercadopagoPaymentUsecase } from "../../../application/usecases";
 import { PrismaMercadopagoPaymentProviderRepository } from "../../../infra/repositories";
 import { CancelMercadopagoPaymentUsecaseInterface } from "../../../domain/usecases/application-actions";
+import { MercadopagoGatewayImp } from "../../../infra/gateways";
 
 
 export class CancelMercadopagoPaymentUsecaseFactory {
@@ -14,12 +15,15 @@ export class CancelMercadopagoPaymentUsecaseFactory {
 
             return await prismaClient.$transaction(async (prisma) => {
                
+
+                const mercadopagoGatewayImp = new MercadopagoGatewayImp()
                 const prismaMercadoPagoProviderRepository = new PrismaMercadopagoPaymentProviderRepository(prisma as PrismaClient)
                 const outboxEmitter = new OutboxEmitter(prisma as PrismaClient)
 
 
                 const cancelMercadopagoPaymentUsecase = new CancelMercadopagoPaymentUsecase(
                     prismaMercadoPagoProviderRepository,
+                    mercadopagoGatewayImp,
                     outboxEmitter
                 )
                 return cancelMercadopagoPaymentUsecase.execute(input)

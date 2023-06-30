@@ -14,7 +14,11 @@ const getStatus = (status: string): MercadopagoPaymentModel.Status =>  {
     if(status === "pending"){
         return "PENDING"
     }
-    return "PENDING"
+    if(status === "cancelled"){
+        return "CANCELLED"
+    }
+
+    return "CANCELLED"
 }
 
 export class MercadopagoGatewayImp implements MercadopagoGatewayInterface {
@@ -23,13 +27,21 @@ export class MercadopagoGatewayImp implements MercadopagoGatewayInterface {
         
         let paymentMethodChoosed = "pix"
 
-        if(paymentMethod === "BOLETO") {
-            paymentMethodChoosed = "ticket"
-        } else {
+        if(paymentMethod !== "PIX") {
             paymentMethodChoosed = "pix"
         }
+
+        const minutes = 60  
+
+        const mercadopagoExpirationDate = new Date()
+        mercadopagoExpirationDate.setMinutes(mercadopagoExpirationDate.getMinutes() + minutes - 10)   
         
+        const applicationExpirationDate = new Date()
+        applicationExpirationDate.setMinutes(applicationExpirationDate.getMinutes() + minutes)
+
         const payment = await mercadopago.payment.create({
+            date_of_expiration: mercadopagoExpirationDate.toISOString(),
+
             callback_url: process.env.MERCADOPAGO_REDIRECT_URL!,
             installments: 1,
             transaction_amount: amount,
@@ -38,6 +50,7 @@ export class MercadopagoGatewayImp implements MercadopagoGatewayInterface {
                 email: customer.email
             },
             metadata: {
+                expirationDate: applicationExpirationDate,
                 orderPaymentId,
                 amount: amount,
                 paymentMethod: paymentMethod
@@ -59,14 +72,17 @@ export class MercadopagoGatewayImp implements MercadopagoGatewayInterface {
 
     async findById(id: string): Promise<MercadopagoPaymentModel | null> {
 
+        
         try{
             const payment = await mercadopago.payment.findById(parseInt(id))
+            const expirationDate = new Date(payment.body.metadata.expiration_date)
             return {
                 paymentId: `${payment.body.id}`,
                 amount: payment.body.metadata.amount,
                 orderPaymentId:  payment.body.metadata.order_payment_id,
                 paymentMethod: payment.body.metadata.payment_method,
-                status: getStatus(payment.body.status)
+                status: getStatus(payment.body.status),
+                expirationDate
             }
         }catch(err){
             return null

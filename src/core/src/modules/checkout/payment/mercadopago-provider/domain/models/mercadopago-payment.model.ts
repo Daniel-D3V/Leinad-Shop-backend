@@ -6,6 +6,7 @@ export type MercadopagoPaymentModel = {
     orderPaymentId: string
     amount: number
     paymentMethod: MercadopagoPaymentProviderEntity.PaymentMethods
+    expirationDate: Date
     status: BasePaymentProviderEntity.Status
 }
 
