@@ -1,66 +1,35 @@
 
 
-interface HelperFunctions {
-    getStockTypeByAnnounceId(announceId: string): Promise<string | undefined>
-    calculateStockAuto(announceId: string): Promise<number>
-    calculateStockNormal(announceId: string): Promise<number>
-    calculateStockItem(announceId: string, itemId: string): Promise<number>
+interface AllocateThisWay {
+
 }
 
-type Props = {
-    announceId: string
-    itemId: string
-}
+interface AllocateThatWay {
 
-type PlaceOrderInputDto = {
-    customerId: string 
-    products: Pick<Props, "announceId" | "announceId">
-}
+} 
 
-type ConsultStockType = Pick<Props, "announceId"> & Partial<Props> 
+class Composition {
 
-
-interface StockManagementFacade {
-    consultStock(props: ConsultStockType): Promise<number>
-}
-
-
-class StockManagementFacadeImp implements StockManagementFacade {
-    
     constructor(
-        private readonly helperFunctions: HelperFunctions
-    ){}
+        private readonly allocateThisWay: AllocateThisWay,
+        private readonly allocateThatWay: AllocateThatWay
+    ) {}
+    
+    getOptions(option: "allocateThisWay" | "allocateThatWay") {
 
-    async consultStock({ announceId, itemId }: ConsultStockType): Promise<number> {
-        
-        const stockType = await this.helperFunctions.getStockTypeByAnnounceId(announceId)
-        if(stockType === undefined) return 0
-
-        let stock: number = 0
-        switch(stockType){
-
-            case "AUTO": {
-                stock = await this.helperFunctions.calculateStockAuto(announceId)
-                break
-            }
-            case "NORMAL": {
-                stock = await this.helperFunctions.calculateStockNormal(announceId)
-                break
-            }
-            case "ITEM": {
-                if(itemId === undefined) return 0
-                stock = await this.helperFunctions.calculateStockItem(announceId, itemId)
-                break
-            }
-
-            default: {
-                stock = await this.helperFunctions.calculateStockAuto(announceId)
-                break
-            }
+        const optionsFunctions = {
+            allocateThisWay: this.allocateThisWay,
+            allocateThatWay: this.allocateThatWay
         }
 
-        return stock
+        const method = optionsFunctions[option]
+        
+        return method
     }
 
 }
 
+
+const doSomething = () => {
+    console.log('do something')
+}

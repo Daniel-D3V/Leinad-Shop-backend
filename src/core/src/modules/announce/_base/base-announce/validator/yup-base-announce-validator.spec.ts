@@ -32,7 +32,7 @@ describe("Test YupBaseAnnounceValidator", () => {
         })
 
         it("Should return InvalidPriceLengthError if the min length of the value provided is invalid", () => {
-            props.price = 0.49
+            props.price = 0.01
             const output = sut.validate(props)
             expect(output.value![0].name).toBe("InvalidPriceLengthError")
         })
