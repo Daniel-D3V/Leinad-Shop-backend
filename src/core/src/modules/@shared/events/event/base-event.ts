@@ -5,6 +5,7 @@ export abstract class BaseEvent {
     schemaVersion: string = "1.0.0"
     dateTimeOccurred: Date = new Date();
     eventName: string;
+    abstract topic: string;
 
     abstract readonly payload: any;
 
@@ -17,6 +18,7 @@ export abstract class BaseEvent {
     format(): BaseEvent.GetPayload {
         return {
             id: this.id,
+            topic: this.topic,
             eventName: this.eventName,
             schemaVersion: this.schemaVersion,
             dateTimeOccurred: this.dateTimeOccurred,
@@ -29,6 +31,7 @@ export namespace BaseEvent {
     export type GetPayload = {
         id: string 
         eventName: string
+        topic: string
         schemaVersion: string
         dateTimeOccurred: Date,
         payload: any

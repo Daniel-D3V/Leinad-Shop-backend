@@ -29,7 +29,7 @@ export class ChangeAnnounceTypeToNormalUsecase implements ChangeAnnounceTypeToNo
             announceId: announceManagementEntity.id
         })
         await this.eventEmitter.emit(announceTypeChangedToNormalEvent)
-
+        
         return right(null)
         
     }

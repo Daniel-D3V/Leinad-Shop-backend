@@ -15,6 +15,7 @@ export class AuthController {
 
   @Post("/signup")
   async create(@Body() signupDto: any, @Res() res: Response) {
+
     const signupUsecase = SignupUsecaseFactory.create()
     const usecaseResult = await signupUsecase.execute(signupDto)
     if (usecaseResult.isLeft()) {

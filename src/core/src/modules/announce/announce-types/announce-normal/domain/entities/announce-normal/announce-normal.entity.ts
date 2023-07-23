@@ -52,6 +52,8 @@ export class AnnounceNormalEntity extends BaseAnnounceEntity<AnnounceNormalEntit
 
 export namespace AnnounceNormalEntity {
 
+
+
     export type StockType = "MANUAL" | "AUTO" 
 
     export type Input = { 

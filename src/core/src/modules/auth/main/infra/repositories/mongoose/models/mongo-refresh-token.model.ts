@@ -15,3 +15,4 @@ EventSchema.index({ expirationDate: 1 }, { expireAfterSeconds: 0 });
 EventSchema.index({ userId: 1 });
 
 export const MongoRefreshTokenModel = mongoose.model<IRefreshTokenModel>('RefreshToken', EventSchema);
+  

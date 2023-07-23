@@ -31,6 +31,7 @@ export class RabbitmqServerProvider {
     }
 
     async assertQueue(queue: string, options?: Options.AssertQueue) {
+        options.
         return this.channel!.assertQueue(queue, options);
     }
 
