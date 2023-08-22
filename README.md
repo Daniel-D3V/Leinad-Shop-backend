@@ -22,7 +22,7 @@ The Leinad Shop Backend was built using the following technologies:
 
 - <img alt="MYSQL" height="17" width="17" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original-wordmark.svg"> **MySQL and MongoDB:** Databases for storing user, product, and transaction data.
 
-- **RabbitMQ:** A message broker for handling real-time events.
+- <img alt="RABBITMQ" height="17" width="17" src="https://www.mon-code.net/logo/rabbitmq.png"> **RabbitMQ:** A message broker for handling real-time events.
 
 - **Redis:** Cache storage for improved performance.
 
