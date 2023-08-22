@@ -1,4 +1,4 @@
-# 💗 Leinad Shop Backend
+# Leinad Shop Backend
 
 **Leinad Shop Backend** is the server component of the Leinad Shop marketplace platform. It's designed to handle user registration, product management, transactions, and more. This project was developed by Reth with the goal of revolutionizing the market, but due to unforeseen circumstances, it never made it to production. After some time, we've decided to make it public and share our vision with the world.
 
@@ -54,7 +54,7 @@ To get the backend up and running, follow these simple steps:
     npm run start:dev
     ```
 
-## Contributions
+## 💗 Contributions
 
 We welcome contributions to enhance the Leinad Shop Backend. If you wish to contribute, please follow the guidelines outlined in [CONTRIBUTING.md](CONTRIBUTING.md).
 
