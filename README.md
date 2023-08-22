@@ -18,9 +18,9 @@ The Leinad Shop Backend was built using the following technologies:
 
 - **TypeScript:** A statically typed language for robust code.
 
-- <img alt="NESTJS" height="10" width="10" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nestjs/nestjs-plain.svg"> **NestJS:** A scalable and modular back-end framework.
+- <img alt="NESTJS" height="17" width="17" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nestjs/nestjs-plain.svg"> **NestJS:** A scalable and modular back-end framework.
 
-- **MySQL and MongoDB:** Databases for storing user, product, and transaction data.
+- <img alt="MYSQL" height="17" width="17" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original-wordmark.svg"> **MySQL and MongoDB:** Databases for storing user, product, and transaction data.
 
 - **RabbitMQ:** A message broker for handling real-time events.
 
