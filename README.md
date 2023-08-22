@@ -33,13 +33,13 @@ To get the backend up and running, follow these simple steps:
 1. Clone this repository:
 
     ```bash
-    git clone https://github.com/your-username/leinad-shop-backend.git
+    git clone https://github.com/Leinad-Ecommerce/Leinad-Shop-backend
     ```
 
 2. Navigate to the project directory:
 
     ```bash
-    cd leinad-shop-backend
+    cd Leinad-Shop-backend
     ```
 
 3. Install the project dependencies:
