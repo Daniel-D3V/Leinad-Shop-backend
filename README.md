@@ -1,8 +1,8 @@
-# Leinad Shop Backend
+# 💗 Leinad Shop Backend
 
 **Leinad Shop Backend** is the server component of the Leinad Shop marketplace platform. It's designed to handle user registration, product management, transactions, and more. This project was developed by Reth with the goal of revolutionizing the market, but due to unforeseen circumstances, it never made it to production. After some time, we've decided to make it public and share our vision with the world.
 
-## Features
+## 🔰 Features
 
 - **User Registration:** Users can sign up as creators (sellers) or customers.
 
@@ -18,7 +18,7 @@ The Leinad Shop Backend was built using the following technologies:
 
 - **TypeScript:** A statically typed language for robust code.
 
-- **NestJS:** A scalable and modular back-end framework.
+- <img alt="NESTJS" height="40" width="50" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nestjs/nestjs-plain.svg"> **NestJS:** A scalable and modular back-end framework.
 
 - **MySQL and MongoDB:** Databases for storing user, product, and transaction data.
 
@@ -26,7 +26,7 @@ The Leinad Shop Backend was built using the following technologies:
 
 - **Redis:** Cache storage for improved performance.
 
-## Installation
+## 🌟 Installation
 
 To get the backend up and running, follow these simple steps:
 
