@@ -24,7 +24,7 @@ The Leinad Shop Backend was built using the following technologies:
 
 - <img alt="RABBITMQ" height="17" width="17" src="https://cdn.discordapp.com/attachments/1141573985331593297/1143365761306468383/image.png"> **RabbitMQ:** A message broker for handling real-time events.
 
-- **Redis:** Cache storage for improved performance.
+- <img alt="REDIS" height="17" width="17" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/redis/redis-original.svg"> **Redis:** Cache storage for improved performance.
 
 ## 🌟 Installation
 
