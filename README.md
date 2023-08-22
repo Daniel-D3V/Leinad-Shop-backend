@@ -1,62 +1,63 @@
-<details>
-<summary><b>Leinad Shop</b></summary>
+# Leinad Shop Backend
 
----
+**Leinad Shop Backend** is the server component of the Leinad Shop marketplace platform. It's designed to handle user registration, product management, transactions, and more. This project was developed by Reth with the goal of revolutionizing the market, but due to unforeseen circumstances, it never made it to production. After some time, we've decided to make it public and share our vision with the world.
 
-**Leinad Shop** is a marketplace platform developed by two passionate developers, Daniel (front-end) and Reth (back-end). Our goal was to revolutionize the market, allowing creators to sell their products directly to customers while the platform took a 10% service fee for profitability. Unfortunately, due to personal issues on both ends, the project never made it to production; it remained as code. After some time, we've decided to make it public and share our vision with the world.
+## Features
 
-## Key Features
+- **User Registration:** Users can sign up as creators (sellers) or customers.
 
-- **User Registration:** Users can sign up as creators (sellers) or customers. Creators have the ability to create products for sale.
+- **Product Management:** Creators can add detailed information about their products, including images, descriptions, prices, and available quantities.
 
-- **Product Creation:** Creators can add detailed information about their products, including images, descriptions, prices, and available quantities.
+- **Transaction Handling:** The platform automatically applies a 10% service fee to each transaction.
 
-- **Product Purchases:** Customers can browse the platform, view products, add them to the shopping cart, and complete purchases.
-
-- **Shopping Cart:** Customers have the option to add multiple products to their shopping cart and finalize the purchase in a single transaction.
-
-- **Payment and Service Fee:** The Leinad Shop platform automatically applies a 10% service fee to the total value of each transaction, with the remaining amount credited to the seller's account.
-
-- **Messaging System:** The platform features a messaging system to facilitate communication between buyers and sellers.
-
-- **Secure Payments:** We employ secure payment technologies to ensure that all transactions are safe and protected.
+- **Messaging System:** A messaging system facilitates communication between buyers and sellers.
 
 ## Technologies Used
 
-The Leinad Shop project was built using the following technologies:
+The Leinad Shop Backend was built using the following technologies:
 
-- **TypeScript:** The programming language used both on the front-end and back-end for robust and type-safe code.
+- **TypeScript:** A statically typed language for robust code.
 
-- **Docker:** Used to containerize applications and services, making deployment and environment management easier.
+- **NestJS:** A scalable and modular back-end framework.
 
-- **NestJS:** A scalable and modular back-end framework built with TypeScript and Node.js.
+- **MySQL and MongoDB:** Databases for storing user, product, and transaction data.
 
-- **Jest:** A testing framework to ensure code reliability and safety.
+- **RabbitMQ:** A message broker for handling real-time events.
 
-- **MySQL and MongoDB:** Databases used to store information about users, products, and transactions.
+- **Redis:** Cache storage for improved performance.
 
-- **RabbitMQ:** A message broker to handle real-time events and notifications.
+## Installation
 
-- **Redis:** Cache storage to improve performance and scalability.
+To get the backend up and running, follow these simple steps:
 
-## Project Setup
+1. Clone this repository:
 
-To configure and run the Leinad Shop project in your local environment, follow the detailed instructions in the [Setup Guide](docs/setup.md).
+    ```bash
+    git clone https://github.com/your-username/leinad-shop-backend.git
+    ```
+
+2. Navigate to the project directory:
+
+    ```bash
+    cd leinad-shop-backend
+    ```
+
+3. Install the project dependencies:
+
+    ```bash
+    npm install
+    ```
+
+4. Start the development server:
+
+    ```bash
+    npm run start:dev
+    ```
 
 ## Contributions
 
-We appreciate your contributions to enhance Leinad Shop. If you wish to contribute, please follow the guidelines outlined in [CONTRIBUTING.md](CONTRIBUTING.md).
+We welcome contributions to enhance the Leinad Shop Backend. If you wish to contribute, please follow the guidelines outlined in [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
 This project is licensed under the [MIT License](LICENSE) - see the LICENSE file for more details.
-
-## Contact
-
-If you have any questions or need support, please reach out to us at [contact@leinadshop.com](mailto:contact@leinadshop.com).
-
----
-
-**Leinad Shop** - Your marketplace platform for creators, buyers, and sellers. Bring your products to life!
-
-</details>
